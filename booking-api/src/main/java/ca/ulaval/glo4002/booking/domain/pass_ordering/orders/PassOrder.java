@@ -3,6 +3,9 @@ package ca.ulaval.glo4002.booking.domain.pass_ordering.orders;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
+
 import ca.ulaval.glo4002.booking.domain.Priceable;
 import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.PassCategory;
@@ -12,7 +15,7 @@ import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.factories.SinglePas
 public class PassOrder implements Priceable {
 
     private List<Pass> passes;
-    private double totalPrice;
+    private Money totalPrice;
     private LocalDateTime orderDate;
 
     private PassOrder() {
@@ -33,22 +36,25 @@ public class PassOrder implements Priceable {
     }
 
     private void updateTotalPrice() {
-        this.totalPrice = calculateTotalPrice() - calculateRebates();
+        this.totalPrice = calculateTotalPrice();
+        this.totalPrice = this.totalPrice.minus(calculateRebates());
     }
 
-    private double calculateTotalPrice() {
+    private Money calculateTotalPrice() {
         return this.passes
             .stream()
             .map(Pass::getPrice)
-            .reduce(0.0, (partialTotal, price) -> partialTotal + price);
+            .reduce(Money.of(CurrencyUnit.CAD, 0), (partialTotal, price) -> {
+                return partialTotal.plus(price);
+            });
     }
 
-    private double calculateRebates() {
+    private Money calculateRebates() {
         // TODO implement
-        return 0;
+        return Money.of(CurrencyUnit.CAD, 0);
     }
 
-    public double getPrice() {
+    public Money getPrice() {
         return this.totalPrice;
     }
 }
