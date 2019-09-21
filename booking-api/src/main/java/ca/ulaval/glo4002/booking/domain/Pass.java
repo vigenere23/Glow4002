@@ -5,7 +5,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.enumeration.PassCategory;
 
-public interface Pass extends Orderable{
+public interface Pass {
 	PassCategory getPassCategory();
 	List<LocalDate> getDates();
 }
