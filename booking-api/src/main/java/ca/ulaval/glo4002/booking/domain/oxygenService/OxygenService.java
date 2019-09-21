@@ -1,12 +1,17 @@
 package ca.ulaval.glo4002.booking.domain.oxygenService;
 
-public class OxygenService {
+import java.time.LocalDate;
+
+import ca.ulaval.glo4002.booking.domain.Orderable;
+
+public class OxygenService implements OxygenReportable {
 	
-	public OxygenService(LocalDate date) {
+	
+	public OxygenService(LocalDate maxDeliverDate) {
 		
 	}
 	
-	public void aroderOxygen(PassInforation info, Orderable ) {
+	public void orderOxygen(Orderable order) {
 		
 	}
 

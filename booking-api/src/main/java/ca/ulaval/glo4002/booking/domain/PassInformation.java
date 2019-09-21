@@ -9,3 +9,5 @@ public interface PassInformation {
 	PassCategory getPassCategory();
 	List<LocalDate> getDates();
 }
+
+
