@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.oxygenService;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +10,13 @@ import ca.ulaval.glo4002.booking.domain.Orderable;
 public class OxygenService implements OxygenReportable {
     private GasStorable inventoryStore;
 
-    public OxygenService(LocalDate maxDeliverDate) {
+    public OxygenService() {
 	inventoryStore = new OxygenInventoryStore();
     }
 
     public void orderOxygen(Orderable order) {
 	GasNeedable oxygenNeed = new OxygenNeed();
-	oxygenNeed.initialize(order.getPassCategory());
+	oxygenNeed.setNeedsBasedOnPassCategory(order.getPassCategory());
 	inventoryStore.adjustInventory(order.getOrderDate(), oxygenNeed);
     }
 
@@ -25,17 +24,16 @@ public class OxygenService implements OxygenReportable {
 	List<Map<String, Object>> formattedInventories = new ArrayList<Map<String, Object>>();
 	List<Inventory> inventories = inventoryStore.getInventories();
 	for (Inventory inventory : inventories) {
-	    OxygenBottleInventory oxygenBottleInventory = (OxygenBottleInventory) inventory;
-	    formattedInventories.add(formatInventory(oxygenBottleInventory));
+	    OxygenTankInventory oxygenTankInventory = (OxygenTankInventory) inventory;
+	    formattedInventories.add(formatInventory(oxygenTankInventory));
 	}
 	return formattedInventories;
     }
 
-    private Map<String, Object> formatInventory(OxygenBottleInventory inventory) {
+    private Map<String, Object> formatInventory(OxygenTankInventory inventory) {
 	Map<String, Object> formattedInventory = new HashMap<String, Object>();
 	formattedInventory.put("quantity", inventory.getInventory());
 	formattedInventory.put("gradeTankOxygen", inventory.getOxygenCategory());
 	return formattedInventory;
     }
-
 }

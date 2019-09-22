@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OxygenInventoryStore implements GasStorable {
-    private Inventory commercialBottleInventory = new OxygenBottleInventory(OxygenGrade.E);
-    private Inventory electrolyzeBottleInventory = new OxygenBottleInventory(OxygenGrade.B);
-    private Inventory candleBottleInventory = new OxygenBottleInventory(OxygenGrade.A);
+    private Inventory commercialTankInventory = new OxygenTankInventory(OxygenGrade.E);
+    private Inventory electrolyzeTankInventory = new OxygenTankInventory(OxygenGrade.B);
+    private Inventory candleTankInventory = new OxygenTankInventory(OxygenGrade.A);
     private List<Inventory> inventories;
 
     public OxygenInventoryStore() {
@@ -17,25 +17,24 @@ public class OxygenInventoryStore implements GasStorable {
     public void adjustInventory(LocalDate orderDate, GasNeedable gasNeed) {
 	OxygenNeed oxygenNeed = (OxygenNeed) gasNeed;
 	if (oxygenNeed.getOxygenGrade() == OxygenGrade.E) {
-	    commercialBottleInventory.adjustInventory(orderDate, gasNeed);
+	    commercialTankInventory.adjustInventory(orderDate, gasNeed);
 	    return;
 	} else if (oxygenNeed.getOxygenGrade() == OxygenGrade.B) {
-	    electrolyzeBottleInventory.adjustInventory(orderDate, gasNeed);
+	    electrolyzeTankInventory.adjustInventory(orderDate, gasNeed);
 	    return;
 	} else {
-	    candleBottleInventory.adjustInventory(orderDate, gasNeed);
+	    candleTankInventory.adjustInventory(orderDate, gasNeed);
 	}
     }
 
     public void initializeInventories() {
 	inventories = new ArrayList<Inventory>();
-	inventories.add(commercialBottleInventory);
-	inventories.add(electrolyzeBottleInventory);
-	inventories.add(candleBottleInventory);
+	inventories.add(commercialTankInventory);
+	inventories.add(electrolyzeTankInventory);
+	inventories.add(candleTankInventory);
     }
 
     public List<Inventory> getInventories() {
 	return inventories;
     }
-
 }

@@ -2,39 +2,36 @@ package ca.ulaval.glo4002.booking.domain;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.Module;
-import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygenService.OxygenReportable;
 import ca.ulaval.glo4002.booking.domain.oxygenService.OxygenService;
 
-public class FestivalManager extends Module{
-	private static OxygenService oxigenService;
-	
-	public static OxygenReportable getOxygeneReport() {
-		return oxigenService;
-	}
+public class FestivalManager extends Module {
+    private static OxygenService oxigenService;
 
-	
-	public FestivalManager() {
-		oxigenService = new OxygenService(LocalDate.of(2050, 07, 17));
-	}
+    public static OxygenReportable getOxygeneReport() {
+	return oxigenService;
+    }
 
-	@Override
-	public String getModuleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public FestivalManager() {
+	oxigenService = new OxygenService();
+    }
 
-	@Override
-	public Version version() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getModuleName() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	@Override
-	public void setupModule(SetupContext context) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Version version() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
+    @Override
+    public void setupModule(SetupContext context) {
+	// TODO Auto-generated method stub
+
+    }
 }

@@ -17,6 +17,7 @@ import ca.ulaval.glo4002.booking.domain.enumeration.PassCategory;
 public class OxygenServiceTest {
 
     private OxygenService oxygenService;
+    final static LocalDate festivalStartingDate = LocalDate.of(2050, 07, 17);
     final static LocalDate oneMonthBeforeFestivalDate = LocalDate.of(2050, 6, 17);
     final static LocalDate fifteenDaysBeforeFestivalDate = LocalDate.of(2050, 7, 2);
     final static LocalDate fiveDaysBeforeFestivalDate = LocalDate.of(2050, 7, 12);
@@ -24,7 +25,7 @@ public class OxygenServiceTest {
 
     @BeforeEach
     public void testInitialize() {
-	oxygenService = new OxygenService(LocalDate.of(2050, 07, 17));
+	oxygenService = new OxygenService();
 	oneDate = new ArrayList<LocalDate>();
 	oneDate.add(LocalDate.of(2050, 7, 18));
     }
@@ -48,12 +49,8 @@ public class OxygenServiceTest {
 	Orderable supernovaPass = new Pass(oneMonthBeforeFestivalDate, PassCategory.SUPERNOVA, oneDate);
 	oxygenService.orderOxygen(supernovaPass);
 	List<Map<String, Object>> inventories = oxygenService.getInventory();
-
-	for (Map<String, Object> inventory : inventories) {
-	    if (inventory.get("gradeTankOxygen") == OxygenGrade.E) {
-		assertEquals(inventory.get("quantity"), 5);
-	    }
-	}
+	OxygenNeed oxygenNeed = new OxygenNeed(OxygenGrade.E, 5);
+	verifyInventoryQuantityForAnOxygenGrade(inventories, oxygenNeed);
     }
 
     @Test
@@ -61,12 +58,8 @@ public class OxygenServiceTest {
 	Orderable supergiantPass = new Pass(oneMonthBeforeFestivalDate, PassCategory.SUPERGIANT, oneDate);
 	oxygenService.orderOxygen(supergiantPass);
 	List<Map<String, Object>> inventories = oxygenService.getInventory();
-
-	for (Map<String, Object> inventory : inventories) {
-	    if (inventory.get("gradeTankOxygen") == OxygenGrade.B) {
-		assertEquals(inventory.get("quantity"), 3);
-	    }
-	}
+	OxygenNeed oxygenNeed = new OxygenNeed(OxygenGrade.B, 3);
+	verifyInventoryQuantityForAnOxygenGrade(inventories, oxygenNeed);
     }
 
     @Test
@@ -74,12 +67,15 @@ public class OxygenServiceTest {
 	Orderable nebulaPass = new Pass(oneMonthBeforeFestivalDate, PassCategory.NEBULA, oneDate);
 	oxygenService.orderOxygen(nebulaPass);
 	List<Map<String, Object>> inventories = oxygenService.getInventory();
+	OxygenNeed oxygenNeed = new OxygenNeed(OxygenGrade.A, 3);
+	verifyInventoryQuantityForAnOxygenGrade(inventories, oxygenNeed);
+    }
 
+    private void verifyInventoryQuantityForAnOxygenGrade(List<Map<String, Object>> inventories, OxygenNeed oxygenNeed) {
 	for (Map<String, Object> inventory : inventories) {
-	    if (inventory.get("gradeTankOxygen") == OxygenGrade.A) {
-		assertEquals(inventory.get("quantity"), 3);
+	    if (inventory.get("gradeTankOxygen") == oxygenNeed.getOxygenGrade()) {
+		assertEquals(inventory.get("quantity"), oxygenNeed.getOxygenTankQuantity());
 	    }
 	}
     }
-
 }

@@ -6,8 +6,7 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.enumeration.PassCategory;
 
 public interface PassInformation {
-	PassCategory getPassCategory();
-	List<LocalDate> getDates();
+    PassCategory getPassCategory();
+
+    List<LocalDate> getDates();
 }
-
-
