@@ -28,7 +28,6 @@ public class CustomJsonProvider extends JacksonJaxbJsonProvider {
     static {
 	mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	mapper.registerModule(new JavaTimeModule());
-	// mapper.registerModule(new FestivalManager());
 	mapper.findAndRegisterModules();
 	mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 	mapper.setDateFormat(new StdDateFormat());
