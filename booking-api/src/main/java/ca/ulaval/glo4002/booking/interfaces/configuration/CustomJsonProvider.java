@@ -1,3 +1,5 @@
+package ca.ulaval.glo4002.booking.interfaces.configuration;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
@@ -26,6 +28,7 @@ public class CustomJsonProvider extends JacksonJaxbJsonProvider {
     static {
 	mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	mapper.registerModule(new JavaTimeModule());
+	// mapper.registerModule(new FestivalManager());
 	mapper.findAndRegisterModules();
 	mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 	mapper.setDateFormat(new StdDateFormat());
