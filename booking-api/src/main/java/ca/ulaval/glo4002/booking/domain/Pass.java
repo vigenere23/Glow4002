@@ -6,22 +6,25 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.enumeration.PassCategory;
 
 public class Pass implements Orderable {
+    private LocalDate orderDate;
+    private PassCategory passCategory;
+    private List<LocalDate> dates;
 
-	@Override
-	public LocalDate getOrderDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Pass(LocalDate orderDate, PassCategory passCategory, List<LocalDate> dates) {
+	this.orderDate = orderDate;
+	this.passCategory = passCategory;
+	this.dates = dates;
+    }
 
-	@Override
-	public PassCategory getPassCategory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public LocalDate getOrderDate() {
+	return orderDate;
+    }
 
-	@Override
-	public List<LocalDate> getDates() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public PassCategory getPassCategory() {
+	return passCategory;
+    }
+
+    public List<LocalDate> getDates() {
+	return dates;
+    }
 }
