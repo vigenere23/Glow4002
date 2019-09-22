@@ -1,17 +1,14 @@
 package ca.ulaval.glo4002.booking.domain.oxygenService;
 
-import java.time.LocalDate;
-
-public class OxygenTankInventory implements Inventory {
+public class OxygenTankInventory {
     private int totalQuantity = 0;
-    private OxygenGrade oxygenCategory;
+    private OxygenGrade oxygenGrade;
 
     public OxygenTankInventory(OxygenGrade oxygenCategory) {
-	this.oxygenCategory = oxygenCategory;
+	this.oxygenGrade = oxygenCategory;
     }
 
-    public void adjustInventory(LocalDate orderDate, GasNeedable gasNeed) {
-	OxygenNeed oxygenNeed = (OxygenNeed) gasNeed;
+    public void adjustInventory(OxygenNeed oxygenNeed) {
 	totalQuantity += oxygenNeed.getOxygenTankQuantity();
     }
 
@@ -19,8 +16,7 @@ public class OxygenTankInventory implements Inventory {
 	return totalQuantity;
     }
 
-    public OxygenGrade getOxygenCategory() {
-	return oxygenCategory;
+    public OxygenGrade getOxygenGrade() {
+	return oxygenGrade;
     }
-
 }

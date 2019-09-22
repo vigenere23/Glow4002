@@ -1,39 +1,29 @@
 package ca.ulaval.glo4002.booking.domain.oxygenService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ca.ulaval.glo4002.booking.domain.Orderable;
 
 public class OxygenService implements OxygenReportable {
-    private GasStorable inventoryStore;
+    private OxygenInventoryStore inventoryStore;
 
     public OxygenService() {
 	inventoryStore = new OxygenInventoryStore();
     }
 
     public void orderOxygen(Orderable order) {
-	GasNeedable oxygenNeed = new OxygenNeed();
-	oxygenNeed.setNeedsBasedOnPassCategory(order.getPassCategory());
-	inventoryStore.adjustInventory(order.getOrderDate(), oxygenNeed);
+	OxygenNeedFactory oxygenNeedFactory = new OxygenNeedFactory();
+	OxygenNeed oxygenNeed = oxygenNeedFactory.getOxygenNeed(order.getPassCategory());
+	inventoryStore.adjustInventory(oxygenNeed);
     }
 
-    public List<Map<String, Object>> getInventory() {
-	List<Map<String, Object>> formattedInventories = new ArrayList<Map<String, Object>>();
-	List<Inventory> inventories = inventoryStore.getInventories();
-	for (Inventory inventory : inventories) {
-	    OxygenTankInventory oxygenTankInventory = (OxygenTankInventory) inventory;
-	    formattedInventories.add(formatInventory(oxygenTankInventory));
+    public int getInventory(OxygenGrade oxygenGrade) {
+	List<OxygenTankInventory> inventories = inventoryStore.getInventories();
+	for (OxygenTankInventory inventory : inventories) {
+	    if (inventory.getOxygenGrade() == oxygenGrade) {
+		return inventory.getInventory();
+	    }
 	}
-	return formattedInventories;
-    }
-
-    private Map<String, Object> formatInventory(OxygenTankInventory inventory) {
-	Map<String, Object> formattedInventory = new HashMap<String, Object>();
-	formattedInventory.put("quantity", inventory.getInventory());
-	formattedInventory.put("gradeTankOxygen", inventory.getOxygenCategory());
-	return formattedInventory;
+	throw new IllegalArgumentException(String.format("No oxygen inventory for oxygen grade %s.", oxygenGrade));
     }
 }
