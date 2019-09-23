@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.pass_ordering.orders;
+package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,10 +7,10 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.Priceable;
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.factories.PackagePassFactory;
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.factories.SinglePassFactory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.PackagePassFactory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
 
 public class PassOrder implements Priceable {
 

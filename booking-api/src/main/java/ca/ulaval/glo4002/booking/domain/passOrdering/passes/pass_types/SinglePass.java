@@ -1,8 +1,8 @@
-package ca.ulaval.glo4002.booking.domain.pass_ordering.passes.pass_types;
+package ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types;
 
 import java.time.LocalDateTime;
 
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
 public abstract class SinglePass extends Pass {
 

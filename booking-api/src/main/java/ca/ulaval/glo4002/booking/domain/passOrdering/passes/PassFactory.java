@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.booking.domain.pass_ordering.passes;
+package ca.ulaval.glo4002.booking.domain.passOrdering.passes;
 
 import java.time.LocalDateTime;
 
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.factories.PackagePassFactory;
-import ca.ulaval.glo4002.booking.domain.pass_ordering.passes.factories.SinglePassFactory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.PackagePassFactory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
 
 public abstract class PassFactory {
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.pass_ordering.passes;
+package ca.ulaval.glo4002.booking.domain.passOrdering.passes;
 
 public enum PassCategory {
     SUPERNOVA,
