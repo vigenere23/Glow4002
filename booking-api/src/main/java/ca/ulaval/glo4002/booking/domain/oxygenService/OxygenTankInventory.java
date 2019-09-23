@@ -4,8 +4,8 @@ public class OxygenTankInventory {
     private int totalQuantity = 0;
     private OxygenGrade oxygenGrade;
 
-    public OxygenTankInventory(OxygenGrade oxygenCategory) {
-	this.oxygenGrade = oxygenCategory;
+    public OxygenTankInventory(OxygenGrade oxygenGrade) {
+	this.oxygenGrade = oxygenGrade;
     }
 
     public void adjustInventory(OxygenNeed oxygenNeed) {
