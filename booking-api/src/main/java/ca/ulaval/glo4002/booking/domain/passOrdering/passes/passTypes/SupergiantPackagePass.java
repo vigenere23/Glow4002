@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types;
+package ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;

@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.NebulaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.PackagePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.SupergiantPackagePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.SupernovaPackagePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaPackagePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.PackagePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantPackagePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaPackagePass;
 
 public class PackagePassFactory {
 

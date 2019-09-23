@@ -3,10 +3,10 @@ package ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories;
 import java.time.LocalDateTime;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.NebulaSinglePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.SinglePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.SupergiantSinglePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.pass_types.SupernovaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SinglePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantSinglePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaSinglePass;
 
 public class SinglePassFactory {
 
