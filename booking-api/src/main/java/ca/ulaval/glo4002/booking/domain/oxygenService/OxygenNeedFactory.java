@@ -4,13 +4,14 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.PassCategory;
 
 public class OxygenNeedFactory {
     public OxygenNeed getOxygenNeed(PassCategory passCategory) {
-	if (passCategory == PassCategory.SUPERNOVA) {
+	switch (passCategory) {
+	case SUPERNOVA:
 	    return new OxygenGradeENeed();
-	} else if (passCategory == PassCategory.SUPERGIANT) {
+	case SUPERGIANT:
 	    return new OxygenGradeBNeed();
-	} else if (passCategory == PassCategory.NEBULA) {
+	case NEBULA:
 	    return new OxygenGradeANeed();
-	} else {
+	default:
 	    throw new IllegalArgumentException(
 		    String.format("No oxygen need impemented for category %s.", passCategory));
 	}
