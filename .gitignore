@@ -6,6 +6,8 @@
 .settings/
 *.ipr
 *.iml
+application/bin/
+.metadata/
 
 # misc
 *.log
