@@ -1,25 +1,26 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
-import java.time.LocalDate;
 import java.util.EnumMap;
 
 public class OxygenFactory implements OxygenReportable {
 	private int defaultGradeEProduction;
 	private int defaultGradeAProduction;
 	private int defaultGradeBProduction;
-	private LocalDate lastDateOfProduction;
 	private EnumMap<OxygenGrade, Integer> oxygenInventory;
 	
 	public OxygenFactory() {
 		oxygenInventory = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
+		defaultGradeEProduction = 1;
+		defaultGradeAProduction = 1;
+		defaultGradeBProduction = 1;
 	}    
 	
-	public void setLastDateOfProduction(LocalDate lastDate) {
-		lastDateOfProduction = lastDate;
-	}
-    
     public void orderTemplatedOxygenQuantity(OxygenGrade grade) {
-    	oxygenInventory.put(grade, oxygenInventory.get(grade) + getProductionQuantity(grade));
+    	if(oxygenInventory.containsKey(grade)) {
+    	    oxygenInventory.put(grade, oxygenInventory.get(grade) + getProductionQuantity(grade));
+    	} else {
+    		 oxygenInventory.put(grade, getProductionQuantity(grade));
+    	}   	
     }
     
     public void setTemplatedOxygenOrder(EnumMap<OxygenGrade, Integer> template) {
@@ -42,7 +43,8 @@ public class OxygenFactory implements OxygenReportable {
         case E:
 	        return defaultGradeEProduction;
 		default:
-			return 1;
+			 throw new IllegalArgumentException(
+					    String.format("No oxygen need impemented for grade %s.", grade));
 		}
     }
 }
