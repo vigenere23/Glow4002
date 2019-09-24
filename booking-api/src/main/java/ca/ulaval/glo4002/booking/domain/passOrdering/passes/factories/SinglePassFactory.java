@@ -10,6 +10,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaS
 
 public class SinglePassFactory {
 
+    // TODO include the OxygenService here once it exists
     public SinglePass newPass(PassCategory passCategory, LocalDateTime eventDate) {
         switch(passCategory) {
             case NEBULA:
