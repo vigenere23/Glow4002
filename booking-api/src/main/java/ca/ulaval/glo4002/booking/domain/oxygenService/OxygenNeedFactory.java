@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygenService;
 import ca.ulaval.glo4002.booking.domain.passOrdering.PassCategory;
 
 public class OxygenNeedFactory {
-    public OxygenNeed getOxygenNeed(PassCategory passCategory) {
+    public OxygenNeed createOxygenNeed(PassCategory passCategory) {
 	switch (passCategory) {
 	case SUPERNOVA:
 	    return new OxygenGradeENeed();
