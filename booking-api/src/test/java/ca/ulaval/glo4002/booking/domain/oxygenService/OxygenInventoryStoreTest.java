@@ -10,8 +10,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.Orderable;
-import ca.ulaval.glo4002.booking.domain.Pass;
+import ca.ulaval.glo4002.booking.domain.OrderableDeprecated;
+import ca.ulaval.glo4002.booking.domain.PassDeprecated;
 import ca.ulaval.glo4002.booking.domain.passOrdering.PassCategory;
 
 public class OxygenInventoryStoreTest {
@@ -38,7 +38,7 @@ public class OxygenInventoryStoreTest {
 
     @Test
     public void whenAddSupernovaPass_oxygenGradeEHasQuantityFive() {
-	Orderable supernovaPass = new Pass(oneMonthBeforeFestivalDate, PassCategory.SUPERNOVA, oneDate);
+	OrderableDeprecated supernovaPass = new PassDeprecated(oneMonthBeforeFestivalDate, PassCategory.SUPERNOVA, oneDate);
 	oxygenInventoryStore.orderOxygen(supernovaPass);
 	int inventory = oxygenInventoryStore.getInventory(OxygenGrade.E);
 	assertEquals(inventory, 5);
@@ -46,7 +46,7 @@ public class OxygenInventoryStoreTest {
 
     @Test
     public void whenAddSupergiantPass_oxygenGradeBHasQuantityThree() {
-	Orderable supergiantPass = new Pass(oneMonthBeforeFestivalDate, PassCategory.SUPERGIANT, oneDate);
+	OrderableDeprecated supergiantPass = new PassDeprecated(oneMonthBeforeFestivalDate, PassCategory.SUPERGIANT, oneDate);
 	oxygenInventoryStore.orderOxygen(supergiantPass);
 	int inventory = oxygenInventoryStore.getInventory(OxygenGrade.B);
 	assertEquals(inventory, 3);
@@ -54,7 +54,7 @@ public class OxygenInventoryStoreTest {
 
     @Test
     public void whenAddNebulaPass_oxygenGradeAHasQuantityThree() {
-	Orderable nebulaPass = new Pass(oneMonthBeforeFestivalDate, PassCategory.NEBULA, oneDate);
+	OrderableDeprecated nebulaPass = new PassDeprecated(oneMonthBeforeFestivalDate, PassCategory.NEBULA, oneDate);
 	oxygenInventoryStore.orderOxygen(nebulaPass);
 	int inventory = oxygenInventoryStore.getInventory(OxygenGrade.A);
 	assertEquals(inventory, 3);

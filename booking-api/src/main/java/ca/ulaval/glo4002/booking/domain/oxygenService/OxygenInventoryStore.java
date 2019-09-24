@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.Orderable;
+import ca.ulaval.glo4002.booking.domain.OrderableDeprecated;
 
 public class OxygenInventoryStore {
     private List<OxygenTankInventory> inventories;
@@ -13,7 +13,7 @@ public class OxygenInventoryStore {
 	initializeInventories();
     }
 
-    public void orderOxygen(Orderable order) {
+    public void orderOxygen(OrderableDeprecated order) {
 	OxygenNeedFactory oxygenNeedFactory = new OxygenNeedFactory();
 	OxygenNeed oxygenNeed = oxygenNeedFactory.createOxygenNeed(order.getPassCategory());
 	adjustInventory(oxygenNeed);

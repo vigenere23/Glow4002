@@ -5,12 +5,12 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.PassCategory;
 
-public class Pass implements Orderable {
+public class PassDeprecated implements OrderableDeprecated {
     private LocalDate orderDate;
     private PassCategory passCategory;
     private List<LocalDate> dates;
 
-    public Pass(LocalDate orderDate, PassCategory passCategory, List<LocalDate> dates) {
+    public PassDeprecated(LocalDate orderDate, PassCategory passCategory, List<LocalDate> dates) {
 	this.orderDate = orderDate;
 	this.passCategory = passCategory;
 	this.dates = dates;
