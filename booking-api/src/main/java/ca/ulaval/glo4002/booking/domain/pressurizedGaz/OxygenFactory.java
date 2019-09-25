@@ -3,30 +3,30 @@ package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 import java.util.EnumMap;
 
 public class OxygenFactory implements OxygenReportable {
-	private int defaultGradeEProduction;
-	private int defaultGradeAProduction;
-	private int defaultGradeBProduction;
+	private int defaultGradeERequirement;
+	private int defaultGradeARequirement;
+	private int defaultGradeBRequirement;
 	private EnumMap<OxygenGrade, Integer> oxygenInventory;
 	
 	public OxygenFactory() {
 		oxygenInventory = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
-		defaultGradeEProduction = 1;
-		defaultGradeAProduction = 1;
-		defaultGradeBProduction = 1;
+		defaultGradeERequirement = 1;
+		defaultGradeARequirement = 1;
+		defaultGradeBRequirement = 1;
 	}    
 	
     public void orderTemplatedOxygenQuantity(OxygenGrade grade) {
     	if(oxygenInventory.containsKey(grade)) {
-    	    oxygenInventory.put(grade, oxygenInventory.get(grade) + getProductionQuantity(grade));
+    	    oxygenInventory.put(grade, oxygenInventory.get(grade) + getRequirementQuantity(grade));
     	} else {
-    		 oxygenInventory.put(grade, getProductionQuantity(grade));
+    		 oxygenInventory.put(grade, getRequirementQuantity(grade));
     	}   	
     }
     
     public void setTemplatedOxygenOrder(EnumMap<OxygenGrade, Integer> template) {
-    	defaultGradeAProduction = template.containsKey(OxygenGrade.A) ? template.get(OxygenGrade.A) : 1;
-    	defaultGradeEProduction = template.containsKey(OxygenGrade.E) ? template.get(OxygenGrade.E) : 1;
-    	defaultGradeBProduction = template.containsKey(OxygenGrade.B) ? template.get(OxygenGrade.B) : 1;
+    	defaultGradeARequirement = template.containsKey(OxygenGrade.A) ? template.get(OxygenGrade.A) : 1;
+    	defaultGradeERequirement = template.containsKey(OxygenGrade.E) ? template.get(OxygenGrade.E) : 1;
+    	defaultGradeBRequirement = template.containsKey(OxygenGrade.B) ? template.get(OxygenGrade.B) : 1;
 	}
     
     @Override
@@ -34,17 +34,17 @@ public class OxygenFactory implements OxygenReportable {
 		return oxygenInventory.get(oxygenGrade);
 	}
     
-    private int getProductionQuantity(OxygenGrade grade) {
+    private int getRequirementQuantity(OxygenGrade grade) {
     	switch (grade) {
 		case A:
-			return defaultGradeAProduction;
+			return defaultGradeARequirement;
         case B:
-			return defaultGradeBProduction;
+			return defaultGradeBRequirement;
         case E:
-	        return defaultGradeEProduction;
+	        return defaultGradeERequirement;
 		default:
 			 throw new IllegalArgumentException(
-					    String.format("No oxygen need impemented for grade %s.", grade));
+					    String.format("No oxygen requirement impemented for grade %s.", grade));
 		}
     }
 }
