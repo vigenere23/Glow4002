@@ -52,17 +52,32 @@ public class OxygenFactoryTests {
     }
 
     @Test
-    public void given_orderOxygenTwice_when_defaultTemplate_then_fabricationQuantityIsAdded() {
-	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
-	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
-	assertInventoryOfGrade(5, OxygenGrade.A);
-    }
-
-    @Test
     public void given_setOneTemplate_when_orderOxygenTwice_then_multipleOfFabricationQuantityIsAdded() {
 	EnumMap<OxygenGrade, Integer> expectedQuantity = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
 	expectedQuantity.put(OxygenGrade.A, 4);
 	oxygenFactory.setTemplatedOxygenOrder(expectedQuantity);
+	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
+	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
+	assertInventoryOfGrade(10, OxygenGrade.A);
+    }
+
+    @Test
+    public void given_setOneTemplate_when_orderOxygenThreeTimes_then_threeFabricationQuantityIsAdded() {
+	EnumMap<OxygenGrade, Integer> expectedQuantity = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
+	expectedQuantity.put(OxygenGrade.A, 4);
+	oxygenFactory.setTemplatedOxygenOrder(expectedQuantity);
+	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
+	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
+	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
+	assertInventoryOfGrade(15, OxygenGrade.A);
+    }
+
+    @Test
+    public void given_setOneTemplate_when_orderOxygenThreeTimes_then_twoFabricationQuantityIsAdded() {
+	EnumMap<OxygenGrade, Integer> expectedQuantity = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
+	expectedQuantity.put(OxygenGrade.A, 3);
+	oxygenFactory.setTemplatedOxygenOrder(expectedQuantity);
+	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
 	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
 	oxygenFactory.orderTemplatedOxygenQuantity(oneMonthBeforeFestivalDate, OxygenGrade.A);
 	assertInventoryOfGrade(10, OxygenGrade.A);

@@ -22,24 +22,22 @@ public class OxygenTanks {
     }
 
     public void adjustInventory(int requirementQuantity) {
-	if (storageQuantity < requirementQuantity) {
-	    totalQuantity += getNumberOfFabricationsNeeded(requirementQuantity) * fabricationQuantity;
-	    adjustStorageInventory(requirementQuantity);
-	} else {
-	    removeTanksToStorageInventory(requirementQuantity);
-	}
+	int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
+	int quantityToFabricate = getQuantityToFabricate(quantityOfTanksLacking);
+	storageQuantity = quantityToFabricate - quantityOfTanksLacking;
+	totalQuantity += quantityToFabricate;
     }
 
-    private int getNumberOfFabricationsNeeded(int requirementQuantity) {
-	return (int) Math.ceil((double) requirementQuantity / fabricationQuantity);
+    private int getQuantityOfTanksLacking(int requirementQuantity) {
+	return requirementQuantity - storageQuantity;
     }
 
-    private void adjustStorageInventory(int requirementQuantity) {
-	storageQuantity += totalQuantity - requirementQuantity;
+    private int getQuantityToFabricate(int quantityOfTanksLacking) {
+	return getNumberOfFabricationBatchesNeeded(quantityOfTanksLacking) * fabricationQuantity;
     }
 
-    private void removeTanksToStorageInventory(int tankQuantity) {
-	storageQuantity -= tankQuantity;
+    private int getNumberOfFabricationBatchesNeeded(int quantityLacking) {
+	return (int) Math.ceil((double) quantityLacking / fabricationQuantity);
     }
 
     public int getTotalQuantity() {

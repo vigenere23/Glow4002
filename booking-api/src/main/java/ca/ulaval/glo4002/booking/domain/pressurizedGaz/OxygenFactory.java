@@ -88,7 +88,7 @@ public class OxygenFactory implements OxygenReportable {
 	case E:
 	    return defaultGradeERequirement;
 	default:
-	    throw new IllegalArgumentException(String.format("No oxygen requirement impemented for grade %s.", grade));
+	    throw new IllegalArgumentException(String.format("No oxygen requirement implemented for grade %s.", grade));
 	}
     }
 
