@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.persistance.inMemory;
 
-import ca.ulaval.glo4002.booking.persistance.intefcace.ShuttlePersistance;
+import ca.ulaval.glo4002.booking.persistance.inteface.ShuttlePersistance;
 
 public class InMemoryShuttlePersistance implements ShuttlePersistance {
 

@@ -1,14 +1,12 @@
 package ca.ulaval.glo4002.booking;
 
 import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.spi.Container;
-import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
+
 
 import ca.ulaval.glo4002.booking.persistance.inMemory.InMemoryRepository;
-import ca.ulaval.glo4002.booking.persistance.intefcace.Repository;
+import ca.ulaval.glo4002.booking.persistance.inteface.Repository;
 
 public class RessourceConfiguration extends ResourceConfig {
 

@@ -7,7 +7,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.persistance.inMemory.InMemoryRepository;
-import ca.ulaval.glo4002.booking.persistance.intefcace.Repository;
+import ca.ulaval.glo4002.booking.persistance.inteface.Repository;
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
