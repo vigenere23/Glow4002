@@ -25,9 +25,10 @@ public class OxygenTanks {
     public void adjustInventory(int requirementQuantity) {
 	if (storageQuantity < requirementQuantity) {
 	    totalQuantity += getNumberOfFabricationsNeeded(requirementQuantity) * fabricationQuantity;
+	    adjustStorageInventory(requirementQuantity);
+	} else {
+	    removeTanksToStorageInventory(requirementQuantity);
 	}
-
-	adjustStorageInventory(requirementQuantity);
     }
 
     private int getNumberOfFabricationsNeeded(int requirementQuantity) {
@@ -35,7 +36,11 @@ public class OxygenTanks {
     }
 
     private void adjustStorageInventory(int requirementQuantity) {
-	storageQuantity = totalQuantity - requirementQuantity;
+	storageQuantity += totalQuantity - requirementQuantity;
+    }
+
+    private void removeTanksToStorageInventory(int tankQuantity) {
+	storageQuantity -= tankQuantity;
     }
 
     public int getTotalQuantity() {
