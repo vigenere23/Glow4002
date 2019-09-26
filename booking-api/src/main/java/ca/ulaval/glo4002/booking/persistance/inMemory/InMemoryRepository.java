@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.booking.persistance.inMemory;
 
-import ca.ulaval.glo4002.booking.persistance.inteface.OxygenPersistance;
-import ca.ulaval.glo4002.booking.persistance.inteface.PassPersistance;
-import ca.ulaval.glo4002.booking.persistance.inteface.Repository;
-import ca.ulaval.glo4002.booking.persistance.inteface.ShuttlePersistance;
+import ca.ulaval.glo4002.booking.domain.persistanceInteface.OxygenPersistance;
+import ca.ulaval.glo4002.booking.domain.persistanceInteface.PassPersistance;
+import ca.ulaval.glo4002.booking.domain.persistanceInteface.Repository;
+import ca.ulaval.glo4002.booking.domain.persistanceInteface.ShuttlePersistance;
 
 public class InMemoryRepository implements Repository{
 	

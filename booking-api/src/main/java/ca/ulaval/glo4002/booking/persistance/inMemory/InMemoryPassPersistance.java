@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.persistance.inMemory;
 
-import ca.ulaval.glo4002.booking.persistance.inteface.PassPersistance;
+import ca.ulaval.glo4002.booking.domain.persistanceInteface.PassPersistance;
 
 public class InMemoryPassPersistance implements PassPersistance{
 

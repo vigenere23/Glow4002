@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.inteface;
+package ca.ulaval.glo4002.booking.domain.persistanceInteface;
 
 public interface Repository {
 	OxygenPersistance getOxygenPersistance();

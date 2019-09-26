@@ -6,7 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 
 import ca.ulaval.glo4002.booking.persistance.inMemory.InMemoryRepository;
-import ca.ulaval.glo4002.booking.persistance.inteface.Repository;
+import ca.ulaval.glo4002.booking.domain.persistanceInteface.Repository;
 
 public class RessourceConfiguration extends ResourceConfig {
 

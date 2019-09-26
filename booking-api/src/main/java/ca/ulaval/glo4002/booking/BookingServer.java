@@ -6,9 +6,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.persistance.inMemory.InMemoryRepository;
-import ca.ulaval.glo4002.booking.persistance.inteface.Repository;
-
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
 
@@ -21,7 +18,6 @@ public class BookingServer implements Runnable {
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
         ResourceConfig packageConfig = new RessourceConfiguration().packages("ca.ulaval.glo4002.booking");
-        //packageConfig.register(new InMemoryRepository());
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
