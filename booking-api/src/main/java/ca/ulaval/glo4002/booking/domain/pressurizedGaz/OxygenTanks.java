@@ -41,8 +41,4 @@ public class OxygenTanks {
     public int getTotalQuantity() {
 	return totalQuantity;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> Add fabrication quantity and fabrication time to inventory algorithm

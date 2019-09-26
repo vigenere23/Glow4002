@@ -17,12 +17,12 @@ public class OxygenFactoryTests {
     }
 
     @Test
-    public void given_orderOxygenGradeA_when_defaultTemplate_then_fabricationQuantityIsAdded() {
+    public void given_orderOxygen_when_defaultTemplate_then_fabricationQuantityIsAdded() {
 	orderGradeAndAssertInventory(OxygenGrade.A, 5);
     }
 
     @Test
-    public void given_setOneTemplate_when_orderOxygen_then_multipleOfFabricationQuantitiesAreAdded() {
+    public void given_setOneTemplate_when_orderOxygen_then_multipleOfFabricationQuantityIsAdded() {
 	EnumMap<OxygenGrade, Integer> expectedQuantity = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
 	expectedQuantity.put(OxygenGrade.A, 6);
 	oxygenFactory.setTemplatedOxygenOrder(expectedQuantity);
