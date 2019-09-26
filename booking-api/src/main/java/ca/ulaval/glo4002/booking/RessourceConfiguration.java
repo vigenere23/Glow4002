@@ -4,9 +4,8 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
-
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.inMemory.InMemoryRepository;
-import ca.ulaval.glo4002.booking.domain.persistanceInteface.Repository;
 
 public class RessourceConfiguration extends ResourceConfig {
 

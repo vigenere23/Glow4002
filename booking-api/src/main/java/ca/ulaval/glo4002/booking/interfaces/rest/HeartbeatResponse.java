@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.booking.domain.persistanceInteface.Repository;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 
 public class HeartbeatResponse {

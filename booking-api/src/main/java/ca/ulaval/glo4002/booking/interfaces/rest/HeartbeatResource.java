@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.domain.persistanceInteface.Repository;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 @Path("/heartbeat")
 @Produces(MediaType.APPLICATION_JSON)

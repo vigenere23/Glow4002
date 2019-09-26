@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.persistance.inMemory;
 
-import ca.ulaval.glo4002.booking.domain.persistanceInteface.OxygenPersistance;;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;;
 
 public class InMemoryOxygenPersistance implements OxygenPersistance {
 
