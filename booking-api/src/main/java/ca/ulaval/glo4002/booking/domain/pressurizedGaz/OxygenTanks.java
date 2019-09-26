@@ -15,7 +15,6 @@ public class OxygenTanks {
 
     public boolean isEnoughTimeForFabrication(LocalDate orderDate, LocalDate limitDeliveryDate) {
 	LocalDate fabricationCompletionDate = orderDate.plusDays(fabricationTimeInDays);
-
 	if (fabricationCompletionDate.isAfter(limitDeliveryDate)) {
 	    return false;
 	}

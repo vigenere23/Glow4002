@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
+import java.time.LocalDate;
 import java.util.EnumMap;
 
 public class OxygenFactory implements OxygenReportable {
@@ -15,8 +16,10 @@ public class OxygenFactory implements OxygenReportable {
     private EnumMap<OxygenGrade, Integer> fabricationQuantities;
     private EnumMap<OxygenGrade, Integer> fabricationTimesInDays;
     private EnumMap<OxygenGrade, OxygenTanks> oxygenInventory;
+    private LocalDate limitDeliveryDate;
 
-    public OxygenFactory() {
+    public OxygenFactory(LocalDate limitDeliveryDate) {
+	this.limitDeliveryDate = limitDeliveryDate;
 	defaultGradeERequirement = 1;
 	defaultGradeARequirement = 1;
 	defaultGradeBRequirement = 1;
@@ -25,9 +28,9 @@ public class OxygenFactory implements OxygenReportable {
 	initializeOxygenInventory();
     }
 
-    public void orderTemplatedOxygenQuantity(OxygenGrade grade) {
+    public void orderTemplatedOxygenQuantity(LocalDate orderDate, OxygenGrade grade) {
 	if (oxygenInventory.containsKey(grade)) {
-	    oxygenInventory.get(grade).adjustInventory(getRequirementQuantity(grade));
+	    adjustOxygenTankInventory(orderDate, grade);
 	} else {
 	    throw new IllegalArgumentException(String.format("Not possible to order oxygen of grade %s.", grade));
 	}
@@ -67,6 +70,15 @@ public class OxygenFactory implements OxygenReportable {
 	}
     }
 
+    private void adjustOxygenTankInventory(LocalDate orderDate, OxygenGrade grade) {
+	OxygenTanks oxygenTanks = oxygenInventory.get(grade);
+	if (oxygenTanks.isEnoughTimeForFabrication(orderDate, limitDeliveryDate)) {
+	    oxygenInventory.get(grade).adjustInventory(getRequirementQuantity(grade));
+	} else {
+	    orderTemplatedOxygenQuantity(orderDate, getLowerGradeOf(grade));
+	}
+    }
+
     private int getRequirementQuantity(OxygenGrade grade) {
 	switch (grade) {
 	case A:
@@ -77,6 +89,17 @@ public class OxygenFactory implements OxygenReportable {
 	    return defaultGradeERequirement;
 	default:
 	    throw new IllegalArgumentException(String.format("No oxygen requirement impemented for grade %s.", grade));
+	}
+    }
+
+    private OxygenGrade getLowerGradeOf(OxygenGrade grade) {
+	switch (grade) {
+	case A:
+	    return OxygenGrade.B;
+	case B:
+	    return OxygenGrade.E;
+	default:
+	    throw new IllegalArgumentException(String.format("No lower oxygen grade exists for grade %s.", grade));
 	}
     }
 }
