@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaP
 
 public class PackagePassFactory {
 
-    // TODO include the OxygenService here once it exists
     public PackagePass create(PassCategory passCategory) {
         switch(passCategory) {
             case NEBULA:
