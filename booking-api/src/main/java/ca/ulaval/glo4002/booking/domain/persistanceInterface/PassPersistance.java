@@ -1,7 +1,8 @@
 package ca.ulaval.glo4002.booking.domain.persistanceInterface;
 
-public interface PassPersistance {
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
-	public void saveInfo();
-	public String getInfo();
+public interface PassPersistance {
+    public Pass getById(Long id);
+    public void save(Pass pass);
 }

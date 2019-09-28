@@ -16,4 +16,12 @@ public abstract class Pass implements Priceable {
     public Money getPrice() {
         return this.price;
     }
+
+    public Long getId() {
+        return this.passNumber;
+    }
+
+    public void setId(Long id) {
+        this.passNumber = id;
+    }
 }
