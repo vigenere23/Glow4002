@@ -23,11 +23,7 @@ public class PassOrderTest {
 	private SinglePassFactory singlePassFactory;
 	
 	private PassOrder singlePassOrder;
-	private PassOrder packagePassOrder;
 	
-	private SinglePass singleNebulaPass;
-	private SinglePass singleNebulaPass2;
-
 	@Before
 	public void setUp() {
 		orderFactory = new OrderFactory();
@@ -37,9 +33,10 @@ public class PassOrderTest {
 		ArrayList<LocalDateTime> eventDates = new ArrayList<LocalDateTime>();
 		eventDates.add(singleNebulaPass.getDate());
 		eventDates.add(singleNebulaPass2.getDate());
-		
-		singlePassOrder = orderFactory.createOrder(singlePassFactory, PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
-		packagePassOrder = orderFactory.createOrder(singlePassFactory, PassOption.PACKAGE, PassCategory.NEBULA, eventDates);
+
+		singlePassOrder = orderFactory.createOrder(singlePassFactory, PassOption.SINGLE_PASS, PassCategory.NEBULA,
+				eventDates);
+		orderFactory.createOrder(singlePassFactory, PassOption.PACKAGE, PassCategory.NEBULA, eventDates);
 	}
 	
 	@Test
