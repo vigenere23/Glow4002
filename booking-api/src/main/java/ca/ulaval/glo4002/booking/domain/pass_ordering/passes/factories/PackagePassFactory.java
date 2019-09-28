@@ -18,7 +18,7 @@ public class PackagePassFactory {
                 return new SuperNovaPackagePass();
             default:
                 throw new IllegalArgumentException(
-                    String.format("No package pass impemented for category %s.", passCategory)
+                    String.format("No package pass implemented for category %s.", passCategory)
                 );
         }
     }

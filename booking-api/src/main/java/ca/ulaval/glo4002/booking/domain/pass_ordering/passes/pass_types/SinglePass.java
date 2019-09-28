@@ -11,4 +11,8 @@ public abstract class SinglePass extends Pass {
     protected SinglePass(LocalDateTime eventDate) {
         this.eventDate = eventDate;
     }
+
+    public LocalDateTime getDate() {
+        return this.eventDate;
+    }
 }
