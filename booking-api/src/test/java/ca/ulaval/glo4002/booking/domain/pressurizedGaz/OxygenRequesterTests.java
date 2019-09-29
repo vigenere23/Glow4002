@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class OxygenFactoryTests {
+public class OxygenRequesterTests {
 
     private OxygenRequester oxygenFactory;
     final static LocalDate festivalStartingDate = LocalDate.of(2050, 7, 17);

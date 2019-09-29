@@ -16,7 +16,7 @@ public class OxygenProducer {
     }
 
     public void adjustInventory(LocalDate orderDate, int requirementQuantity) throws NotEnoughTimeException {
-	if (!isEnoughTimeForFabrication(orderDate)) {
+	if (!enoughTimeForFabrication(orderDate)) {
 	    throw new NotEnoughTimeException();
 	}
 	int quantityOfTanksLacking = requirementQuantity - storageQuantity;
@@ -25,7 +25,7 @@ public class OxygenProducer {
 	totalQuantity += quantityToFabricate;
     }
 
-    private boolean isEnoughTimeForFabrication(LocalDate orderDate) {
+    private boolean enoughTimeForFabrication(LocalDate orderDate) {
 	LocalDate fabricationCompletionDate = orderDate.plusDays(fabricationTimeInDays);
 	if (fabricationCompletionDate.isAfter(limitDeliveryDate)) {
 	    return false;
