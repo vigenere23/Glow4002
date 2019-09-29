@@ -6,7 +6,7 @@
 .settings/
 *.ipr
 *.iml
-application/bin/
+**/bin
 .metadata/
 
 # misc
