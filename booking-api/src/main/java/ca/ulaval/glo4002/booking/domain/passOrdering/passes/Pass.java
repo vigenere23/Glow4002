@@ -10,7 +10,7 @@ public abstract class Pass implements Priceable {
     protected Money price;
 
     protected Pass() {
-        this.passNumber = (long) 0;
+        this.passNumber = 0L;
     }
 
     public Money getPrice() {
