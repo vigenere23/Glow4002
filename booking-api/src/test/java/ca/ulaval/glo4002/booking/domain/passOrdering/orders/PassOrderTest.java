@@ -1,14 +1,14 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.OrderFactory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
@@ -21,10 +21,10 @@ public class PassOrderTest {
 
 	private OrderFactory orderFactory;
 	private SinglePassFactory singlePassFactory;
-	
+
 	private PassOrder singlePassOrder;
-	
-	@Before
+
+	@BeforeEach
 	public void setUp() {
 		orderFactory = new OrderFactory();
 		singlePassFactory = new SinglePassFactory();
@@ -46,5 +46,4 @@ public class PassOrderTest {
 
 		assertTrue(singlePassOrder.getPrice().compareTo(totalPrice) == 0);
 	}
-
 }
