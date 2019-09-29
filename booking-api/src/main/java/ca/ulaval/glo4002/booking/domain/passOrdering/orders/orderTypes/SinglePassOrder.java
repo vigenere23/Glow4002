@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSinglePass;
@@ -19,8 +20,9 @@ public class SinglePassOrder extends PassOrder {
 		super();
 	}
 
-	public SinglePassOrder(SinglePassFactory passFactory, PassCategory passCategory, List<OffsetDateTime> eventDates) {
-        this();
+	public SinglePassOrder(PassCategory passCategory, List<OffsetDateTime> eventDates) {
+		this();
+		SinglePassFactory passFactory = new SinglePassFactory();
         for (OffsetDateTime eventDate : eventDates) {
             passes.add(passFactory.create(passCategory, eventDate));
         }
@@ -32,11 +34,11 @@ public class SinglePassOrder extends PassOrder {
 		int numberOfSupergiant = 0;
 		int numberOfNebula = 0;
 		
-		for (int i = 0; i < this.passes.size(); i++) {
-			if (this.passes.get(i).getClass().equals(NebulaSinglePass.class)) {
+		for (Pass pass : this.passes) {
+			if (pass.getClass().equals(NebulaSinglePass.class)) {
 				numberOfNebula += 1;
 			}
-			if (this.passes.get(i).getClass().equals(SupergiantSinglePass.class)) {
+			if (pass.getClass().equals(SupergiantSinglePass.class)) {
 				numberOfSupergiant += 1;
 			}
 		}

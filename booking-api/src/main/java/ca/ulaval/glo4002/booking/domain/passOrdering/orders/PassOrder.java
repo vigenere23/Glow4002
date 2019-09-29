@@ -24,13 +24,17 @@ public class PassOrder implements Priceable {
         this.orderDate = OffsetDateTime.now();
     }
 
-    public PassOrder(PackagePassFactory passFactory, PassCategory passCategory) {
+    public PassOrder(PassCategory passCategory) {
         this();
+        PackagePassFactory passFactory = new PackagePassFactory();
         passes.add(passFactory.create(passCategory));
+
+        this.updateTotalPrice();
     }
 
-    public PassOrder(SinglePassFactory passFactory, PassCategory passCategory, List<OffsetDateTime> eventDates) {
+    public PassOrder(PassCategory passCategory, List<OffsetDateTime> eventDates) {
         this();
+        SinglePassFactory passFactory = new SinglePassFactory();
         for (OffsetDateTime eventDate : eventDates) {
             passes.add(passFactory.create(passCategory, eventDate));
         }

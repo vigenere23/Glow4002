@@ -22,28 +22,40 @@ public class PassOrderTest {
 	private OrderFactory orderFactory;
 	private SinglePassFactory singlePassFactory;
 
+	private PassOrder packagePassOrder;
 	private PassOrder singlePassOrder;
 
 	@BeforeEach
 	public void setUp() {
 		orderFactory = new OrderFactory();
 		singlePassFactory = new SinglePassFactory();
+
 		SinglePass singleNebulaPass = singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now());
 		SinglePass singleNebulaPass2 = singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now());
+
 		ArrayList<OffsetDateTime> eventDates = new ArrayList<OffsetDateTime>();
 		eventDates.add(singleNebulaPass.getDate());
 		eventDates.add(singleNebulaPass2.getDate());
 
-		singlePassOrder = orderFactory.createOrder(singlePassFactory, PassOption.SINGLE_PASS, PassCategory.NEBULA,
-				eventDates);
-		orderFactory.createOrder(singlePassFactory, PassOption.PACKAGE, PassCategory.NEBULA, eventDates);
+		singlePassOrder = orderFactory.createOrder(PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
+		packagePassOrder = orderFactory.createOrder(PassOption.PACKAGE, PassCategory.NEBULA, eventDates);
 	}
 	
 	@Test
-	public void shouldUpdateTotalPriceWhenUpdateTotalPriceIsCalledOnCreationOfOrder() {
+	public void givenSinglePassOrderCreated_itShouldUpdateTotalPriceCorrectly() {
 		
 		Money totalPrice = Money.of(CurrencyUnit.CAD, 100000);
 
 		assertTrue(singlePassOrder.getPrice().compareTo(totalPrice) == 0);
+	}
+
+	@Test
+	public void givenPackagePassOrderCreated_itShouldUpdateTotalPriceCorrectly() {
+		
+		Money totalPrice = Money.of(CurrencyUnit.CAD, 250000);
+
+		System.out.println(packagePassOrder.getPrice());
+
+		assertTrue(packagePassOrder.getPrice().compareTo(totalPrice) == 0);
 	}
 }

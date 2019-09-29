@@ -26,23 +26,22 @@ public class SinglePassOrderTest {
 	private PassOrder singleSupergiantPassOrder;
 
 	private List<OffsetDateTime> eventDates;
+	private int nebulaPassesNumber = 4;
+	private int supergiantPassesNumber = 5;
 
 	@BeforeEach
 	public void setUp() {
 		orderFactory = new OrderFactory();
-		eventDates = new ArrayList<>();
-		singleNebulaPassOrder = orderFactory.createOrder(
-			singlePassFactory, PassOption.SINGLE_PASS, PassCategory.NEBULA,eventDates
-		);
-		singleSupergiantPassOrder = orderFactory.createOrder(
-			singlePassFactory, PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, eventDates
-		);
 		singlePassFactory = new SinglePassFactory();
+		eventDates = new ArrayList<>();
+
+		singleNebulaPassOrder = orderFactory.createOrder(PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
+		singleSupergiantPassOrder = orderFactory.createOrder(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, eventDates);	
 	}
 
 	@Test
-	public void singlePassOrderWithOver3NebulaPassesShouldHaveRebateOnTotalPrice() {
-		for (int i = 0; i < 4; i++) {
+	public void givenOver3NebulaPasses_whenSinglePassOrderCreated_itShouldHaveRebateOnTotalPrice() {
+		for (int i = 0; i < nebulaPassesNumber; i++) {
 			singleNebulaPassOrder.passes.add(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
 		}
 
@@ -53,9 +52,9 @@ public class SinglePassOrderTest {
 	}
 
 	@Test
-	public void singlePassOrderWith5SupergiantPassesShouldHaveRebateOnEachPass() {
+	public void givenAtLeast5SupergiantPasses_whenSinglePassOrderCreated_itShouldHaveRebateOnEachPass() {
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < supergiantPassesNumber; i++) {
 			singleSupergiantPassOrder
 				.passes
 				.add(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
