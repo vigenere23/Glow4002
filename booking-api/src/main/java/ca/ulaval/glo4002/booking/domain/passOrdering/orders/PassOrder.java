@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +17,11 @@ public class PassOrder implements Priceable {
 
     protected List<Pass> passes = new ArrayList<Pass>();
     protected Money totalPrice = Money.zero(CurrencyUnit.CAD);
-    protected LocalDateTime orderDate;
+    protected OffsetDateTime orderDate;
     protected PassCategory passCategory;
 
     public PassOrder() {
-        this.orderDate = LocalDateTime.now();
+        this.orderDate = OffsetDateTime.now();
     }
 
     public PassOrder(PackagePassFactory passFactory, PassCategory passCategory) {
@@ -29,9 +29,9 @@ public class PassOrder implements Priceable {
         passes.add(passFactory.create(passCategory));
     }
 
-    public PassOrder(SinglePassFactory passFactory, PassCategory passCategory, List<LocalDateTime> eventDates) {
+    public PassOrder(SinglePassFactory passFactory, PassCategory passCategory, List<OffsetDateTime> eventDates) {
         this();
-        for (LocalDateTime eventDate : eventDates) {
+        for (OffsetDateTime eventDate : eventDates) {
             passes.add(passFactory.create(passCategory, eventDate));
         }
         this.updateTotalPrice();

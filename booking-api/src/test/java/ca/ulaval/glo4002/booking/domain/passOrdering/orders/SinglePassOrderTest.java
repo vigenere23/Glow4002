@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class SinglePassOrderTest {
 	private PassOrder singleNebulaPassOrder;
 	private PassOrder singleSupergiantPassOrder;
 
-	private List<LocalDateTime> eventDates;
+	private List<OffsetDateTime> eventDates;
 
 	@BeforeEach
 	public void setUp() {
@@ -43,7 +43,7 @@ public class SinglePassOrderTest {
 	@Test
 	public void singlePassOrderWithOver3NebulaPassesShouldHaveRebateOnTotalPrice() {
 		for (int i = 0; i < 4; i++) {
-			singleNebulaPassOrder.passes.add(singlePassFactory.create(PassCategory.NEBULA, LocalDateTime.now()));
+			singleNebulaPassOrder.passes.add(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
 		}
 
 		Money rabais = Money.of(CurrencyUnit.CAD, 20000);
@@ -58,7 +58,7 @@ public class SinglePassOrderTest {
 		for (int i = 0; i < 5; i++) {
 			singleSupergiantPassOrder
 				.passes
-				.add(singlePassFactory.create(PassCategory.SUPERGIANT, LocalDateTime.now()));
+				.add(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
 		}
 
 		Money rabais = Money.of(CurrencyUnit.CAD, 50000);

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSinglePass;
@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaS
 public class SinglePassFactory {
 
     // TODO include the OxygenService here once it exists
-    public SinglePass create(PassCategory passCategory, LocalDateTime eventDate) {
+    public SinglePass create(PassCategory passCategory, OffsetDateTime eventDate) {
         switch(passCategory) {
             case NEBULA:
                 return new NebulaSinglePass(eventDate);

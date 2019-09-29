@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders.order_types;
 
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.joda.money.CurrencyUnit;
@@ -19,9 +19,9 @@ public class SinglePassOrder extends PassOrder {
 		super();
 	}
 
-	public SinglePassOrder(SinglePassFactory passFactory, PassCategory passCategory, List<LocalDateTime> eventDates) {
+	public SinglePassOrder(SinglePassFactory passFactory, PassCategory passCategory, List<OffsetDateTime> eventDates) {
         this();
-        for (LocalDateTime eventDate : eventDates) {
+        for (OffsetDateTime eventDate : eventDates) {
             passes.add(passFactory.create(passCategory, eventDate));
         }
         this.updateTotalPrice();

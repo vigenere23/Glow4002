@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
 import org.joda.money.CurrencyUnit;
@@ -28,9 +28,9 @@ public class PassOrderTest {
 	public void setUp() {
 		orderFactory = new OrderFactory();
 		singlePassFactory = new SinglePassFactory();
-		SinglePass singleNebulaPass = singlePassFactory.create(PassCategory.NEBULA, LocalDateTime.now());
-		SinglePass singleNebulaPass2 = singlePassFactory.create(PassCategory.NEBULA, LocalDateTime.now());
-		ArrayList<LocalDateTime> eventDates = new ArrayList<LocalDateTime>();
+		SinglePass singleNebulaPass = singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now());
+		SinglePass singleNebulaPass2 = singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now());
+		ArrayList<OffsetDateTime> eventDates = new ArrayList<OffsetDateTime>();
 		eventDates.add(singleNebulaPass.getDate());
 		eventDates.add(singleNebulaPass2.getDate());
 

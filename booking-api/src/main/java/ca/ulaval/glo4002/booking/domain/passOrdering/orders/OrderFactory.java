@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 
 public class OrderFactory {
 
-	public PassOrder createOrder(SinglePassFactory passFactory, PassOption passOption, PassCategory passCategory, List<LocalDateTime> eventDates) {
+	public PassOrder createOrder(SinglePassFactory passFactory, PassOption passOption, PassCategory passCategory, List<OffsetDateTime> eventDates) {
 		switch(passOption) {
 			case PACKAGE:
 				return new PackagePassOrder();
