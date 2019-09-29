@@ -11,20 +11,20 @@ public class PassDeprecated implements OrderableDeprecated {
     private List<LocalDate> dates;
 
     public PassDeprecated(LocalDate orderDate, PassCategory passCategory, List<LocalDate> dates) {
-	this.orderDate = orderDate;
-	this.passCategory = passCategory;
-	this.dates = dates;
+        this.orderDate = orderDate;
+        this.passCategory = passCategory;
+        this.dates = dates;
     }
 
     public LocalDate getOrderDate() {
-	return orderDate;
+	    return orderDate;
     }
 
     public PassCategory getPassCategory() {
-	return passCategory;
+	    return passCategory;
     }
 
     public List<LocalDate> getDates() {
-	return dates;
+	    return dates;
     }
 }
