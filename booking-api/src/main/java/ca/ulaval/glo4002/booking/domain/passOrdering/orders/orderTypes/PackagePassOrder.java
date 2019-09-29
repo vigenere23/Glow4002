@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.passOrdering.orders.order_types;
+package ca.ulaval.glo4002.booking.domain.passOrdering.orders.orderTypes;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 

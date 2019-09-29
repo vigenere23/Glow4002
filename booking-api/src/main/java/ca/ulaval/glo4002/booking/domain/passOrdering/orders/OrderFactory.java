@@ -5,8 +5,8 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.order_types.PackagePassOrder;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.order_types.SinglePassOrder;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.orderTypes.PackagePassOrder;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.orderTypes.SinglePassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 
 public class OrderFactory {
