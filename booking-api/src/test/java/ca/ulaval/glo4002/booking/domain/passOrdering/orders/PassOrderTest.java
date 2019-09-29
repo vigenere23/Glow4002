@@ -46,7 +46,7 @@ public class PassOrderTest {
 		
 		Money totalPrice = Money.of(CurrencyUnit.CAD, 100000);
 
-		assertTrue(singlePassOrder.getPrice().compareTo(totalPrice) == 0);
+		assertTrue(singlePassOrder.getPrice().isEqual(totalPrice));
 	}
 
 	@Test
@@ -56,6 +56,6 @@ public class PassOrderTest {
 
 		System.out.println(packagePassOrder.getPrice());
 
-		assertTrue(packagePassOrder.getPrice().compareTo(totalPrice) == 0);
+		assertTrue(packagePassOrder.getPrice().isEqual(totalPrice));
 	}
 }

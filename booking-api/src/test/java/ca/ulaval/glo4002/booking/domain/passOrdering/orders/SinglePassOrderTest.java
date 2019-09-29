@@ -48,7 +48,7 @@ public class SinglePassOrderTest {
 		Money rabais = Money.of(CurrencyUnit.CAD, 20000);
 		singleNebulaPassOrder.updateTotalPrice();
 
-		assertTrue(singleNebulaPassOrder.calculateRebates().compareTo(rabais) == 0);
+		assertTrue(singleNebulaPassOrder.calculateRebates().isEqual(rabais));
 	}
 
 	@Test
@@ -63,6 +63,6 @@ public class SinglePassOrderTest {
 		Money rabais = Money.of(CurrencyUnit.CAD, 50000);
 		singleSupergiantPassOrder.updateTotalPrice();
 
-		assertTrue(singleSupergiantPassOrder.calculateRebates().compareTo(rabais) == 0);
+		assertTrue(singleSupergiantPassOrder.calculateRebates().isEqual(rabais));
 	}
 }
