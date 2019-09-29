@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest;
+package ca.ulaval.glo4002.booking.interfaces.rest.heartbeat;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
