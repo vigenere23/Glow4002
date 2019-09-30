@@ -11,7 +11,6 @@ import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.OrderableDeprecated;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.OrderFactory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
