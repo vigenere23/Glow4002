@@ -21,6 +21,8 @@ public abstract class PassOrder implements Priceable {
     protected PassCategory passCategory;
     protected OrderDiscount orderDiscount;
 
+    private Long id;
+
     public PassOrder() {
         this.orderDate = OffsetDateTime.now();
     }
@@ -40,5 +42,13 @@ public abstract class PassOrder implements Priceable {
 
     public Money getPrice() {
         return calculateTotalPrice();
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
