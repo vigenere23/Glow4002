@@ -28,7 +28,6 @@ public class OrderFactoryTests {
         eventDates = new ArrayList<>();
         orderDate = OffsetDateTime.now();
     }
-    
 
 	@Test
 	public void givenPackagePassOption_whenOrderCreated_itShouldCreateInstanceOfPackagePassOrder() {

@@ -71,20 +71,4 @@ public class InMemoryOrderPersistanceTest {
             this.passOrderPersistance.save(this.passOrder);
         });
     }
-
-    @Test
-    public void givenOrderIsSaved_whenRemovingOrderById_itDeletedTheOrder() throws Exception {
-        this.passOrderPersistance.save(this.passOrder);
-        this.passOrderPersistance.remove(this.passOrder.getId());
-        assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passOrderPersistance.getById(this.passOrder.getId());
-        });
-    }
-
-    @Test
-    public void whenRemovingOrderByNotSavedId_itThrowsARecordNotFoundException() throws Exception {
-        assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passOrderPersistance.remove(this.passOrder.getId());            
-        });
-    }
 }

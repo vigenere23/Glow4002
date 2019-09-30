@@ -7,5 +7,4 @@ import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordNotFoundE
 public interface PassPersistance {
     public Pass getById(Long id) throws RecordNotFoundException;
     public void save(Pass pass) throws RecordAlreadyExistsException;
-    public void remove(Long id) throws RecordNotFoundException;
 }

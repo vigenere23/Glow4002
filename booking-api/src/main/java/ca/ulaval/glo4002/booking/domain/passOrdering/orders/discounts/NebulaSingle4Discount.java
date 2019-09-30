@@ -17,8 +17,8 @@ public class NebulaSingle4Discount extends OrderDiscount {
         Money discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
         Money newPrice = totalPrice.minus(discount);
 
-        if (this.next != null) {
-            return this.next.priceAfterDiscounts(passes, newPrice);
+        if (this.nextDiscount != null) {
+            return this.nextDiscount.priceAfterDiscounts(passes, newPrice);
         }
 
         return newPrice;

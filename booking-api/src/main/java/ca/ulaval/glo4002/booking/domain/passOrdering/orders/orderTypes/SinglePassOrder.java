@@ -14,7 +14,7 @@ public class SinglePassOrder extends PassOrder {
 	public SinglePassOrder(OffsetDateTime orderDate) {
 		super(orderDate);
 		this.orderDiscount = new SupergiantSingle5Discount();
-		this.orderDiscount.setNext(new NebulaSingle4Discount());
+		this.orderDiscount.setNextDiscount(new NebulaSingle4Discount());
 	}
 
 	public SinglePassOrder(OffsetDateTime orderDate, PassCategory passCategory, List<OffsetDateTime> eventDates) {

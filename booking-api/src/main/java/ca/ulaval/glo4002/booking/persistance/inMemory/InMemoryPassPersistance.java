@@ -38,13 +38,4 @@ public class InMemoryPassPersistance implements PassPersistance {
 		pass.setId(idGenerator.getAndIncrement());
 		this.passes.put(pass.getId(), pass);
 	}
-
-	@Override
-	public void remove(Long id) throws RecordNotFoundException {
-		if (!this.passes.containsKey(id)) {
-			throw new RecordNotFoundException();
-		}
-
-		this.passes.remove(id);
-	}
 }
