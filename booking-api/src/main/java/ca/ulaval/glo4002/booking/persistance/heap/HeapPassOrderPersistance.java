@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory;
+package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,15 +6,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
-import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordAlreadyExistsException;
-import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordNotFoundException;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
-public class InMemoryPassOrderPersistance implements PassOrderPersistance {
+public class HeapPassOrderPersistance implements PassOrderPersistance {
 
 	private static final AtomicLong idGenerator = new AtomicLong(0);
 	private Map<Long, PassOrder> passOrders;
 
-	public InMemoryPassOrderPersistance() {
+	public HeapPassOrderPersistance() {
 		this.passOrders = new HashMap<>();
 	}
 

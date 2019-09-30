@@ -9,15 +9,16 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordAlreadyExistsException;
-import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordNotFoundException;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.OffsetDateTime;
 
-public class InMemoryOrderPersistanceTest {
+public class HeapOrderPersistanceTest {
 
     private PassOrderPersistance passOrderPersistance;
     private PassOrder passOrder;
@@ -25,7 +26,7 @@ public class InMemoryOrderPersistanceTest {
 
     @BeforeEach
     public void setUp() {
-        Repository repository = new InMemoryRepository();
+        Repository repository = new HeapRepository();
         this.passOrderPersistance = repository.getPassOrderPersistance();
         this.passOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.NEBULA, null);
         this.otherPassOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.SUPERGIANT, null);

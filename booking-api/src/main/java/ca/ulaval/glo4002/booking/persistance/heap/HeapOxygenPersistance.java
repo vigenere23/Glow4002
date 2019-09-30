@@ -1,8 +1,8 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory;
+package ca.ulaval.glo4002.booking.persistance.heap;
 
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;;
 
-public class InMemoryOxygenPersistance implements OxygenPersistance {
+public class HeapOxygenPersistance implements OxygenPersistance {
 
 	@Override
 	public void saveInfo() {

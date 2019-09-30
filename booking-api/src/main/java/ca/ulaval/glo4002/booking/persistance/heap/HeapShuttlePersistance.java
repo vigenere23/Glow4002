@@ -1,8 +1,8 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory;
+package ca.ulaval.glo4002.booking.persistance.heap;
 
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
 
-public class InMemoryShuttlePersistance implements ShuttlePersistance {
+public class HeapShuttlePersistance implements ShuttlePersistance {
 
 	@Override
 	public void saveInfo() {
