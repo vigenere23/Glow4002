@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.joda.money.CurrencyUnit;
@@ -34,7 +35,7 @@ public abstract class PassOrder implements Priceable {
             return priceBeforeDiscounts;
         }
         
-        return this.orderDiscount.priceAfterDiscounts(this.passes, priceBeforeDiscounts);
+        return this.orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(this.passes), priceBeforeDiscounts);
     }
 
     public Money getPrice() {
