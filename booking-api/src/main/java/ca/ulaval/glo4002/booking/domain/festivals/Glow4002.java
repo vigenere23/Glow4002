@@ -15,12 +15,4 @@ public class Glow4002 extends Festival {
             OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC)
         );
     }
-
-    public boolean isEventTime(OffsetDateTime eventDate) {
-        return eventDate.isAfter(this.startDate) && eventDate.isBefore(this.endDate);
-    }
-
-    public boolean isSaleTime(OffsetDateTime eventDate) {
-        return eventDate.isAfter(this.saleStartDate) && eventDate.isBefore(this.saleEndDate);
-    }
 }
