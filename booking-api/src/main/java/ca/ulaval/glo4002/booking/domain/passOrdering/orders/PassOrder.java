@@ -9,54 +9,35 @@ import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.Priceable;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.PackagePassFactory;
 
-public class PassOrder implements Priceable {
+public abstract class PassOrder implements Priceable {
 
     protected List<Pass> passes = new ArrayList<Pass>();
     protected Money totalPrice = Money.zero(CurrencyUnit.CAD);
     protected OffsetDateTime orderDate;
     protected PassCategory passCategory;
+    protected OrderDiscount orderDiscount;
 
     public PassOrder() {
         this.orderDate = OffsetDateTime.now();
     }
 
-    public PassOrder(PassCategory passCategory) {
-        this();
-        PackagePassFactory passFactory = new PackagePassFactory();
-        passes.add(passFactory.create(passCategory));
+    protected Money calculateTotalPrice() {
+        Money priceBeforeDiscounts = this.passes
+            .stream()
+            .map(Pass::getPrice)
+            .reduce(Money.zero(CurrencyUnit.CAD), (subtotal, price) -> subtotal.plus(price));
 
-        this.updateTotalPrice();
-    }
-
-    public PassOrder(PassCategory passCategory, List<OffsetDateTime> eventDates) {
-        this();
-        SinglePassFactory passFactory = new SinglePassFactory();
-        for (OffsetDateTime eventDate : eventDates) {
-            passes.add(passFactory.create(passCategory, eventDate));
+        if (this.orderDiscount == null) {
+            return priceBeforeDiscounts;
         }
-        this.updateTotalPrice();
-    }
-
-    protected void updateTotalPrice() {
-        calculateTotalPrice();
-        this.totalPrice.minus(calculateRebates());
-    }
-
-    protected void calculateTotalPrice() {
-        for (Pass pass : passes) {
-            this.totalPrice = this.totalPrice.plus(pass.getPrice());
-        }
-    }
-
-    protected Money calculateRebates() {
-        return Money.zero(CurrencyUnit.CAD);
+        
+        return this.orderDiscount.priceAfterDiscounts(this.passes, priceBeforeDiscounts);
     }
 
     public Money getPrice() {
-        return this.totalPrice;
+        return calculateTotalPrice();
     }
 }

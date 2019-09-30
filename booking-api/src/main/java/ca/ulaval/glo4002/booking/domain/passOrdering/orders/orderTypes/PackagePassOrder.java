@@ -14,7 +14,5 @@ public class PackagePassOrder extends PassOrder {
         super();
         PackagePassFactory passFactory = new PackagePassFactory();
         passes.add(passFactory.create(passCategory));
-
-        this.updateTotalPrice();
     }
 }

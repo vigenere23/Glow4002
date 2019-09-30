@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ public class SinglePassOrderTest {
 	private PassOrder singleSupergiantPassOrder;
 
 	private List<OffsetDateTime> eventDates;
-	private int nebulaPassesNumber = 4;
-	private int supergiantPassesNumber = 5;
+	private int nebulaDiscountPassesNumber = 4;
+	private int supergiantDiscountPassesNumber = 5;
 
 	@BeforeEach
 	public void setUp() {
@@ -40,29 +40,29 @@ public class SinglePassOrderTest {
 	}
 
 	@Test
-	public void givenOver3NebulaPasses_whenSinglePassOrderCreated_itShouldHaveRebateOnTotalPrice() {
-		for (int i = 0; i < nebulaPassesNumber; i++) {
+	public void givenOver3NebulaPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnTotalPrice() {
+		for (int i = 0; i < nebulaDiscountPassesNumber; i++) {
 			singleNebulaPassOrder.passes.add(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
 		}
 
-		Money rabais = Money.of(CurrencyUnit.CAD, 20000);
-		singleNebulaPassOrder.updateTotalPrice();
+		Money priceBeforeDiscount = Money.of(CurrencyUnit.CAD, 50000 * nebulaDiscountPassesNumber);
+		Money discount = Money.of(CurrencyUnit.CAD, 20000);
+		Money priceAfterDiscount = priceBeforeDiscount.minus(discount);
 
-		assertTrue(singleNebulaPassOrder.calculateRebates().isEqual(rabais));
+		assertThat(singleNebulaPassOrder.getPrice().getAmount()).isEqualTo(priceAfterDiscount.getAmount());
 	}
 
 	@Test
-	public void givenAtLeast5SupergiantPasses_whenSinglePassOrderCreated_itShouldHaveRebateOnEachPass() {
+	public void givenAtLeast5SupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
 
-		for (int i = 0; i < supergiantPassesNumber; i++) {
+		for (int i = 0; i < supergiantDiscountPassesNumber; i++) {
 			singleSupergiantPassOrder
 				.passes
 				.add(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
 		}
 
-		Money rabais = Money.of(CurrencyUnit.CAD, 50000);
-		singleSupergiantPassOrder.updateTotalPrice();
+		Money priceAfterDiscount = Money.of(CurrencyUnit.CAD, 90000 * supergiantDiscountPassesNumber);
 
-		assertTrue(singleSupergiantPassOrder.calculateRebates().isEqual(rabais));
+		assertThat(singleSupergiantPassOrder.getPrice().getAmount()).isEqualTo(priceAfterDiscount.getAmount());
 	}
 }
