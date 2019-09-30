@@ -14,4 +14,8 @@ public abstract class SinglePass extends Pass {
         // TODO call OxygenService.reserve(eventDate)
         // TODO call TransportService.reserve(Festival.eventDates)
     }
+
+	public OffsetDateTime getDate() {
+		return this.eventDate;
+	}
 }

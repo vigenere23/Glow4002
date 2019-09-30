@@ -71,20 +71,4 @@ public class InMemoryPassPersistanceTest {
             this.passPersistance.save(this.pass);
         });
     }
-
-    @Test
-    public void givenPassIsSaved_whenRemovingPassById_itDeletedThePass() throws Exception {
-        this.passPersistance.save(this.pass);
-        this.passPersistance.remove(this.pass.getId());
-        assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passPersistance.getById(this.pass.getId());
-        });
-    }
-
-    @Test
-    public void whenRemovingPassByNotSavedId_itThrowsARecordNotFoundException() throws Exception {
-        assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passPersistance.remove(this.pass.getId());            
-        });
-    }
 }
