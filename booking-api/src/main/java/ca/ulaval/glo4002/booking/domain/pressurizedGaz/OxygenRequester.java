@@ -34,7 +34,7 @@ public class OxygenRequester implements OxygenReportable {
 
     @Override
     public int getInventory(OxygenGrade grade) {
-	return oxygenInventory.get(grade).getTotalQuantity();
+	    return oxygenInventory.get(grade).getTotalQuantity();
     }
 
     private void initializeDefaultRequirements() {
