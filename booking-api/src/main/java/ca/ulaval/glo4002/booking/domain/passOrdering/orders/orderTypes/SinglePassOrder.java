@@ -11,14 +11,14 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.Supergiant
 
 public class SinglePassOrder extends PassOrder {
 	
-	public SinglePassOrder() {
-		super();
+	public SinglePassOrder(OffsetDateTime orderDate) {
+		super(orderDate);
 		this.orderDiscount = new SupergiantSingle5Discount();
 		this.orderDiscount.setNext(new NebulaSingle4Discount());
 	}
 
-	public SinglePassOrder(PassCategory passCategory, List<OffsetDateTime> eventDates) {
-		this();
+	public SinglePassOrder(OffsetDateTime orderDate, PassCategory passCategory, List<OffsetDateTime> eventDates) {
+		this(orderDate);
 		SinglePassFactory passFactory = new SinglePassFactory();
         for (OffsetDateTime eventDate : eventDates) {
             passes.add(passFactory.create(passCategory, eventDate));

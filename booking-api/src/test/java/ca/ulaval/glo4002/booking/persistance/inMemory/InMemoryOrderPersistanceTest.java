@@ -15,6 +15,8 @@ import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordNotFoundE
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import java.time.OffsetDateTime;
+
 public class InMemoryOrderPersistanceTest {
 
     private PassOrderPersistance passOrderPersistance;
@@ -25,8 +27,8 @@ public class InMemoryOrderPersistanceTest {
     public void setUp() {
         Repository repository = new InMemoryRepository();
         this.passOrderPersistance = repository.getPassOrderPersistance();
-        this.passOrder = new OrderFactory().createOrder(PassOption.PACKAGE, PassCategory.NEBULA, null);
-        this.otherPassOrder = new OrderFactory().createOrder(PassOption.PACKAGE, PassCategory.SUPERGIANT, null);
+        this.passOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.NEBULA, null);
+        this.otherPassOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.SUPERGIANT, null);
     }
 
     @Test

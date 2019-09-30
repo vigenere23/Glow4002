@@ -23,8 +23,8 @@ public abstract class PassOrder implements Priceable {
 
     private Long id;
 
-    public PassOrder() {
-        this.orderDate = OffsetDateTime.now();
+    public PassOrder(OffsetDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     protected Money calculateTotalPrice() {

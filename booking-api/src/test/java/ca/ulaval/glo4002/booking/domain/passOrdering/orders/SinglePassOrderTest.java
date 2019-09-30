@@ -11,6 +11,7 @@ import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.OrderableDeprecated;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.OrderFactory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
@@ -21,10 +22,8 @@ public class SinglePassOrderTest {
 
 	private SinglePassFactory singlePassFactory;
 	private OrderFactory orderFactory;
-
 	private PassOrder singleNebulaPassOrder;
 	private PassOrder singleSupergiantPassOrder;
-
 	private List<OffsetDateTime> eventDates;
 	private int nebulaDiscountPassesNumber = 4;
 	private int supergiantDiscountPassesNumber = 5;
@@ -35,8 +34,8 @@ public class SinglePassOrderTest {
 		singlePassFactory = new SinglePassFactory();
 		eventDates = new ArrayList<>();
 
-		singleNebulaPassOrder = orderFactory.createOrder(PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
-		singleSupergiantPassOrder = orderFactory.createOrder(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, eventDates);	
+		singleNebulaPassOrder = orderFactory.createOrder(OffsetDateTime.now(), PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
+		singleSupergiantPassOrder = orderFactory.createOrder(OffsetDateTime.now(), PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, eventDates);	
 	}
 
 	@Test

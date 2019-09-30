@@ -17,8 +17,8 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 
 public class OrderFactoryTests {
 
+    private OffsetDateTime orderDate;
     private OrderFactory orderFactory;
-
     private PassOrder order;
     private List<OffsetDateTime> eventDates;
     
@@ -26,19 +26,20 @@ public class OrderFactoryTests {
 	public void setUp() {
         orderFactory = new OrderFactory();
         eventDates = new ArrayList<>();
+        orderDate = OffsetDateTime.now();
     }
     
 
 	@Test
 	public void givenPackagePassOption_whenOrderCreated_itShouldCreateInstanceOfPackagePassOrder() {
-        order = orderFactory.createOrder(PassOption.PACKAGE, PassCategory.NEBULA, eventDates);
+        order = orderFactory.createOrder(orderDate, PassOption.PACKAGE, PassCategory.NEBULA, eventDates);
 
         assertTrue(order.getClass().equals(PackagePassOrder.class));
     }
     
     @Test
 	public void givenSinglePassOption_whenOrderCreated_itShouldCreateInstanceOfSinglePassOrder() {
-        order = orderFactory.createOrder(PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
+        order = orderFactory.createOrder(orderDate, PassOption.SINGLE_PASS, PassCategory.NEBULA, eventDates);
 
         assertTrue(order.getClass().equals(SinglePassOrder.class));
 	}
