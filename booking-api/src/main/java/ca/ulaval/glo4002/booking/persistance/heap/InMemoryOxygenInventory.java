@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory;
+package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.util.EnumMap;
 import java.util.EnumSet;

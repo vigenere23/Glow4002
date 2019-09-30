@@ -9,7 +9,7 @@ public class HeapOxygenPersistance implements OxygenPersistance {
 	private OxygenInventory oxygenInventory;
 	private OxygenHistory oxygenHistory;
 
-	public InMemoryOxygenPersistance() {
+	public HeapOxygenPersistance() {
 		oxygenInventory = new InMemoryOxygenInventory();
 		oxygenHistory = new InMemoryOxygenHistory();
 	}

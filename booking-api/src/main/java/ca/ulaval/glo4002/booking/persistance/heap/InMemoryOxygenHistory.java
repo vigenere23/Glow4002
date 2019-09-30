@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory;
+package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.time.OffsetDateTime;
 import java.util.HashMap;
@@ -9,7 +9,8 @@ import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenCreationHistory;
 public class InMemoryOxygenHistory implements OxygenHistory {
 
     private HashMap<OffsetDateTime, OxygenCreationHistory> history;
-    public InMemoryOxygenHistory() {
+    public InMemoryOxygenHistory() {    
+        super();
         history = new HashMap<OffsetDateTime, OxygenCreationHistory>();
     }
 

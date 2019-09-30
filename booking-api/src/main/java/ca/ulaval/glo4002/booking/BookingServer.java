@@ -13,7 +13,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.persistance.inMemory.InMemoryRepository;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
+
+
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
@@ -26,7 +28,7 @@ public class BookingServer implements Runnable {
 
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        InMemoryRepository repository = new InMemoryRepository();
+        HeapRepository repository = new HeapRepository();
         Glow4002 festival = new Glow4002(OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.now(), ZoneOffset.UTC),
             OffsetDateTime.of(LocalDate.of(2050, 7, 24), LocalTime.now(), ZoneOffset.UTC),
             OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.now(), ZoneOffset.UTC),

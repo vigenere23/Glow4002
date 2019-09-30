@@ -6,7 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
 
 public class ResourceConfiguration extends ResourceConfig {
 
