@@ -20,6 +20,7 @@ public class OrdersResource {
 
     @POST
     public Response create(OrderRequest request) {
-        return Response.ok().entity(request).build();
+        OrderResponse orderResponse = new OrderResponse(request.passOption, request.passCategory, request.eventDates);
+        return Response.ok().entity(orderResponse).build();
     }
 }
