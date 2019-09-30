@@ -1,18 +1,26 @@
 package ca.ulaval.glo4002.booking.persistance.heap;
 
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;;
 
 public class HeapOxygenPersistance implements OxygenPersistance {
 
-	@Override
-	public void saveInfo() {
-		// TODO Auto-generated method stub
-		
+	private OxygenInventory oxygenInventory;
+	private OxygenHistory oxygenHistory;
+
+	public HeapOxygenPersistance() {
+		oxygenInventory = new InMemoryOxygenInventory();
+		oxygenHistory = new InMemoryOxygenHistory();
 	}
 
 	@Override
-	public String getInfo() {
-		return "Mon repo focntionne";
+	public OxygenInventory getOxygenInventory() {
+		return oxygenInventory;
 	}
 
+	@Override
+	public OxygenHistory getOxygenHistory() {
+		return oxygenHistory;
+	}
 }
