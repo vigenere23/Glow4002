@@ -29,11 +29,7 @@ public class BookingServer implements Runnable {
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
         HeapRepository repository = new HeapRepository();
-        Glow4002 festival = new Glow4002(OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.now(), ZoneOffset.UTC),
-            OffsetDateTime.of(LocalDate.of(2050, 7, 24), LocalTime.now(), ZoneOffset.UTC),
-            OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.now(), ZoneOffset.UTC),
-            OffsetDateTime.of(LocalDate.of(2050, 7, 16), LocalTime.now(), ZoneOffset.UTC),
-            repository);
+        Glow4002 festival = new Glow4002(repository);
         ResourceConfig packageConfig = new ResourceConfiguration(festival, repository).packages("ca.ulaval.glo4002.booking");
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);

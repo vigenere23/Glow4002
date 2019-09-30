@@ -21,8 +21,13 @@ public class Glow4002 extends Festival implements Glow4002Festival{
     private Repository repository;
 
 
-    public Glow4002(OffsetDateTime startDate, OffsetDateTime endDate, OffsetDateTime saleStartDate, OffsetDateTime saleEndDate, Repository repository) {
-        super(startDate, endDate, saleStartDate, saleEndDate);
+    public Glow4002(Repository repository) {
+        super(
+            OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT, ZoneOffset.UTC),
+            OffsetDateTime.of(LocalDate.of(2050, 7, 25), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC),
+            OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC),
+            OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC)
+        );
         Objects.requireNonNull(repository, "repository");
 
         oxygenRequester = new OxygenRequester(endDate.toLocalDate());       

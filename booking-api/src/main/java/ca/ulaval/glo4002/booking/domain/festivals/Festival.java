@@ -24,11 +24,11 @@ public abstract class Festival {
         return this.endDate;
     }
 
-    public OffsetDateTime getSaleStartDate() {
-        return this.saleStartDate;
+    public boolean isDuringSaleTime(OffsetDateTime dateTime) {
+        return dateTime.isAfter(this.saleStartDate) && dateTime.isBefore(this.saleEndDate);
     }
 
-    public OffsetDateTime getSaleEndDate() {
-        return this.saleEndDate;
+    public boolean isDuringEventTime(OffsetDateTime dateTime) {
+        return dateTime.isAfter(this.startDate) && dateTime.isBefore(this.endDate);
     }
 }
