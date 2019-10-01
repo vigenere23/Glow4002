@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistanc
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
 
-public class OrderCreatorTest {
+public class PassOrderCreatorTest {
 
     private PassOrderCreator orderCreator;
     private PassOrderPersistance passOrderPersistance;
