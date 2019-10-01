@@ -69,7 +69,7 @@ public class PassOrderTest {
 		List<Pass> passes = new ArrayList<>();
 
 		for (int i = 0; i < SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY; i++) {
-			passes.add(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
+			passes.add(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
 		}
 
 		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
