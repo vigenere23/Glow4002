@@ -19,31 +19,33 @@ public class NebulaSingle4DiscountTests {
 
     SinglePassFactory singlePassFactory = new SinglePassFactory();
     int nebulaDiscountPassesNumber;
-    Money totalPrice;
+    Money totalPriceWithoutDiscount;
+    Money finalPrice;
     NebulaSingle4Discount discount = new NebulaSingle4Discount();
     List<Pass> passes = new ArrayList<Pass>();
     
     @Test
     public void given2NebulaPassesInPassList_thenShouldReturnSameTotalPrice() {
         nebulaDiscountPassesNumber = 2;
-        totalPrice = Money.of(CurrencyUnit.CAD, 100000);
+        totalPriceWithoutDiscount = Money.of(CurrencyUnit.CAD, 100000);
 
         for (int i = 0; i < nebulaDiscountPassesNumber; i++) {
             passes.add(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
         }
 
-        assertTrue(discount.priceAfterDiscounts(passes, totalPrice).isEqual(totalPrice));
+        assertTrue(discount.priceAfterDiscounts(passes, totalPriceWithoutDiscount).isEqual(totalPriceWithoutDiscount));
     }
 
     @Test
     public void given4NebulaPassesInPassList_thenShouldReturnLowerTotalPrice() {
         nebulaDiscountPassesNumber = 4;
-        totalPrice = Money.of(CurrencyUnit.CAD, 200000);
+        totalPriceWithoutDiscount = Money.of(CurrencyUnit.CAD, 200000);
+        finalPrice = Money.of(CurrencyUnit.CAD, 180000);
 
         for (int i = 0; i < nebulaDiscountPassesNumber; i++) {
             passes.add(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
         }
 
-        assertTrue(discount.priceAfterDiscounts(passes, totalPrice).isLessThan(totalPrice));
+        assertTrue(discount.priceAfterDiscounts(passes, totalPriceWithoutDiscount).isEqual(finalPrice));
     }
 }

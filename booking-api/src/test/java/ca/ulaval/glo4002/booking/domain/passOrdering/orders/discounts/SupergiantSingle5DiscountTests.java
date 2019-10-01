@@ -20,6 +20,7 @@ public class SupergiantSingle5DiscountTests {
     SinglePassFactory singlePassFactory = new SinglePassFactory();
     int supergiantDiscountPassesNumber;
     Money totalPriceWithoutDiscount;
+    Money finalPrice;
     SupergiantSingle5Discount discount = new SupergiantSingle5Discount();
     List<Pass> passes = new ArrayList<Pass>();
     
@@ -39,11 +40,12 @@ public class SupergiantSingle5DiscountTests {
     public void given4NebulaPassesInPassList_thenShouldReturnLowerTotalPrice() {
         supergiantDiscountPassesNumber = 5;
         totalPriceWithoutDiscount = Money.of(CurrencyUnit.CAD, 500000);
+        finalPrice = Money.of(CurrencyUnit.CAD, 450000);
 
         for (int i = 0; i < supergiantDiscountPassesNumber; i++) {
             passes.add(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
         }
 
-        assertTrue(discount.priceAfterDiscounts(passes, totalPriceWithoutDiscount).isLessThan(totalPriceWithoutDiscount));
+        assertTrue(discount.priceAfterDiscounts(passes, totalPriceWithoutDiscount).isEqual(finalPrice));
     }
 }
