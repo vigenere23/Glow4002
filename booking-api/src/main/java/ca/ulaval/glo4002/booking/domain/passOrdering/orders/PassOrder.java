@@ -9,25 +9,33 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.Priceable;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSingle4Discount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSingle5Discount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
-public abstract class PassOrder implements Priceable {
+public class PassOrder implements Priceable {
 
-    protected List<Pass> passes = new ArrayList<Pass>();
-    protected Money totalPrice = Money.zero(CurrencyUnit.CAD);
-    protected OffsetDateTime orderDate;
-    protected PassCategory passCategory;
-    protected OrderDiscount orderDiscount;
+    private OffsetDateTime orderDate;
+    private String vendorCode;
+    private List<Pass> passes = new ArrayList<Pass>();
+    private OrderDiscount orderDiscount;
 
     private Long id;
 
-    public PassOrder(OffsetDateTime orderDate) {
+    public PassOrder(OffsetDateTime orderDate, String vendorCode, List<Pass> passes) {
         this.orderDate = orderDate;
+        this.vendorCode = vendorCode;
+        this.passes = passes;
+        this.orderDiscount = new SupergiantSingle5Discount();
+		this.orderDiscount.setNextDiscount(new NebulaSingle4Discount());
     }
 
-    protected Money calculateTotalPrice() {
+    public Money getPrice() {
+        return calculateTotalPrice();
+    }
+
+    private Money calculateTotalPrice() {
         Money priceBeforeDiscounts = this.passes
             .stream()
             .map(Pass::getPrice)
@@ -40,15 +48,15 @@ public abstract class PassOrder implements Priceable {
         return this.orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(this.passes), priceBeforeDiscounts);
     }
 
-    public Money getPrice() {
-        return calculateTotalPrice();
-    }
-
     public Long getId() {
         return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Pass> getPasses() {
+        return Collections.unmodifiableList(this.passes);
     }
 }

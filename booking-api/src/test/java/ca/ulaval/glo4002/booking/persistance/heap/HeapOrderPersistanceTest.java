@@ -3,10 +3,10 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.OrderFactory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class HeapOrderPersistanceTest {
 
@@ -26,9 +28,13 @@ public class HeapOrderPersistanceTest {
     @BeforeEach
     public void setUp() {
         Repository repository = new HeapRepository();
+        SinglePassFactory singlePassFactory = new SinglePassFactory();
+        List<Pass> passes1 = Arrays.asList(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
+		List<Pass> passes2 = Arrays.asList(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
+
         this.passOrderPersistance = repository.getPassOrderPersistance();
-        this.passOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.NEBULA, null);
-        this.otherPassOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.SUPERGIANT, null);
+        this.passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);
+        this.otherPassOrder = new PassOrder(OffsetDateTime.now(), "CODE2", passes2);
     }
 
     @Test

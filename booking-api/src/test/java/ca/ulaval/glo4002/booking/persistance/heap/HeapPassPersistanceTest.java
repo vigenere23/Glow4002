@@ -5,6 +5,8 @@ import java.time.OffsetDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.festivals.Festival;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.PackagePassFactory;
@@ -26,9 +28,10 @@ public class HeapPassPersistanceTest {
     @BeforeEach
     public void setUp() {
         Repository repository = new HeapRepository();
+        Festival festival = new Glow4002(repository);
         this.passPersistance = repository.getPassPersistance();
         this.pass = new SinglePassFactory().create(PassCategory.NEBULA, OffsetDateTime.now());
-        this.otherPass = new PackagePassFactory().create(PassCategory.SUPERGIANT);
+        this.otherPass = new PackagePassFactory(festival.getStartDate(), festival.getEndDate()).create(PassCategory.SUPERGIANT);
     }
 
     @Test
