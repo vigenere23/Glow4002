@@ -32,7 +32,6 @@ public class PassOrderCreator {
         for (Pass pass : passOrder.getPasses()) {
             this.passPersistance.save(pass);
         }
-
         this.passOrderPersistance.save(passOrder);
     }
 }
