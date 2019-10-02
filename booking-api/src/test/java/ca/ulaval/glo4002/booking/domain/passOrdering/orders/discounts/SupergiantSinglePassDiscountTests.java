@@ -23,16 +23,6 @@ public class SupergiantSinglePassDiscountTests {
     private SupergiantSinglePassDiscount supergiantSinglePassDiscount;
     private List<Pass> passes;
 
-    private void initPasses(int numberOfPasses) {
-        for (int i = 0; i < numberOfPasses; i++) {
-            this.passes.add(mock(SupergiantSinglePass.class));
-        }
-    }
-
-    private Money getPriceAfterDiscount() {
-        return this.supergiantSinglePassDiscount.priceAfterDiscounts(this.passes, PRICE_WITHOUT_DISCOUNT);
-    }
-
     @BeforeEach
     public void setUp() {
         this.supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
@@ -50,5 +40,15 @@ public class SupergiantSinglePassDiscountTests {
 		initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 		Money expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
 		assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
-	}
+    }
+    
+    private void initPasses(int numberOfPasses) {
+        for (int i = 0; i < numberOfPasses; i++) {
+            this.passes.add(mock(SupergiantSinglePass.class));
+        }
+    }
+
+    private Money getPriceAfterDiscount() {
+        return this.supergiantSinglePassDiscount.priceAfterDiscounts(this.passes, PRICE_WITHOUT_DISCOUNT);
+    }
 }
