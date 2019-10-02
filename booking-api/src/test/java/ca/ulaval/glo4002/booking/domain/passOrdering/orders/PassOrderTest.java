@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
@@ -26,6 +27,15 @@ public class PassOrderTest {
 	private static final Money SUPERGIANT_SINGLE_PASS_PRICE = Money.of(CurrencyUnit.CAD, 100000);
 	private static final Money SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE = Money.of(CurrencyUnit.CAD, 90000);
 
+	@BeforeAll
+	public static void classSetUp() {
+		Pass nebulaSinglePassMock = mock(NebulaSinglePass.class);
+		when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
+
+		Pass supergiantSinglePassMock = mock(SupergiantSinglePass.class);
+		when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
+	}
+
 	@Test
 	public void whenCreatingOrderWithNoPasses_thenThePriceShouldBeZero() {
 		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", new ArrayList<Pass>());
@@ -34,9 +44,6 @@ public class PassOrderTest {
 
 	@Test
 	public void whenCreatingOrderWithOnePass_thenThePriceShouldBeThePassPrice() {
-		Pass passMock = mock(NebulaSinglePass.class);
-		when(passMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
-
 		Pass pass = new NebulaSinglePass(OffsetDateTime.now());
 
 		List<Pass> passes = Arrays.asList(pass);
@@ -47,9 +54,6 @@ public class PassOrderTest {
 
 	@Test
 	public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
-		Pass passMock = mock(NebulaSinglePass.class);
-		when(passMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
-
 		List<Pass> passes = new ArrayList<>();
 		for (int i = 0; i < 2; i++) {
 			passes.add(new NebulaSinglePass(OffsetDateTime.now()));
@@ -61,9 +65,6 @@ public class PassOrderTest {
 
 	@Test
 	public void givenOverThreeNebulaPasses_whenSinglePassOrderCreated_itShouldHaveTenPercentDiscount() {
-		Pass passMock = mock(NebulaSinglePass.class);
-		when(passMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
-
 		List<Pass> passes = new ArrayList<>();
 		for (int i = 0; i < NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY; i++) {
 			passes.add(new NebulaSinglePass(OffsetDateTime.now()));
@@ -79,9 +80,6 @@ public class PassOrderTest {
 
 	@Test
 	public void givenAtLeastFiveSupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
-		Pass passMock = mock(SupergiantSinglePass.class);
-		when(passMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
-
 		List<Pass> passes = new ArrayList<>();
 		for (int i = 0; i < SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY; i++) {
 			passes.add(new SupergiantSinglePass(OffsetDateTime.now()));
