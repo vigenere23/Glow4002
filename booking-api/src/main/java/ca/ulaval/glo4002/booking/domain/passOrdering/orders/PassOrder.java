@@ -28,7 +28,7 @@ public class PassOrder implements Priceable {
         this.vendorCode = vendorCode;
         this.passes = passes;
         this.orderDiscount = new SupergiantSingle5Discount();
-		this.orderDiscount.setNextDiscount(new NebulaSingle4Discount());
+        this.orderDiscount.setNextDiscount(new NebulaSingle4Discount());
     }
 
     public Money getPrice() {

@@ -11,4 +11,10 @@ public class PassDTO {
     public PassOption passOption;
     public PassCategory passCategory;
     public List<OffsetDateTime> eventDates;
+
+    public PassDTO(PassOption passOption, PassCategory passCategory, List<OffsetDateTime> eventDates) {
+        this.passOption = passOption;
+        this.passCategory = passCategory;
+        this.eventDates = eventDates;
+    }
 }

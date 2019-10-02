@@ -24,6 +24,10 @@ public class PassOrderFactory {
     }
 
     private List<Pass> createPasses(List<PassDTO> passDTOs) {
+        if (passDTOs == null) {
+            throw new IllegalArgumentException("List of pass DTOs cannot be null");
+        }
+
         List<Pass> passes = new ArrayList<>();
 
         for (PassDTO passDTO : passDTOs) {

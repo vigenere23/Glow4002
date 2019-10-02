@@ -24,9 +24,7 @@ public class PassOrderCreator {
 
     public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassDTO> passDTOs) throws RecordAlreadyExistsException {
         PassOrder passOrder = this.passOrderFactory.create(orderDate, vendorCode, passDTOs);
-
         saveObjects(passOrder);
-
         return passOrder;
     }
 
