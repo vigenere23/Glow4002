@@ -19,7 +19,7 @@ public class PassFactory {
     public Pass create(PassOption passOption, PassCategory passCategory, OffsetDateTime eventDate) {
         switch (passOption) {
             case SINGLE_PASS:
-                return new SinglePassFactory().create(passCategory, eventDate);
+                return new SinglePassFactory(festivalStart, festivalEnd).create(passCategory, eventDate);
             case PACKAGE:
                 return new PackagePassFactory(festivalStart, festivalEnd).create(passCategory);
             default:
