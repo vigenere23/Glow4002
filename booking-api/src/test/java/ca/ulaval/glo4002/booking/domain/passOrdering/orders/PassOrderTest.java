@@ -6,12 +6,11 @@ import static org.mockito.Mockito.*;
 import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
@@ -27,12 +26,31 @@ public class PassOrderTest {
 	private static final Money SUPERGIANT_SINGLE_PASS_PRICE = Money.of(CurrencyUnit.CAD, 100000);
 	private static final Money SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE = Money.of(CurrencyUnit.CAD, 90000);
 
-	@BeforeAll
-	public static void classSetUp() {
-		Pass nebulaSinglePassMock = mock(NebulaSinglePass.class);
+	private Pass nebulaSinglePassMock;
+	private Pass supergiantSinglePassMock;
+
+	private List<Pass> passes;
+
+	private void initNebulaPasses(int numberOfPasses) {
+		for (int i = 0; i < numberOfPasses; i++) {
+			this.passes.add(this.nebulaSinglePassMock);
+		}
+	}
+
+	private void initSupergiantPasses(int numberOfPasses) {
+		for (int i = 0; i < numberOfPasses; i++) {
+			this.passes.add(this.supergiantSinglePassMock);
+		}
+	}
+
+	@BeforeEach
+	public void setUp() {
+		this.passes = new ArrayList<>();
+
+		this.nebulaSinglePassMock = mock(NebulaSinglePass.class);
 		when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
 
-		Pass supergiantSinglePassMock = mock(SupergiantSinglePass.class);
+		this.supergiantSinglePassMock = mock(SupergiantSinglePass.class);
 		when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
 	}
 
@@ -44,35 +62,22 @@ public class PassOrderTest {
 
 	@Test
 	public void whenCreatingOrderWithOnePass_thenThePriceShouldBeThePassPrice() {
-		Pass pass = new NebulaSinglePass(OffsetDateTime.now());
-
-		List<Pass> passes = Arrays.asList(pass);
-
-		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+		initNebulaPasses(1);
+		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", this.passes);
 		assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
 	}
 
 	@Test
 	public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
-		final int NUMBER_OF_PASSES = 2;
-
-		List<Pass> passes = new ArrayList<>();
-		for (int i = 0; i < NUMBER_OF_PASSES; i++) {
-			passes.add(new NebulaSinglePass(OffsetDateTime.now()));
-		}
-
-		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+		initNebulaPasses(2);
+		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", this.passes);
 		assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE.multipliedBy(2));
 	}
 
 	@Test
 	public void givenOverThreeNebulaPasses_whenSinglePassOrderCreated_itShouldHaveTenPercentDiscount() {
-		List<Pass> passes = new ArrayList<>();
-		for (int i = 0; i < NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY; i++) {
-			passes.add(new NebulaSinglePass(OffsetDateTime.now()));
-		}
-
-		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+		initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", this.passes);
 
 		Money priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
 		Money priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9, RoundingMode.HALF_UP);
@@ -82,11 +87,7 @@ public class PassOrderTest {
 
 	@Test
 	public void givenAtLeastFiveSupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
-		List<Pass> passes = new ArrayList<>();
-		for (int i = 0; i < SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY; i++) {
-			passes.add(new SupergiantSinglePass(OffsetDateTime.now()));
-		}
-
+		initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 		PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
 
 		Money priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);

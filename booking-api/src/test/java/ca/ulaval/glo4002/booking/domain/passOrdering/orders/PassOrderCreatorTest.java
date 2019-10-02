@@ -15,7 +15,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.interfaces.dtos.PassDTO;
+import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
@@ -27,7 +27,7 @@ public class PassOrderCreatorTest {
     private PassOrderCreator passOrderCreator;
     private PassOrderPersistance passOrderPersistance;
     private PassPersistance passPersistance;
-    private List<PassDTO> passDTOs;
+    private List<PassDto> passDtos;
 
     @BeforeEach
     public void setUp() throws RecordAlreadyExistsException {
@@ -47,22 +47,22 @@ public class PassOrderCreatorTest {
     }
 
     private void initPasses() {
-        this.passDTOs = new ArrayList<>();
+        this.passDtos = new ArrayList<>();
 
         for (int i = 0; i < NUMBER_OF_PASSES; i++) {
-            this.passDTOs.add(new PassDTO(PassOption.PACKAGE, PassCategory.NEBULA, null));
+            this.passDtos.add(new PassDto(PassOption.PACKAGE, PassCategory.NEBULA, null));
         }
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDTOs);
+        PassOrder passOrder = passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDtos);
         verify(this.passOrderPersistance).save(passOrder);
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws RecordAlreadyExistsException {
-        passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDTOs);
+        passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDtos);
         verify(this.passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
     }
 }
