@@ -1,11 +1,7 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.orders;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,10 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 import ca.ulaval.glo4002.booking.interfaces.exceptions.ApiException;
 import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormatApiException;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.orderDTOs.PassDTO;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,19 +27,14 @@ public class OrdersResource {
 
     @POST
     public Response create(OrderRequest request) throws ApiException {
-        PassOption passOption = null;
-        PassCategory passCategory = null;
-        List<OffsetDateTime> eventDates = null;
+        OffsetDateTime orderDate = null;
+        String vendorCode = null;
+        PassDTO passes = null;
 
         try {
-            passOption = PassOption.fromString(request.passOption);
-            passCategory = PassCategory.fromString(request.passCategory);
-            if (request.eventDates != null) {
-                eventDates = request.eventDates
-                    .stream()
-                    .map(stringDate -> OffsetDateTime.of(LocalDate.parse(stringDate), LocalTime.NOON, ZoneOffset.UTC))
-                    .collect(Collectors.toList());
-            }
+            orderDate = OffsetDateTime.parse(request.order.orderDate);
+            vendorCode = request.order.vendorCode;
+            passes = request.order.passes;
         }
         catch (Exception exception) {
             throw new InvalidFormatApiException();
@@ -56,7 +46,7 @@ public class OrdersResource {
 
         // TODO return a new order response from the returned order (may need to create PassResponses too)
 
-        OrderResponse orderResponse = new OrderResponse(passOption, passCategory, eventDates);
-        return Response.ok().entity(orderResponse).build();
+        OrderResponse orderResponse = new OrderResponse(orderDate, vendorCode, passes);
+        return Response.ok().status(201).entity(orderResponse).build();
     }
 }
