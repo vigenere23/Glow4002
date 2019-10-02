@@ -54,8 +54,10 @@ public class PassOrderTest {
 
 	@Test
 	public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
+		final int NUMBER_OF_PASSES = 2;
+
 		List<Pass> passes = new ArrayList<>();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < NUMBER_OF_PASSES; i++) {
 			passes.add(new NebulaSinglePass(OffsetDateTime.now()));
 		}
 

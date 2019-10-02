@@ -8,41 +8,48 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Spy;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Festival;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.interfaces.dtos.PassDTO;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 
 public class PassOrderCreatorTest {
 
+    private static final int NUMBER_OF_PASSES = 5;
+
     private PassOrderCreator passOrderCreator;
-    @Spy
     private PassOrderPersistance passOrderPersistance;
-    @Spy
     private PassPersistance passPersistance;
     private List<PassDTO> passDTOs;
 
     @BeforeEach
-    public void setUp() {
-        Repository repository = new HeapRepository();
-        Festival festival = new Glow4002(repository);
-        this.passOrderPersistance = repository.getPassOrderPersistance();
-        this.passPersistance = repository.getPassPersistance();
-        this.passOrderCreator = new PassOrderCreator(repository, festival.getStartDate(), festival.getEndDate());
-        this.passDTOs = new ArrayList<>();
+    public void setUp() throws RecordAlreadyExistsException {
+        this.passOrderPersistance = mock(HeapPassOrderPersistance.class);
+        doNothing().when(this.passOrderPersistance).save(any(PassOrder.class));
+        
+        this.passPersistance = mock(HeapPassPersistance.class);
+        doNothing().when(this.passPersistance).save(any(Pass.class));
+
+        Repository repository = mock(Repository.class);
+        when(repository.getPassOrderPersistance()).thenReturn(this.passOrderPersistance);
+        when(repository.getPassPersistance()).thenReturn(this.passPersistance);
+        
+        this.passOrderCreator = new PassOrderCreator(repository, OffsetDateTime.now(), OffsetDateTime.now());
 
         initPasses();
     }
 
     private void initPasses() {
-        for (int i = 0; i < 5; i++) {
+        this.passDTOs = new ArrayList<>();
+
+        for (int i = 0; i < NUMBER_OF_PASSES; i++) {
             this.passDTOs.add(new PassDTO(PassOption.PACKAGE, PassCategory.NEBULA, null));
         }
     }
@@ -50,13 +57,12 @@ public class PassOrderCreatorTest {
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
         PassOrder passOrder = passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDTOs);
-
-        // TODO not working with Mockito - zero interactions?
-        // verify(this.passOrderPersistance).save(passOrder);
+        verify(this.passOrderPersistance).save(passOrder);
     }
 
     @Test
-    public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() {
-
+    public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws RecordAlreadyExistsException {
+        passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDTOs);
+        verify(this.passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
     }
 }
