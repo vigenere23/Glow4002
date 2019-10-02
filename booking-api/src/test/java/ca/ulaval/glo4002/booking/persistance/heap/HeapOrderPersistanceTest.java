@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
@@ -14,12 +12,15 @@ import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundExcep
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mock;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 public class HeapOrderPersistanceTest {
+
+    private static final long INVALID_ID = -1L;
 
     private PassOrderPersistance passOrderPersistance;
     private PassOrder passOrder;
@@ -28,9 +29,8 @@ public class HeapOrderPersistanceTest {
     @BeforeEach
     public void setUp() {
         Repository repository = new HeapRepository();
-        SinglePassFactory singlePassFactory = new SinglePassFactory();
-        List<Pass> passes1 = Arrays.asList(singlePassFactory.create(PassCategory.NEBULA, OffsetDateTime.now()));
-		List<Pass> passes2 = Arrays.asList(singlePassFactory.create(PassCategory.SUPERGIANT, OffsetDateTime.now()));
+        List<Pass> passes1 = Arrays.asList(mock(Pass.class));
+		List<Pass> passes2 = Arrays.asList(mock(Pass.class));
 
         this.passOrderPersistance = repository.getPassOrderPersistance();
         this.passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);
@@ -40,7 +40,7 @@ public class HeapOrderPersistanceTest {
     @Test
     public void whenGetWithNonExistantId_itThrowsARecordNotFoundException() {
         assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passOrderPersistance.getById(-1L);
+            this.passOrderPersistance.getById(INVALID_ID);
         });
     }
 
@@ -60,14 +60,14 @@ public class HeapOrderPersistanceTest {
     }
 
     @Test
-    public void whenSavingTwoOrders_itIncrementsTheIdBy1() throws Exception {
+    public void whenSavingTwoOrders_itIncrementsTheIdByOne() throws Exception {
         this.passOrderPersistance.save(this.passOrder);
         Long firstPassOrderId = this.passOrder.getId();
 
         this.passOrderPersistance.save(this.otherPassOrder);
         Long secondPassOrderId = this.otherPassOrder.getId();
 
-        assertThat(secondPassOrderId - firstPassOrderId).isEqualTo((long) 1);
+        assertThat(secondPassOrderId - firstPassOrderId).isEqualTo(1L);
     }
 
     @Test
