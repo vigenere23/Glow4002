@@ -3,10 +3,8 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.OrderFactory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
@@ -14,10 +12,15 @@ import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundExcep
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mock;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class HeapOrderPersistanceTest {
+
+    private static final long INVALID_ID = -1L;
 
     private PassOrderPersistance passOrderPersistance;
     private PassOrder passOrder;
@@ -26,15 +29,18 @@ public class HeapOrderPersistanceTest {
     @BeforeEach
     public void setUp() {
         Repository repository = new HeapRepository();
+        List<Pass> passes1 = Arrays.asList(mock(Pass.class));
+		List<Pass> passes2 = Arrays.asList(mock(Pass.class));
+
         this.passOrderPersistance = repository.getPassOrderPersistance();
-        this.passOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.NEBULA, null);
-        this.otherPassOrder = new OrderFactory().createOrder(OffsetDateTime.now(), PassOption.PACKAGE, PassCategory.SUPERGIANT, null);
+        this.passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);
+        this.otherPassOrder = new PassOrder(OffsetDateTime.now(), "CODE2", passes2);
     }
 
     @Test
     public void whenGetWithNonExistantId_itThrowsARecordNotFoundException() {
         assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passOrderPersistance.getById(-1L);
+            this.passOrderPersistance.getById(INVALID_ID);
         });
     }
 
@@ -54,14 +60,14 @@ public class HeapOrderPersistanceTest {
     }
 
     @Test
-    public void whenSavingTwoOrders_itIncrementsTheIdBy1() throws Exception {
+    public void whenSavingTwoOrders_itIncrementsTheIdByOne() throws Exception {
         this.passOrderPersistance.save(this.passOrder);
         Long firstPassOrderId = this.passOrder.getId();
 
         this.passOrderPersistance.save(this.otherPassOrder);
         Long secondPassOrderId = this.otherPassOrder.getId();
 
-        assertThat(secondPassOrderId - firstPassOrderId).isEqualTo((long) 1);
+        assertThat(secondPassOrderId - firstPassOrderId).isEqualTo(1L);
     }
 
     @Test
