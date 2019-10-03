@@ -6,8 +6,8 @@ import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.core.JsonParseException;
 
-import ca.ulaval.glo4002.booking.interfaces.exceptions.ApiExceptionResponse;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormatApiException;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.ClientErrorResponse;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormat;
 
 @Provider
 public class JsonParseExceptionMapper implements ExceptionMapper<JsonParseException> {
@@ -15,7 +15,7 @@ public class JsonParseExceptionMapper implements ExceptionMapper<JsonParseExcept
     @Override
     public Response toResponse(JsonParseException exception) {
         exception.printStackTrace();
-        ApiExceptionResponse response = new ApiExceptionResponse(new InvalidFormatApiException());
+        ClientErrorResponse response = new ClientErrorResponse(new InvalidFormat());
         return Response.status(400).entity(response).build();
     }
 }

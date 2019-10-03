@@ -1,16 +1,16 @@
 package ca.ulaval.glo4002.booking.interfaces.exceptions;
 
-public class ApiExceptionResponse {
+public class ClientErrorResponse {
 
-    public final ApiExceptionType error;
+    public final ClientErrorType error;
     public final String description;
 
-    public ApiExceptionResponse(ApiExceptionType error, String description) {
+    public ClientErrorResponse(ClientErrorType error, String description) {
         this.error = error;
         this.description = description;
     }
 
-    public ApiExceptionResponse(ApiException exception) {
+    public ClientErrorResponse(ClientError exception) {
         this(exception.error, exception.description);
     }
 }
