@@ -1,50 +1,87 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public class OxygenProducer {
-    private int fabricationQuantity;
-    private int fabricationTimeInDays;
-    private int totalQuantity = 0;
-    private int storageQuantity = 0;
-    private LocalDate limitDeliveryDate;
 
-    public OxygenProducer(int fabricationQuantity, int fabricationTimeInDays, LocalDate limitDeliveryDate) {
-	this.fabricationQuantity = fabricationQuantity;
-	this.fabricationTimeInDays = fabricationTimeInDays;
-	this.limitDeliveryDate = limitDeliveryDate;
+    private OffsetDateTime limitDeliveryDate;   
+
+    public OxygenProducer(OffsetDateTime limitDeliveryDate) {
+        this.limitDeliveryDate = limitDeliveryDate;
     }
 
-    public void adjustInventory(LocalDate orderDate, int requirementQuantity) throws NotEnoughTimeException {
-	if (!enoughTimeForFabrication(orderDate)) {
-	    throw new NotEnoughTimeException();
-	}
-	int quantityOfTanksLacking = requirementQuantity - storageQuantity;
-	int quantityToFabricate = getQuantityToFabricate(quantityOfTanksLacking);
-	storageQuantity = quantityToFabricate - quantityOfTanksLacking;
-	totalQuantity += quantityToFabricate;
+    public void produceOxygen(OxygenGrade gradeToProduce, int quantityToProduce, OxygenProductionResults results) {
+        OxygenGrade realGradeToProduce = getRealGradeToProduce(results.orderDateHistory.date, gradeToProduce);
+        produceGrade(quantityToProduce, results, realGradeToProduce);            
     }
 
-    private boolean enoughTimeForFabrication(LocalDate orderDate) {
-	LocalDate fabricationCompletionDate = orderDate.plusDays(fabricationTimeInDays);
-	if (fabricationCompletionDate.isAfter(limitDeliveryDate)) {
-	    return false;
-	}
-	return true;
+    public OffsetDateTime getNextAvailableDeliveryDate(OffsetDateTime orderDate, OxygenGrade grade) {
+        OxygenGrade realGradeToProduce = getRealGradeToProduce(orderDate, grade);
+        return getFabricationCompletionDate(orderDate, realGradeToProduce);
     }
 
-    private int getQuantityToFabricate(int quantityOfTanksLacking) {
-	return getNumberOfFabricationBatchesNeeded(quantityOfTanksLacking) * fabricationQuantity;
+    public int calculateTotalToProduce(int quantity, int remainingQuantity) {
+        return quantity - remainingQuantity;
     }
 
-    private int getNumberOfFabricationBatchesNeeded(int quantityLacking) {
-	if (quantityLacking % fabricationQuantity > 0) {
-	    return quantityLacking / fabricationQuantity + 1;
-	}
-	return quantityLacking / fabricationQuantity;
+    private void produceGrade(int quantityToProduce, OxygenProductionResults results, OxygenGrade grade) {           
+        int minimumFabricationQuantity = ProductionSettings.minimumFabricationQuantity.get(grade);     
+        int productionBatchCount = calculateProductionBatchCount(quantityToProduce, minimumFabricationQuantity);  
+
+        results.gradeProduced = grade;  
+        results.deliveryDateHistory.qtyOxygenTankMade = quantityToProduce;
+        results.quantityTankToAddToInventory = productionBatchCount * minimumFabricationQuantity;
+        results.quantityTankRemaining = quantityToProduce < minimumFabricationQuantity ? minimumFabricationQuantity - quantityToProduce :
+         ((productionBatchCount * minimumFabricationQuantity) - quantityToProduce);
+  
+        if(grade.equals(OxygenGrade.A)) {
+            int candleProductionNeedPerBatch = ProductionSettings.candleProductionNeed.get(grade);
+            results.orderDateHistory.qtyCandlesUsed = productionBatchCount * candleProductionNeedPerBatch; 
+        }
+
+        if(grade.equals(OxygenGrade.B)) {
+            int waterUsedPerBatch = ProductionSettings.waterProductionNeed.get(grade);
+            results.orderDateHistory.qtyWaterUsed = productionBatchCount * waterUsedPerBatch; 
+        }
+          
+        if(grade.equals(OxygenGrade.E)) {
+            results.orderDateHistory.qtyOxygenTankBought = quantityToProduce;
+        }      
     }
 
-    public int getTotalQuantity() {
-	return totalQuantity;
+    private int calculateProductionBatchCount(int quantityToProduce, int fabricationQuantity) {
+        int overQuantity = quantityToProduce % fabricationQuantity;
+        if(quantityToProduce < fabricationQuantity ) return 1;
+        return overQuantity == 0 ? quantityToProduce / fabricationQuantity :
+            ((quantityToProduce - overQuantity) / fabricationQuantity) + 1 ;
     }
+
+    private OxygenGrade getRealGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {
+        OxygenGrade realGradeToProduce = grade;
+        while (!enoughTimeForFabrication(orderDate, realGradeToProduce)) {
+            realGradeToProduce = getLowerGradeOf(grade);
+        }
+        return realGradeToProduce;
+    }
+
+    private boolean enoughTimeForFabrication(OffsetDateTime orderDate, OxygenGrade grade) {       
+        OffsetDateTime fabricationCompletionDate = getFabricationCompletionDate(orderDate, grade);
+        return fabricationCompletionDate.isAfter(limitDeliveryDate) ? false : true;
+    }
+ 
+    private OffsetDateTime getFabricationCompletionDate(OffsetDateTime orderDate, OxygenGrade grade) {
+        long gradeFabricationDelay = ProductionSettings.fabricationTimeInDay.get(grade);
+        return orderDate.plusDays(gradeFabricationDelay);
+    }
+
+    private OxygenGrade getLowerGradeOf(OxygenGrade grade) {
+	    switch (grade) {
+            case A:
+                return OxygenGrade.B;
+	        case B:
+                return OxygenGrade.E;
+            default:
+                throw new IllegalArgumentException(String.format("No lower oxygen grade exists for grade %s.", grade));
+        }  
+    } 
 }

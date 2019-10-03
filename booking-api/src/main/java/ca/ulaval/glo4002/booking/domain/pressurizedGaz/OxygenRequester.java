@@ -1,83 +1,68 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
-import java.time.LocalDate;
-import java.util.EnumMap;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class OxygenRequester implements OxygenReportable {
-    private static final int gradeAFabricationQuantity = 5;
-    private static final int gradeBFabricationQuantity = 3;
-    private static final int gradeEFabricationQuantity = 1;
-    private static final int gradeAFabricationTimeInDays = 20;
-    private static final int gradeBFabricationTimeInDays = 10;
-    private static final int gradeEFabricationTimeInDays = 0;
-    private EnumMap<OxygenGrade, Integer> defaultGradeRequirements;
-    private EnumMap<OxygenGrade, OxygenProducer> oxygenInventory;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
 
-    public OxygenRequester(LocalDate limitDeliveryDate) {
-	initializeDefaultRequirements();
-	oxygenInventory = new EnumMap<OxygenGrade, OxygenProducer>(OxygenGrade.class);
-	initializeOxygenInventoryGradeA(limitDeliveryDate);
-	initializeOxygenInventoryGradeB(limitDeliveryDate);
-	initializeOxygenInventoryGradeE(limitDeliveryDate);
-    }
+public class OxygenRequester extends OxygenExposer {
 
-    public void orderTemplatedOxygenQuantity(LocalDate orderDate, OxygenGrade grade) {
-	if (!oxygenInventory.containsKey(grade)) {
-	    throw new IllegalArgumentException(String.format("Not possible to order oxygen of grade %s.", grade));
-	}
-	adjustOxygenTankInventory(orderDate, grade);
-    }
+    private OxygenProducer oxygenProducer;
+    private OxygenProductionResults results;
+    private OxygenInventory inventory;
+    private OxygenHistory history;
 
-    public void setTemplatedOxygenOrder(OxygenGrade gradeToProduce, int quantity) {
-	defaultGradeRequirements.put(gradeToProduce, quantity);
+    public OxygenRequester(OffsetDateTime limitDeliveryDate, OxygenPersistance oxygenPersistance) {
+        this.inventory = oxygenPersistance.getOxygenInventory();
+        this.history = oxygenPersistance.getOxygenHistory();
+        this.oxygenProducer = new OxygenProducer(limitDeliveryDate);
     }
 
     @Override
-    public int getInventory(OxygenGrade grade) {
-	    return oxygenInventory.get(grade).getTotalQuantity();
+    public List<Inventory> getInventory() {
+        return inventory.getCompleteInventory();
     }
 
-    private void initializeDefaultRequirements() {
-	defaultGradeRequirements = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
-	for (OxygenGrade grade : OxygenGrade.values()) {
-	    defaultGradeRequirements.put(grade, 1);
-	}
+    @Override
+    public List<History> getOxygenHistory() {
+        return new ArrayList<>(history.getCreationHistory().values());
     }
 
-    private void initializeOxygenInventoryGradeA(LocalDate limitDeliveryDate) {
-	OxygenProducer oxygenTank = new OxygenProducer(gradeAFabricationQuantity, gradeAFabricationTimeInDays,
-		limitDeliveryDate);
-	oxygenInventory.put(OxygenGrade.A, oxygenTank);
+    public void orderOxygen(OffsetDateTime orderDate, OxygenGrade grade, int quantity) {
+        int remainingQuantity = inventory.getOxygenRemaining(grade);
+
+        if (hasToProduce(quantity, remainingQuantity)) {
+            initializeResults(orderDate, grade);
+            int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);
+            inventory.setOxygenRemaining(grade, 0);
+
+            oxygenProducer.produceOxygen(grade, totalToProduce, results);
+
+            OxygenGrade gradeProduced = results.gradeProduced;
+            inventory.setOxygenInventory(gradeProduced, inventory.getInventoryOfGrade(gradeProduced) + results.quantityTankToAddToInventory);
+            inventory.setOxygenRemaining(gradeProduced, inventory.getOxygenRemaining(gradeProduced) + results.quantityTankRemaining);
+
+            history.updateCreationHistory(results.orderDateHistory.date, results.orderDateHistory);
+            history.updateCreationHistory(results.deliveryDateHistory.date, results.deliveryDateHistory);
+        } else {
+            inventory.setOxygenRemaining(grade, remainingQuantity - quantity);
+        }
     }
 
-    private void initializeOxygenInventoryGradeB(LocalDate limitDeliveryDate) {
-	OxygenProducer oxygenTank = new OxygenProducer(gradeBFabricationQuantity, gradeBFabricationTimeInDays,
-		limitDeliveryDate);
-	oxygenInventory.put(OxygenGrade.B, oxygenTank);
+    private void initializeResults(OffsetDateTime orderDate, OxygenGrade grade) {
+        this.results = new OxygenProductionResults();
+        History orderDateHistory = history.getCreationHistoryPerDate(orderDate);
+        this.results.orderDateHistory = orderDateHistory;
+
+        OffsetDateTime deliveryDate = oxygenProducer.getNextAvailableDeliveryDate(orderDate, grade);
+        History deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
+        this.results.deliveryDateHistory = deliveryDateHistory;
     }
 
-    private void initializeOxygenInventoryGradeE(LocalDate limitDeliveryDate) {
-	OxygenProducer oxygenTank = new OxygenProducer(gradeEFabricationQuantity, gradeEFabricationTimeInDays,
-		limitDeliveryDate);
-	oxygenInventory.put(OxygenGrade.E, oxygenTank);
-    }
-
-    private void adjustOxygenTankInventory(LocalDate orderDate, OxygenGrade grade) {
-	try {
-	    oxygenInventory.get(grade).adjustInventory(orderDate, defaultGradeRequirements.get(grade));
-	} catch (NotEnoughTimeException e) {
-	    orderTemplatedOxygenQuantity(orderDate, getLowerGradeOf(grade));
-	}
-    }
-
-    private OxygenGrade getLowerGradeOf(OxygenGrade grade) {
-	switch (grade) {
-	case A:
-	    return OxygenGrade.B;
-	case B:
-	    return OxygenGrade.E;
-	default:
-	    throw new IllegalArgumentException(String.format("No lower oxygen grade exists for grade %s.", grade));
-	}
+    private boolean hasToProduce(int quantityToProduce, int remainingQuantity) {
+        return quantityToProduce > remainingQuantity;
     }
 }

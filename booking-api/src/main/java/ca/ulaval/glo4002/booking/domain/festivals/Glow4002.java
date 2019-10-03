@@ -8,22 +8,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Festival;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
-public class Glow4002 extends Festival implements Glow4002Festival{
+public class Glow4002 extends Festival {
+
 
     //private TransportService transportService; TODO: create transport sevice here
     private PassOrderService passOrderService;
     private OxygenRequester oxygenRequester;
-    private OxygenPersistance oxygenPersistance; // TODO remove
+
+    private Repository repository;
+    private int dailyNeedOxygenGardeA = 3;
+    private int dailyNeedOxygenGardeB = 3;
+    private int dailyNeedOxygenGardeE = 5;
 
 
     public Glow4002(Repository repository) {
@@ -33,17 +36,10 @@ public class Glow4002 extends Festival implements Glow4002Festival{
             OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC),
             OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC)
         );
-
         Objects.requireNonNull(repository, "repository");
 
         this.passOrderService = new PassOrderService(repository, this.startDate, this.endDate);
-        this.oxygenRequester = new OxygenRequester(endDate.toLocalDate());       
-        this.oxygenPersistance = repository.getOxygenPersistance();
-
-        // TODO a enlever les 3 lignes ci-dessous just for test
-        orderOxygenQuantityOfGradeA(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), 5);
-        orderOxygenQuantityOfGradeE(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), 10);
-        orderOxygenQuantityOfGradeB(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), 2);
+        this.repository = repository;
     }
 
     public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) {
@@ -70,39 +66,12 @@ public class Glow4002 extends Festival implements Glow4002Festival{
         }
     }
 
-    @Override
-    public int getGradeEOxygenInventory() {
-        return oxygenPersistance.getOxygenInventory().getInventoryOfGrade(OxygenGrade.E);
+    public void setOxygenRequester(OxygenRequester oxygenRequester) {
+        this.oxygenRequester = oxygenRequester;
     }
 
-    @Override
-    public int getGradeAOxygenInventory() {
-        return oxygenPersistance.getOxygenInventory().getInventoryOfGrade(OxygenGrade.A);
-    }
-
-    @Override
-    public int getGradeBOxygenInventory() {
-        return oxygenPersistance.getOxygenInventory().getInventoryOfGrade(OxygenGrade.B);
-    }
-
-    private void orderOxygenQuantityOfGradeA(OffsetDateTime orderDate, int quantity) {
-        oxygenRequester.orderTemplatedOxygenQuantity(orderDate.toLocalDate(), OxygenGrade.A);
-
-        //TODO: mettre a jour la bd seulement si la cération a focntionner correctement
-        oxygenPersistance.getOxygenInventory().addOxygenToInventory(OxygenGrade.A, quantity);      
-    }
-
-    private void orderOxygenQuantityOfGradeE(OffsetDateTime orderDate, int quantity) {
-        oxygenRequester.orderTemplatedOxygenQuantity(orderDate.toLocalDate(), OxygenGrade.E);
-
-         //TODO: mettre a jour la bd seulement si la cération a focntionner correctement
-         oxygenPersistance.getOxygenInventory().addOxygenToInventory(OxygenGrade.E, quantity);   
-    }
-
-    private void orderOxygenQuantityOfGradeB(OffsetDateTime orderDate, int quantity) {
-        oxygenRequester.orderTemplatedOxygenQuantity(orderDate.toLocalDate(), OxygenGrade.B);
-
-         //TODO: mettre a jour la bd seulement si la cération a focntionner correctement
-         oxygenPersistance.getOxygenInventory().addOxygenToInventory(OxygenGrade.B, quantity);   
+    //remive this methos just for test purpose
+    public void orderTemporaryOxygenToValidateIfItWorks() {
+        oxygenRequester.orderOxygen(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), OxygenGrade.A, 6);
     }
 }

@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.response.Oxygen;
+package ca.ulaval.glo4002.booking.interfaces.rest.mappers;
 
 import java.time.OffsetDateTime;
 
-public class History {
-	public OffsetDateTime date;
+public class OxygenHistoryDto {
+    public OffsetDateTime date;
 	public int qtyOxygenTankBought;
 	public int qtyWaterUsed;
 	public int qtyCandlesUsed;
