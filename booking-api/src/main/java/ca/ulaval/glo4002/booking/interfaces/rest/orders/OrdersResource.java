@@ -12,9 +12,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.passOrdering.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.OrderNotFound;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.ClientError;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormatException;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidOrderDateException;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
@@ -22,30 +27,41 @@ import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundExcep
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
 
-    private Glow4002 festival;
+    private PassOrderService passOrderService;
     
     @Inject
-    public OrdersResource(Glow4002 festival) {
-        this.festival = festival;
+    public OrdersResource(PassOrderService passOrderService) {
+        this.passOrderService = passOrderService;
     }
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) throws OrderNotFound {
+    public Response getById(@PathParam("id") Long id) throws OrderNotFoundException {
         try {
-            PassOrder passOrder = this.festival.getOrder(id);
+            PassOrder passOrder = this.passOrderService.getOrder(id);
             return Response.ok().entity(passOrder.serialize()).build();
         }
         catch (RecordNotFoundException exception) {
-            throw new OrderNotFound(id);
+            throw new OrderNotFoundException(id);
         }
     }
 
     @POST
-    public Response create(OrderRequest request, @Context UriInfo uriInfo) throws Exception {
-        PassOrder passOrder = this.festival.reservePasses(request.orderDate, request.vendorCode, request.passes);
-        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(Long.toString(passOrder.getId()));
-        return Response.created(builder.build()).build();
+    public Response create(OrderRequest request, @Context UriInfo uriInfo) throws ClientError {
+        try {
+            PassOrder passOrder = this.passOrderService.orderPasses(request.orderDate, request.vendorCode, request.passes);
+            UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+            builder.path(Long.toString(passOrder.getId()));
+            return Response.created(builder.build()).build();
+        }
+        catch (OutOfSaleDatesException exception) {
+            throw new InvalidOrderDateException(exception.getMessage());
+        }
+        catch (OutOfFestivalDatesException exception) {
+            throw new InvalidOrderDateException(exception.getMessage());
+        }
+        catch (IllegalArgumentException exception) {
+            throw new InvalidFormatException();
+        }
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
@@ -34,8 +35,14 @@ public class PassOrderServiceTest {
         Repository repository = mock(Repository.class);
         when(repository.getPassOrderPersistance()).thenReturn(this.passOrderPersistance);
         when(repository.getPassPersistance()).thenReturn(this.passPersistance);
+
+        Glow4002 festival = mock(Glow4002.class);
+        when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
+        when(festival.isDuringEventTime(any(OffsetDateTime.class))).thenReturn(true);
+        when(festival.getStartDate()).thenReturn(OffsetDateTime.now());
+        when(festival.getEndDate()).thenReturn(OffsetDateTime.now());
         
-        this.passOrderService = new PassOrderService(repository, OffsetDateTime.now(), OffsetDateTime.now());
+        this.passOrderService = new PassOrderService(repository, festival);
 
         initPasses();
     }
