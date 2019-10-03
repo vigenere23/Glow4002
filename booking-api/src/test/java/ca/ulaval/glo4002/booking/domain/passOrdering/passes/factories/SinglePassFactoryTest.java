@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;

@@ -1,13 +1,13 @@
 package ca.ulaval.glo4002.booking.domain.festival;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Glow4002Test {
 
     // TODO necessary fields
 
-    @BeforeAll 
+    @BeforeEach
     public void setUp() {
         // Glow4002 festival = new Glow4002(repo);
     }
