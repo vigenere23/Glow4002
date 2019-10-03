@@ -4,34 +4,34 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.HistoryDto;
+import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
 
 public class HeapOxygenHistory implements OxygenHistory {
 
-    private HashMap<OffsetDateTime, HistoryDto> history;
+    private HashMap<OffsetDateTime, History> history;
 
     public HeapOxygenHistory() {
         super();
-        history = new HashMap<OffsetDateTime, HistoryDto>();
+        history = new HashMap<OffsetDateTime, History>();
     }
 
     @Override
-    public HashMap<OffsetDateTime, HistoryDto> getCreationHistory() {
+    public HashMap<OffsetDateTime, History> getCreationHistory() {
         return history;
     }
 
     @Override
-    public void updateCreationHistory(OffsetDateTime date, HistoryDto history) {
+    public void updateCreationHistory(OffsetDateTime date, History history) {
         this.history.put(date, history);
     }
 
     @Override
-    public HistoryDto getCreationHistoryPerDate(OffsetDateTime date) {
+    public History getCreationHistoryPerDate(OffsetDateTime date) {
         if(history.containsKey(date) )
         {
             return history.get(date);
         } else {
-            HistoryDto newHistory = new HistoryDto();
+            History newHistory = new History();
             newHistory.date = date;
             return newHistory;
         }

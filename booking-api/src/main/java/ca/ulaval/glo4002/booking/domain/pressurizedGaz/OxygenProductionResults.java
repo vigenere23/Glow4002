@@ -2,10 +2,10 @@ package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
 public class OxygenProductionResults {
 
-	public HistoryDto orderDateHistory;
-	public HistoryDto deliveryDateHistory;
+	public History orderDateHistory;
+	public History deliveryDateHistory;
 	
 	public int quantityTankToAddToInventory;
-	public int quantityTankToAddToRemaining;
+	public int quantityTankRemaining;
 	public OxygenGrade gradeProduced;
 }

@@ -115,10 +115,10 @@ public class OxygenRequesterTests {
     }
 
     private void assertInventoryOfGrade(int expectedQuantity, OxygenGrade grade) {
-        List<InventoryDto> inventories = oxygenRequester.getInventory();
-        for (InventoryDto inventoryDto: inventories) {
-            if (inventoryDto.gradeTankOxygen.equals(grade.toString())) {
-                int currentQuantity = inventoryDto.quantity;
+        List<Inventory> inventories = oxygenRequester.getInventory();
+        for (Inventory inventory: inventories) {
+            if (inventory.gradeTankOxygen.equals(grade.toString())) {
+                int currentQuantity = inventory.quantity;
                 assertEquals(expectedQuantity, currentQuantity);
             }
         }
