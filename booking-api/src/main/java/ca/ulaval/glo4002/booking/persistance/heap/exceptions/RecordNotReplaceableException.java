@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory.exceptions;
+package ca.ulaval.glo4002.booking.persistance.heap.exceptions;
 
 public class RecordNotReplaceableException extends Exception {
     

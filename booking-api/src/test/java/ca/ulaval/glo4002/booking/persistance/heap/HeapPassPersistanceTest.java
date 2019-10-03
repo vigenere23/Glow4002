@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.inMemory;
+package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.time.OffsetDateTime;
 
@@ -11,13 +11,13 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.PackagePas
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.SinglePassFactory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordAlreadyExistsException;
-import ca.ulaval.glo4002.booking.persistance.inMemory.exceptions.RecordNotFoundException;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class InMemoryPassPersistanceTest {
+public class HeapPassPersistanceTest {
 
     private PassPersistance passPersistance;
     private Pass pass;
@@ -25,7 +25,7 @@ public class InMemoryPassPersistanceTest {
 
     @BeforeEach
     public void setUp() {
-        Repository repository = new InMemoryRepository();
+        Repository repository = new HeapRepository();
         this.passPersistance = repository.getPassPersistance();
         this.pass = new SinglePassFactory().create(PassCategory.NEBULA, OffsetDateTime.now());
         this.otherPass = new PackagePassFactory().create(PassCategory.SUPERGIANT);

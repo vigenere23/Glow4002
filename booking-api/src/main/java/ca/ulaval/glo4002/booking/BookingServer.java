@@ -1,10 +1,21 @@
 package ca.ulaval.glo4002.booking;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
+
+
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
@@ -17,7 +28,9 @@ public class BookingServer implements Runnable {
 
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        ResourceConfig packageConfig = new RessourceConfiguration().packages("ca.ulaval.glo4002.booking");
+        HeapRepository repository = new HeapRepository();
+        Glow4002 festival = new Glow4002(repository);
+        ResourceConfig packageConfig = new ResourceConfiguration(festival, repository).packages("ca.ulaval.glo4002.booking");
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
