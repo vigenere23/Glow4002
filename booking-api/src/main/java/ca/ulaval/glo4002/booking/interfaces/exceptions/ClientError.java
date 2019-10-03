@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.interfaces.exceptions;
 
 public abstract class ClientError extends Exception {
 
-    private static final long serialVersionUID = 1L;
     public final ClientErrorType error;
     public final String description;
     public final int status;

@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class OutOfFestivalDateException extends Exception implements ExceptionMapper<OutOfFestivalDateException> {
 
-    private static final long serialVersionUID = 1L;
     public OutOfFestivalDateExceptionMessage msg = new OutOfFestivalDateExceptionMessage();
 
     @JsonCreator

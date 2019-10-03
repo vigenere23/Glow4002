@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class OutOfSaleDatesException extends Exception {
 
-    private static final long serialVersionUID = -2584063524302174944L;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d yyyy");
     
     public OutOfSaleDatesException(OffsetDateTime festivalSaleStart, OffsetDateTime festivalSaleEnd) {

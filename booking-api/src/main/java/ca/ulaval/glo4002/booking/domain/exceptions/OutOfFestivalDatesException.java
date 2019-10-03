@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class OutOfFestivalDatesException extends Exception {
 
-    private static final long serialVersionUID = 1L;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d yyyy");
     
     public OutOfFestivalDatesException(OffsetDateTime festivalStart, OffsetDateTime festivalEnd) {
