@@ -21,7 +21,6 @@ public class SinglePassFactoryTest {
     
     OffsetDateTime festivalStart = OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT, ZoneOffset.UTC);
     OffsetDateTime festivalEnd = OffsetDateTime.of(LocalDate.of(2050, 7, 25), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC);
-
     private SinglePassFactory passFactory = new SinglePassFactory(festivalStart, festivalEnd);
     private OffsetDateTime validDate = OffsetDateTime.of(LocalDate.of(2050, 7, 18), LocalTime.MIDNIGHT, ZoneOffset.UTC);
 
