@@ -49,7 +49,7 @@ public class PassOrderFactory {
 
     private void validateOrderDate(OffsetDateTime orderDate) throws OutOfSaleDatesException {
         if (!this.festival.isDuringSaleTime(orderDate)) {
-            throw new OutOfSaleDatesException(this.festival.getStartDate(), this.festival.getEndDate());
+            throw new OutOfSaleDatesException(this.festival.getSaleStartDate(), this.festival.getSaleEndDate());
         }
     }
 

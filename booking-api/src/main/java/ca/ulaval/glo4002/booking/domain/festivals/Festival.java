@@ -41,6 +41,14 @@ public abstract class Festival {
         return this.endDate;
     }
 
+    public OffsetDateTime getSaleStartDate() {
+        return this.saleStartDate;
+    }
+
+    public OffsetDateTime getSaleEndDate() {
+        return this.saleEndDate;
+    }
+
     public boolean isDuringSaleTime(OffsetDateTime dateTime) {
         return dateTime.isAfter(this.saleStartDate) && dateTime.isBefore(this.saleEndDate);
     }

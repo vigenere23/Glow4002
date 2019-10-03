@@ -1,6 +1,9 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +28,11 @@ public class PassRequest {
         this.passOption = PassOption.fromString(passOption);
         this.passCategory = PassCategory.fromString(passCategory);
         if (eventDates != null) {
-            this.eventDates = eventDates.stream().map(OffsetDateTime::parse).collect(Collectors.toList());
+            this.eventDates = eventDates
+                .stream()
+                .map(LocalDate::parse)
+                .map(localDate -> OffsetDateTime.of(localDate, LocalTime.NOON, ZoneOffset.UTC))
+                .collect(Collectors.toList());
         } else {
             this.eventDates = null;
         }
