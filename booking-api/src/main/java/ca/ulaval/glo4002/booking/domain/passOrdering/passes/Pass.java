@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes;
 
+import java.time.OffsetDateTime;
+
 import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.Priceable;
@@ -8,9 +10,12 @@ public abstract class Pass implements Priceable {
 
     protected Long passNumber;
     protected Money price;
+    protected OffsetDateTime startDate;
+    protected OffsetDateTime endDate;
 
-    protected Pass() {
-        this.passNumber = 0L;
+    protected Pass(OffsetDateTime startDate, OffsetDateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Money getPrice() {
