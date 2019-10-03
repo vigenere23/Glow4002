@@ -1,15 +1,14 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts;
 
-import java.math.RoundingMode;
 import java.util.List;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantSinglePass;
 
-public class NebulaSingle4Discount extends OrderDiscount {
+public class SupergiantSinglePassDiscount extends OrderDiscount {
 
     @Override
     public Money priceAfterDiscounts(List<Pass> passes, Money totalPrice) {
@@ -27,13 +26,13 @@ public class NebulaSingle4Discount extends OrderDiscount {
     private long getNumberOfWantedObjects(List<Pass> passes) {
         return passes
             .stream()
-            .filter(pass -> pass instanceof NebulaSinglePass)
+            .filter(pass -> pass instanceof SupergiantSinglePass)
             .count();
     }
 
     private Money getDiscount(long numberOfWantedPasses, Money totalPrice) {
-        if (numberOfWantedPasses > 3) {
-            return totalPrice.multipliedBy(0.1, RoundingMode.HALF_UP);
+        if (numberOfWantedPasses >= 5) {
+            return Money.of(CurrencyUnit.CAD, numberOfWantedPasses * 10000);
         }
         
         return Money.zero(CurrencyUnit.CAD);
