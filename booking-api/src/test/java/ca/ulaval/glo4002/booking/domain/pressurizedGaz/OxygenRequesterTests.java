@@ -27,7 +27,7 @@ public class OxygenRequesterTests {
     }
 
     @Test
-    public void given_orderOxygen_when_defaultTemplate_then_fabricationQuantityIsAdded() {
+    public void whenOrderOxygenQuantityLessThanFabricationQuantity_thenFabricationQuantityIsAdded() {
         oxygenRequester.orderOxygen(oneMonthBeforeFestivalDate, OxygenGrade.A, 3);
         assertInventoryOfGrade(5, OxygenGrade.A);
     }
