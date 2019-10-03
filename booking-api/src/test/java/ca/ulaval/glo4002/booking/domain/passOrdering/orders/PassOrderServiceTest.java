@@ -29,10 +29,7 @@ public class PassOrderServiceTest {
     @BeforeEach
     public void setUp() {
         this.passOrderPersistance = mock(HeapPassOrderPersistance.class);
-        doNothing().when(this.passOrderPersistance).save(any(PassOrder.class));
-        
         this.passPersistance = mock(HeapPassPersistance.class);
-        doNothing().when(this.passPersistance).save(any(Pass.class));
 
         Repository repository = mock(Repository.class);
         when(repository.getPassOrderPersistance()).thenReturn(this.passOrderPersistance);
