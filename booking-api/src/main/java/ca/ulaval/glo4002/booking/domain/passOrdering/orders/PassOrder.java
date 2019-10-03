@@ -64,6 +64,6 @@ public class PassOrder implements Priceable {
     }
 
     public OrderResponse serialize() {
-        return new OrderResponse(this.orderDate, this.vendorCode, this.passes);
+        return new OrderResponse(getPrice(), this.passes);
     }
 }
