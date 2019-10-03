@@ -9,9 +9,9 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.Priceable;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSingle4Discount;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSingle5Discount;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
 public class PassOrder implements Priceable {
@@ -27,8 +27,8 @@ public class PassOrder implements Priceable {
         this.orderDate = orderDate;
         this.vendorCode = vendorCode;
         this.passes = passes;
-        this.orderDiscount = new SupergiantSingle5Discount();
-        this.orderDiscount.setNextDiscount(new NebulaSingle4Discount());
+        this.orderDiscount = new SupergiantSinglePassDiscount();
+        this.orderDiscount.setNextDiscount(new NebulaSinglePassDiscount());
     }
 
     public Money getPrice() {
