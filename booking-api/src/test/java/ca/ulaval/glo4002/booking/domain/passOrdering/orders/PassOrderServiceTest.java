@@ -16,7 +16,6 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 
 public class PassOrderServiceTest {
 
@@ -28,7 +27,7 @@ public class PassOrderServiceTest {
     private List<PassRequest> passRequests;
 
     @BeforeEach
-    public void setUp() throws RecordAlreadyExistsException {
+    public void setUp() {
         this.passOrderPersistance = mock(HeapPassOrderPersistance.class);
         doNothing().when(this.passOrderPersistance).save(any(PassOrder.class));
         

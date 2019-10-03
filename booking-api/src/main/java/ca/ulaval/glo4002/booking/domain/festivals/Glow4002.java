@@ -11,7 +11,6 @@ import java.util.Objects;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Festival;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
@@ -47,7 +46,7 @@ public class Glow4002 extends Festival implements Glow4002Festival{
         orderOxygenQuantityOfGradeB(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), 2);
     }
 
-    public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws RecordAlreadyExistsException {
+    public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) {
         validateOrderDate(orderDate);
 
         return this.passOrderService.orderPasses(orderDate, vendorCode, passRequests);

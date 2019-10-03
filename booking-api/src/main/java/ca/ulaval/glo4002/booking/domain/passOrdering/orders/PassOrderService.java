@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistanc
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 public class PassOrderService {
@@ -27,13 +26,13 @@ public class PassOrderService {
         return this.passOrderPersistance.getById(id);
     }
 
-    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws RecordAlreadyExistsException {
+    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) {
         PassOrder passOrder = this.passOrderFactory.create(orderDate, vendorCode, passRequests);
         saveObjects(passOrder);
         return passOrder;
     }
 
-    private void saveObjects(PassOrder passOrder) throws RecordAlreadyExistsException {
+    private void saveObjects(PassOrder passOrder) {
         for (Pass pass : passOrder.getPasses()) {
             this.passPersistance.save(pass);
         }

@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,13 +67,5 @@ public class HeapOrderPersistanceTest {
         Long secondPassOrderId = this.otherPassOrder.getId();
 
         assertThat(secondPassOrderId - firstPassOrderId).isEqualTo(1L);
-    }
-
-    @Test
-    public void whenSavingAnAlreadyExistingOrder_itThrowsRecordAlreadyExistsException() throws Exception {
-        this.passOrderPersistance.save(this.passOrder);
-        assertThatExceptionOfType(RecordAlreadyExistsException.class).isThrownBy(() -> {
-            this.passOrderPersistance.save(this.passOrder);
-        });
     }
 }

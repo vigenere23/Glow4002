@@ -10,7 +10,6 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSing
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantPackagePass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,13 +63,5 @@ public class HeapPassPersistanceTest {
         Long secondPassId = this.otherPass.getId();
 
         assertThat(secondPassId - firstPassId).isEqualTo(1L);
-    }
-
-    @Test
-    public void whenSavingAnAlreadyExistingPass_itThrowsRecordAlreadyExistsException() throws Exception {
-        this.passPersistance.save(this.pass);
-        assertThatExceptionOfType(RecordAlreadyExistsException.class).isThrownBy(() -> {
-            this.passPersistance.save(this.pass);
-        });
     }
 }
