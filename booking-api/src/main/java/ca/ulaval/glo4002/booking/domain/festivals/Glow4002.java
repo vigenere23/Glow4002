@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
-import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Festival;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderCreator;
@@ -45,10 +45,10 @@ public class Glow4002 extends Festival implements Glow4002Festival{
         orderOxygenQuantityOfGradeB(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), 2);
     }
 
-    public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassDto> passDtos) throws Exception {
+    public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws Exception {
         validateOrderDate(orderDate);
 
-        return this.passOrderCreator.orderPasses(orderDate, vendorCode, passDtos);
+        return this.passOrderCreator.orderPasses(orderDate, vendorCode, passRequests);
     }
 
     private void validateOrderDate(OffsetDateTime orderDate) {

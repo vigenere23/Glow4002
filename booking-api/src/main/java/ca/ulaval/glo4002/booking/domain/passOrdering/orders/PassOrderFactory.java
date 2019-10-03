@@ -6,7 +6,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories.PassFactory;
-import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
 
 public class PassOrderFactory {
 
@@ -16,26 +16,26 @@ public class PassOrderFactory {
         this.passFactory = new PassFactory(festivalStart, festivalEnd);
     }
 
-    public PassOrder create(OffsetDateTime orderDate, String vendorCode, List<PassDto> passDtos) {
-        List<Pass> passes = createPasses(passDtos);
+    public PassOrder create(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) {
+        List<Pass> passes = createPasses(passRequests);
         PassOrder passOrder = new PassOrder(orderDate, vendorCode, passes);
 
         return passOrder;
     }
 
-    private List<Pass> createPasses(List<PassDto> passDtos) {
-        if (passDtos == null) {
-            throw new IllegalArgumentException("List of pass Dtos cannot be null");
+    private List<Pass> createPasses(List<PassRequest> passRequests) {
+        if (passRequests == null) {
+            throw new IllegalArgumentException("List of passes cannot be null");
         }
 
         List<Pass> passes = new ArrayList<>();
 
-        for (PassDto passDto : passDtos) {
-            if (passDto.eventDates == null) {
-                passes.add(passFactory.create(passDto.passOption, passDto.passCategory, null));
+        for (PassRequest passRequest : passRequests) {
+            if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
+                passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
             } else {
-                for (OffsetDateTime eventDate : passDto.eventDates) {
-                    passes.add(passFactory.create(passDto.passOption, passDto.passCategory, eventDate));
+                for (OffsetDateTime eventDate : passRequest.eventDates) {
+                    passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
                 }
             }
         }

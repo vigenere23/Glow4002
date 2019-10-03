@@ -10,12 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
@@ -27,7 +25,7 @@ public class PassOrderCreatorTest {
     private PassOrderCreator passOrderCreator;
     private PassOrderPersistance passOrderPersistance;
     private PassPersistance passPersistance;
-    private List<PassDto> passDtos;
+    private List<PassRequest> passRequests;
 
     @BeforeEach
     public void setUp() throws RecordAlreadyExistsException {
@@ -47,22 +45,22 @@ public class PassOrderCreatorTest {
     }
 
     private void initPasses() {
-        this.passDtos = new ArrayList<>();
+        this.passRequests = new ArrayList<>();
 
         for (int i = 0; i < NUMBER_OF_PASSES; i++) {
-            this.passDtos.add(new PassDto(PassOption.PACKAGE, PassCategory.NEBULA, null));
+            this.passRequests.add(new PassRequest("package", "nebula", null));
         }
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDtos);
+        PassOrder passOrder = this.passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
         verify(this.passOrderPersistance).save(passOrder);
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws RecordAlreadyExistsException {
-        passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passDtos);
+        passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
         verify(this.passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
     }
 }

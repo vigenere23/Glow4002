@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 
 public class PassOrderCreator {
@@ -22,8 +22,8 @@ public class PassOrderCreator {
         this.passOrderFactory = new PassOrderFactory(festivalStart, festivalEnd);
     }
 
-    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassDto> passDtos) throws RecordAlreadyExistsException {
-        PassOrder passOrder = this.passOrderFactory.create(orderDate, vendorCode, passDtos);
+    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws RecordAlreadyExistsException {
+        PassOrder passOrder = this.passOrderFactory.create(orderDate, vendorCode, passRequests);
         saveObjects(passOrder);
         return passOrder;
     }

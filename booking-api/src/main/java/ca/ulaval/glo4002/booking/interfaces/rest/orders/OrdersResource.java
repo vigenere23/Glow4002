@@ -1,8 +1,5 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.orders;
 
-import java.time.OffsetDateTime;
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,13 +8,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.interfaces.exceptions.ApiException;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormatApiException;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.orderDTOs.PassDTO;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderResponse;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
+
+    private Glow4002 festival;
+
+    public OrdersResource() {
+        this.festival = new Glow4002(new HeapRepository());
+    }
+
+    public OrdersResource(Glow4002 festival) {
+        this.festival = festival;
+    }
 
     @GET
     @Path("/{id}")
@@ -26,27 +35,9 @@ public class OrdersResource {
     }
 
     @POST
-    public Response create(OrderRequest request) throws ApiException {
-        OffsetDateTime orderDate = null;
-        String vendorCode = null;
-        PassDTO passes = null;
-
-        try {
-            orderDate = OffsetDateTime.parse(request.order.orderDate);
-            vendorCode = request.order.vendorCode;
-            passes = request.order.passes;
-        }
-        catch (Exception exception) {
-            throw new InvalidFormatApiException();
-        }
-
-        // TODO do some more filtering for dates etc.
-
-        // TODO call Festival for creating order and oxygen etc.
-
-        // TODO return a new order response from the returned order (may need to create PassResponses too)
-
-        OrderResponse orderResponse = new OrderResponse(orderDate, vendorCode, passes);
+    public Response create(OrderRequest request) throws Exception {
+        PassOrder passOrder = this.festival.reservePasses(request.orderDate, request.vendorCode, request.passes);
+        OrderResponse orderResponse = passOrder.serialize();
         return Response.ok().status(201).entity(orderResponse).build();
     }
 }

@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -13,6 +14,8 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSing
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassResponse;
 
 public class PassOrder implements Priceable {
 
@@ -58,5 +61,9 @@ public class PassOrder implements Priceable {
 
     public List<Pass> getPasses() {
         return Collections.unmodifiableList(this.passes);
+    }
+
+    public OrderResponse serialize() {
+        return new OrderResponse(this.orderDate, this.vendorCode, this.passes);
     }
 }
