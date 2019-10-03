@@ -4,19 +4,22 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.InventoryDto;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.HistoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OxygenHistoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OxygenInventoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OxygenMapper;
+import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenExposer;
 
 
 public class ReportOxygenResponse {
 
-	 public final List<InventoryDto> oxygenInventory;
-	 public final List<HistoryDto> oxygenHistory;
+	 public final List<OxygenInventoryDto> oxygenInventory;
+	 public final List<OxygenHistoryDto> oxygenHistory;
 	 
 	@JsonCreator
-    public ReportOxygenResponse(Glow4002 festival) {
-		this.oxygenInventory = festival.getOxygenRequester().getInventory();
-		this.oxygenHistory = festival.getOxygenRequester().getOxygenHistory();
+    public ReportOxygenResponse(OxygenExposer exposer) {
+		OxygenMapper mapper = new OxygenMapper();
+		
+		this.oxygenInventory = mapper.convertInventoryToDto(exposer.getInventory());
+		this.oxygenHistory = mapper.convertHistoryToDto(exposer.getOxygenHistory());
     }
 }

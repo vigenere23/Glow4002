@@ -11,7 +11,6 @@ public class OxygenProducer {
     }
 
     public void produceOxygen(OxygenGrade gradeToProduce, int quantityToProduce, OxygenProductionResults results) {
-
         OxygenGrade realGradeToProduce = getRealGradeToProduce(results.orderDateHistory.date, gradeToProduce);
         produceGrade(quantityToProduce, results, realGradeToProduce);            
     }
@@ -21,18 +20,20 @@ public class OxygenProducer {
         return getFabricationCompletionDate(orderDate, realGradeToProduce);
     }
 
-    private void produceGrade(int quantityToProduce, OxygenProductionResults results, OxygenGrade grade) {
-              
-        int minimumFabricationQuantity = ProductionSettings.minimumFabricationQuantity.get(grade);
-       
-        int overQuantity = quantityToProduce % minimumFabricationQuantity;
-        int productionBatchCount = calculateProductionBatchCount(quantityToProduce, minimumFabricationQuantity, overQuantity);  
+    public int calculateTotalToProduce(int quantity, int remainingQuantity) {
+        return quantity - remainingQuantity;
+    }
+
+    private void produceGrade(int quantityToProduce, OxygenProductionResults results, OxygenGrade grade) {           
+        int minimumFabricationQuantity = ProductionSettings.minimumFabricationQuantity.get(grade);     
+        int productionBatchCount = calculateProductionBatchCount(quantityToProduce, minimumFabricationQuantity);  
 
         results.gradeProduced = grade;  
-        results.quantityTankToAddToInventory = productionBatchCount * minimumFabricationQuantity;
-        results.quantityTankToAddToRemaining = quantityToProduce < minimumFabricationQuantity ? minimumFabricationQuantity - quantityToProduce :overQuantity;
         results.deliveryDateHistory.qtyOxygenTankMade = quantityToProduce;
-        
+        results.quantityTankToAddToInventory = productionBatchCount * minimumFabricationQuantity;
+        results.quantityTankRemaining = quantityToProduce < minimumFabricationQuantity ? minimumFabricationQuantity - quantityToProduce :
+         ((productionBatchCount * minimumFabricationQuantity) - quantityToProduce);
+  
         if(grade.equals(OxygenGrade.A)) {
             int candleProductionNeedPerBatch = ProductionSettings.candleProductionNeed.get(grade);
             results.orderDateHistory.qtyCandlesUsed = productionBatchCount * candleProductionNeedPerBatch; 
@@ -48,11 +49,11 @@ public class OxygenProducer {
         }      
     }
 
-    private int calculateProductionBatchCount(int quantityToProduce, int fabricationQuantity, int overQuantity) {
+    private int calculateProductionBatchCount(int quantityToProduce, int fabricationQuantity) {
+        int overQuantity = quantityToProduce % fabricationQuantity;
         if(quantityToProduce < fabricationQuantity ) return 1;
-        return overQuantity == 0 ?
-         quantityToProduce / fabricationQuantity :
-         ((quantityToProduce - overQuantity) / fabricationQuantity) + 1 ;
+        return overQuantity == 0 ? quantityToProduce / fabricationQuantity :
+            ((quantityToProduce - overQuantity) / fabricationQuantity) + 1 ;
     }
 
     private OxygenGrade getRealGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {

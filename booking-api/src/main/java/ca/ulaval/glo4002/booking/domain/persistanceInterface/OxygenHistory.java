@@ -3,11 +3,11 @@ package ca.ulaval.glo4002.booking.domain.persistanceInterface;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.HistoryDto;
+import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
 
 public interface OxygenHistory {
 
-    public HashMap<OffsetDateTime, HistoryDto> getCreationHistory();
-    public void updateCreationHistory(OffsetDateTime date, HistoryDto history);
-    public HistoryDto getCreationHistoryPerDate(OffsetDateTime date);   
+    public HashMap<OffsetDateTime, History> getCreationHistory();
+    public void updateCreationHistory(OffsetDateTime date, History history);
+    public History getCreationHistoryPerDate(OffsetDateTime date);   
 }

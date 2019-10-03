@@ -7,7 +7,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.InventoryDto;;
+import ca.ulaval.glo4002.booking.domain.pressurizedGaz.Inventory;;
 
 public class HeapOxygenInventory implements OxygenInventory {
 
@@ -25,7 +25,7 @@ public class HeapOxygenInventory implements OxygenInventory {
     }
 
     @Override
-    public List<InventoryDto> getCompleteInventory() {
+    public List<Inventory> getCompleteInventory() {
         return presentInventory();
     }
 
@@ -51,8 +51,8 @@ public class HeapOxygenInventory implements OxygenInventory {
             return collection;
     }
 
-    private List<InventoryDto> presentInventory() {
-        List<InventoryDto> inventoryList = new ArrayList<InventoryDto>();
+    private List<Inventory> presentInventory() {
+        List<Inventory> inventoryList = new ArrayList<Inventory>();
         
         for (OxygenGrade grade : inventory.keySet()) {
             addInventory(inventoryList, grade.name(), inventory.get(grade));
@@ -61,8 +61,8 @@ public class HeapOxygenInventory implements OxygenInventory {
     	return inventoryList;
     }   
     
-    private void addInventory(List<InventoryDto> inventory, String grade, int categoryCount) {
-    	InventoryDto item = new InventoryDto();
+    private void addInventory(List<Inventory> inventory, String grade, int categoryCount) {
+    	Inventory item = new Inventory();
     	item.gradeTankOxygen = grade;
     	item.quantity = categoryCount;
     	inventory.add(item);

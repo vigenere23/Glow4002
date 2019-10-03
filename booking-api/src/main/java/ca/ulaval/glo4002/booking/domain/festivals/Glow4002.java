@@ -13,8 +13,6 @@ import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
 import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderCreator;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenResource;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 public class Glow4002 extends Festival {
@@ -36,15 +34,10 @@ public class Glow4002 extends Festival {
             OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC),
             OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC)
         );
-
         Objects.requireNonNull(repository, "repository");
 
         this.passOrderCreator = new PassOrderCreator(repository, this.startDate, this.endDate);
-        this.oxygenRequester = new OxygenRequester(endDate, repository.getOxygenPersistance());     
         this.repository = repository;
-
-        //To remove for pert purpose
-		  orderTemporaryOxygenToValidateIfItWorks();
     }
 
     public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassDto> passDtos) throws Exception {
@@ -66,13 +59,12 @@ public class Glow4002 extends Festival {
         }
     }
 
- 
-
-    public OxygenResource getOxygenRequester() {
-        return this.oxygenRequester;
+    public void setOxygenRequester(OxygenRequester oxygenRequester) {
+        this.oxygenRequester = oxygenRequester;
     }
 
-    private void orderTemporaryOxygenToValidateIfItWorks() {
+    //remive this methos just for test purpose
+    public void orderTemporaryOxygenToValidateIfItWorks() {
         oxygenRequester.orderOxygen(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), OxygenGrade.A, 6);
     }
 }
