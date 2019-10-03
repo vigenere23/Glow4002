@@ -11,16 +11,18 @@ import java.util.Objects;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
+import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Festival;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderCreator;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 public class Glow4002 extends Festival implements Glow4002Festival{
 
     //private TransportService transportService; TODO: create transport sevice here
-    private PassOrderCreator passOrderCreator;
+    private PassOrderService passOrderService;
     private OxygenRequester oxygenRequester;
     private OxygenPersistance oxygenPersistance; // TODO remove
 
@@ -35,7 +37,7 @@ public class Glow4002 extends Festival implements Glow4002Festival{
 
         Objects.requireNonNull(repository, "repository");
 
-        this.passOrderCreator = new PassOrderCreator(repository, this.startDate, this.endDate);
+        this.passOrderService = new PassOrderService(repository, this.startDate, this.endDate);
         this.oxygenRequester = new OxygenRequester(endDate.toLocalDate());       
         this.oxygenPersistance = repository.getOxygenPersistance();
 
@@ -45,15 +47,20 @@ public class Glow4002 extends Festival implements Glow4002Festival{
         orderOxygenQuantityOfGradeB(OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.now(), ZoneOffset.UTC), 2);
     }
 
-    public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws Exception {
+    public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws RecordAlreadyExistsException {
         validateOrderDate(orderDate);
 
-        return this.passOrderCreator.orderPasses(orderDate, vendorCode, passRequests);
+        return this.passOrderService.orderPasses(orderDate, vendorCode, passRequests);
+    }
+
+    public PassOrder getOrder(long id) throws RecordNotFoundException {
+        return this.passOrderService.getOrder(id);
     }
 
     private void validateOrderDate(OffsetDateTime orderDate) {
         if (!isDuringSaleTime(orderDate)) {
-            // TODO replace by ApiException
+            // TODO replace by specific exception
+            // TODO message is not correct
             throw new IllegalArgumentException(
                 String.format(
                     "order date should be between %s and %s",

@@ -18,11 +18,11 @@ import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
 
-public class PassOrderCreatorTest {
+public class PassOrderServiceTest {
 
     private static final int NUMBER_OF_PASSES = 5;
 
-    private PassOrderCreator passOrderCreator;
+    private PassOrderService passOrderService;
     private PassOrderPersistance passOrderPersistance;
     private PassPersistance passPersistance;
     private List<PassRequest> passRequests;
@@ -39,7 +39,7 @@ public class PassOrderCreatorTest {
         when(repository.getPassOrderPersistance()).thenReturn(this.passOrderPersistance);
         when(repository.getPassPersistance()).thenReturn(this.passPersistance);
         
-        this.passOrderCreator = new PassOrderCreator(repository, OffsetDateTime.now(), OffsetDateTime.now());
+        this.passOrderService = new PassOrderService(repository, OffsetDateTime.now(), OffsetDateTime.now());
 
         initPasses();
     }
@@ -54,13 +54,13 @@ public class PassOrderCreatorTest {
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = this.passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
+        PassOrder passOrder = this.passOrderService.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
         verify(this.passOrderPersistance).save(passOrder);
     }
 
     @Test
-    public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws RecordAlreadyExistsException {
-        passOrderCreator.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
+    public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws Exception {
+        passOrderService.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
         verify(this.passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
     }
 }
