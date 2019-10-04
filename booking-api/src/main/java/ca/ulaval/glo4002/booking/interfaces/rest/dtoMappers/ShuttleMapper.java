@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ShuttleDto;
 
 public class ShuttleMapper {
 
-	public List<ShuttleDto> getShuttlesDto(List<Shuttle> shuttles) {
+    public List<ShuttleDto> getShuttlesDto(List<Shuttle> shuttles) {
         List<ShuttleDto> shuttlesDto = new LinkedList<>();
         for (Shuttle shuttle: shuttles) {        
             ShuttleDto shuttleDto = new ShuttleDto();

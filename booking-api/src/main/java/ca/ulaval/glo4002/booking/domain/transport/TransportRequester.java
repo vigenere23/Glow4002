@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
 
-public class TransportRequester implements TransportExposer {
+public class TransportRequester extends TransportExposer {
     
     private ShuttlePersistance transportRepository;
     private ShuttleFiller shuttleFiller;
@@ -36,7 +36,7 @@ public class TransportRequester implements TransportExposer {
     }
 
     private void validateDateRange(LocalDate date) throws OutOfFestivalDatesException {
-        if(!festival.isDuringEventTime(OffsetDateTime.of(date, LocalTime.NOON, ZoneOffset.UTC))) {
+        if (!festival.isDuringEventTime(OffsetDateTime.of(date, LocalTime.NOON, ZoneOffset.UTC))) {
             throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
         }
     }

@@ -10,7 +10,7 @@ public class ShuttleFiller {
     public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, long passNumber, LocalDate date) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date);
         availableShuttle.addPassNumber(passNumber);
-        if(!shuttlesToFill.contains(availableShuttle)) {
+        if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
         }
         return shuttlesToFill;
@@ -19,7 +19,7 @@ public class ShuttleFiller {
     private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date) {
         Shuttle availableShuttle = shuttlesToFill.stream()
             .filter(shuttle -> {
-                if(shuttleIsAvailable(shuttle, shuttleCategory, date)) {
+                if (shuttleIsAvailable(shuttle, shuttleCategory, date)) {
                     return true;
                 }
                 return false;

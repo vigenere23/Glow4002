@@ -22,14 +22,14 @@ public class HeapOxygenHistory implements OxygenHistory {
 
     @Override
     public void updateCreationHistory(OffsetDateTime date, History history) {
-        if(history == null) return;
+        if (history == null) return;
         this.history.put(date, history);
     }
 
     @Override
     public History getCreationHistoryPerDate(OffsetDateTime date) {
         History historyPerDate = null;
-        if(history.containsKey(date) )
+        if (history.containsKey(date) )
         {
             historyPerDate = history.get(date);
         } else {

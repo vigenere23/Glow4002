@@ -21,8 +21,8 @@ public enum PassCategory {
 
     public static PassCategory fromString(String text) {
         Optional<PassCategory> value = Arrays.stream(values())
-          .filter(entry -> entry.text.equalsIgnoreCase(text))
-          .findFirst();
+            .filter(entry -> entry.text.equalsIgnoreCase(text))
+            .findFirst();
 
         if (!value.isPresent()) {
             throw new IllegalArgumentException(
