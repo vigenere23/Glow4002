@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSinglePass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantPackagePass;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class HeapPassPersistanceTest {
 
-    private static final long INVALID_ID = -1L;
+    private static final ID INVALID_ID = new ID(-1L);
 
     private PassPersistance passPersistance;
     private Pass pass;
@@ -37,26 +38,26 @@ public class HeapPassPersistanceTest {
 
     @Test
     public void givenSavingAPass_whenGetThePassById_itReturnsTheSamePass() throws Exception {
-        pass.setId(null);
+        pass.setPassNumber(null);
         passPersistance.save(pass);
-        Pass savedPass = passPersistance.getById(pass.getId()).get();
+        Pass savedPass = passPersistance.getById(pass.getPassNumber()).get();
         assertThat(savedPass).isEqualTo(pass);
     }
 
     @Test
     public void whenSavingPassWithIdNull_itSetsAnId() throws Exception {
-        pass.setId(null);
+        pass.setPassNumber(null);
         passPersistance.save(pass);
-        assertThat(pass.getId()).isNotNull();
+        assertThat(pass.getPassNumber()).isNotNull();
     }
 
     @Test
     public void whenSavingTwoPasses_itIncrementsTheIdBy1() throws Exception {
         passPersistance.save(pass);
-        Long firstPassId = pass.getId();
+        Long firstPassId = pass.getPassNumber().getId();
 
         passPersistance.save(otherPass);
-        Long secondPassId = otherPass.getId();
+        Long secondPassId = otherPass.getPassNumber().getId();
 
         assertThat(secondPassId - firstPassId).isEqualTo(1L);
     }

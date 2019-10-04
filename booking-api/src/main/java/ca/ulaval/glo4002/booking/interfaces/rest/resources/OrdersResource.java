@@ -61,7 +61,8 @@ public class OrdersResource {
         try {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-            builder.path(Long.toString(passOrder.getId()));
+            Long orderNumber = passOrder.getOrderNumber().getId();
+            builder.path(Long.toString(orderNumber));
             return Response.created(builder.build()).build();
         }
         catch (OutOfSaleDatesException exception) {

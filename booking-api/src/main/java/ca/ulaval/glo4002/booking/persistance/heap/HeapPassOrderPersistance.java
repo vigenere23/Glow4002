@@ -1,17 +1,20 @@
 package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 
 public class HeapPassOrderPersistance implements PassOrderPersistance {
 
     private static final AtomicLong idGenerator = new AtomicLong(0);
-    private Map<Long, PassOrder> passOrders;
+    private Map<ID, PassOrder> passOrders;
 
     public HeapPassOrderPersistance() {
         passOrders = new HashMap<>();
@@ -19,15 +22,16 @@ public class HeapPassOrderPersistance implements PassOrderPersistance {
 
     @Override
     public Optional<PassOrder> getById(Long id) {
-        PassOrder passOrder = passOrders.get(id);
-        return Optional.ofNullable(passOrder);
+        List<ID> idWanted = passOrders.keySet().stream().filter(key -> key.getId().equals(id)).collect(Collectors.toList());   
+        Optional<PassOrder> passOrder = idWanted.isEmpty() ?  Optional.ofNullable(null) : Optional.ofNullable(passOrders.get(idWanted.get(0)));
+        return passOrder;
     }
 
     @Override
     public void save(PassOrder passOrder) {
         if (!passOrders.containsValue(passOrder) && passOrder != null) {
-            passOrder.setId(idGenerator.getAndIncrement());
-            passOrders.put(passOrder.getId(), passOrder);
+            passOrder.setId(new ID(idGenerator.getAndIncrement()));
+            passOrders.put(passOrder.getOrderNumber(), passOrder);
         }
     }
 }

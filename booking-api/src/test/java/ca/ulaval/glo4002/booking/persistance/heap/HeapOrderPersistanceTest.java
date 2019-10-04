@@ -43,7 +43,7 @@ public class HeapOrderPersistanceTest {
     public void givenSavingAOrder_whenGetTheOrderById_itReturnsTheSameOrder() throws Exception {
         passOrder.setId(null);
         passOrderPersistance.save(passOrder);
-        PassOrder savedPassOrder = passOrderPersistance.getById(passOrder.getId()).get();
+        PassOrder savedPassOrder = passOrderPersistance.getById(passOrder.getOrderNumber().getId()).get();
         assertThat(savedPassOrder).isEqualTo(passOrder);
     }
 
@@ -51,16 +51,16 @@ public class HeapOrderPersistanceTest {
     public void whenSavingOrderWithIdNull_itSetsAnId() throws Exception {
         passOrder.setId(null);
         passOrderPersistance.save(passOrder);
-        assertThat(passOrder.getId()).isNotNull();
+        assertThat(passOrder.getOrderNumber()).isNotNull();
     }
 
     @Test
     public void whenSavingTwoOrders_itIncrementsTheIdByOne() throws Exception {
         passOrderPersistance.save(passOrder);
-        Long firstPassOrderId = passOrder.getId();
+        Long firstPassOrderId = passOrder.getOrderNumber().getId();
 
         passOrderPersistance.save(otherPassOrder);
-        Long secondPassOrderId = otherPassOrder.getId();
+        Long secondPassOrderId = otherPassOrder.getOrderNumber().getId();
 
         assertThat(secondPassOrderId - firstPassOrderId).isEqualTo(1L);
     }

@@ -17,7 +17,7 @@ public class PassOrder {
     private List<Pass> passes = new ArrayList<Pass>();
     private OrderDiscount orderDiscount;
 
-    private Long id;
+    private ID id;
 
     public PassOrder(List<Pass> passes) {
         this.passes = passes;
@@ -42,11 +42,11 @@ public class PassOrder {
         return orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(passes), priceBeforeDiscounts);
     }
 
-    public Long getId() {
+    public ID getOrderNumber() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ID id) {
         this.id = id;
     }
 

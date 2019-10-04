@@ -11,12 +11,12 @@ public class PassResponseMapper {
         if (pass instanceof SinglePass) {
             SinglePass singlePass = (SinglePass) pass;
             return new SinglePassResponse(
-                singlePass.getPassNumber(),
+                singlePass.getPassNumber().getId(),
                 singlePass.getPassOption(),
                 singlePass.getPassCategory(),
                 singlePass.getEventDate()
             );
         }
-        return new PassResponse(pass.getPassNumber(), pass.getPassOption(), pass.getPassCategory());
+        return new PassResponse(pass.getPassNumber().getId(), pass.getPassOption(), pass.getPassCategory());
     }
 }

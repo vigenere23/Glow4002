@@ -15,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
@@ -40,7 +41,7 @@ public class OrchestratorTest {
     private static final LocalDate FESTIVAL_START = ORDER_DATE.plusMonths(12);
     private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS);
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
-    private static final long PASS_ID = 0;
+    private static final ID PASS_ID = new ID(0L);
 
     private static final int NEBULA_OXYGEN_QUANTITY = 3;
     private static final int SUPERGIANT_OXYGEN_QUANTITY = 3;
@@ -149,7 +150,7 @@ public class OrchestratorTest {
         List<Pass> passes = new ArrayList<>();
         when(pass.getStartDate()).thenReturn(start);
         when(pass.getEndDate()).thenReturn(end);
-        when(pass.getId()).thenReturn(PASS_ID);
+        when(pass.getPassNumber()).thenReturn(PASS_ID);
         when(pass.getPassCategory()).thenReturn(passCategory);
         passes.add(pass);
         when(passOrder.getPasses()).thenReturn(passes);

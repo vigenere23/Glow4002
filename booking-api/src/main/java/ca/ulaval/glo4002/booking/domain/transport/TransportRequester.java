@@ -6,6 +6,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
 
 public class TransportRequester extends TransportExposer {
@@ -49,14 +50,14 @@ public class TransportRequester extends TransportExposer {
     }
     
     @Override
-    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, long passNumber) {
-        List<Shuttle> shuttlesToSave = assignNewPlace(Location.EARTH, shuttleCategory, date, passNumber);
+    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, ID passNumber) {
+        List<Shuttle> shuttlesToSave = assignNewPlace(Location.EARTH, shuttleCategory, date, passNumber.getId());
         transportRepository.saveDeparture(shuttlesToSave);
     }
     
     @Override
-    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, long passNumber) {
-        List<Shuttle> shuttlesToSave = assignNewPlace(Location.ULAVALOGY, shuttleCategory, date, passNumber);
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, ID passNumber) {
+        List<Shuttle> shuttlesToSave = assignNewPlace(Location.ULAVALOGY, shuttleCategory, date, passNumber.getId());
         transportRepository.saveArrival(shuttlesToSave);
     }   
 
