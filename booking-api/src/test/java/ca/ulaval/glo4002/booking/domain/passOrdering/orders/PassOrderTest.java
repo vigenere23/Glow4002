@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import java.math.RoundingMode;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,28 +55,28 @@ public class PassOrderTest {
 
     @Test
     public void whenCreatingOrderWithNoPasses_thenThePriceShouldBeZero() {
-        PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", new ArrayList<Pass>());
+        PassOrder passOrder = new PassOrder(new ArrayList<Pass>());
         assertThat(passOrder.getPrice()).isEqualTo(Money.zero(CurrencyUnit.CAD));
     }
 
     @Test
     public void whenCreatingOrderWithOnePass_thenThePriceShouldBeThePassPrice() {
         initNebulaPasses(1);
-        PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+        PassOrder passOrder = new PassOrder(passes);
         assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
     }
 
     @Test
     public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
-        PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+        PassOrder passOrder = new PassOrder(passes);
         assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE.multipliedBy(2));
     }
 
     @Test
     public void givenOverThreeNebulaPasses_whenSinglePassOrderCreated_itShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+        PassOrder passOrder = new PassOrder(passes);
 
         Money priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Money priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9, RoundingMode.HALF_UP);
@@ -88,7 +87,7 @@ public class PassOrderTest {
     @Test
     public void givenAtLeastFiveSupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
         initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes);
+        PassOrder passOrder = new PassOrder(passes);
 
         Money priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 

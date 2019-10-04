@@ -53,6 +53,10 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
+        if (request.vendorCode != "TEAM") {
+            throw new InvalidFormatException();
+        }
+
         try {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();

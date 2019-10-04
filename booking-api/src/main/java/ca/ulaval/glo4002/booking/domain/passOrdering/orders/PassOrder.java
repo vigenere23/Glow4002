@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,16 +14,12 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
 public class PassOrder {
 
-    private OffsetDateTime orderDate;
-    private String vendorCode;
     private List<Pass> passes = new ArrayList<Pass>();
     private OrderDiscount orderDiscount;
 
     private Long id;
 
-    public PassOrder(OffsetDateTime orderDate, String vendorCode, List<Pass> passes) {
-        this.orderDate = orderDate;
-        this.vendorCode = vendorCode;
+    public PassOrder(List<Pass> passes) {
         this.passes = passes;
         
         orderDiscount = new SupergiantSinglePassDiscount();

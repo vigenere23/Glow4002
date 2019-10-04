@@ -30,8 +30,8 @@ public class HeapOrderPersistanceTest {
         List<Pass> passes2 = Arrays.asList(mock(Pass.class));
 
         passOrderPersistance = repository.getPassOrderPersistance();
-        passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);
-        otherPassOrder = new PassOrder(OffsetDateTime.now(), "CODE2", passes2);
+        passOrder = new PassOrder(passes1);
+        otherPassOrder = new PassOrder(passes2);
     }
 
     @Test
