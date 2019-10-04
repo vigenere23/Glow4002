@@ -4,8 +4,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import ca.ulaval.glo4002.booking.interfaces.exceptions.ClientError;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.ErrorDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ErrorDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientError;
 
 @Provider
 public class ClientErrorMapper implements ExceptionMapper<ClientError> {

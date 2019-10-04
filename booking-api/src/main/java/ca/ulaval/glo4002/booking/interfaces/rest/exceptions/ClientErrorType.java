@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.exceptions;
+package ca.ulaval.glo4002.booking.interfaces.rest.exceptions;
 
 public enum ClientErrorType {
     INVALID_ORDER_DATE,

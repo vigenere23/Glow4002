@@ -1,4 +1,7 @@
-package ca.ulaval.glo4002.booking.interfaces.exceptions;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos;
+
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientError;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientErrorType;
 
 public class ErrorDto {
 

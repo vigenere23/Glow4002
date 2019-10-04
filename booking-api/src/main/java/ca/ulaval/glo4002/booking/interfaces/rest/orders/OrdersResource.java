@@ -16,11 +16,11 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.ClientError;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidEventDateException;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormatException;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidOrderDateException;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.OrderNotFoundException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientError;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidEventDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidOrderDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 

@@ -6,8 +6,8 @@ import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.core.JsonParseException;
 
-import ca.ulaval.glo4002.booking.interfaces.exceptions.ErrorDto;
-import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidFormatException;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ErrorDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 
 @Provider
 public class JsonParseExceptionMapper implements ExceptionMapper<JsonParseException> {
