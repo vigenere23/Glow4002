@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.domain;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryToOxygenGrade;
@@ -44,12 +45,9 @@ public class Orchestrator {
             
             OxygenGrade oxygenGrade = new PassCategoryToOxygenGrade().getAssociatedValue(passCategory);
             int oxygenQuantityPerDay = new PassCategoryToOxygenQuantity().getAssociatedValue(passCategory);
-            OffsetDateTime oxygenOrderDate = pass.getStartDate();
+            int numberOfDays = (int) ChronoUnit.DAYS.between(pass.getStartDate(), pass.getEndDate()) + 1;
 
-            while (!oxygenOrderDate.isAfter(pass.getEndDate())) {
-                oxygenRequester.orderOxygen(oxygenOrderDate, oxygenGrade, oxygenQuantityPerDay);
-                oxygenOrderDate = oxygenOrderDate.plusDays(1);
-            }
+            oxygenRequester.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
         }
         return passOrder;
     }
