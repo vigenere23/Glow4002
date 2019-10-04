@@ -53,9 +53,16 @@ public class OxygenRequesterTests {
     }
 
     @Test
-    public void whenQuantityToProduceIsHigherThanRemainingQuantity_thenCreationHistoryOfOrderDateIsUpdated() {
-        when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(0);
+    public void whenQuantityToProduceIsLowerThanRemainingQuantity_thenOxygenRemainingIsUpdated() {
+        when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(3);
         oxygenRequester.orderOxygen(oneMonthBeforeFestivalDate, OxygenGrade.A, 2);
-        verify(oxygenHistory).updateCreationHistory(oneMonthBeforeFestivalDate, oxygenProductionResults.orderDateHistory);
+        verify(oxygenInventory).setOxygenRemaining(OxygenGrade.A, 1);
     }
+
+//    @Test
+//    public void whenQuantityToProduceIsHigherThanRemainingQuantity_thenCreationHistoryOfOrderDateIsUpdated() {
+//        when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(0);
+//        oxygenRequester.orderOxygen(oneMonthBeforeFestivalDate, OxygenGrade.A, 2);
+//        verify(oxygenHistory).updateCreationHistory(oneMonthBeforeFestivalDate, oxygenProductionResults.orderDateHistory);
+//    }
 }
