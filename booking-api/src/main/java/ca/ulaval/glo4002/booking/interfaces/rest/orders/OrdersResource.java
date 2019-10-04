@@ -16,12 +16,13 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidOrderDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.OrderNotFoundException;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassOrderRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 @Path("/orders")
@@ -40,7 +41,7 @@ public class OrdersResource {
     public Response getById(@PathParam("id") Long id) throws OrderNotFoundException {
         try {
             PassOrder passOrder = this.passOrderService.getOrder(id);
-            return Response.ok().entity(passOrder.serialize()).build();
+            return Response.ok().entity(new PassOrderResponseMapper().getPassOrderResponse(passOrder)).build();
         }
         catch (RecordNotFoundException exception) {
             throw new OrderNotFoundException(id);
@@ -48,7 +49,7 @@ public class OrdersResource {
     }
 
     @POST
-    public Response create(OrderRequest request, @Context UriInfo uriInfo) throws ClientError {
+    public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
         try {
             PassOrder passOrder = this.passOrderService.orderPasses(request.orderDate, request.vendorCode, request.passes);
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();

@@ -13,7 +13,6 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSing
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.OrderResponse;
 
 public class PassOrder implements Priceable {
 
@@ -59,9 +58,5 @@ public class PassOrder implements Priceable {
 
     public List<Pass> getPasses() {
         return Collections.unmodifiableList(this.passes);
-    }
-
-    public OrderResponse serialize() {
-        return new OrderResponse(getPrice(), this.passes);
     }
 }

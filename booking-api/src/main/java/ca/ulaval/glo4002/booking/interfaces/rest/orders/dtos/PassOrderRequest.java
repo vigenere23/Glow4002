@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 
-public class OrderRequest {
+public class PassOrderRequest {
 
     public final OffsetDateTime orderDate;
     public final String vendorCode;
     public final List<PassRequest> passes;
 
     @JsonCreator
-    public OrderRequest(
+    public PassOrderRequest(
         @JsonProperty(value = "orderDate", required = true) String orderDate,
         @JsonProperty(value = "vendorCode", required = true) String vendorCode,
         @JsonProperty(value = "passes", required = true) Collection<PassRequest> passes
