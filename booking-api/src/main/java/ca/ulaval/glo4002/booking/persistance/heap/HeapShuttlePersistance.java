@@ -26,14 +26,14 @@ public class HeapShuttlePersistance implements ShuttlePersistance {
 
     @Override
     public void saveDeparture(List<Shuttle> shuttlesToSave) {
-        if(!shuttlesToSave.contains(null)) {
+        if (!shuttlesToSave.contains(null)) {
             departureShuttles = shuttlesToSave;
         }
     }
 
     @Override
     public void saveArrival(List<Shuttle> shuttlesToSave) {
-        if(!shuttlesToSave.contains(null)) {
+        if (!shuttlesToSave.contains(null)) {
             arrivalShuttles = shuttlesToSave;
         }
     }
