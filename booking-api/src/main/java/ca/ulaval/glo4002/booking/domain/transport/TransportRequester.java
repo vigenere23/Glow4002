@@ -25,18 +25,20 @@ public class TransportRequester implements TransportExposer {
 
     @Override
     public List<Shuttle> getShuttlesDepartureByDate(LocalDate date) throws OutOfFestivalDatesException {
-        if(!festival.isDuringEventTime(OffsetDateTime.of(date, LocalTime.NOON, ZoneOffset.UTC))) {
-            throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
-        } 
+        validateDateRange(date); 
         return transportRepository.getShuttlesByDate(Location.EARTH, date);
     }
 
     @Override
     public List<Shuttle> getShuttlesArrivalByDate(LocalDate date) throws OutOfFestivalDatesException {
+        validateDateRange(date); 
+        return transportRepository.getShuttlesByDate(Location.ULAVALOGY, date);
+    }
+
+    private void validateDateRange(LocalDate date) throws OutOfFestivalDatesException {
         if(!festival.isDuringEventTime(OffsetDateTime.of(date, LocalTime.NOON, ZoneOffset.UTC))) {
             throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
-        } 
-        return transportRepository.getShuttlesByDate(Location.ULAVALOGY, date);
+        }
     }
 
     @Override
@@ -59,13 +61,11 @@ public class TransportRequester implements TransportExposer {
     public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, long passNumber) {
         List<Shuttle> shuttlesToSave = assignNewPlace(Location.ULAVALOGY, shuttleCategory, date, passNumber);
         transportRepository.saveArrival(shuttlesToSave);
-    }
+    }   
 
     private List<Shuttle> assignNewPlace(Location location, ShuttleCategory shuttleCategory, LocalDate date, long passNumber) {
         List<Shuttle> shuttlesToFill = new LinkedList<Shuttle>();
-        List<Shuttle> shuttlesToSave = new LinkedList<Shuttle>();
-        shuttlesToFill = transportRepository.getShuttles(location);
-        shuttlesToSave = shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date);
-        return shuttlesToSave;
+        shuttlesToFill = transportRepository.getShuttles(location);  
+        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date);
     }
 }

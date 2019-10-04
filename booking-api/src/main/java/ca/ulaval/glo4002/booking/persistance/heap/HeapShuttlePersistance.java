@@ -25,6 +25,14 @@ public class HeapShuttlePersistance implements ShuttlePersistance {
     }
 
     @Override
+    public List<Shuttle> getShuttlesByDate(Location location, LocalDate date) {
+        List<Shuttle> shuttlesByDate = getShuttles(location).stream()
+            .filter(shuttle -> date.equals(shuttle.getDate()))
+            .collect(Collectors.toList());
+        return shuttlesByDate;
+    }
+
+    @Override
     public void saveDeparture(List<Shuttle> shuttlesToSave) {
         if (!shuttlesToSave.contains(null)) {
             departureShuttles = shuttlesToSave;
@@ -36,13 +44,5 @@ public class HeapShuttlePersistance implements ShuttlePersistance {
         if (!shuttlesToSave.contains(null)) {
             arrivalShuttles = shuttlesToSave;
         }
-    }
-
-    @Override
-    public List<Shuttle> getShuttlesByDate(Location location, LocalDate date) {
-        List<Shuttle> shuttlesByDate = getShuttles(location).stream()
-            .filter(shuttle -> date.equals(shuttle.getDate()))
-            .collect(Collectors.toList());
-        return shuttlesByDate;
     }
 }

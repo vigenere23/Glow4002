@@ -34,8 +34,8 @@ public class TransportResource {
 
     @GET
     public TransportResponse transport(@QueryParam("date") String stringDate) throws InvalidEventDateException {
-        List<ShuttleDto> departures = new LinkedList<ShuttleDto>();
-        List<ShuttleDto> arrivals = new LinkedList<ShuttleDto>();
+        List<ShuttleDto> departures;
+        List<ShuttleDto> arrivals;
         if (stringDate == null) {
             departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
             arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
