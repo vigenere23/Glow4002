@@ -16,39 +16,39 @@ import static org.mockito.Mockito.mock;
 
 public class SupergiantSinglePassDiscountTests {
 
-    private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
-    private static final Money PRICE_WITHOUT_DISCOUNT = Money.of(CurrencyUnit.CAD, 50000);
-    private static final Money DISCOUNT_PER_PASS = Money.of(CurrencyUnit.CAD, 10000);
+	private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
+	private static final Money PRICE_WITHOUT_DISCOUNT = Money.of(CurrencyUnit.CAD, 50000);
+	private static final Money DISCOUNT_PER_PASS = Money.of(CurrencyUnit.CAD, 10000);
 
-    private SupergiantSinglePassDiscount supergiantSinglePassDiscount;
-    private List<Pass> passes;
+	private SupergiantSinglePassDiscount supergiantSinglePassDiscount;
+	private List<Pass> passes;
 
-    @BeforeEach
-    public void setUp() {
-        supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
-        passes = new ArrayList<Pass>();
-    }
-    
-    @Test
-    public void givenTwoSupergiantPasses_thenThereIsNoDiscount() {
-        initPasses(2);
-        assertThat(getPriceAfterDiscount()).isEqualTo(PRICE_WITHOUT_DISCOUNT);
-    }
+	@BeforeEach
+	public void setUp() {
+		supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
+		passes = new ArrayList<Pass>();
+	}
+	
+	@Test
+	public void givenTwoSupergiantPasses_thenThereIsNoDiscount() {
+		initPasses(2);
+		assertThat(getPriceAfterDiscount()).isEqualTo(PRICE_WITHOUT_DISCOUNT);
+	}
 
-    @Test
+	@Test
 	public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
 		initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 		Money expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
 		assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
-    }
-    
-    private void initPasses(int numberOfPasses) {
-        for (int i = 0; i < numberOfPasses; i++) {
-            passes.add(mock(SupergiantSinglePass.class));
-        }
-    }
+	}
+	
+	private void initPasses(int numberOfPasses) {
+		for (int i = 0; i < numberOfPasses; i++) {
+			passes.add(mock(SupergiantSinglePass.class));
+		}
+	}
 
-    private Money getPriceAfterDiscount() {
-        return supergiantSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
-    }
+	private Money getPriceAfterDiscount() {
+		return supergiantSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
+	}
 }

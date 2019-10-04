@@ -5,7 +5,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 
-public interface TransportExposer {
+public abstract class TransportExposer {
     
     public abstract List<Shuttle> getShuttlesDepartureByDate(LocalDate date) throws OutOfFestivalDatesException;
     public abstract List<Shuttle> getShuttlesArrivalByDate(LocalDate date) throws OutOfFestivalDatesException;

@@ -29,7 +29,7 @@ public class PassOrderServiceTest {
     private List<PassRequest> passRequests;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         passOrderPersistance = mock(HeapPassOrderPersistance.class);
         passPersistance = mock(HeapPassPersistance.class);
 
@@ -48,7 +48,7 @@ public class PassOrderServiceTest {
         initPasses();
     }
 
-    private void initPasses() {
+    private void initPasses() throws Exception {
         passRequests = new ArrayList<>();
 
         for (int i = 0; i < NUMBER_OF_PASSES; i++) {

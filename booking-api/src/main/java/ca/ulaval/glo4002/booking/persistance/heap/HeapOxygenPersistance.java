@@ -6,21 +6,21 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;;
 
 public class HeapOxygenPersistance implements OxygenPersistance {
 
-	private final OxygenInventory oxygenInventory;
-	private final OxygenHistory oxygenHistory;
+    private final OxygenInventory oxygenInventory;
+    private final OxygenHistory oxygenHistory;
 
-	public HeapOxygenPersistance() {
-		oxygenInventory = new HeapOxygenInventory();
-		oxygenHistory = new HeapOxygenHistory();
-	}
+    public HeapOxygenPersistance() {
+        oxygenInventory = new HeapOxygenInventory();
+        oxygenHistory = new HeapOxygenHistory();
+    }
 
-	@Override
-	public OxygenInventory getOxygenInventory() {
-		return oxygenInventory;
-	}
+    @Override
+    public OxygenInventory getOxygenInventory() {
+        return oxygenInventory;
+    }
 
-	@Override
-	public OxygenHistory getOxygenHistory() {
-		return oxygenHistory;
-	}
+    @Override
+    public OxygenHistory getOxygenHistory() {
+        return oxygenHistory;
+    }
 }

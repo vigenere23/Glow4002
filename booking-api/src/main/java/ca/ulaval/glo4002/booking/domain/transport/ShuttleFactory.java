@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class ShuttleFactory {
     
     public Shuttle createShuttle(ShuttleCategory shuttleCategory, LocalDate date) {
-        switch(shuttleCategory) {
+        switch (shuttleCategory) {
             case SPACE_X:
                 return new SpaceX(date);
             case MILLENNIUM_FALCON:

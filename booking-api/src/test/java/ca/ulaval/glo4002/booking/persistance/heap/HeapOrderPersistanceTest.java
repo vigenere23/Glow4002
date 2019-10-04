@@ -27,7 +27,7 @@ public class HeapOrderPersistanceTest {
     public void setUp() {
         Repository repository = new HeapRepository();
         List<Pass> passes1 = Arrays.asList(mock(Pass.class));
-		List<Pass> passes2 = Arrays.asList(mock(Pass.class));
+        List<Pass> passes2 = Arrays.asList(mock(Pass.class));
 
         passOrderPersistance = repository.getPassOrderPersistance();
         passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);

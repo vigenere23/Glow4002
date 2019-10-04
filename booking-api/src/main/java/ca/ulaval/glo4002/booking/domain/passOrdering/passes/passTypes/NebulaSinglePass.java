@@ -14,8 +14,8 @@ public class NebulaSinglePass extends SinglePass {
         price = Money.of(CurrencyUnit.CAD, 50000);
     }
 
-    @Override
-    public PassCategory getPassCategory() {
-        return PassCategory.NEBULA;
-    }
+	@Override
+	public PassCategory getPassCategory() {
+		return PassCategory.NEBULA;
+	}
 }

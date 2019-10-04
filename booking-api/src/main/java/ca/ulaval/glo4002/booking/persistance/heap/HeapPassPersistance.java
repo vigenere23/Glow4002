@@ -11,23 +11,23 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 public class HeapPassPersistance implements PassPersistance {
 
     private static final AtomicLong idGenerator = new AtomicLong(0);
-	private Map<Long, Pass> passes;
+    private Map<Long, Pass> passes;
 
-	public HeapPassPersistance() {
-		passes = new HashMap<>();
-	}
+    public HeapPassPersistance() {
+        passes = new HashMap<>();
+    }
 
-	@Override
-	public Optional<Pass> getById(Long id) {
-		Pass pass = passes.get(id);
-		return Optional.ofNullable(pass);
-	}
+    @Override
+    public Optional<Pass> getById(Long id) {
+        Pass pass = passes.get(id);
+        return Optional.ofNullable(pass);
+    }
 
-	@Override
-	public void save(Pass pass) {
-		if (!passes.containsValue(pass) && pass != null) {			
-			pass.setId(idGenerator.getAndIncrement());
-			passes.put(pass.getId(), pass);
-		}
-	}
+    @Override
+    public void save(Pass pass) {
+        if (!passes.containsValue(pass) && pass != null) {            
+            pass.setId(idGenerator.getAndIncrement());
+            passes.put(pass.getId(), pass);
+        }
+    }
 }

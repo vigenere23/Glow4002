@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenExposer;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ReportOxygenResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen.ReportOxygenResponse;
 
 @Path("/report/o2")
 @Produces(MediaType.APPLICATION_JSON)
