@@ -34,6 +34,14 @@ public abstract class Pass implements Priceable {
         return this.passNumber;
     }
 
+    public OffsetDateTime getStartDate() {
+        return this.startDate;
+    }
+
+    public OffsetDateTime getEndDate() {
+        return this.endDate;
+    }
+
     public abstract PassOption getPassOption();
     public abstract PassCategory getPassCategory();
 }
