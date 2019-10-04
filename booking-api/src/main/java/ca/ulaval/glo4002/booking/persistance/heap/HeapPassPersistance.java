@@ -25,7 +25,7 @@ public class HeapPassPersistance implements PassPersistance {
 
 	@Override
 	public void save(Pass pass) {
-		if (!passes.containsValue(pass)) {			
+		if (!passes.containsValue(pass) && pass != null) {			
 			pass.setId(idGenerator.getAndIncrement());
 			passes.put(pass.getId(), pass);
 		}

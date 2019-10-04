@@ -25,7 +25,7 @@ public class HeapPassOrderPersistance implements PassOrderPersistance {
 
 	@Override
 	public void save(PassOrder passOrder) {
-		if (!passOrders.containsValue(passOrder)) {
+		if (!passOrders.containsValue(passOrder) && passOrder != null) {
 			passOrder.setId(idGenerator.getAndIncrement());
 			passOrders.put(passOrder.getId(), passOrder);
 		}
