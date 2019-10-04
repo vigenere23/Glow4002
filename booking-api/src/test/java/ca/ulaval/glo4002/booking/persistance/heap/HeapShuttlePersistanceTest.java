@@ -29,11 +29,25 @@ class HeapShuttlePersistanceTest {
         repository.saveArrival(shuttles);
         assertEquals(shuttles, repository.getShuttles(Location.ULAVALOGY));
     }
+
+    @Test
+    public void givenShuttleListWithNull_whenSaveArrival_thenDontReplacesShuttleList() {
+        shuttles.add(null);
+        repository.saveArrival(shuttles);
+        assertEquals(0, repository.getShuttles(Location.ULAVALOGY).size());
+    }
     
     @Test
     public void givenShuttleList_whenSaveDeparture_thenReplacesShuttleList() {
         repository.saveDeparture(shuttles);
         assertEquals(shuttles, repository.getShuttles(Location.EARTH));
+    }
+
+    @Test
+    public void givenShuttleListWithNull_whenSaveDeparture_thenDontReplacesShuttleList() {
+        shuttles.add(null);
+        repository.saveDeparture(shuttles);
+        assertEquals(0, repository.getShuttles(Location.EARTH).size());
     }
 
     @Test
