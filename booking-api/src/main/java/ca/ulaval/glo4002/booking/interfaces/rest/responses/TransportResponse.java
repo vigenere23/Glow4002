@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OutOfFestivalDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers.OutOfFestivalDateException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

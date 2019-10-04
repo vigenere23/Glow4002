@@ -8,7 +8,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OutOfFestivalDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers.OutOfFestivalDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.responses.TransportResponse;
 
 @Path("/shuttle-manifests")

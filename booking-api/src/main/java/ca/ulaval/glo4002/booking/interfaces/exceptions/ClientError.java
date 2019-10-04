@@ -2,14 +2,14 @@ package ca.ulaval.glo4002.booking.interfaces.exceptions;
 
 public abstract class ClientError extends Exception {
 
-    public final ClientErrorType error;
+    public final ClientErrorType errorType;
     public final String description;
     public final int status;
 
-    public ClientError(int status, ClientErrorType error, String description) {
-        super(String.format("%s : %s", error.toString(), description));
+    public ClientError(int status, ClientErrorType errorType, String description) {
+        super(String.format("%s : %s", errorType.toString(), description));
         this.status = status;
-        this.error = error;
+        this.errorType = errorType;
         this.description = description;
     }
 

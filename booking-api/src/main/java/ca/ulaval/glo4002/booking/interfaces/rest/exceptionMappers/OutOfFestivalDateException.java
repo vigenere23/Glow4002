@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.mappers;
+package ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
@@ -6,6 +6,8 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers.OutOfFestivalDateExceptionMessage;
 
 import javax.ws.rs.core.MediaType;
 
