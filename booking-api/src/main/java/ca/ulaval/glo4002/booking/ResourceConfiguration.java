@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenExposer;
 
 public class ResourceConfiguration extends ResourceConfig {
 
-	public ResourceConfiguration(Repository repository, OxygenExposer oxygen, TransportExposer transportExposer, PassOrderService passOrderService, Orchestrator orchester) {
+	public ResourceConfiguration(Repository repository, OxygenExposer oxygen, TransportExposer transportExposer, PassOrderService passOrderService, Orchestrator orchestrator) {
 		register(new AbstractBinder() {
 
 			@Override
@@ -20,7 +20,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(repository).to(Repository.class);
                 bind(transportExposer).to(TransportExposer.class);
 				bind(passOrderService).to(PassOrderService.class);
-				bind(orchester).to(Orchestrator.class);
+				bind(orchestrator).to(Orchestrator.class);
 			}
 		});
 	}

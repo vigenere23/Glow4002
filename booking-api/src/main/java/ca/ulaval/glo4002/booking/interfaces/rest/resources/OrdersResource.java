@@ -31,12 +31,12 @@ import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderRequest;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
 
-    private Orchestrator orchester;
+    private Orchestrator orchestrator;
     private PassOrderService passOrderService;
     
     @Inject
-    public OrdersResource(Orchestrator orchester, PassOrderService passOrderService) {
-        this.orchester = orchester;
+    public OrdersResource(Orchestrator orchestrator, PassOrderService passOrderService) {
+        this.orchestrator = orchestrator;
         this.passOrderService = passOrderService;
     }
 
@@ -54,7 +54,7 @@ public class OrdersResource {
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
         try {
-            PassOrder passOrder = this.orchester.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
+            PassOrder passOrder = this.orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();
             builder.path(Long.toString(passOrder.getId()));
             return Response.created(builder.build()).build();

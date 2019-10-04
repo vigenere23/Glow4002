@@ -59,7 +59,7 @@ public class OxygenProducer {
     private OxygenGrade getRealGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {
         OxygenGrade realGradeToProduce = grade;
         while (!enoughTimeForFabrication(orderDate, realGradeToProduce)) {
-            realGradeToProduce = getLowerGradeOf(grade);
+            realGradeToProduce = getLowerGradeOf(realGradeToProduce);
         }
         return realGradeToProduce;
     }
