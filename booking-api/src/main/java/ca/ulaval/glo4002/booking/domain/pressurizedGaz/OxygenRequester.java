@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class OxygenRequester extends OxygenExposer {
     private OxygenInventory inventory;
     private OxygenHistory history;
 
-    public OxygenRequester(OffsetDateTime limitDeliveryDate, OxygenPersistance oxygenPersistance) {
+    public OxygenRequester(LocalDate limitDeliveryDate, OxygenPersistance oxygenPersistance) {
         inventory = oxygenPersistance.getOxygenInventory();
         history = oxygenPersistance.getOxygenHistory();
         oxygenProducer = new OxygenProducer(limitDeliveryDate);
@@ -31,7 +31,7 @@ public class OxygenRequester extends OxygenExposer {
         return new ArrayList<>(history.getCreationHistory().values());
     }
 
-    public void orderOxygen(OffsetDateTime orderDate, OxygenGrade grade, int quantity) {
+    public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int quantity) {
         int remainingQuantity = inventory.getOxygenRemaining(grade);
 
         if (hasToProduce(quantity, remainingQuantity)) {
@@ -57,12 +57,12 @@ public class OxygenRequester extends OxygenExposer {
         return quantityToProduce > remainingQuantity;
     }
 
-    private void initializeResults(OffsetDateTime orderDate, OxygenGrade grade) {
+    private void initializeResults(LocalDate orderDate, OxygenGrade grade) {
         results = new OxygenProductionResults();
         results.orderDateHistory = history.getCreationHistoryPerDate(orderDate);
         results.gradeProduced = oxygenProducer.getNextGradeToProduce(orderDate, grade);
 
-        OffsetDateTime deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
+        LocalDate deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
         results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
     }
 

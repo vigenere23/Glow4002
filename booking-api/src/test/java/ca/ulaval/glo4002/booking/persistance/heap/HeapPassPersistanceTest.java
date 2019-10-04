@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.persistance.heap;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +26,8 @@ public class HeapPassPersistanceTest {
         Repository repository = new HeapRepository();
 
         passPersistance = repository.getPassPersistance();
-        pass = new NebulaSinglePass(OffsetDateTime.now());
-        otherPass = new SupergiantPackagePass(OffsetDateTime.now(), OffsetDateTime.now());
+        pass = new NebulaSinglePass(LocalDate.now());
+        otherPass = new SupergiantPackagePass(LocalDate.now(), LocalDate.now());
     }
 
     @Test

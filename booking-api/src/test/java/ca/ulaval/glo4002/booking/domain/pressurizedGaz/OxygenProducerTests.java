@@ -3,8 +3,7 @@ package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,21 +12,21 @@ public class OxygenProducerTests {
 
     private OxygenProducer oxygenProducer;
     private OxygenProductionResults results;
-    private final static OffsetDateTime festivalStartingDate = OffsetDateTime.of(2050, 7, 17, 0, 0, 0, 0, ZoneOffset.UTC);
-    private final static OffsetDateTime oneMonthBeforeFestivalDate = OffsetDateTime.of(2050, 6, 17, 0, 0, 0, 0, ZoneOffset.UTC);
-    private final static OffsetDateTime completionDateGradeAOrder = OffsetDateTime.of(2050, 7, 7, 0, 0, 0, 0, ZoneOffset.UTC);
-    private final static OffsetDateTime fifteenDaysBeforeFestivalDate = OffsetDateTime.of(2050, 7, 2, 0, 0, 0, 0, ZoneOffset.UTC);
-    private final static OffsetDateTime fiveDaysBeforeFestivalDate = OffsetDateTime.of(2050, 7, 12, 0, 0, 0, 0, ZoneOffset.UTC);
-    private final static OffsetDateTime duringFestival = OffsetDateTime.of(2050, 7, 18, 0, 0, 0, 0, ZoneOffset.UTC);
+    private final static LocalDate FESTIVAL_STARTING_DATE = LocalDate.of(2050, 7, 17);
+    private final static LocalDate ONE_MONTH_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusMonths(1);
+    private final static LocalDate COMPLETION_DATE_GRADE_A_ORDER = LocalDate.of(2050, 7, 7);
+    private final static LocalDate FIFTEEN_DAYS_BEFORE_FESTIVAL = FESTIVAL_STARTING_DATE.minusDays(15);
+    private final static LocalDate FIVE_DAYS_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusDays(5);
+    private final static LocalDate DURING_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.plusDays(1);
 
     @BeforeEach
     public void testInitialize() {
-        oxygenProducer = new OxygenProducer(festivalStartingDate);
+        oxygenProducer = new OxygenProducer(FESTIVAL_STARTING_DATE);
         results = new OxygenProductionResults();
         results.orderDateHistory = new History();
-        results.orderDateHistory.date = oneMonthBeforeFestivalDate;
+        results.orderDateHistory.date = ONE_MONTH_BEFORE_FESTIVAL_DATE;
         results.deliveryDateHistory = new History();
-        results.deliveryDateHistory.date = completionDateGradeAOrder;
+        results.deliveryDateHistory.date = COMPLETION_DATE_GRADE_A_ORDER;
     }
 
     @Test
@@ -85,30 +84,30 @@ public class OxygenProducerTests {
 
     @Test
     public void whenOrderOxygenGradeAOnTime_thenNextGradeToProduceIsGradeA() {
-        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(oneMonthBeforeFestivalDate, OxygenGrade.A);
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A);
         assertEquals(OxygenGrade.A, nextGradeToProduce);
     }
 
     @Test
     public void whenOrderOxygenGradeATooLate_thenNextGradeToProduceIsGradeB() {
-        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(fifteenDaysBeforeFestivalDate, OxygenGrade.A);
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(FIFTEEN_DAYS_BEFORE_FESTIVAL, OxygenGrade.A);
         assertEquals(OxygenGrade.B, nextGradeToProduce);
     }
 
     @Test
     public void whenOrderOxygenGradeBTooLate_thenNextGradeToProduceIsGradeE() {
-        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(fiveDaysBeforeFestivalDate, OxygenGrade.B);
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(FIVE_DAYS_BEFORE_FESTIVAL_DATE, OxygenGrade.B);
         assertEquals(OxygenGrade.E, nextGradeToProduce);
     }
 
     @Test
     public void whenOrderOxygenGradeAOnLimitDeliveryDate_thenNextGradeToProduceIsGradeE() {
-        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(festivalStartingDate, OxygenGrade.E);
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(FESTIVAL_STARTING_DATE, OxygenGrade.E);
         assertEquals(OxygenGrade.E, nextGradeToProduce);
     }
 
     @Test
     public void whenOrderOxygenGradeEAfterLimitDeliveryDate_thenException() {
-        assertThrows(IllegalArgumentException.class, () -> oxygenProducer.getNextGradeToProduce(duringFestival, OxygenGrade.E));
+        assertThrows(IllegalArgumentException.class, () -> oxygenProducer.getNextGradeToProduce(DURING_FESTIVAL_DATE, OxygenGrade.E));
     }
 }

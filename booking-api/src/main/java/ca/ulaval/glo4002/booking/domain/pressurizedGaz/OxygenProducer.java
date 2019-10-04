@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 public class OxygenProducer {
 
-    private OffsetDateTime limitDeliveryDate;
+    private LocalDate limitDeliveryDate;
 
-    public OxygenProducer(OffsetDateTime limitDeliveryDate) {
+    public OxygenProducer(LocalDate limitDeliveryDate) {
         this.limitDeliveryDate = limitDeliveryDate;
     }
 
@@ -50,16 +50,16 @@ public class OxygenProducer {
         }
     }
 
-    public OxygenGrade getNextGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {
+    public OxygenGrade getNextGradeToProduce(LocalDate orderDate, OxygenGrade grade) {
         return enoughTimeForFabrication(orderDate, grade) ? grade : getLowerGradeOf(grade);
     }
 
-    private boolean enoughTimeForFabrication(OffsetDateTime orderDate, OxygenGrade grade) {
-        OffsetDateTime fabricationCompletionDate = getFabricationCompletionDate(orderDate, grade);
+    private boolean enoughTimeForFabrication(LocalDate orderDate, OxygenGrade grade) {
+        LocalDate fabricationCompletionDate = getFabricationCompletionDate(orderDate, grade);
         return !fabricationCompletionDate.isAfter(limitDeliveryDate);
     }
 
-    public OffsetDateTime getFabricationCompletionDate(OffsetDateTime orderDate, OxygenGrade grade) {
+    public LocalDate getFabricationCompletionDate(LocalDate orderDate, OxygenGrade grade) {
         long gradeFabricationDelay = ProductionSettings.fabricationTimeInDay.get(grade);
         return orderDate.plusDays(gradeFabricationDelay);
     }

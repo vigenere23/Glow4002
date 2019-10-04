@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +39,9 @@ public class PassOrderServiceTest {
 
         Glow4002 festival = mock(Glow4002.class);
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
-        when(festival.isDuringEventTime(any(OffsetDateTime.class))).thenReturn(true);
-        when(festival.getStartDate()).thenReturn(OffsetDateTime.now());
-        when(festival.getEndDate()).thenReturn(OffsetDateTime.now());
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+        when(festival.getStartDate()).thenReturn(LocalDate.now());
+        when(festival.getEndDate()).thenReturn(LocalDate.now());
         
         passOrderService = new PassOrderService(repository, festival);
 

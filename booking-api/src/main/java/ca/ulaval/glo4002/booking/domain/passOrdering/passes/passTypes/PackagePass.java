@@ -1,13 +1,13 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 
 public abstract class PackagePass extends Pass {
 
-    protected PackagePass(OffsetDateTime startDate, OffsetDateTime endDate) {
+    protected PackagePass(LocalDate startDate, LocalDate endDate) {
         super(startDate, endDate);
     }
 

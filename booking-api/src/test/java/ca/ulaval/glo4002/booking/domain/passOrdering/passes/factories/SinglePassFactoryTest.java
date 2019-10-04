@@ -1,13 +1,14 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
@@ -21,32 +22,50 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaS
 
 public class SinglePassFactoryTest {
 
-    Glow4002 festival = new Glow4002();
-    private SinglePassFactory passFactory = new SinglePassFactory(festival);
-    private OffsetDateTime validDate = OffsetDateTime.of(LocalDate.of(2050, 7, 18), LocalTime.MIDNIGHT, ZoneOffset.UTC);
+    private Glow4002 festival;
+    private SinglePassFactory passFactory;
+
+    private static final LocalDate ANY_DATE = LocalDate.now();
+
+    @BeforeEach
+    public void seTup() {
+        festival = mock(Glow4002.class);
+        when(festival.getStartDate()).thenReturn(ANY_DATE);
+        when(festival.getEndDate()).thenReturn(ANY_DATE);
+
+        passFactory = new SinglePassFactory(festival);
+    }
 
     @Test
     public void whenPassingInvalidEventDate_thenAnExceptionIsThrown() {
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
+
         assertThatExceptionOfType(OutOfFestivalDatesException.class).isThrownBy(() -> {
-            passFactory.create(PassCategory.NEBULA, OffsetDateTime.now());
+            passFactory.create(PassCategory.NEBULA, ANY_DATE);
         });
     }
 
     @Test
-    public void shouldCreateNebulaSinglePassInstance() throws OutOfFestivalDatesException {
-        SinglePass pass = passFactory.create(PassCategory.NEBULA, validDate);
+    public void whenPassingValidDate_thenItShouldCreateNebulaSinglePassInstance() throws OutOfFestivalDatesException {
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+
+        SinglePass pass = passFactory.create(PassCategory.NEBULA, ANY_DATE);
         assertTrue(pass.getClass().equals(NebulaSinglePass.class));
     }
 
     @Test
-    public void shouldCreateSupergiantSinglePassInstance() throws OutOfFestivalDatesException {
-        SinglePass pass = passFactory.create(PassCategory.SUPERNOVA, validDate);
+    public void whenPassingValidDate_thenItShouldCreateSupergiantSinglePassInstance() throws OutOfFestivalDatesException {
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+
+        SinglePass pass = passFactory.create(PassCategory.SUPERNOVA, ANY_DATE);        
         assertTrue(pass.getClass().equals(SupernovaSinglePass.class));
     }
 
     @Test
-    public void shouldCreateSupernovaSinglePassInstance() throws OutOfFestivalDatesException {
-        SinglePass pass = passFactory.create(PassCategory.SUPERGIANT, validDate);
+    public void whenPassingValidDate_thenItShouldCreateSupernovaSinglePassInstance() throws OutOfFestivalDatesException {
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+
+        SinglePass pass = passFactory.create(PassCategory.SUPERGIANT, ANY_DATE);
         assertTrue(pass.getClass().equals(SupergiantSinglePass.class));
     }
 }

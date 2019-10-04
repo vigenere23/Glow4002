@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 public class OxygenHistoryDto {
-    
-    public OffsetDateTime date;
+
+    public LocalDate date;
     public int qtyOxygenTankBought;
     public int qtyWaterUsed;
     public int qtyCandlesUsed;
