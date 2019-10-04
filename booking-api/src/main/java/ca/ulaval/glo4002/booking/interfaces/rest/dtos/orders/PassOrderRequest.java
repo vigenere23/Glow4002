@@ -20,7 +20,7 @@ public class PassOrderRequest {
     public PassOrderRequest(
         @JsonProperty(value = "orderDate", required = true) String orderDate,
         @JsonProperty(value = "vendorCode", required = true) String vendorCode,
-        @JsonProperty(value = "passes", required = true) Collection<PassRequest> passes
+        @JsonProperty(value = "passes", required = true) List<PassRequest> passes
     ) throws InvalidFormatException {
         try {
             this.orderDate = OffsetDateTime.parse(orderDate);
