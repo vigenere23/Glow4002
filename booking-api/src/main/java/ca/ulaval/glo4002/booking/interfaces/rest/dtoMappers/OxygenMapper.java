@@ -5,8 +5,8 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.Inventory;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtos.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtos.OxygenInventoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen.OxygenHistoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen.OxygenInventoryDto;
 
 public class OxygenMapper {
 

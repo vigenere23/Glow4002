@@ -9,6 +9,8 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
 
 public class BookingServer implements Runnable {
@@ -24,10 +26,12 @@ public class BookingServer implements Runnable {
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
         HeapRepository repository = new HeapRepository();
         Glow4002 festival = new Glow4002(repository);
-        OxygenRequester oxygenExposer = new OxygenRequester(festival.getEndDate(), repository.getOxygenPersistance());
+        OxygenRequester oxygenExposer = new OxygenRequester(festival.getEndDate(), repository.getOxygenPersistance());   
+        TransportExposer transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
         PassOrderService passOrderService = new PassOrderService(repository, festival);
-        festival.setOxygenRequester(oxygenExposer);
-        ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenExposer, passOrderService).packages("ca.ulaval.glo4002.booking");
+        festival.setOxygenRequester(oxygenExposer); 
+        
+        ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenExposer, transportExposer, passOrderService).packages("ca.ulaval.glo4002.booking");
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 

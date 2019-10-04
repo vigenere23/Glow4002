@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenExposer;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.OxygenMapper;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtos.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtos.OxygenInventoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen.OxygenHistoryDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen.OxygenInventoryDto;
 
 
 public class ReportOxygenResponse {
