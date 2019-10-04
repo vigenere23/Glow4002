@@ -16,7 +16,7 @@ public class PackagePassFactory {
     }
 
     public PackagePass create(PassCategory passCategory) {
-        switch(passCategory) {
+        switch (passCategory) {
             case NEBULA:
                 return new NebulaPackagePass(festival.getStartDate(), festival.getEndDate());
             case SUPERGIANT:

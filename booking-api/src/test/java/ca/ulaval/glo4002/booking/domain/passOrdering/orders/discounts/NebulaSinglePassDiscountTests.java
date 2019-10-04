@@ -37,10 +37,10 @@ public class NebulaSinglePassDiscountTests {
     }
 
     @Test
-	public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
-		initPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-		Money expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT, RoundingMode.HALF_UP);
-		assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
+    public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
+        initPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+        Money expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT, RoundingMode.HALF_UP);
+        assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
     }
     
     private void initPasses(int numberOfPasses) {

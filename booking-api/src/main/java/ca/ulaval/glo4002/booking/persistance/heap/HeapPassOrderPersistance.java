@@ -10,24 +10,24 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistanc
 
 public class HeapPassOrderPersistance implements PassOrderPersistance {
 
-	private static final AtomicLong idGenerator = new AtomicLong(0);
-	private Map<Long, PassOrder> passOrders;
+    private static final AtomicLong idGenerator = new AtomicLong(0);
+    private Map<Long, PassOrder> passOrders;
 
-	public HeapPassOrderPersistance() {
-		passOrders = new HashMap<>();
-	}
+    public HeapPassOrderPersistance() {
+        passOrders = new HashMap<>();
+    }
 
-	@Override
-	public Optional<PassOrder> getById(Long id) {
-		PassOrder passOrder = passOrders.get(id);
-		return Optional.ofNullable(passOrder);
-	}
+    @Override
+    public Optional<PassOrder> getById(Long id) {
+        PassOrder passOrder = passOrders.get(id);
+        return Optional.ofNullable(passOrder);
+    }
 
-	@Override
-	public void save(PassOrder passOrder) {
-		if (!passOrders.containsValue(passOrder) && passOrder != null) {
-			passOrder.setId(idGenerator.getAndIncrement());
-			passOrders.put(passOrder.getId(), passOrder);
-		}
-	}
+    @Override
+    public void save(PassOrder passOrder) {
+        if (!passOrders.containsValue(passOrder) && passOrder != null) {
+            passOrder.setId(idGenerator.getAndIncrement());
+            passOrders.put(passOrder.getId(), passOrder);
+        }
+    }
 }
