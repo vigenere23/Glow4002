@@ -2,11 +2,11 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 public class HeapPassPersistance implements PassPersistance {
 
@@ -18,14 +18,10 @@ public class HeapPassPersistance implements PassPersistance {
 	}
 
 	@Override
-	public Pass getById(Long id) throws RecordNotFoundException {
+	public Optional<Pass> getById(Long id) {
 		Pass pass = this.passes.get(id);
-		
-		if (pass == null) {
-			throw new RecordNotFoundException();
-		}
 
-		return pass;
+		return Optional.ofNullable(pass);
 	}
 
 	@Override

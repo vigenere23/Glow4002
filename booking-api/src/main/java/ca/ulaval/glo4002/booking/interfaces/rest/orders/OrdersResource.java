@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.orders;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,7 +25,6 @@ import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatExcepti
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidOrderDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderRequest;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,13 +40,12 @@ public class OrdersResource {
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") Long id) throws OrderNotFoundException {
-        try {
-            PassOrder passOrder = this.passOrderService.getOrder(id);
-            return Response.ok().entity(new PassOrderResponseMapper().getPassOrderResponse(passOrder)).build();
-        }
-        catch (RecordNotFoundException exception) {
+        Optional<PassOrder> passOrder = this.passOrderService.getOrder(id);
+        if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(id);
         }
+
+        return Response.ok().entity(new PassOrderResponseMapper().getPassOrderResponse(passOrder.get())).build();
     }
 
     @POST

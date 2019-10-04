@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
@@ -11,7 +12,6 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistanc
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 public class PassOrderService {
 
@@ -25,7 +25,7 @@ public class PassOrderService {
         this.passOrderFactory = new PassOrderFactory(festival);
     }
 
-    public PassOrder getOrder(long id) throws RecordNotFoundException {
+    public Optional<PassOrder> getOrder(long id) {
         return this.passOrderPersistance.getById(id);
     }
 

@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.booking.domain.persistanceInterface;
 
+import java.util.Optional;
+
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 public interface PassOrderPersistance {
-	public PassOrder getById(Long id) throws RecordNotFoundException;
+	public Optional<PassOrder> getById(Long id);
 	public void save(PassOrder order);
 }
