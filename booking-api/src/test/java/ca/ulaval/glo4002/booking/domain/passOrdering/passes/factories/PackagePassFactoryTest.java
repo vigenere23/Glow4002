@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaPackagePass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.PackagePass;
@@ -12,8 +13,8 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaP
 
 public class PackagePassFactoryTest {
     
-    FestivalDates festivalDates;
-    private PackagePassFactory passFactory = new PackagePassFactory(festivalDates.festivalStart, festivalDates.festivalEnd);
+    Glow4002 festival = new Glow4002();
+    private PackagePassFactory passFactory = new PackagePassFactory(festival);
 
     @Test
     public void shouldCreateNebulaPackagePassInstance() {
