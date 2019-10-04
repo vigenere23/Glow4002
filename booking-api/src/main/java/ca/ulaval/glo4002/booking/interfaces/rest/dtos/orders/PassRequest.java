@@ -21,7 +21,7 @@ public class PassRequest {
     public PassRequest(
         @JsonProperty(value = "passOption", required = true) String passOption,
         @JsonProperty(value = "passCategory", required = true) String passCategory,
-        @JsonProperty(value = "eventDates") Collection<String> eventDates
+        @JsonProperty(value = "eventDates") List<String> eventDates
     ) throws InvalidFormatException {
         try {
             this.passOption = PassOption.fromString(passOption);

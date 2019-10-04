@@ -39,7 +39,9 @@ public class HeapOxygenInventory implements OxygenInventory {
     private List<Inventory> presentInventory() {
         List<Inventory> inventoryList = new ArrayList<Inventory>();      
         for (OxygenGrade grade : inventory.keySet()) {
-            addInventory(inventoryList, grade.name(), inventory.get(grade));
+            if(!inventory.get(grade).equals(0)) {
+                addInventory(inventoryList, grade.name(), inventory.get(grade));
+            }         
         }
         return inventoryList;
     }  
