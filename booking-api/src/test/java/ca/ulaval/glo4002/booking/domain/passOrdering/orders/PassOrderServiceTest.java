@@ -29,12 +29,12 @@ public class PassOrderServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.passOrderPersistance = mock(HeapPassOrderPersistance.class);
-        this.passPersistance = mock(HeapPassPersistance.class);
+        passOrderPersistance = mock(HeapPassOrderPersistance.class);
+        passPersistance = mock(HeapPassPersistance.class);
 
         Repository repository = mock(Repository.class);
-        when(repository.getPassOrderPersistance()).thenReturn(this.passOrderPersistance);
-        when(repository.getPassPersistance()).thenReturn(this.passPersistance);
+        when(repository.getPassOrderPersistance()).thenReturn(passOrderPersistance);
+        when(repository.getPassPersistance()).thenReturn(passPersistance);
 
         Glow4002 festival = mock(Glow4002.class);
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
@@ -42,28 +42,28 @@ public class PassOrderServiceTest {
         when(festival.getStartDate()).thenReturn(OffsetDateTime.now());
         when(festival.getEndDate()).thenReturn(OffsetDateTime.now());
         
-        this.passOrderService = new PassOrderService(repository, festival);
+        passOrderService = new PassOrderService(repository, festival);
 
         initPasses();
     }
 
     private void initPasses() {
-        this.passRequests = new ArrayList<>();
+        passRequests = new ArrayList<>();
 
         for (int i = 0; i < NUMBER_OF_PASSES; i++) {
-            this.passRequests.add(new PassRequest("package", "nebula", null));
+            passRequests.add(new PassRequest("package", "nebula", null));
         }
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = this.passOrderService.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
-        verify(this.passOrderPersistance).save(passOrder);
+        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequests);
+        verify(passOrderPersistance).save(passOrder);
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws Exception {
-        passOrderService.orderPasses(OffsetDateTime.now(), "CODE", this.passRequests);
-        verify(this.passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
+        passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequests);
+        verify(passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
     }
 }

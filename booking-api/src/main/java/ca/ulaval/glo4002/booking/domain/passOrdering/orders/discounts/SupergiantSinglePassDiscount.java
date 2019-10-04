@@ -16,8 +16,8 @@ public class SupergiantSinglePassDiscount extends OrderDiscount {
         Money discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
         Money newPrice = totalPrice.minus(discount);
 
-        if (this.nextDiscount != null) {
-            return this.nextDiscount.priceAfterDiscounts(passes, newPrice);
+        if (nextDiscount != null) {
+            return nextDiscount.priceAfterDiscounts(passes, newPrice);
         }
 
         return newPrice;

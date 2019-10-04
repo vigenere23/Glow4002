@@ -14,21 +14,21 @@ public class HeapPassPersistance implements PassPersistance {
 	private Map<Long, Pass> passes;
 
 	public HeapPassPersistance() {
-		this.passes = new HashMap<>();
+		passes = new HashMap<>();
 	}
 
 	@Override
 	public Optional<Pass> getById(Long id) {
-		Pass pass = this.passes.get(id);
+		Pass pass = passes.get(id);
 
 		return Optional.ofNullable(pass);
 	}
 
 	@Override
 	public void save(Pass pass) {
-		if (!this.passes.containsValue(pass)) {			
+		if (!passes.containsValue(pass)) {			
 			pass.setId(idGenerator.getAndIncrement());
-			this.passes.put(pass.getId(), pass);
+			passes.put(pass.getId(), pass);
 		}
 	}
 }

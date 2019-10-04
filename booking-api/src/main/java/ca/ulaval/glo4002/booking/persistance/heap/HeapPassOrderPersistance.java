@@ -14,20 +14,20 @@ public class HeapPassOrderPersistance implements PassOrderPersistance {
 	private Map<Long, PassOrder> passOrders;
 
 	public HeapPassOrderPersistance() {
-		this.passOrders = new HashMap<>();
+		passOrders = new HashMap<>();
 	}
 
 	@Override
 	public Optional<PassOrder> getById(Long id) {
-		PassOrder passOrder = this.passOrders.get(id);
+		PassOrder passOrder = passOrders.get(id);
 		return Optional.ofNullable(passOrder);
 	}
 
 	@Override
 	public void save(PassOrder passOrder) {
-		if (!this.passOrders.containsValue(passOrder)) {
+		if (!passOrders.containsValue(passOrder)) {
 			passOrder.setId(idGenerator.getAndIncrement());
-			this.passOrders.put(passOrder.getId(), passOrder);
+			passOrders.put(passOrder.getId(), passOrder);
 		}
 	}
 }

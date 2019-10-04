@@ -10,13 +10,13 @@ public class PassCategoryToOxygenQuantity {
     private Map<PassCategory, Integer> map;
 
     public PassCategoryToOxygenQuantity() {
-        this.map = new HashMap<>();
-        this.map.put(PassCategory.NEBULA, 3);
-        this.map.put(PassCategory.SUPERGIANT, 3);
-        this.map.put(PassCategory.SUPERNOVA, 5);
+        map = new HashMap<>();
+        map.put(PassCategory.NEBULA, 3);
+        map.put(PassCategory.SUPERGIANT, 3);
+        map.put(PassCategory.SUPERNOVA, 5);
     }
 
     public int getAssociatedValue(PassCategory passCategory) {
-        return this.map.get(passCategory);
+        return map.get(passCategory);
     }
 }

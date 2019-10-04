@@ -18,7 +18,8 @@ public class PassOrderFactory {
 
     public PassOrderFactory(Glow4002 festival) {
         this.festival = festival;
-        this.passFactory = new PassFactory(festival);
+        
+        passFactory = new PassFactory(festival);
     }
 
     public PassOrder create(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws OutOfFestivalDatesException, OutOfSaleDatesException {
@@ -26,7 +27,6 @@ public class PassOrderFactory {
 
         List<Pass> passes = createPasses(passRequests);
         PassOrder passOrder = new PassOrder(orderDate, vendorCode, passes);
-
         return passOrder;
     }
 
@@ -48,8 +48,8 @@ public class PassOrderFactory {
     }
 
     private void validateOrderDate(OffsetDateTime orderDate) throws OutOfSaleDatesException {
-        if (!this.festival.isDuringSaleTime(orderDate)) {
-            throw new OutOfSaleDatesException(this.festival.getSaleStartDate(), this.festival.getSaleEndDate());
+        if (!festival.isDuringSaleTime(orderDate)) {
+            throw new OutOfSaleDatesException(festival.getSaleStartDate(), festival.getSaleEndDate());
         }
     }
 

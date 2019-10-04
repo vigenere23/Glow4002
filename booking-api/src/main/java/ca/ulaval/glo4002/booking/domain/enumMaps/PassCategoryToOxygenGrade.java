@@ -10,10 +10,10 @@ public class PassCategoryToOxygenGrade {
     private EnumMap<PassCategory, OxygenGrade> enumMap;
 
     public PassCategoryToOxygenGrade() {
-        this.enumMap = new EnumMap<>(PassCategory.class);
-        this.enumMap.put(PassCategory.NEBULA, OxygenGrade.A);
-        this.enumMap.put(PassCategory.SUPERGIANT, OxygenGrade.B);
-        this.enumMap.put(PassCategory.SUPERNOVA, OxygenGrade.E);
+        enumMap = new EnumMap<>(PassCategory.class);
+        enumMap.put(PassCategory.NEBULA, OxygenGrade.A);
+        enumMap.put(PassCategory.SUPERGIANT, OxygenGrade.B);
+        enumMap.put(PassCategory.SUPERNOVA, OxygenGrade.E);
     }
 
     public OxygenGrade getAssociatedValue(PassCategory passCategory) {

@@ -11,7 +11,7 @@ public class SupernovaSinglePass extends SinglePass {
 
     public SupernovaSinglePass(OffsetDateTime eventDate) {
         super(eventDate);
-        this.price = Money.of(CurrencyUnit.CAD, 150000);
+        price = Money.of(CurrencyUnit.CAD, 150000);
     }
 
     @Override

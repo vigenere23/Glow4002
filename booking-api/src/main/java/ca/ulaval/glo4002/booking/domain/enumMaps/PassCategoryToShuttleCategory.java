@@ -10,10 +10,10 @@ public class PassCategoryToShuttleCategory {
     private EnumMap<PassCategory, ShuttleCategory> enumMap;
 
     public PassCategoryToShuttleCategory() {
-        this.enumMap = new EnumMap<>(PassCategory.class);
-        this.enumMap.put(PassCategory.NEBULA, ShuttleCategory.SPACE_X);
-        this.enumMap.put(PassCategory.SUPERGIANT, ShuttleCategory.MILLENNIUM_FALCON);
-        this.enumMap.put(PassCategory.SUPERNOVA, ShuttleCategory.ET_SPACESHIP);
+        enumMap = new EnumMap<>(PassCategory.class);
+        enumMap.put(PassCategory.NEBULA, ShuttleCategory.SPACE_X);
+        enumMap.put(PassCategory.SUPERGIANT, ShuttleCategory.MILLENNIUM_FALCON);
+        enumMap.put(PassCategory.SUPERNOVA, ShuttleCategory.ET_SPACESHIP);
     }
 
     public ShuttleCategory getAssociatedValue(PassCategory passCategory) {

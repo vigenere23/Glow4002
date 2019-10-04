@@ -39,15 +39,15 @@ public class Orchestrator {
             PassCategory passCategory = pass.getPassCategory();
 
             ShuttleCategory shuttleCategory = passCategoryToShuttleCategory.getAssociatedValue(passCategory);
-            this.transportExposer.reserveDeparture(shuttleCategory, pass.getStartDate().toLocalDate(), pass.getPassNumber());
-            this.transportExposer.reserveArrival(shuttleCategory, pass.getEndDate().toLocalDate(), pass.getPassNumber());
+            transportExposer.reserveDeparture(shuttleCategory, pass.getStartDate().toLocalDate(), pass.getPassNumber());
+            transportExposer.reserveArrival(shuttleCategory, pass.getEndDate().toLocalDate(), pass.getPassNumber());
             
             OxygenGrade oxygenGrade = new PassCategoryToOxygenGrade().getAssociatedValue(passCategory);
             int oxygenQuantityPerDay = new PassCategoryToOxygenQuantity().getAssociatedValue(passCategory);
             OffsetDateTime oxygenOrderDate = pass.getStartDate();
 
             while (!oxygenOrderDate.isAfter(pass.getEndDate())) {
-                this.oxygenRequester.orderOxygen(oxygenOrderDate, oxygenGrade, oxygenQuantityPerDay);
+                oxygenRequester.orderOxygen(oxygenOrderDate, oxygenGrade, oxygenQuantityPerDay);
                 oxygenOrderDate = oxygenOrderDate.plusDays(1);
             }
         }

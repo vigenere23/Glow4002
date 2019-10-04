@@ -17,6 +17,6 @@ public abstract class SinglePass extends Pass {
     }
 
     public OffsetDateTime getEventDate() {
-        return this.startDate;
+        return startDate;
     }
 }

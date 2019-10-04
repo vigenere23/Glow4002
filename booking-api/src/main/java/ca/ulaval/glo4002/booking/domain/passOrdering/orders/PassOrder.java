@@ -27,8 +27,9 @@ public class PassOrder implements Priceable {
         this.orderDate = orderDate;
         this.vendorCode = vendorCode;
         this.passes = passes;
-        this.orderDiscount = new SupergiantSinglePassDiscount();
-        this.orderDiscount.setNextDiscount(new NebulaSinglePassDiscount());
+        
+        orderDiscount = new SupergiantSinglePassDiscount();
+        orderDiscount.setNextDiscount(new NebulaSinglePassDiscount());
     }
 
     public Money getPrice() {
@@ -36,20 +37,20 @@ public class PassOrder implements Priceable {
     }
 
     private Money calculateTotalPrice() {
-        Money priceBeforeDiscounts = this.passes
+        Money priceBeforeDiscounts = passes
             .stream()
             .map(Pass::getPrice)
             .reduce(Money.zero(CurrencyUnit.CAD), (subtotal, price) -> subtotal.plus(price));
 
-        if (this.orderDiscount == null) {
+        if (orderDiscount == null) {
             return priceBeforeDiscounts;
         }
         
-        return this.orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(this.passes), priceBeforeDiscounts);
+        return orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(passes), priceBeforeDiscounts);
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -57,6 +58,6 @@ public class PassOrder implements Priceable {
     }
 
     public List<Pass> getPasses() {
-        return Collections.unmodifiableList(this.passes);
+        return Collections.unmodifiableList(passes);
     }
 }

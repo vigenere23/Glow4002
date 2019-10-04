@@ -43,7 +43,7 @@ public class OrdersResource {
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") Long id) throws OrderNotFoundException {
-        Optional<PassOrder> passOrder = this.passOrderService.getOrder(id);
+        Optional<PassOrder> passOrder = passOrderService.getOrder(id);
         if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(id);
         }
@@ -54,7 +54,7 @@ public class OrdersResource {
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
         try {
-            PassOrder passOrder = this.orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
+            PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();
             builder.path(Long.toString(passOrder.getId()));
             return Response.created(builder.build()).build();

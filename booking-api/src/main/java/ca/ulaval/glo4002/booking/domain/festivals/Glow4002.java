@@ -20,26 +20,26 @@ public class Glow4002 {
     }
 
     public OffsetDateTime getStartDate() {
-        return this.startDate;
+        return startDate;
     }
 
     public OffsetDateTime getEndDate() {
-        return this.endDate;
+        return endDate;
     }
 
     public OffsetDateTime getSaleStartDate() {
-        return this.saleStartDate;
+        return saleStartDate;
     }
 
     public OffsetDateTime getSaleEndDate() {
-        return this.saleEndDate;
+        return saleEndDate;
     }
 
     public boolean isDuringSaleTime(OffsetDateTime dateTime) {
-        return dateTime.isAfter(this.saleStartDate) && dateTime.isBefore(this.saleEndDate);
+        return dateTime.isAfter(saleStartDate) && dateTime.isBefore(saleEndDate);
     }
 
     public boolean isDuringEventTime(OffsetDateTime dateTime) {
-        return dateTime.isAfter(this.startDate) && dateTime.isBefore(this.endDate);
+        return dateTime.isAfter(startDate) && dateTime.isBefore(endDate);
     }
 }
