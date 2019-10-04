@@ -37,13 +37,12 @@ public class OxygenRequester extends OxygenExposer {
         if (hasToProduce(quantity, remainingQuantity)) {
             initializeResults(orderDate, grade);
             int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);
-            inventory.setOxygenRemaining(grade, 0);
-
-            oxygenProducer.produceOxygen(grade, totalToProduce, results);
 
             OxygenGrade gradeProduced = results.gradeProduced;
+            oxygenProducer.produceOxygen(gradeProduced, totalToProduce, results);
+
             inventory.setOxygenInventory(gradeProduced, inventory.getInventoryOfGrade(gradeProduced) + results.quantityTankToAddToInventory);
-            inventory.setOxygenRemaining(gradeProduced, inventory.getOxygenRemaining(gradeProduced) + results.quantityTankRemaining);
+            inventory.setOxygenRemaining(gradeProduced, results.quantityTankRemaining);
 
             history.updateCreationHistory(results.orderDateHistory.date, results.orderDateHistory);
             history.updateCreationHistory(results.deliveryDateHistory.date, results.deliveryDateHistory);
@@ -53,13 +52,12 @@ public class OxygenRequester extends OxygenExposer {
     }
 
     private void initializeResults(OffsetDateTime orderDate, OxygenGrade grade) {
-        this.results = new OxygenProductionResults();
-        History orderDateHistory = history.getCreationHistoryPerDate(orderDate);
-        this.results.orderDateHistory = orderDateHistory;
+        results = new OxygenProductionResults();
+        results.orderDateHistory = history.getCreationHistoryPerDate(orderDate);
+        results.gradeProduced = oxygenProducer.getRealGradeToProduce(orderDate, grade);
 
-        OffsetDateTime deliveryDate = oxygenProducer.getNextAvailableDeliveryDate(orderDate, grade);
-        History deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
-        this.results.deliveryDateHistory = deliveryDateHistory;
+        OffsetDateTime deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
+        this.results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
     }
 
     private boolean hasToProduce(int quantityToProduce, int remainingQuantity) {
