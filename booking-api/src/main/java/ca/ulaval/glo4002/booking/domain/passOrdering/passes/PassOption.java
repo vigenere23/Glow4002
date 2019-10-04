@@ -28,7 +28,6 @@ public enum PassOption {
                 String.format("No enum value for string %s", text)
             );
         }
-
         return value.get();
     }
 }

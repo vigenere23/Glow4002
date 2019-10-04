@@ -17,11 +17,11 @@ public abstract class Pass {
     }
 
     public Money getPrice() {
-        return this.price;
+        return price;
     }
 
     public Long getId() {
-        return this.passNumber;
+        return passNumber;
     }
 
     public void setId(Long id) {
@@ -29,7 +29,15 @@ public abstract class Pass {
     }
     
     public long getPassNumber() {
-        return this.passNumber;
+        return passNumber;
+    }
+
+    public OffsetDateTime getStartDate() {
+        return startDate;
+    }
+
+    public OffsetDateTime getEndDate() {
+        return endDate;
     }
 
     public abstract PassOption getPassOption();

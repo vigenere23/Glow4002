@@ -11,7 +11,7 @@ public class NebulaPackagePass extends PackagePass {
 
     public NebulaPackagePass(OffsetDateTime startDate, OffsetDateTime endDate) {
         super(startDate, endDate);
-        this.price = Money.of(CurrencyUnit.CAD, 250000);
+        price = Money.of(CurrencyUnit.CAD, 250000);
     }
 
     @Override

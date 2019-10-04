@@ -15,9 +15,9 @@ import javax.ws.rs.core.MediaType;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ShuttleDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.TransportResponse;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.ShuttleMapper;
-import ca.ulaval.glo4002.booking.interfaces.rest.responses.TransportResponse;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)
