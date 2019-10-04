@@ -7,23 +7,23 @@ import java.time.ZoneOffset;
 
 public class Glow4002 {
 
-    private final OffsetDateTime startDate;
-    private final OffsetDateTime endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private final OffsetDateTime saleStartDate;
     private final OffsetDateTime saleEndDate;
 
     public Glow4002() {
-        startDate = OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT, ZoneOffset.UTC);
-        endDate = OffsetDateTime.of(LocalDate.of(2050, 7, 24), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC);
+        startDate = LocalDate.of(2050, 7, 17);
+        endDate = LocalDate.of(2050, 7, 24);
         saleStartDate = OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC);
         saleEndDate = OffsetDateTime.of(LocalDate.of(2050, 7, 16), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC);
     }
 
-    public OffsetDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public OffsetDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -36,10 +36,10 @@ public class Glow4002 {
     }
 
     public boolean isDuringSaleTime(OffsetDateTime dateTime) {
-        return dateTime.isAfter(saleStartDate) && dateTime.isBefore(saleEndDate);
+        return !(dateTime.isBefore(saleStartDate) || dateTime.isAfter(saleEndDate));
     }
 
-    public boolean isDuringEventTime(OffsetDateTime dateTime) {
-        return dateTime.isAfter(startDate) && dateTime.isBefore(endDate);
+    public boolean isDuringEventTime(LocalDate date) {
+        return !(date.isBefore(startDate) || date.isAfter(endDate));
     }
 }

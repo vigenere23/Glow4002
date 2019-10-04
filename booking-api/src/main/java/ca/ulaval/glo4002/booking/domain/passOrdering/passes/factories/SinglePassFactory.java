@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
@@ -17,7 +17,7 @@ public class SinglePassFactory {
         this.festival = festival;
     }
 
-    public SinglePass create(PassCategory passCategory, OffsetDateTime eventDate) throws OutOfFestivalDatesException {
+    public SinglePass create(PassCategory passCategory, LocalDate eventDate) throws OutOfFestivalDatesException {
         validateEventDate(eventDate);
 
         switch(passCategory) {
@@ -34,7 +34,7 @@ public class SinglePassFactory {
         }
     }
 
-    private void validateEventDate(OffsetDateTime eventDate) throws OutOfFestivalDatesException {
+    private void validateEventDate(LocalDate eventDate) throws OutOfFestivalDatesException {
         if (!festival.isDuringEventTime(eventDate)) {
             throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
         }

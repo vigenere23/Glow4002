@@ -1,12 +1,13 @@
 package ca.ulaval.glo4002.booking.domain.pressurizedGaz;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public class OxygenProducer {
 
-    private OffsetDateTime limitDeliveryDate;   
+    private LocalDate limitDeliveryDate;   
 
-    public OxygenProducer(OffsetDateTime limitDeliveryDate) {
+    public OxygenProducer(LocalDate limitDeliveryDate) {
         this.limitDeliveryDate = limitDeliveryDate;
     }
 
@@ -15,7 +16,7 @@ public class OxygenProducer {
         produceGrade(quantityToProduce, results, realGradeToProduce);            
     }
 
-    public OffsetDateTime getNextAvailableDeliveryDate(OffsetDateTime orderDate, OxygenGrade grade) {
+    public LocalDate getNextAvailableDeliveryDate(LocalDate orderDate, OxygenGrade grade) {
         OxygenGrade realGradeToProduce = getRealGradeToProduce(orderDate, grade);
         return getFabricationCompletionDate(orderDate, realGradeToProduce);
     }
@@ -56,7 +57,7 @@ public class OxygenProducer {
             ((quantityToProduce - overQuantity) / fabricationQuantity) + 1 ;
     }
 
-    private OxygenGrade getRealGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {
+    private OxygenGrade getRealGradeToProduce(LocalDate orderDate, OxygenGrade grade) {
         OxygenGrade realGradeToProduce = grade;
         while (!enoughTimeForFabrication(orderDate, realGradeToProduce)) {
             realGradeToProduce = getLowerGradeOf(realGradeToProduce);
@@ -64,12 +65,12 @@ public class OxygenProducer {
         return realGradeToProduce;
     }
 
-    private boolean enoughTimeForFabrication(OffsetDateTime orderDate, OxygenGrade grade) {       
-        OffsetDateTime fabricationCompletionDate = getFabricationCompletionDate(orderDate, grade);
+    private boolean enoughTimeForFabrication(LocalDate orderDate, OxygenGrade grade) {       
+        LocalDate fabricationCompletionDate = getFabricationCompletionDate(orderDate, grade);
         return fabricationCompletionDate.isAfter(limitDeliveryDate) ? false : true;
     }
  
-    private OffsetDateTime getFabricationCompletionDate(OffsetDateTime orderDate, OxygenGrade grade) {
+    private LocalDate getFabricationCompletionDate(LocalDate orderDate, OxygenGrade grade) {
         long gradeFabricationDelay = ProductionSettings.fabricationTimeInDay.get(grade);
         return orderDate.plusDays(gradeFabricationDelay);
     }

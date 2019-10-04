@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +14,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;
 public class PassRequest {
     public final PassOption passOption;
     public final PassCategory passCategory;
-    public final List<OffsetDateTime> eventDates;
+    public final List<LocalDate> eventDates;
 
     @JsonCreator
     public PassRequest(
@@ -31,7 +28,6 @@ public class PassRequest {
             this.eventDates = eventDates
                 .stream()
                 .map(LocalDate::parse)
-                .map(localDate -> OffsetDateTime.of(localDate, LocalTime.NOON, ZoneOffset.UTC))
                 .collect(Collectors.toList());
         } else {
             this.eventDates = null;

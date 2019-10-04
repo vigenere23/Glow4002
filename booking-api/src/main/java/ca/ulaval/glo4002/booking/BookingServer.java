@@ -1,5 +1,9 @@
 package ca.ulaval.glo4002.booking;
 
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -28,7 +32,7 @@ public class BookingServer implements Runnable {
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
         HeapRepository repository = new HeapRepository();
         Glow4002 festival = new Glow4002();
-        OxygenRequester oxygenRequester = new OxygenRequester(festival.getEndDate(), repository.getOxygenPersistance());   
+        OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), repository.getOxygenPersistance());   
         TransportExposer transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
         PassOrderService passOrderService = new PassOrderService(repository, festival);
         Orchestrator orchestrator = new Orchestrator(transportExposer, oxygenRequester, passOrderService);

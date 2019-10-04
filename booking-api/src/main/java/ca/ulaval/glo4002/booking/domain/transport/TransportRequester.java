@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class TransportRequester implements TransportExposer {
     }
 
     private void validateDateRange(LocalDate date) throws OutOfFestivalDatesException {
-        if(!festival.isDuringEventTime(OffsetDateTime.of(date, LocalTime.NOON, ZoneOffset.UTC))) {
+        if(!festival.isDuringEventTime(date)) {
             throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
         }
     }
