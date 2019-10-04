@@ -84,25 +84,31 @@ public class OxygenProducerTests {
     }
 
     @Test
-    public void whenOrderOxygenGradeATooLateForGradeA_thenRealGradeToProduceIsGradeB() {
-        OxygenGrade realGradeToProduce = oxygenProducer.getRealGradeToProduce(fifteenDaysBeforeFestivalDate, OxygenGrade.A);
-        assertEquals(OxygenGrade.B, realGradeToProduce);
+    public void whenOrderOxygenGradeAOnTime_thenNextGradeToProduceIsGradeA() {
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(oneMonthBeforeFestivalDate, OxygenGrade.A);
+        assertEquals(OxygenGrade.A, nextGradeToProduce);
     }
 
     @Test
-    public void whenOrderOxygenGradeATooLateForGradesAandB_thenRealGradeToProduceIsGradeE() {
-        OxygenGrade realGradeToProduce = oxygenProducer.getRealGradeToProduce(fiveDaysBeforeFestivalDate, OxygenGrade.A);
-        assertEquals(OxygenGrade.E, realGradeToProduce);
+    public void whenOrderOxygenGradeATooLate_thenNextGradeToProduceIsGradeB() {
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(fifteenDaysBeforeFestivalDate, OxygenGrade.A);
+        assertEquals(OxygenGrade.B, nextGradeToProduce);
     }
 
     @Test
-    public void whenOrderOxygenGradeAOnLimitDeliveryDate_thenRealGradeToProduceIsGradeE() {
-        OxygenGrade realGradeToProduce = oxygenProducer.getRealGradeToProduce(festivalStartingDate, OxygenGrade.A);
-        assertEquals(OxygenGrade.E, realGradeToProduce);
+    public void whenOrderOxygenGradeBTooLate_thenNextGradeToProduceIsGradeE() {
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(fiveDaysBeforeFestivalDate, OxygenGrade.B);
+        assertEquals(OxygenGrade.E, nextGradeToProduce);
     }
 
     @Test
-    public void whenOrderOxygenGradeAAfterLimitDeliveryDate_thenException() {
-        assertThrows(IllegalArgumentException.class, () -> oxygenProducer.getRealGradeToProduce(duringFestival, OxygenGrade.A));
+    public void whenOrderOxygenGradeAOnLimitDeliveryDate_thenNextGradeToProduceIsGradeE() {
+        OxygenGrade nextGradeToProduce = oxygenProducer.getNextGradeToProduce(festivalStartingDate, OxygenGrade.E);
+        assertEquals(OxygenGrade.E, nextGradeToProduce);
+    }
+
+    @Test
+    public void whenOrderOxygenGradeEAfterLimitDeliveryDate_thenException() {
+        assertThrows(IllegalArgumentException.class, () -> oxygenProducer.getNextGradeToProduce(duringFestival, OxygenGrade.E));
     }
 }

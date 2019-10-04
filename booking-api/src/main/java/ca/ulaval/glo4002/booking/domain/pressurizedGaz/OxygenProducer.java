@@ -50,12 +50,8 @@ public class OxygenProducer {
         }
     }
 
-    public OxygenGrade getRealGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {
-        OxygenGrade realGradeToProduce = grade;
-        while (!enoughTimeForFabrication(orderDate, realGradeToProduce)) {
-            realGradeToProduce = getLowerGradeOf(realGradeToProduce);
-        }
-        return realGradeToProduce;
+    public OxygenGrade getNextGradeToProduce(OffsetDateTime orderDate, OxygenGrade grade) {
+        return enoughTimeForFabrication(orderDate, grade) ? grade : getLowerGradeOf(grade);
     }
 
     private boolean enoughTimeForFabrication(OffsetDateTime orderDate, OxygenGrade grade) {

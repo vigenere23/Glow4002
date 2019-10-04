@@ -103,7 +103,7 @@ public class OxygenRequesterTests {
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(1);
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.B)).thenReturn(0);
         oxygenRequester.orderOxygen(fifteenDaysBeforeFestivalDate, OxygenGrade.A, 2);
-        verify(oxygenInventory).setOxygenInventory(OxygenGrade.B, 1);
+        verify(oxygenInventory).setOxygenInventory(OxygenGrade.B, 3);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class OxygenRequesterTests {
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(1);
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.B)).thenReturn(1);
         oxygenRequester.orderOxygen(fifteenDaysBeforeFestivalDate, OxygenGrade.A, 3);
-        verify(oxygenInventory).setOxygenRemaining(OxygenGrade.B, 1);
+        verify(oxygenInventory).setOxygenInventory(OxygenGrade.B, 3);
     }
 
     @Test
