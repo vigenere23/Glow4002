@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.orders;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class PassOrderFactory {
             if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
                 passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
             } else {
-                for (OffsetDateTime eventDate : passRequest.eventDates) {
+                for (LocalDate eventDate : passRequest.eventDates) {
                     passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
                 }
             }

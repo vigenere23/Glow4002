@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import org.joda.money.Money;
 
@@ -8,10 +8,10 @@ public abstract class Pass {
 
     protected Long passNumber;
     protected Money price;
-    protected OffsetDateTime startDate;
-    protected OffsetDateTime endDate;
+    protected LocalDate startDate;
+    protected LocalDate endDate;
 
-    protected Pass(OffsetDateTime startDate, OffsetDateTime endDate) {
+    protected Pass(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -32,11 +32,11 @@ public abstract class Pass {
         return passNumber;
     }
 
-    public OffsetDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public OffsetDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

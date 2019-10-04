@@ -3,9 +3,6 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +14,7 @@ public class HeapOxygenHistoryTest {
 
     private HeapOxygenHistory historyPersistance;
     private History history;
-    private final OffsetDateTime date = OffsetDateTime.of(LocalDate.of(2050, 2, 17), LocalTime.MIDNIGHT, ZoneOffset.UTC);
+    private final LocalDate date = LocalDate.of(2050, 2, 17);
 
     @BeforeEach
     public void setUp() {
@@ -41,7 +38,7 @@ public class HeapOxygenHistoryTest {
         historyPersistance.updateCreationHistory(date, history);
        
         History secondHistory = new History();
-        OffsetDateTime secondDate = OffsetDateTime.of(LocalDate.of(2050, 5, 19), LocalTime.MIDNIGHT, ZoneOffset.UTC);
+        LocalDate secondDate = LocalDate.of(2050, 5, 19);
         secondHistory.date = secondDate;
         secondHistory.qtyCandlesUsed = 2;
         secondHistory.qtyOxygenTankBought = 3;
@@ -49,7 +46,7 @@ public class HeapOxygenHistoryTest {
         secondHistory.qtyWaterUsed = 1;
 
         historyPersistance.updateCreationHistory(secondDate, secondHistory);
-        HashMap<OffsetDateTime, History> historySaved = historyPersistance.getCreationHistory();
+        HashMap<LocalDate, History> historySaved = historyPersistance.getCreationHistory();
         
         assertEquals(history, historySaved.get(date));       
         assertEquals(secondHistory, historySaved.get(secondDate));

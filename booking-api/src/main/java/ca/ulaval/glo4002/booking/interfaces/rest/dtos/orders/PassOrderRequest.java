@@ -22,11 +22,16 @@ public class PassOrderRequest {
         @JsonProperty(value = "vendorCode", required = true) String vendorCode,
         @JsonProperty(value = "passes", required = true) Collection<PassRequest> passes
     ) throws InvalidFormatException {
-        this.orderDate = OffsetDateTime.parse(orderDate);
-        this.vendorCode = vendorCode;
-        if (passes.size() > 1) {
+        try {
+            this.orderDate = OffsetDateTime.parse(orderDate);
+            this.vendorCode = vendorCode;
+            if (passes.size() > 1) {
+                throw new InvalidFormatException();
+            }
+            this.passes = new ArrayList<>(passes);
+        }
+        catch (Exception exception) {
             throw new InvalidFormatException();
         }
-        this.passes = new ArrayList<>(passes);
     }
 }

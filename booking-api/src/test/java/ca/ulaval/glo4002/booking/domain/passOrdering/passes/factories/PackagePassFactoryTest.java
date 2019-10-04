@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.booking.domain.passOrdering.passes.factories;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
@@ -13,8 +15,13 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupernovaP
 
 public class PackagePassFactoryTest {
     
-    Glow4002 festival = new Glow4002();
-    private PackagePassFactory passFactory = new PackagePassFactory(festival);
+    private PackagePassFactory passFactory;
+
+    @BeforeEach
+    public void setUp() {
+        Glow4002 festival = mock(Glow4002.class);
+        passFactory = new PackagePassFactory(festival);
+    }
 
     @Test
     public void shouldCreateNebulaPackagePassInstance() {

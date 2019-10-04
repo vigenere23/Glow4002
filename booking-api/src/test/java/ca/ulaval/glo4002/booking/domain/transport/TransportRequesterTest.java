@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Matchers.any;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,9 +37,9 @@ class TransportRequesterTest {
         mockedShuttle = mock(SpaceX.class);
         festival = mock(Glow4002.class);
         
-        when(festival.isDuringEventTime(any(OffsetDateTime.class))).thenReturn(true);
-        when(festival.getStartDate()).thenReturn(OffsetDateTime.now());
-        when(festival.getEndDate()).thenReturn(OffsetDateTime.now());
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+        when(festival.getStartDate()).thenReturn(LocalDate.now());
+        when(festival.getEndDate()).thenReturn(LocalDate.now());
 
         transportRequester = new TransportRequester(transportRepository, festival);
         shuttlesEarth.add(mockedShuttle);
@@ -87,7 +86,7 @@ class TransportRequesterTest {
 
     @Test
     public void givenDateOutsideOfFestival_whenGetShuttlesDepartureByDate_throwsException() throws OutOfFestivalDatesException {
-        when(festival.isDuringEventTime(any(OffsetDateTime.class))).thenReturn(false);
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
         assertThrows(OutOfFestivalDatesException.class, () -> transportRequester.getShuttlesDepartureByDate(OUT_OF_FESTIVAL_DATE));
     }
 
@@ -104,7 +103,7 @@ class TransportRequesterTest {
 
     @Test
     public void givenDateOutsideOfFestival_whenGetShuttlesArrivalByDate_throwsException() throws OutOfFestivalDatesException {
-        when(festival.isDuringEventTime(any(OffsetDateTime.class))).thenReturn(false);
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
         assertThrows(OutOfFestivalDatesException.class, () -> transportRequester.getShuttlesArrivalByDate(OUT_OF_FESTIVAL_DATE));
     }
     

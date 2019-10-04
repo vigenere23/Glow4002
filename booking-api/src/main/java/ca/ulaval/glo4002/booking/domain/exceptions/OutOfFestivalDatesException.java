@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.booking.domain.exceptions;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.helpers.DateHelper;
 
 public class OutOfFestivalDatesException extends Exception {
 
-    public OutOfFestivalDatesException(OffsetDateTime festivalStart, OffsetDateTime festivalEnd) {
+    public OutOfFestivalDatesException(LocalDate festivalStart, LocalDate festivalEnd) {
         super(
             String.format(
                 "event dates should be between %s and %s",
