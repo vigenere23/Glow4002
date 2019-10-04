@@ -29,4 +29,11 @@ public abstract class Pass implements Priceable {
     public void setId(Long id) {
         this.passNumber = id;
     }
+    
+    public long getPassNumber() {
+        return this.passNumber;
+    }
+
+    public abstract PassOption getPassOption();
+    public abstract PassCategory getPassCategory();
 }

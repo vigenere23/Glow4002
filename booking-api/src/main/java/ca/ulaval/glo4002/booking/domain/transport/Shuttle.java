@@ -10,18 +10,7 @@ public abstract class Shuttle {
     protected List<Long> passNumbers = new LinkedList<Long>();
     protected LocalDate date;
     protected ShuttleCategory category;
-        
-    public boolean isFull() {
-        return passNumbers.size() == capacity ? true : false; 
-    }
-    
-    public void addPassNumber(Long passNumber) throws FullCapacityException {
-        if (isFull()) {
-            throw new FullCapacityException();
-        }
-        this.passNumbers.add(passNumber);
-    }
-    
+
     public List<Long> getPassNumbers() {
         return passNumbers;
     }
@@ -32,5 +21,13 @@ public abstract class Shuttle {
 
     public ShuttleCategory getCategory() {
         return category;
+    }
+        
+    public void addPassNumber(Long passNumber) {
+        this.passNumbers.add(passNumber);
+    }
+    
+    public boolean isFull() {
+        return passNumbers.size() == capacity ? true : false; 
     }
 }
