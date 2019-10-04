@@ -29,9 +29,6 @@ public class ShuttleFiller {
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date) {
-        boolean shuttleIsAtRightDate = date.equals(shuttleToVerify.getDate());
-        boolean shuttleIsOfRightCategory = shuttleCategory.equals(shuttleToVerify.getCategory());
-        boolean shuttleIsFull = shuttleToVerify.isFull();
-        return shuttleIsAtRightDate && shuttleIsOfRightCategory && !shuttleIsFull;
+        return date.equals(shuttleToVerify.getDate()) && shuttleCategory.equals(shuttleToVerify.getCategory()) && !shuttleToVerify.isFull();
     } 
 }

@@ -8,13 +8,12 @@ import java.util.List;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import ca.ulaval.glo4002.booking.domain.Priceable;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
-public class PassOrder implements Priceable {
+public class PassOrder {
 
     private OffsetDateTime orderDate;
     private String vendorCode;
