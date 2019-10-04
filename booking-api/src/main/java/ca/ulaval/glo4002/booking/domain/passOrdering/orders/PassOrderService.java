@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 public class PassOrderService {

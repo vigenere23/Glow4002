@@ -22,7 +22,7 @@ import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidEventDateExce
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidOrderDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.OrderNotFoundException;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassOrderRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderRequest;
 import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 @Path("/orders")

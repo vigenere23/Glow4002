@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders;
 
 import java.math.RoundingMode;
 import java.util.List;

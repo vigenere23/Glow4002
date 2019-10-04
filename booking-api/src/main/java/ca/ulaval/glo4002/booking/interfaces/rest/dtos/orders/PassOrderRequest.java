@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;

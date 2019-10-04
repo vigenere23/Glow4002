@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers;
 
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassOrderResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderResponse;
 
 public class PassOrderResponseMapper {
 

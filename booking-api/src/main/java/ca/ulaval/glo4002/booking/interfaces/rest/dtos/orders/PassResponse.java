@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassOption;

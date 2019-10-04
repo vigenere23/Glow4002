@@ -2,8 +2,8 @@ package ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SinglePass;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.PassResponse;
-import ca.ulaval.glo4002.booking.interfaces.rest.orders.dtos.SinglePassResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.SinglePassResponse;
 
 public class PassResponseMapper {
 
