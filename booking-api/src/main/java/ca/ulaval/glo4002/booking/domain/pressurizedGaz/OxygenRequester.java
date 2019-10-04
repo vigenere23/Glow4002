@@ -37,6 +37,7 @@ public class OxygenRequester extends OxygenExposer {
         if (hasToProduce(quantity, remainingQuantity)) {
             initializeResults(orderDate, grade);
             int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);
+            inventory.setOxygenRemaining(grade, 0);
 
             OxygenGrade gradeProduced = results.gradeProduced;
             oxygenProducer.produceOxygen(gradeProduced, totalToProduce, results);
