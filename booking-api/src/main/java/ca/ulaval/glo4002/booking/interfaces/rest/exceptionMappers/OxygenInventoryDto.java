@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.mappers;
+package ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers;
 
 public class OxygenInventoryDto {
 	public String gradeTankOxygen;

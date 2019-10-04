@@ -10,34 +10,53 @@ import java.util.Objects;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 import ca.ulaval.glo4002.booking.interfaces.dtos.PassDto;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderCreator;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
-public class Glow4002 extends Festival {
+public class Glow4002 {
 
-
+    private TransportExposer transportExposer;
     private PassOrderCreator passOrderCreator;
     private OxygenRequester oxygenRequester;
 
-    private Repository repository;
+    private final OffsetDateTime startDate;
+    private final OffsetDateTime endDate;
+    private final OffsetDateTime saleStartDate;
+    private final OffsetDateTime saleEndDate;
+
     private int dailyNeedOxygenGardeA = 3;
     private int dailyNeedOxygenGardeB = 3;
     private int dailyNeedOxygenGardeE = 5;
 
 
     public Glow4002(Repository repository) {
-        super(
-            OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT, ZoneOffset.UTC),
-            OffsetDateTime.of(LocalDate.of(2050, 7, 25), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC),
-            OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC),
-            OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC)
-        );
+        startDate = OffsetDateTime.of(LocalDate.of(2050, 7, 17), LocalTime.MIDNIGHT, ZoneOffset.UTC);
+        endDate = OffsetDateTime.of(LocalDate.of(2050, 7, 24), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC);
+        saleStartDate = OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC);
+        saleEndDate = OffsetDateTime.of(LocalDate.of(2050, 7, 16), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC);
+
         Objects.requireNonNull(repository, "repository");
 
         this.passOrderCreator = new PassOrderCreator(repository, this.startDate, this.endDate);
-        this.repository = repository;
+    }
+
+    public OffsetDateTime getStartDate() {
+        return this.startDate;
+    }
+
+    public OffsetDateTime getEndDate() {
+        return this.endDate;
+    }
+
+    public void setOxygenRequester(OxygenRequester oxygenRequester) {
+        this.oxygenRequester = oxygenRequester;
+    }
+    
+    public void setTransportExposer(TransportExposer transportExposer) {
+        this.transportExposer = transportExposer;
     }
 
     public PassOrder reservePasses(OffsetDateTime orderDate, String vendorCode, List<PassDto> passDtos) throws Exception {
@@ -59,8 +78,12 @@ public class Glow4002 extends Festival {
         }
     }
 
-    public void setOxygenRequester(OxygenRequester oxygenRequester) {
-        this.oxygenRequester = oxygenRequester;
+    public boolean isDuringSaleTime(OffsetDateTime dateTime) {
+        return dateTime.isAfter(this.saleStartDate) && dateTime.isBefore(this.saleEndDate);
+    }
+
+    public boolean isDuringEventTime(OffsetDateTime dateTime) {
+        return dateTime.isAfter(this.startDate) && dateTime.isBefore(this.endDate);
     }
 
     //remive this methos just for test purpose

@@ -1,13 +1,10 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.mappers;
+package ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.Inventory;
-import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OxygenInventoryDto;
-
 
 public class OxygenMapper {
 

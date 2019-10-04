@@ -14,39 +14,39 @@ public class ShuttleTest {
 
     private class ShuttleImplementationTest extends Shuttle {
 
-    public ShuttleImplementationTest(LocalDate date) {
-        this.capacity = 2;
-        this.date = date;
-        this.category = ShuttleCategory.SPACE_X;
+        public ShuttleImplementationTest(LocalDate date) {
+            this.date = date;
+            capacity = 2;
+            category = ShuttleCategory.SPACE_X;
         }
 
         public List<Long> getPassNumbers() {
-            return passNumbers;    
+                return passNumbers;    
         }
     }    
     
     private ShuttleImplementationTest shuttle;
+    private final static Long PASS_NUMBER = 123456L;
 
     @BeforeEach
-    public void createNewShuttle() throws FullCapacityException {
+    public void setUp() {
         shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17));
-        shuttle.addPassNumber(new Long(123456789));
+        shuttle.addPassNumber(PASS_NUMBER);
     }
 
     @Test
-    public void givenPassNumber_whenAddNewPassNumber_thenAddPassesNumberToList() throws FullCapacityException {
-        assertEquals(Long.valueOf(123456789), shuttle.getPassNumbers().get(0));
+    public void givenPassNumber_whenAddNewPassNumber_thenAddPassesNumberToList() {
+        assertEquals(PASS_NUMBER, shuttle.getPassNumbers().get(0));
     }
     
     @Test
-    public void givenPassNumber_whenIsFull_thenFalseWhenPassNumberLessThanCapacity() throws FullCapacityException {        
+    public void givenPartiallyFullShuttle_whenIsFullMethod_thenReturnFalse() {        
         assertFalse(shuttle.isFull());
     }
 
     @Test
-    public void givenPassNumber_whenIsFull_thenTrueWhenPassNumberLessThanCapacity() throws FullCapacityException {
-        shuttle.addPassNumber(new Long(1234));
-        
+    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenReturnTrue() {
+        shuttle.addPassNumber(PASS_NUMBER);
         assertTrue(shuttle.isFull());
     }
 }

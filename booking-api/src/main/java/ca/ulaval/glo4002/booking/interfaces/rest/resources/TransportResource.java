@@ -1,5 +1,10 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.resources;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -7,23 +12,44 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.interfaces.rest.mappers.OutOfFestivalDateException;
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.interfaces.exceptions.InvalidEventDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.ShuttleDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers.ShuttleMapper;
 import ca.ulaval.glo4002.booking.interfaces.rest.responses.TransportResponse;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)
 public class TransportResource {
     
-    private Glow4002 festival;
+    private TransportExposer transportExposer;
+    private ShuttleMapper shuttleMapper;
     
     @Inject
-    public TransportResource(Glow4002 festival) {
-        this.festival = festival;
+    public TransportResource(TransportExposer transportExposer) {
+        this.transportExposer = transportExposer;
+        shuttleMapper = new ShuttleMapper();
     }
 
     @GET
-    public TransportResponse transport(@QueryParam("date") String date) throws OutOfFestivalDateException {
-        return new TransportResponse(date, festival);
+    public TransportResponse transport(@QueryParam("date") String stringDate) throws InvalidEventDateException {
+        List<ShuttleDto> departures = new LinkedList<ShuttleDto>();
+        List<ShuttleDto> arrivals = new LinkedList<ShuttleDto>();
+        if (stringDate == null) {
+            departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
+            arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+            LocalDate date = LocalDate.parse(stringDate, formatter);
+            try {
+                departures = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesDepartureByDate(date));
+                arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
+            }
+            catch (OutOfFestivalDatesException exception) {
+                throw new InvalidEventDateException(exception.getMessage());
+            }
+        }
+        return new TransportResponse(departures, arrivals);
     }
 }
