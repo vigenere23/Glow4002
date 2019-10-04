@@ -29,8 +29,8 @@ public class PassOrderService {
         return passOrderPersistance.getById(id);
     }
 
-    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws OutOfSaleDatesException, OutOfFestivalDatesException {
-        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequests);
+    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
+        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         saveObjects(passOrder);
         return passOrder;
     }

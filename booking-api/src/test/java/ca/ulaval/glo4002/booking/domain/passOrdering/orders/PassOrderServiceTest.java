@@ -21,12 +21,10 @@ import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
 
 public class PassOrderServiceTest {
 
-    private static final int NUMBER_OF_PASSES = 5;
-
     private PassOrderService passOrderService;
     private PassOrderPersistance passOrderPersistance;
     private PassPersistance passPersistance;
-    private List<PassRequest> passRequests;
+    private PassRequest passRequest;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -44,27 +42,18 @@ public class PassOrderServiceTest {
         when(festival.getEndDate()).thenReturn(LocalDate.now());
         
         passOrderService = new PassOrderService(repository, festival);
-
-        initPasses();
-    }
-
-    private void initPasses() throws Exception {
-        passRequests = new ArrayList<>();
-
-        for (int i = 0; i < NUMBER_OF_PASSES; i++) {
-            passRequests.add(new PassRequest("package", "nebula", null));
-        }
+        passRequest = new PassRequest("package", "nebula", null);
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequests);
+        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
         verify(passOrderPersistance).save(passOrder);
     }
 
     @Test
     public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws Exception {
-        passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequests);
-        verify(passPersistance, times(NUMBER_OF_PASSES)).save(any(Pass.class));
+        passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
+        verify(passPersistance).save(any(Pass.class));
     }
 }

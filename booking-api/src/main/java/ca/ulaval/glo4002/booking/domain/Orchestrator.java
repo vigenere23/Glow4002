@@ -31,9 +31,9 @@ public class Orchestrator {
         this.passOrderService = passOrderService;
     }
 
-    public PassOrder orchestPassCreation(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests)
+    public PassOrder orchestPassCreation(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest)
             throws OutOfSaleDatesException, OutOfFestivalDatesException {
-        PassOrder passOrder = passOrderService.orderPasses(orderDate, vendorCode, passRequests);
+        PassOrder passOrder = passOrderService.orderPasses(orderDate, vendorCode, passRequest);
 
         PassCategoryToShuttleCategory passCategoryToShuttleCategory = new PassCategoryToShuttleCategory();
         for (Pass pass : passOrder.getPasses()) {
