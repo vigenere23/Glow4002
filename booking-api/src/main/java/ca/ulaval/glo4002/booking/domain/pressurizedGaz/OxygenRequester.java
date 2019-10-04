@@ -59,7 +59,7 @@ public class OxygenRequester extends OxygenExposer {
         results.gradeProduced = oxygenProducer.getRealGradeToProduce(orderDate, grade);
 
         OffsetDateTime deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
-        this.results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
+        results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
     }
 
     private void updateHistory() {
