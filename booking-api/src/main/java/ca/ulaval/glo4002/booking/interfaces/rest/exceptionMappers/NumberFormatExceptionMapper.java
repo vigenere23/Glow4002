@@ -7,7 +7,6 @@ import javax.ws.rs.ext.Provider;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ErrorDto;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 
-
 @Provider
 public class NumberFormatExceptionMapper implements ExceptionMapper<NumberFormatException> {
 
