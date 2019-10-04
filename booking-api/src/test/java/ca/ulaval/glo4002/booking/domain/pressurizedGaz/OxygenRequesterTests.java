@@ -63,8 +63,17 @@ public class OxygenRequesterTests {
     @Test
     public void whenQuantityToProduceIsHigherThanRemainingQuantity_thenOxygenInventoryIsUpdated() {
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(0);
+        when(oxygenInventory.getInventoryOfGrade(OxygenGrade.A)).thenReturn(0);
         oxygenRequester.orderOxygen(oneMonthBeforeFestivalDate, OxygenGrade.A, 2);
         verify(oxygenInventory).setOxygenInventory(OxygenGrade.A, 5);
+    }
+
+    @Test
+    public void givenAnInventory_whenQuantityToProduceIsHigherThanRemainingQuantity_thenOxygenInventoryIsUpdated() {
+        when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(0);
+        when(oxygenInventory.getInventoryOfGrade(OxygenGrade.A)).thenReturn(3);
+        oxygenRequester.orderOxygen(oneMonthBeforeFestivalDate, OxygenGrade.A, 2);
+        verify(oxygenInventory).setOxygenInventory(OxygenGrade.A, 8);
     }
 
     @Test

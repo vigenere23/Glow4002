@@ -48,9 +48,23 @@ public class OxygenProducerTests {
     }
 
     @Test
+    public void givenExistingOxygenTankMadeQty_whenOrderOxygenQuantityLessThanMinimumFabricationQuantity_thenDeliveryDatQtyOxygenTankMadeHistoryIsUpdated() {
+        results.deliveryDateHistory.qtyOxygenTankMade = 2;
+        oxygenProducer.produceOxygen(OxygenGrade.A, 3, results);
+        assertEquals(7, results.deliveryDateHistory.qtyOxygenTankMade);
+    }
+
+    @Test
     public void whenOrderOxygenQuantityLessThanMinimumFabricationQuantity_thenOrderDateQtyCandlesUsedHistoryIsUpdated() {
         oxygenProducer.produceOxygen(OxygenGrade.A, 3, results);
         assertEquals(15, results.orderDateHistory.qtyCandlesUsed);
+    }
+
+    @Test
+    public void givenExistingCandlesUsed_whenOrderOxygenQuantityLessThanMinimumFabricationQuantity_thenOrderDateQtyCandlesUsedHistoryIsUpdated() {
+        results.orderDateHistory.qtyCandlesUsed = 2;
+        oxygenProducer.produceOxygen(OxygenGrade.A, 3, results);
+        assertEquals(17, results.orderDateHistory.qtyCandlesUsed);
     }
 
     @Test
@@ -78,9 +92,23 @@ public class OxygenProducerTests {
     }
 
     @Test
+    public void givenExistingWaterUsedQty_whenOrderOxygenQuantityGradeB_thenOrderDateQtyWaterUsedHistoryIsUpdated() {
+        results.orderDateHistory.qtyWaterUsed = 2;
+        oxygenProducer.produceOxygen(OxygenGrade.B, 2, results);
+        assertEquals(10, results.orderDateHistory.qtyWaterUsed);
+    }
+
+    @Test
     public void whenOrderOxygenQuantityGradeE_thenOrderDateQtyOxygenTankBoughtHistoryIsUpdated() {
         oxygenProducer.produceOxygen(OxygenGrade.E, 2, results);
         assertEquals(2, results.orderDateHistory.qtyOxygenTankBought);
+    }
+
+    @Test
+    public void givenExistingOxygenTankBoughtQty_whenOrderOxygenQuantityGradeE_thenOrderDateQtyOxygenTankBoughtHistoryIsUpdated() {
+        results.orderDateHistory.qtyOxygenTankBought = 2;
+        oxygenProducer.produceOxygen(OxygenGrade.E, 2, results);
+        assertEquals(4, results.orderDateHistory.qtyOxygenTankBought);
     }
 
     @Test

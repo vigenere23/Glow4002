@@ -20,7 +20,7 @@ public class OxygenProducer {
         int fabricationQuantity = productionBatchCount * minimumFabricationQuantity;
 
         results.gradeProduced = gradeToProduce;
-        results.deliveryDateHistory.qtyOxygenTankMade = fabricationQuantity;
+        results.deliveryDateHistory.qtyOxygenTankMade += fabricationQuantity;
         results.quantityTankToAddToInventory = fabricationQuantity;
         results.quantityTankRemaining = fabricationQuantity - quantityToProduce;
 
@@ -38,15 +38,15 @@ public class OxygenProducer {
         OxygenGrade gradeToProduce = results.gradeProduced;
         if (gradeToProduce.equals(OxygenGrade.A)) {
             int candleProductionNeedPerBatch = ProductionSettings.candleProductionNeed.get(gradeToProduce);
-            results.orderDateHistory.qtyCandlesUsed = productionBatchCount * candleProductionNeedPerBatch;
+            results.orderDateHistory.qtyCandlesUsed += productionBatchCount * candleProductionNeedPerBatch;
         }
         if (gradeToProduce.equals(OxygenGrade.B)) {
             int waterUsedPerBatch = ProductionSettings.waterProductionNeed.get(gradeToProduce);
-            results.orderDateHistory.qtyWaterUsed = productionBatchCount * waterUsedPerBatch;
+            results.orderDateHistory.qtyWaterUsed += productionBatchCount * waterUsedPerBatch;
         }
 
         if (gradeToProduce.equals(OxygenGrade.E)) {
-            results.orderDateHistory.qtyOxygenTankBought = quantityToProduce;
+            results.orderDateHistory.qtyOxygenTankBought += quantityToProduce;
         }
     }
 
