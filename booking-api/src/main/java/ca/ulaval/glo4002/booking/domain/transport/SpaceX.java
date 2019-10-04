@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class SpaceX extends Shuttle {
     
     public SpaceX(LocalDate date) {
-        this.capacity = 30;
         this.date = date;
-        this.category = ShuttleCategory.SPACE_X;
+        capacity = 30;
+        category = ShuttleCategory.SPACE_X;
     }
 }

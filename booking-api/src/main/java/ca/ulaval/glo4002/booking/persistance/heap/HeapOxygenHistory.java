@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
 
 public class HeapOxygenHistory implements OxygenHistory {
 
-    private HashMap<OffsetDateTime, History> history;
+    private final HashMap<OffsetDateTime, History> history;
 
     public HeapOxygenHistory() {
         super();
@@ -22,18 +22,20 @@ public class HeapOxygenHistory implements OxygenHistory {
 
     @Override
     public void updateCreationHistory(OffsetDateTime date, History history) {
+        if(history == null) return;
         this.history.put(date, history);
     }
 
     @Override
     public History getCreationHistoryPerDate(OffsetDateTime date) {
+        History historyPerDate = null;
         if(history.containsKey(date) )
         {
-            return history.get(date);
+            historyPerDate = history.get(date);
         } else {
-            History newHistory = new History();
-            newHistory.date = date;
-            return newHistory;
+            historyPerDate = new History();
+            historyPerDate.date = date;
         }
+        return historyPerDate;
     }
 }

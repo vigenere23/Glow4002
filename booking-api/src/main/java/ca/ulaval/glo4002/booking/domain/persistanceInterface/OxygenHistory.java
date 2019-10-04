@@ -9,5 +9,5 @@ public interface OxygenHistory {
 
     public HashMap<OffsetDateTime, History> getCreationHistory();
     public void updateCreationHistory(OffsetDateTime date, History history);
-    public History getCreationHistoryPerDate(OffsetDateTime date);
+    public History getCreationHistoryPerDate(OffsetDateTime date);   
 }

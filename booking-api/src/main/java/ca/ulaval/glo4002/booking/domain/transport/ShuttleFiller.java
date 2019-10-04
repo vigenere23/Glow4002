@@ -3,14 +3,11 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 public class ShuttleFiller {
     
-    @Resource
     private ShuttleFactory shuttleFactory = new ShuttleFactory();
     
-    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, long passNumber, LocalDate date) throws FullCapacityException {
+    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, long passNumber, LocalDate date) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date);
         availableShuttle.addPassNumber(passNumber);
         if(!shuttlesToFill.contains(availableShuttle)) {
@@ -32,9 +29,6 @@ public class ShuttleFiller {
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date) {
-        boolean shuttleIsAtRightDate = date.equals(shuttleToVerify.getDate());
-        boolean shuttleIsOfRightCategory = shuttleCategory.equals(shuttleToVerify.getCategory());
-        boolean shuttleIsFull = shuttleToVerify.isFull();
-        return shuttleIsAtRightDate && shuttleIsOfRightCategory && !shuttleIsFull;
+        return date.equals(shuttleToVerify.getDate()) && shuttleCategory.equals(shuttleToVerify.getCategory()) && !shuttleToVerify.isFull();
     } 
 }
