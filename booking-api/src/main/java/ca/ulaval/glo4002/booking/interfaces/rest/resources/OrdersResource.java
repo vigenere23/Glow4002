@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.glo4002.booking.domain.Orchester;
+import ca.ulaval.glo4002.booking.domain.Orchestrator;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
@@ -31,11 +31,11 @@ import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderRequest;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
 
-    private Orchester orchester;
+    private Orchestrator orchester;
     private PassOrderService passOrderService;
     
     @Inject
-    public OrdersResource(Orchester orchester, PassOrderService passOrderService) {
+    public OrdersResource(Orchestrator orchester, PassOrderService passOrderService) {
         this.orchester = orchester;
         this.passOrderService = passOrderService;
     }

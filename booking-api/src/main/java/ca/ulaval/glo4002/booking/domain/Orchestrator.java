@@ -18,13 +18,13 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassRequest;
 
-public class Orchester {
+public class Orchestrator {
 
     private final TransportExposer transportExposer;
     private final OxygenRequester oxygenRequester;
     private final PassOrderService passOrderService;
 
-    public Orchester(TransportExposer transportExposer, OxygenRequester oxygenRequester, PassOrderService passOrderService) {
+    public Orchestrator(TransportExposer transportExposer, OxygenRequester oxygenRequester, PassOrderService passOrderService) {
         this.transportExposer = transportExposer;
         this.oxygenRequester = oxygenRequester;
         this.passOrderService = passOrderService;

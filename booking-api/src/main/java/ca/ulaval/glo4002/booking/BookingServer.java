@@ -6,7 +6,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.domain.Orchester;
+import ca.ulaval.glo4002.booking.domain.Orchestrator;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
@@ -30,7 +30,7 @@ public class BookingServer implements Runnable {
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getEndDate(), repository.getOxygenPersistance());   
         TransportExposer transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
         PassOrderService passOrderService = new PassOrderService(repository, festival);
-        Orchester orchester = new Orchester(transportExposer, oxygenRequester, passOrderService);
+        Orchestrator orchester = new Orchestrator(transportExposer, oxygenRequester, passOrderService);
         
         ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenRequester, transportExposer, passOrderService, orchester).packages("ca.ulaval.glo4002.booking");
         ServletContainer container = new ServletContainer(packageConfig);
