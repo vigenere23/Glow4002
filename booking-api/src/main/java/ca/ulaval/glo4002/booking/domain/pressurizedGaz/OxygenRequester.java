@@ -35,14 +35,19 @@ public class OxygenRequester extends OxygenExposer {
         int remainingQuantity = inventory.getOxygenRemaining(grade);
 
         if (hasToProduce(quantity, remainingQuantity)) {
-            initializeResults(orderDate, grade);
             inventory.setOxygenRemaining(grade, 0);
+            int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);
 
-            int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);           
-            oxygenProducer.produceOxygen(grade, totalToProduce, results);
+            initializeResults(orderDate, grade);
+            OxygenGrade gradeProduced = results.gradeProduced;
+            if (!gradeProduced.equals(grade)) {
+                orderOxygen(orderDate, gradeProduced, totalToProduce);
+            } else {
+                oxygenProducer.produceOxygen(gradeProduced, totalToProduce, results);
 
-            updateInventory();
-            updateHistory();
+                updateInventory();
+                updateHistory();
+            }
         } else {
             inventory.setOxygenRemaining(grade, remainingQuantity - quantity);
         }
@@ -54,12 +59,11 @@ public class OxygenRequester extends OxygenExposer {
 
     private void initializeResults(OffsetDateTime orderDate, OxygenGrade grade) {
         results = new OxygenProductionResults();
-        History orderDateHistory = history.getCreationHistoryPerDate(orderDate);
-        results.orderDateHistory = orderDateHistory;
+        results.orderDateHistory = history.getCreationHistoryPerDate(orderDate);
+        results.gradeProduced = oxygenProducer.getNextGradeToProduce(orderDate, grade);
 
-        OffsetDateTime deliveryDate = oxygenProducer.getNextAvailableDeliveryDate(orderDate, grade);
-        History deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
-        results.deliveryDateHistory = deliveryDateHistory;
+        OffsetDateTime deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
+        results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
     }
 
     private void updateHistory() {
@@ -70,6 +74,6 @@ public class OxygenRequester extends OxygenExposer {
     private void updateInventory() {
         OxygenGrade gradeProduced = results.gradeProduced;
         inventory.setOxygenInventory(gradeProduced, inventory.getInventoryOfGrade(gradeProduced) + results.quantityTankToAddToInventory);
-        inventory.setOxygenRemaining(gradeProduced, inventory.getOxygenRemaining(gradeProduced) + results.quantityTankRemaining);
+        inventory.setOxygenRemaining(gradeProduced, results.quantityTankRemaining);
     }
 }

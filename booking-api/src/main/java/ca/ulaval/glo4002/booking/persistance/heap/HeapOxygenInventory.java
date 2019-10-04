@@ -41,14 +41,14 @@ public class HeapOxygenInventory implements OxygenInventory {
         for (OxygenGrade grade : inventory.keySet()) {
             addInventory(inventoryList, grade.name(), inventory.get(grade));
         }
-    	return inventoryList;
+        return inventoryList;
     }  
     
     private void addInventory(List<Inventory> inventory, String grade, int categoryCount) {
-    	Inventory item = new Inventory();
-    	item.gradeTankOxygen = grade;
-    	item.quantity = categoryCount;
-    	inventory.add(item);
+        Inventory item = new Inventory();
+        item.gradeTankOxygen = grade;
+        item.quantity = categoryCount;
+        inventory.add(item);
     }
 
     @Override

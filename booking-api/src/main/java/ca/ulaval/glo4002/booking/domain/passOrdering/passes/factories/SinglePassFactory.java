@@ -20,7 +20,7 @@ public class SinglePassFactory {
     public SinglePass create(PassCategory passCategory, OffsetDateTime eventDate) throws OutOfFestivalDatesException {
         validateEventDate(eventDate);
 
-        switch(passCategory) {
+        switch (passCategory) {
             case NEBULA:
                 return new NebulaSinglePass(eventDate);
             case SUPERGIANT:
