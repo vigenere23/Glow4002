@@ -39,7 +39,7 @@ public class OrchestratorTest {
     private static final OffsetDateTime ORDER_DATE_TIME = OffsetDateTime.of(ORDER_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
     private static final int NUMBER_OF_FESTIVAL_DAYS = 5;
     private static final LocalDate FESTIVAL_START = ORDER_DATE.plusMonths(12);
-    private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS);
+    private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
     private static final ID PASS_ID = new ID(0L);
 

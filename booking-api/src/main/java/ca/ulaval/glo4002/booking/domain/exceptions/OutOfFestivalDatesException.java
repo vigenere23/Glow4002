@@ -9,7 +9,7 @@ public class OutOfFestivalDatesException extends Exception {
     public OutOfFestivalDatesException(LocalDate festivalStart, LocalDate festivalEnd) {
         super(
             String.format(
-                "event dates should be between %s and %s",
+                "event date should be between %s and %s",
                 festivalStart.format(DateHelper.dateFormatter),
                 festivalEnd.format(DateHelper.dateFormatter)
             )

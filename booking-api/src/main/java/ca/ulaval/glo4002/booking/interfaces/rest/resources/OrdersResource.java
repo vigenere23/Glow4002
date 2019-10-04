@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -34,7 +36,7 @@ public class OrdersResource {
 
     private Orchestrator orchestrator;
     private PassOrderService passOrderService;
-    
+
     @Inject
     public OrdersResource(Orchestrator orchestrator, PassOrderService passOrderService) {
         this.orchestrator = orchestrator;
@@ -53,17 +55,18 @@ public class OrdersResource {
     }
 
     @POST
-    public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
+    public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError, URISyntaxException {
         if (!request.vendorCode.equals("TEAM")) {
             throw new InvalidVendorCodeException();
         }
 
         try {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
-            UriBuilder builder = uriInfo.getAbsolutePathBuilder();
             Long orderNumber = passOrder.getOrderNumber().getId();
-            builder.path(Long.toString(orderNumber));
-            return Response.created(builder.build()).build();
+
+            UriBuilder builder = uriInfo.getRequestUriBuilder().path(Long.toString(orderNumber));
+            URI uri = uriInfo.getBaseUri().relativize(builder.build());
+            return Response.status(201).contentLocation(new URI("/" + uri.toString())).build();
         }
         catch (OutOfSaleDatesException exception) {
             throw new InvalidOrderDateException(exception.getMessage());
