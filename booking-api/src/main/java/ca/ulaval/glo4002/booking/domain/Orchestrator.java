@@ -51,7 +51,6 @@ public class Orchestrator {
                 oxygenOrderDate = oxygenOrderDate.plusDays(1);
             }
         }
-
         return passOrder;
     }
 }

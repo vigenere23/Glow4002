@@ -45,7 +45,6 @@ public class PassOrder implements Priceable {
         if (orderDiscount == null) {
             return priceBeforeDiscounts;
         }
-        
         return orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(passes), priceBeforeDiscounts);
     }
 

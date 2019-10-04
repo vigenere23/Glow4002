@@ -29,7 +29,6 @@ public enum PassCategory {
                 String.format("No enum value for string %s", text)
             );
         }
-
         return value.get();
     }
 }

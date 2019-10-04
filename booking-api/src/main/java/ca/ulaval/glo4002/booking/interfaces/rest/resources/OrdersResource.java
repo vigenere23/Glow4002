@@ -47,7 +47,6 @@ public class OrdersResource {
         if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(id);
         }
-
         return Response.ok().entity(new PassOrderResponseMapper().getPassOrderResponse(passOrder.get())).build();
     }
 

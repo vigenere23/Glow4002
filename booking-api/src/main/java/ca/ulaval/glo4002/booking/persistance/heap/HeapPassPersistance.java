@@ -20,7 +20,6 @@ public class HeapPassPersistance implements PassPersistance {
 	@Override
 	public Optional<Pass> getById(Long id) {
 		Pass pass = passes.get(id);
-
 		return Optional.ofNullable(pass);
 	}
 

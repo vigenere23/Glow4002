@@ -20,7 +20,6 @@ public class NebulaSinglePassDiscount extends OrderDiscount {
         if (nextDiscount != null) {
             return nextDiscount.priceAfterDiscounts(passes, newPrice);
         }
-
         return newPrice;
     }
 
@@ -35,7 +34,6 @@ public class NebulaSinglePassDiscount extends OrderDiscount {
         if (numberOfWantedPasses > 3) {
             return totalPrice.multipliedBy(0.1, RoundingMode.HALF_UP);
         }
-        
         return Money.zero(CurrencyUnit.CAD);
     }
 }

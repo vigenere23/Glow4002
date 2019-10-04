@@ -19,7 +19,6 @@ public class SupergiantSinglePassDiscount extends OrderDiscount {
         if (nextDiscount != null) {
             return nextDiscount.priceAfterDiscounts(passes, newPrice);
         }
-
         return newPrice;
     }
 
@@ -34,7 +33,6 @@ public class SupergiantSinglePassDiscount extends OrderDiscount {
         if (numberOfWantedPasses >= 5) {
             return Money.of(CurrencyUnit.CAD, numberOfWantedPasses * 10000);
         }
-        
         return Money.zero(CurrencyUnit.CAD);
     }
 }
