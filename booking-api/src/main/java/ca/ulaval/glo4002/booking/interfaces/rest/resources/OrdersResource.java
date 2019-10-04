@@ -42,7 +42,8 @@ public class OrdersResource {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) throws OrderNotFoundException {
+    public Response getById(@PathParam("id") String stringId) throws OrderNotFoundException {
+        Long id = Long.parseLong(stringId);
         Optional<PassOrder> passOrder = passOrderService.getOrder(id);
         if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(id);

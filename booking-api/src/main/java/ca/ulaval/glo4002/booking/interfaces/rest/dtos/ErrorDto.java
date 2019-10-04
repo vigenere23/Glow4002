@@ -5,11 +5,11 @@ import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientErrorType;
 
 public class ErrorDto {
 
-    public final ClientErrorType errorType;
+    public final ClientErrorType error;
     public final String description;
 
-    public ErrorDto(ClientErrorType errorType, String description) {
-        this.errorType = errorType;
+    public ErrorDto(ClientErrorType error, String description) {
+        this.error = error;
         this.description = description;
     }
 
