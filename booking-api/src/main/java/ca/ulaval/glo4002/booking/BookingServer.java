@@ -26,21 +26,17 @@ public class BookingServer implements Runnable {
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
         HeapRepository repository = new HeapRepository();
-        Glow4002 festival = new Glow4002(repository);
-        OxygenRequester oxygenExposer = new OxygenRequester(festival.getEndDate(), repository.getOxygenPersistance());   
+        Glow4002 festival = new Glow4002();
+        OxygenRequester oxygenRequester = new OxygenRequester(festival.getEndDate(), repository.getOxygenPersistance());   
         TransportExposer transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
         PassOrderService passOrderService = new PassOrderService(repository, festival);
-        Orchester orchester = new Orchester(transportExposer, passOrderService);
-        festival.setOxygenRequester(oxygenExposer); 
+        Orchester orchester = new Orchester(transportExposer, oxygenRequester, passOrderService);
         
-        ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenExposer, transportExposer, passOrderService, orchester).packages("ca.ulaval.glo4002.booking");
+        ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenRequester, transportExposer, passOrderService, orchester).packages("ca.ulaval.glo4002.booking");
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
         contextHandler.addServlet(servletHolder, "/*");
-
-        //for test purpose
-        festival.orderTemporaryOxygenToValidateIfItWorks();
 
         try {
             server.start();
