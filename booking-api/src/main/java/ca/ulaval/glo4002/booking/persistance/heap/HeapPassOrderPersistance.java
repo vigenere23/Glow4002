@@ -2,12 +2,11 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 public class HeapPassOrderPersistance implements PassOrderPersistance {
 
@@ -15,27 +14,20 @@ public class HeapPassOrderPersistance implements PassOrderPersistance {
 	private Map<Long, PassOrder> passOrders;
 
 	public HeapPassOrderPersistance() {
-		this.passOrders = new HashMap<>();
+		passOrders = new HashMap<>();
 	}
 
 	@Override
-	public PassOrder getById(Long id) throws RecordNotFoundException {
-		PassOrder passOrder = this.passOrders.get(id);
-		
-		if (passOrder == null) {
-			throw new RecordNotFoundException();
-		}
-
-		return passOrder;
+	public Optional<PassOrder> getById(Long id) {
+		PassOrder passOrder = passOrders.get(id);
+		return Optional.ofNullable(passOrder);
 	}
 
 	@Override
-	public void save(PassOrder passOrder) throws RecordAlreadyExistsException {
-		if (this.passOrders.containsValue(passOrder)) {
-			throw new RecordAlreadyExistsException();
+	public void save(PassOrder passOrder) {
+		if (!passOrders.containsValue(passOrder) && passOrder != null) {
+			passOrder.setId(idGenerator.getAndIncrement());
+			passOrders.put(passOrder.getId(), passOrder);
 		}
-
-		passOrder.setId(idGenerator.getAndIncrement());
-		this.passOrders.put(passOrder.getId(), passOrder);
 	}
 }

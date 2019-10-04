@@ -10,11 +10,8 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSing
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantPackagePass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class HeapPassPersistanceTest {
 
@@ -28,49 +25,39 @@ public class HeapPassPersistanceTest {
     public void setUp() {
         Repository repository = new HeapRepository();
 
-        this.passPersistance = repository.getPassPersistance();
-        this.pass = new NebulaSinglePass(OffsetDateTime.now());
-        this.otherPass = new SupergiantPackagePass(OffsetDateTime.now(), OffsetDateTime.now());
+        passPersistance = repository.getPassPersistance();
+        pass = new NebulaSinglePass(OffsetDateTime.now());
+        otherPass = new SupergiantPackagePass(OffsetDateTime.now(), OffsetDateTime.now());
     }
 
     @Test
-    public void whenGetWithNonExistantId_itThrowsARecordNotFoundException() {
-        assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passPersistance.getById(INVALID_ID);
-        });
+    public void whenGetWithNonExistantId_itReturnsAnEmptyOptional() {
+        assertThat(passPersistance.getById(INVALID_ID)).isNotPresent();
     }
 
     @Test
     public void givenSavingAPass_whenGetThePassById_itReturnsTheSamePass() throws Exception {
-        this.pass.setId(null);
-        this.passPersistance.save(this.pass);
-        Pass savedPass = this.passPersistance.getById(this.pass.getId());
-        assertThat(savedPass).isEqualTo(this.pass);
+        pass.setId(null);
+        passPersistance.save(pass);
+        Pass savedPass = passPersistance.getById(pass.getId()).get();
+        assertThat(savedPass).isEqualTo(pass);
     }
 
     @Test
     public void whenSavingPassWithIdNull_itSetsAnId() throws Exception {
-        this.pass.setId(null);
-        this.passPersistance.save(this.pass);
-        assertThat(this.pass.getId()).isNotNull();
+        pass.setId(null);
+        passPersistance.save(pass);
+        assertThat(pass.getId()).isNotNull();
     }
 
     @Test
     public void whenSavingTwoPasses_itIncrementsTheIdBy1() throws Exception {
-        this.passPersistance.save(this.pass);
-        Long firstPassId = this.pass.getId();
+        passPersistance.save(pass);
+        Long firstPassId = pass.getId();
 
-        this.passPersistance.save(this.otherPass);
-        Long secondPassId = this.otherPass.getId();
+        passPersistance.save(otherPass);
+        Long secondPassId = otherPass.getId();
 
         assertThat(secondPassId - firstPassId).isEqualTo(1L);
-    }
-
-    @Test
-    public void whenSavingAnAlreadyExistingPass_itThrowsRecordAlreadyExistsException() throws Exception {
-        this.passPersistance.save(this.pass);
-        assertThatExceptionOfType(RecordAlreadyExistsException.class).isThrownBy(() -> {
-            this.passPersistance.save(this.pass);
-        });
     }
 }

@@ -4,9 +4,7 @@ import java.time.OffsetDateTime;
 
 import org.joda.money.Money;
 
-import ca.ulaval.glo4002.booking.domain.Priceable;
-
-public abstract class Pass implements Priceable {
+public abstract class Pass {
 
     protected Long passNumber;
     protected Money price;
@@ -19,14 +17,29 @@ public abstract class Pass implements Priceable {
     }
 
     public Money getPrice() {
-        return this.price;
+        return price;
     }
 
     public Long getId() {
-        return this.passNumber;
+        return passNumber;
     }
 
     public void setId(Long id) {
         this.passNumber = id;
     }
+    
+    public long getPassNumber() {
+        return passNumber;
+    }
+
+    public OffsetDateTime getStartDate() {
+        return startDate;
+    }
+
+    public OffsetDateTime getEndDate() {
+        return endDate;
+    }
+
+    public abstract PassOption getPassOption();
+    public abstract PassCategory getPassCategory();
 }

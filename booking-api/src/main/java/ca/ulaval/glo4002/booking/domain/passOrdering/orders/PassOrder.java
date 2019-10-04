@@ -8,13 +8,12 @@ import java.util.List;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import ca.ulaval.glo4002.booking.domain.Priceable;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSingle4Discount;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.OrderDiscount;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSingle5Discount;
+import ca.ulaval.glo4002.booking.domain.passOrdering.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 
-public class PassOrder implements Priceable {
+public class PassOrder {
 
     private OffsetDateTime orderDate;
     private String vendorCode;
@@ -27,8 +26,9 @@ public class PassOrder implements Priceable {
         this.orderDate = orderDate;
         this.vendorCode = vendorCode;
         this.passes = passes;
-        this.orderDiscount = new SupergiantSingle5Discount();
-        this.orderDiscount.setNextDiscount(new NebulaSingle4Discount());
+        
+        orderDiscount = new SupergiantSinglePassDiscount();
+        orderDiscount.setNextDiscount(new NebulaSinglePassDiscount());
     }
 
     public Money getPrice() {
@@ -36,20 +36,19 @@ public class PassOrder implements Priceable {
     }
 
     private Money calculateTotalPrice() {
-        Money priceBeforeDiscounts = this.passes
+        Money priceBeforeDiscounts = passes
             .stream()
             .map(Pass::getPrice)
             .reduce(Money.zero(CurrencyUnit.CAD), (subtotal, price) -> subtotal.plus(price));
 
-        if (this.orderDiscount == null) {
+        if (orderDiscount == null) {
             return priceBeforeDiscounts;
         }
-        
-        return this.orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(this.passes), priceBeforeDiscounts);
+        return orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(passes), priceBeforeDiscounts);
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -57,6 +56,6 @@ public class PassOrder implements Priceable {
     }
 
     public List<Pass> getPasses() {
-        return Collections.unmodifiableList(this.passes);
+        return Collections.unmodifiableList(passes);
     }
 }

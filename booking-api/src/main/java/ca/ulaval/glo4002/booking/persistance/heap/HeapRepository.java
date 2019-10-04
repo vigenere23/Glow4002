@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistanc
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
 
-public class HeapRepository implements Repository{
+public class HeapRepository implements Repository {
 	
 	private final OxygenPersistance oxygenPersistance;
 	private final PassOrderPersistance passOrderPersistance;
@@ -14,10 +14,10 @@ public class HeapRepository implements Repository{
 	private final ShuttlePersistance shuttlePersistance;
 	
 	public HeapRepository() {
-		this.oxygenPersistance = new HeapOxygenPersistance();
-		this.passOrderPersistance = new HeapPassOrderPersistance();
-		this.passPersistance = new HeapPassPersistance();
-		this.shuttlePersistance = new HeapShuttlePersistance();
+		oxygenPersistance = new HeapOxygenPersistance();
+		passOrderPersistance = new HeapPassOrderPersistance();
+		passPersistance = new HeapPassPersistance();
+		shuttlePersistance = new HeapShuttlePersistance();
 	}
 
 	@Override

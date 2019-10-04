@@ -7,11 +7,8 @@ import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordAlreadyExistsException;
-import ca.ulaval.glo4002.booking.persistance.heap.exceptions.RecordNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 
 import java.time.OffsetDateTime;
@@ -32,49 +29,39 @@ public class HeapOrderPersistanceTest {
         List<Pass> passes1 = Arrays.asList(mock(Pass.class));
 		List<Pass> passes2 = Arrays.asList(mock(Pass.class));
 
-        this.passOrderPersistance = repository.getPassOrderPersistance();
-        this.passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);
-        this.otherPassOrder = new PassOrder(OffsetDateTime.now(), "CODE2", passes2);
+        passOrderPersistance = repository.getPassOrderPersistance();
+        passOrder = new PassOrder(OffsetDateTime.now(), "CODE", passes1);
+        otherPassOrder = new PassOrder(OffsetDateTime.now(), "CODE2", passes2);
     }
 
     @Test
-    public void whenGetWithNonExistantId_itThrowsARecordNotFoundException() {
-        assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(() -> {
-            this.passOrderPersistance.getById(INVALID_ID);
-        });
+    public void whenGetWithNonExistantId_itReturnsAnEmptyOptional() {
+        assertThat(passOrderPersistance.getById(INVALID_ID)).isNotPresent();
     }
 
     @Test
     public void givenSavingAOrder_whenGetTheOrderById_itReturnsTheSameOrder() throws Exception {
-        this.passOrder.setId(null);
-        this.passOrderPersistance.save(this.passOrder);
-        PassOrder savedPassOrder = this.passOrderPersistance.getById(this.passOrder.getId());
-        assertThat(savedPassOrder).isEqualTo(this.passOrder);
+        passOrder.setId(null);
+        passOrderPersistance.save(passOrder);
+        PassOrder savedPassOrder = passOrderPersistance.getById(passOrder.getId()).get();
+        assertThat(savedPassOrder).isEqualTo(passOrder);
     }
 
     @Test
     public void whenSavingOrderWithIdNull_itSetsAnId() throws Exception {
-        this.passOrder.setId(null);
-        this.passOrderPersistance.save(this.passOrder);
-        assertThat(this.passOrder.getId()).isNotNull();
+        passOrder.setId(null);
+        passOrderPersistance.save(passOrder);
+        assertThat(passOrder.getId()).isNotNull();
     }
 
     @Test
     public void whenSavingTwoOrders_itIncrementsTheIdByOne() throws Exception {
-        this.passOrderPersistance.save(this.passOrder);
-        Long firstPassOrderId = this.passOrder.getId();
+        passOrderPersistance.save(passOrder);
+        Long firstPassOrderId = passOrder.getId();
 
-        this.passOrderPersistance.save(this.otherPassOrder);
-        Long secondPassOrderId = this.otherPassOrder.getId();
+        passOrderPersistance.save(otherPassOrder);
+        Long secondPassOrderId = otherPassOrder.getId();
 
         assertThat(secondPassOrderId - firstPassOrderId).isEqualTo(1L);
-    }
-
-    @Test
-    public void whenSavingAnAlreadyExistingOrder_itThrowsRecordAlreadyExistsException() throws Exception {
-        this.passOrderPersistance.save(this.passOrder);
-        assertThatExceptionOfType(RecordAlreadyExistsException.class).isThrownBy(() -> {
-            this.passOrderPersistance.save(this.passOrder);
-        });
     }
 }
