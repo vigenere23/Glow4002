@@ -27,7 +27,7 @@ public class PassOrderFactory {
         validateOrderDate(orderDate);
 
         List<Pass> passes = createPasses(passRequests);
-        PassOrder passOrder = new PassOrder(orderDate, vendorCode, passes);
+        PassOrder passOrder = new PassOrder(passes);
         return passOrder;
     }
 

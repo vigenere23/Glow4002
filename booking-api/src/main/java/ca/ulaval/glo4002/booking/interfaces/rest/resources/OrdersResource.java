@@ -24,6 +24,7 @@ import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidOrderDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidVendorCodeException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderRequest;
 
@@ -42,7 +43,8 @@ public class OrdersResource {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") Long id) throws OrderNotFoundException {
+    public Response getById(@PathParam("id") String stringId) throws OrderNotFoundException {
+        Long id = Long.parseLong(stringId);
         Optional<PassOrder> passOrder = passOrderService.getOrder(id);
         if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(id);
@@ -52,6 +54,10 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
+        if (!request.vendorCode.equals("TEAM")) {
+            throw new InvalidVendorCodeException();
+        }
+
         try {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             UriBuilder builder = uriInfo.getAbsolutePathBuilder();
