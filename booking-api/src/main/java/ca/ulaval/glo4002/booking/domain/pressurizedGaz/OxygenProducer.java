@@ -19,6 +19,7 @@ public class OxygenProducer {
         int productionBatchCount = calculateProductionBatchCount(quantityToProduce, minimumFabricationQuantity);
         int fabricationQuantity = productionBatchCount * minimumFabricationQuantity;
 
+        results.gradeProduced = gradeToProduce;
         results.deliveryDateHistory.qtyOxygenTankMade = fabricationQuantity;
         results.quantityTankToAddToInventory = fabricationQuantity;
         results.quantityTankRemaining = fabricationQuantity - quantityToProduce;

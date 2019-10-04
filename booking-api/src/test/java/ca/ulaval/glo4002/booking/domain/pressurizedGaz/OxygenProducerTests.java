@@ -24,7 +24,6 @@ public class OxygenProducerTests {
     public void testInitialize() {
         oxygenProducer = new OxygenProducer(festivalStartingDate);
         results = new OxygenProductionResults();
-        results.gradeProduced = OxygenGrade.A;
         results.orderDateHistory = new History();
         results.orderDateHistory.date = oneMonthBeforeFestivalDate;
         results.deliveryDateHistory = new History();
@@ -43,9 +42,45 @@ public class OxygenProducerTests {
     }
 
     @Test
+    public void whenOrderOxygenQuantityLessThanMinimumFabricationQuantity_thenDeliveryDatQtyOxygenTankMadeHistoryIsUpdated() {
+        oxygenProducer.produceOxygen(OxygenGrade.A, 3, results);
+        assertEquals(5, results.deliveryDateHistory.qtyOxygenTankMade);
+    }
+
+    @Test
+    public void whenOrderOxygenQuantityLessThanMinimumFabricationQuantity_thenOrderDateQtyCandlesUsedHistoryIsUpdated() {
+        oxygenProducer.produceOxygen(OxygenGrade.A, 3, results);
+        assertEquals(15, results.orderDateHistory.qtyCandlesUsed);
+    }
+
+    @Test
     public void whenOrderOxygenQuantityMoreThanMinimumFabricationQuantity_thenMultipleOfMinimumFabricationQuantityIsAdded() {
         oxygenProducer.produceOxygen(OxygenGrade.A, 6, results);
         assertEquals(10, results.quantityTankToAddToInventory);
+    }
+
+    @Test
+    public void whenOrderOxygenQuantityMoreThanMinimumFabricationQuantity_thenDeliveryDatQtyOxygenTankMadeHistoryIsUpdated() {
+        oxygenProducer.produceOxygen(OxygenGrade.A, 6, results);
+        assertEquals(10, results.deliveryDateHistory.qtyOxygenTankMade);
+    }
+
+    @Test
+    public void whenOrderOxygenQuantityMoreThanMinimumFabricationQuantity_thenOrderDateQtyCandlesUsedHistoryIsUpdated() {
+        oxygenProducer.produceOxygen(OxygenGrade.A, 6, results);
+        assertEquals(30, results.orderDateHistory.qtyCandlesUsed);
+    }
+
+    @Test
+    public void whenOrderOxygenQuantityGradeB_thenOrderDateQtyWaterUsedHistoryIsUpdated() {
+        oxygenProducer.produceOxygen(OxygenGrade.B, 2, results);
+        assertEquals(8, results.orderDateHistory.qtyWaterUsed);
+    }
+
+    @Test
+    public void whenOrderOxygenQuantityGradeE_thenOrderDateQtyOxygenTankBoughtHistoryIsUpdated() {
+        oxygenProducer.produceOxygen(OxygenGrade.E, 2, results);
+        assertEquals(2, results.orderDateHistory.qtyOxygenTankBought);
     }
 
     @Test
@@ -61,13 +96,13 @@ public class OxygenProducerTests {
     }
 
     @Test
-    public void when_orderOxygenGradeAOnLimitDeliveryDate_thenRealGradeToProduceIsGradeE() {
+    public void whenOrderOxygenGradeAOnLimitDeliveryDate_thenRealGradeToProduceIsGradeE() {
         OxygenGrade realGradeToProduce = oxygenProducer.getRealGradeToProduce(festivalStartingDate, OxygenGrade.A);
         assertEquals(OxygenGrade.E, realGradeToProduce);
     }
 
     @Test
-    public void when_orderOxygenGradeAAfterLimitDeliveryDate_thenException() {
+    public void whenOrderOxygenGradeAAfterLimitDeliveryDate_thenException() {
         assertThrows(IllegalArgumentException.class, () -> oxygenProducer.getRealGradeToProduce(duringFestival, OxygenGrade.A));
     }
 }

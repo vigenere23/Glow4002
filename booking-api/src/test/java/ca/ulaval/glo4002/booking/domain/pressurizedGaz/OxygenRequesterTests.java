@@ -17,10 +17,12 @@ import org.junit.jupiter.api.Test;
 
 public class OxygenRequesterTests {
 
-    OxygenProductionResults oxygenProductionResults;
-    OxygenPersistance oxygenPersistance;
-    OxygenInventory oxygenInventory;
-    OxygenHistory oxygenHistory;
+    private OxygenProductionResults oxygenProductionResults;
+    private OxygenPersistance oxygenPersistance;
+    private OxygenInventory oxygenInventory;
+    private OxygenHistory oxygenHistory;
+    private History orderDateHistory;
+    private History deliveryDateHistory;
     private OxygenRequester oxygenRequester;
     private final static OffsetDateTime festivalStartingDate = OffsetDateTime.of(2050, 7, 17, 0, 0, 0, 0, ZoneOffset.UTC);
     private final static OffsetDateTime oneMonthBeforeFestivalDate = OffsetDateTime.of(2050, 6, 17, 0, 0, 0, 0, ZoneOffset.UTC);
@@ -35,6 +37,8 @@ public class OxygenRequesterTests {
         oxygenPersistance = mock(HeapOxygenPersistance.class);
         oxygenInventory = mock(HeapOxygenInventory.class);
         oxygenHistory = mock(HeapOxygenHistory.class);
+        orderDateHistory = new History();
+        deliveryDateHistory = new History();
         when(oxygenPersistance.getOxygenInventory()).thenReturn(oxygenInventory);
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(0);
         when(oxygenInventory.getOxygenRemaining(OxygenGrade.B)).thenReturn(0);
@@ -42,6 +46,8 @@ public class OxygenRequesterTests {
         when(oxygenPersistance.getOxygenHistory()).thenReturn(oxygenHistory);
         when(oxygenHistory.getCreationHistoryPerDate(oneMonthBeforeFestivalDate)).thenReturn(new History());
         when(oxygenHistory.getCreationHistoryPerDate(completionDateGradeAOrder)).thenReturn(new History());
+//        when(oxygenProductionResults.orderDateHistory).thenReturn(orderDateHistory);
+//        when(oxygenProductionResults.deliveryDateHistory).thenReturn(deliveryDateHistory);
         oxygenRequester = new OxygenRequester(festivalStartingDate, oxygenPersistance);
     }
 
@@ -63,6 +69,11 @@ public class OxygenRequesterTests {
 //    public void whenQuantityToProduceIsHigherThanRemainingQuantity_thenCreationHistoryOfOrderDateIsUpdated() {
 //        when(oxygenInventory.getOxygenRemaining(OxygenGrade.A)).thenReturn(0);
 //        oxygenRequester.orderOxygen(oneMonthBeforeFestivalDate, OxygenGrade.A, 2);
-//        verify(oxygenHistory).updateCreationHistory(oneMonthBeforeFestivalDate, oxygenProductionResults.orderDateHistory);
+//        orderDateHistory.date = oneMonthBeforeFestivalDate;
+//        orderDateHistory.qtyOxygenTankBought = 0;
+//        orderDateHistory.qtyWaterUsed = 0;
+//        orderDateHistory.qtyCandlesUsed = 15;
+//        orderDateHistory.qtyOxygenTankMade = 0;
+//        verify(oxygenHistory).updateCreationHistory(oneMonthBeforeFestivalDate, orderDateHistory);
 //    }
 }
