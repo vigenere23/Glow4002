@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
-import ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers.ShuttleMapper;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.ShuttleMapper;
 
 public class ShuttleMapperTest {
 

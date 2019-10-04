@@ -1,8 +1,9 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.responses;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.ShuttleDto;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ShuttleDto;
 
 public class TransportResponse {
     

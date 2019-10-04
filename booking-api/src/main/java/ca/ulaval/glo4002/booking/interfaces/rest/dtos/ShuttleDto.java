@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos.oxygen;
 
 import java.time.OffsetDateTime;
 

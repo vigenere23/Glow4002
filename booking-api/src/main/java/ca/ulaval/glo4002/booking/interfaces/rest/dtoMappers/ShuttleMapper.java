@@ -1,10 +1,10 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.exceptionMappers;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.interfaces.rest.dtoMappers.ShuttleDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ShuttleDto;
 
 public class ShuttleMapper {
 
