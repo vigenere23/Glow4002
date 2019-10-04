@@ -25,38 +25,38 @@ public class HeapPassPersistanceTest {
     public void setUp() {
         Repository repository = new HeapRepository();
 
-        this.passPersistance = repository.getPassPersistance();
-        this.pass = new NebulaSinglePass(OffsetDateTime.now());
-        this.otherPass = new SupergiantPackagePass(OffsetDateTime.now(), OffsetDateTime.now());
+        passPersistance = repository.getPassPersistance();
+        pass = new NebulaSinglePass(OffsetDateTime.now());
+        otherPass = new SupergiantPackagePass(OffsetDateTime.now(), OffsetDateTime.now());
     }
 
     @Test
     public void whenGetWithNonExistantId_itReturnsAnEmptyOptional() {
-        assertThat(this.passPersistance.getById(INVALID_ID)).isNotPresent();
+        assertThat(passPersistance.getById(INVALID_ID)).isNotPresent();
     }
 
     @Test
     public void givenSavingAPass_whenGetThePassById_itReturnsTheSamePass() throws Exception {
-        this.pass.setId(null);
-        this.passPersistance.save(this.pass);
-        Pass savedPass = this.passPersistance.getById(this.pass.getId()).get();
-        assertThat(savedPass).isEqualTo(this.pass);
+        pass.setId(null);
+        passPersistance.save(pass);
+        Pass savedPass = passPersistance.getById(pass.getId()).get();
+        assertThat(savedPass).isEqualTo(pass);
     }
 
     @Test
     public void whenSavingPassWithIdNull_itSetsAnId() throws Exception {
-        this.pass.setId(null);
-        this.passPersistance.save(this.pass);
-        assertThat(this.pass.getId()).isNotNull();
+        pass.setId(null);
+        passPersistance.save(pass);
+        assertThat(pass.getId()).isNotNull();
     }
 
     @Test
     public void whenSavingTwoPasses_itIncrementsTheIdBy1() throws Exception {
-        this.passPersistance.save(this.pass);
-        Long firstPassId = this.pass.getId();
+        passPersistance.save(pass);
+        Long firstPassId = pass.getId();
 
-        this.passPersistance.save(this.otherPass);
-        Long secondPassId = this.otherPass.getId();
+        passPersistance.save(otherPass);
+        Long secondPassId = otherPass.getId();
 
         assertThat(secondPassId - firstPassId).isEqualTo(1L);
     }

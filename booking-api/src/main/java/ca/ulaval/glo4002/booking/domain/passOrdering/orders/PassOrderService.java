@@ -20,25 +20,25 @@ public class PassOrderService {
     private PassOrderFactory passOrderFactory;
 
     public PassOrderService(Repository repository, Glow4002 festival) {
-        this.passOrderPersistance = repository.getPassOrderPersistance();
-        this.passPersistance = repository.getPassPersistance();
-        this.passOrderFactory = new PassOrderFactory(festival);
+        passOrderPersistance = repository.getPassOrderPersistance();
+        passPersistance = repository.getPassPersistance();
+        passOrderFactory = new PassOrderFactory(festival);
     }
 
     public Optional<PassOrder> getOrder(long id) {
-        return this.passOrderPersistance.getById(id);
+        return passOrderPersistance.getById(id);
     }
 
     public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws OutOfSaleDatesException, OutOfFestivalDatesException {
-        PassOrder passOrder = this.passOrderFactory.create(orderDate, vendorCode, passRequests);
+        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequests);
         saveObjects(passOrder);
         return passOrder;
     }
 
     private void saveObjects(PassOrder passOrder) {
         for (Pass pass : passOrder.getPasses()) {
-            this.passPersistance.save(pass);
+            passPersistance.save(pass);
         }
-        this.passOrderPersistance.save(passOrder);
+        passOrderPersistance.save(passOrder);
     }
 }

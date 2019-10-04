@@ -11,7 +11,7 @@ public class SupergiantSinglePass extends SinglePass {
 
     public SupergiantSinglePass(OffsetDateTime eventDate) {
         super(eventDate);
-        this.price = Money.of(CurrencyUnit.CAD, 100000);
+        price = Money.of(CurrencyUnit.CAD, 100000);
     }
 
     @Override

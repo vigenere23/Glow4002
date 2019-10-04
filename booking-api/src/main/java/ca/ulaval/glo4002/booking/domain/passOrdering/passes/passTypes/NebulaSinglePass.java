@@ -11,7 +11,7 @@ public class NebulaSinglePass extends SinglePass {
 
     public NebulaSinglePass(OffsetDateTime eventDate) {
         super(eventDate);
-        this.price = Money.of(CurrencyUnit.CAD, 50000);
+        price = Money.of(CurrencyUnit.CAD, 50000);
     }
 
     @Override

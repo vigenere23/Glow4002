@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.response.Oxygen;
+package ca.ulaval.glo4002.booking.interfaces.rest.dtos;
 
 import java.util.List;
 

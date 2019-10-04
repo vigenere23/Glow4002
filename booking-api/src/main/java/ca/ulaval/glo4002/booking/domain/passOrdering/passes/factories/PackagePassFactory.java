@@ -18,11 +18,11 @@ public class PackagePassFactory {
     public PackagePass create(PassCategory passCategory) {
         switch(passCategory) {
             case NEBULA:
-                return new NebulaPackagePass(this.festival.getStartDate(), this.festival.getEndDate());
+                return new NebulaPackagePass(festival.getStartDate(), festival.getEndDate());
             case SUPERGIANT:
-                return new SupergiantPackagePass(this.festival.getStartDate(), this.festival.getEndDate());
+                return new SupergiantPackagePass(festival.getStartDate(), festival.getEndDate());
             case SUPERNOVA:
-                return new SupernovaPackagePass(this.festival.getStartDate(), this.festival.getEndDate());
+                return new SupernovaPackagePass(festival.getStartDate(), festival.getEndDate());
             default:
                 throw new IllegalArgumentException(
                     String.format("No package pass impemented for category %s.", passCategory)

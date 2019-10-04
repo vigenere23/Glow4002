@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.request;
+package ca.ulaval.glo4002.booking.interfaces.rest.resources;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenExposer;
-import ca.ulaval.glo4002.booking.interfaces.rest.response.Oxygen.ReportOxygenResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.dtos.ReportOxygenResponse;
 
 @Path("/report/o2")
 @Produces(MediaType.APPLICATION_JSON)

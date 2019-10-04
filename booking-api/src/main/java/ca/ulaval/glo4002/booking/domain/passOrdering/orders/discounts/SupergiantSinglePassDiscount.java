@@ -16,10 +16,9 @@ public class SupergiantSinglePassDiscount extends OrderDiscount {
         Money discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
         Money newPrice = totalPrice.minus(discount);
 
-        if (this.nextDiscount != null) {
-            return this.nextDiscount.priceAfterDiscounts(passes, newPrice);
+        if (nextDiscount != null) {
+            return nextDiscount.priceAfterDiscounts(passes, newPrice);
         }
-
         return newPrice;
     }
 
@@ -34,7 +33,6 @@ public class SupergiantSinglePassDiscount extends OrderDiscount {
         if (numberOfWantedPasses >= 5) {
             return Money.of(CurrencyUnit.CAD, numberOfWantedPasses * 10000);
         }
-        
         return Money.zero(CurrencyUnit.CAD);
     }
 }

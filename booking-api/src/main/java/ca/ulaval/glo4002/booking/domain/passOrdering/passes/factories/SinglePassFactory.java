@@ -35,8 +35,8 @@ public class SinglePassFactory {
     }
 
     private void validateEventDate(OffsetDateTime eventDate) throws OutOfFestivalDatesException {
-        if (!this.festival.isDuringEventTime(eventDate)) {
-            throw new OutOfFestivalDatesException(this.festival.getStartDate(), this.festival.getEndDate());
+        if (!festival.isDuringEventTime(eventDate)) {
+            throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
         }
     }
 }

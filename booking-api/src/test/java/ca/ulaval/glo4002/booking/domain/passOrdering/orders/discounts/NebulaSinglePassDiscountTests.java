@@ -26,8 +26,8 @@ public class NebulaSinglePassDiscountTests {
 
     @BeforeEach
     public void setUp() {
-        this.nebulaSinglePassDiscount = new NebulaSinglePassDiscount();
-        this.passes = new ArrayList<Pass>();
+        nebulaSinglePassDiscount = new NebulaSinglePassDiscount();
+        passes = new ArrayList<Pass>();
     }
     
     @Test
@@ -45,11 +45,11 @@ public class NebulaSinglePassDiscountTests {
     
     private void initPasses(int numberOfPasses) {
         for (int i = 0; i < numberOfPasses; i++) {
-            this.passes.add(mock(NebulaSinglePass.class));
+            passes.add(mock(NebulaSinglePass.class));
         }
     }
 
     private Money getPriceAfterDiscount() {
-        return this.nebulaSinglePassDiscount.priceAfterDiscounts(this.passes, PRICE_WITHOUT_DISCOUNT);
+        return nebulaSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
     }
 }

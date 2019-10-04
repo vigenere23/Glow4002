@@ -11,7 +11,7 @@ public class SupernovaPackagePass extends PackagePass {
 
     public SupernovaPackagePass(OffsetDateTime startDate, OffsetDateTime endDate) {
         super(startDate, endDate);
-        this.price = Money.of(CurrencyUnit.CAD, 700000);
+        price = Money.of(CurrencyUnit.CAD, 700000);
     }
 
     @Override

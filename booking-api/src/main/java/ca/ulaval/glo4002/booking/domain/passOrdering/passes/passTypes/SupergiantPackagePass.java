@@ -11,7 +11,7 @@ public class SupergiantPackagePass extends PackagePass {
 
     public SupergiantPackagePass(OffsetDateTime startDate, OffsetDateTime endDate) {
         super(startDate, endDate);
-        this.price = Money.of(CurrencyUnit.CAD, 500000);
+        price = Money.of(CurrencyUnit.CAD, 500000);
     }
 
     @Override
