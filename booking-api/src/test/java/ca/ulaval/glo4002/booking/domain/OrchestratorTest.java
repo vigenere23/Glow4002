@@ -58,7 +58,7 @@ public class OrchestratorTest {
     private PassOrderService passOrderService;
     private Orchestrator orchestrator;
     private PassOrder passOrder;
-    private List<PassRequest> passRequests;
+    private PassRequest passRequest;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -66,21 +66,19 @@ public class OrchestratorTest {
         oxygenRequester = mock(OxygenRequester.class);
         passOrderService = mock(PassOrderService.class);
         passOrder = mock(PassOrder.class);
-        when(passOrderService.orderPasses(any(OffsetDateTime.class), any(String.class), any(List.class)))
+        when(passOrderService.orderPasses(any(OffsetDateTime.class), any(String.class), any(PassRequest.class)))
             .thenReturn(passOrder);
         orchestrator = new Orchestrator(transportExposer, oxygenRequester, passOrderService);
-        PassRequest passRequest = mock(PassRequest.class);
-        passRequests = new ArrayList<>();
-        passRequests.add(passRequest);
+        passRequest = mock(PassRequest.class);
     }
 
     @Test
     public void givenFestivalOf5Days_whenCreatingANebulaPackagePass_itCallsTheRightServices() throws Exception {
         mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
-        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
         verify(transportExposer).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
         verify(transportExposer).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
@@ -90,9 +88,9 @@ public class OrchestratorTest {
     public void whenCreatingANebulaSinglePass_itCallsTheRightServices() throws Exception {
         mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
         verify(transportExposer).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(transportExposer).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY);
@@ -102,9 +100,9 @@ public class OrchestratorTest {
     public void givenFestivalOf5Days_whenCreatingASupergiantPackagePass_itCallsTheRightServices() throws Exception {
         mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
-        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
         verify(transportExposer).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
         verify(transportExposer).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
@@ -114,9 +112,9 @@ public class OrchestratorTest {
     public void whenCreatingASupergiantSinglePass_itCallsTheRightServices() throws Exception {
         mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
         verify(transportExposer).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(transportExposer).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY);
@@ -126,9 +124,9 @@ public class OrchestratorTest {
     public void givenFestivalOf5Days_whenCreatingASupernovaPackagePass_itCallsTheRightServices() throws Exception {
         mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
-        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
         verify(transportExposer).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
         verify(transportExposer).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
@@ -138,9 +136,9 @@ public class OrchestratorTest {
     public void whenCreatingASupernovaSinglePass_itCallsTheRightServices() throws Exception {
         mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequests);
+        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
         verify(transportExposer).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(transportExposer).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY);

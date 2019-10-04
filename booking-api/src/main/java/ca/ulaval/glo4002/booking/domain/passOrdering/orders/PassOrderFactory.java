@@ -23,26 +23,24 @@ public class PassOrderFactory {
         passFactory = new PassFactory(festival);
     }
 
-    public PassOrder create(OffsetDateTime orderDate, String vendorCode, List<PassRequest> passRequests) throws OutOfFestivalDatesException, OutOfSaleDatesException {
+    public PassOrder create(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
         validateOrderDate(orderDate);
 
-        List<Pass> passes = createPasses(passRequests);
+        List<Pass> passes = createPasses(passRequest);
         PassOrder passOrder = new PassOrder(passes);
         return passOrder;
     }
 
-    private List<Pass> createPasses(List<PassRequest> passRequests) throws OutOfFestivalDatesException {
-        validatePassRequests(passRequests);
+    private List<Pass> createPasses(PassRequest passRequest) throws OutOfFestivalDatesException {
+        validatePassRequest(passRequest);
 
         List<Pass> passes = new ArrayList<>();
 
-        for (PassRequest passRequest : passRequests) {
-            if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
-                passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
-            } else {
-                for (LocalDate eventDate : passRequest.eventDates) {
-                    passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
-                }
+        if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
+            passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
+        } else {
+            for (LocalDate eventDate : passRequest.eventDates) {
+                passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
             }
         }
         return passes;
@@ -54,9 +52,9 @@ public class PassOrderFactory {
         }
     }
 
-    private void validatePassRequests(List<PassRequest> passRequests) {
-        if (passRequests == null) {
-            throw new IllegalArgumentException("List of passes cannot be null");
+    private void validatePassRequest(PassRequest passRequest) {
+        if (passRequest == null) {
+            throw new IllegalArgumentException("Passes cannot be null");
         }
     }
 }
