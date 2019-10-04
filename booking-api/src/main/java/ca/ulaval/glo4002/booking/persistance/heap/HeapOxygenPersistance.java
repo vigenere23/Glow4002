@@ -6,8 +6,8 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;;
 
 public class HeapOxygenPersistance implements OxygenPersistance {
 
-	private OxygenInventory oxygenInventory;
-	private OxygenHistory oxygenHistory;
+	private final OxygenInventory oxygenInventory;
+	private final OxygenHistory oxygenHistory;
 
 	public HeapOxygenPersistance() {
 		oxygenInventory = new HeapOxygenInventory();

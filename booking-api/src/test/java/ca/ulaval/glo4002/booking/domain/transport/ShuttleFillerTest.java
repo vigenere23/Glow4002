@@ -28,7 +28,7 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleListAndShuttleCategory_whenFillShuttle_thenCreateNewShuttleIfShuttleForCategoryIsAbsent() {
+    public void givenShuttleList_whenDoesNotContainCategory_thenShuttleCategoryIsCorrectlyCreated() {
         when(firstMockedShuttle.getCategory()).thenReturn(ShuttleCategory.ET_SPACESHIP);
         when(firstMockedShuttle.getDate()).thenReturn(DATE);
         when(firstMockedShuttle.isFull()).thenReturn(false);
