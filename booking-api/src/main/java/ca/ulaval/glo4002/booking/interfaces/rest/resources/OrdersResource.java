@@ -24,6 +24,7 @@ import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidOrderDateException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidVendorCodeException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.interfaces.rest.dtos.orders.PassOrderRequest;
 
@@ -53,8 +54,8 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError {
-        if (request.vendorCode != "TEAM") {
-            throw new InvalidFormatException();
+        if (!request.vendorCode.equals("TEAM")) {
+            throw new InvalidVendorCodeException();
         }
 
         try {
