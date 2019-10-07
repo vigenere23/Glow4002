@@ -2,8 +2,8 @@ package ca.ulaval.glo4002.booking.domain.enumMaps;
 
 import java.util.EnumMap;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 
 public class PassCategoryToOxygenGrade {
 

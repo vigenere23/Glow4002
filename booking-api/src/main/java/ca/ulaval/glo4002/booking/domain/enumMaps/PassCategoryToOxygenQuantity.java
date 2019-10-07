@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.enumMaps;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 
 public class PassCategoryToOxygenQuantity {
 

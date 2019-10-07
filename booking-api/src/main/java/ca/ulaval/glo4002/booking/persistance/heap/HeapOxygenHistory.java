@@ -3,8 +3,8 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import ca.ulaval.glo4002.booking.domain.oxygen.History;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
 
 public class HeapOxygenHistory implements OxygenHistory {
 

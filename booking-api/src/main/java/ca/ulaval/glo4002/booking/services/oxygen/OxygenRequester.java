@@ -1,0 +1,84 @@
+package ca.ulaval.glo4002.booking.services.oxygen;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.ulaval.glo4002.booking.domain.oxygen.History;
+import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProductionResults;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
+
+public class OxygenRequester extends OxygenExposer {
+
+    private OxygenProducer oxygenProducer;
+    private OxygenProductionResults results;
+    private OxygenInventory inventory;
+    private OxygenHistory history;
+
+    public OxygenRequester(LocalDate limitDeliveryDate, OxygenPersistance oxygenPersistance) {
+        inventory = oxygenPersistance.getOxygenInventory();
+        history = oxygenPersistance.getOxygenHistory();
+        oxygenProducer = new OxygenProducer(limitDeliveryDate);
+    }
+
+    @Override
+    public List<Inventory> getInventory() {
+        return inventory.getCompleteInventory();
+    }
+
+    @Override
+    public List<History> getOxygenHistory() {
+        return new ArrayList<>(history.getCreationHistory().values());
+    }
+
+    public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int quantity) {
+        int remainingQuantity = inventory.getOxygenRemaining(grade);
+
+        if (hasToProduce(quantity, remainingQuantity)) {
+            inventory.setOxygenRemaining(grade, 0);
+            int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);
+
+            initializeResults(orderDate, grade);
+            OxygenGrade gradeProduced = results.gradeProduced;
+            if (!gradeProduced.equals(grade)) {
+                orderOxygen(orderDate, gradeProduced, totalToProduce);
+            } else {
+                oxygenProducer.produceOxygen(gradeProduced, totalToProduce, results);
+
+                updateInventory();
+                updateHistory();
+            }
+        } else {
+            inventory.setOxygenRemaining(grade, remainingQuantity - quantity);
+        }
+    }
+
+    private boolean hasToProduce(int quantityToProduce, int remainingQuantity) {
+        return quantityToProduce > remainingQuantity;
+    }
+
+    private void initializeResults(LocalDate orderDate, OxygenGrade grade) {
+        results = new OxygenProductionResults();
+        results.orderDateHistory = history.getCreationHistoryPerDate(orderDate);
+        results.gradeProduced = oxygenProducer.getNextGradeToProduce(orderDate, grade);
+
+        LocalDate deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
+        results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
+    }
+
+    private void updateHistory() {
+        history.updateCreationHistory(results.orderDateHistory.date, results.orderDateHistory);
+        history.updateCreationHistory(results.deliveryDateHistory.date, results.deliveryDateHistory);
+    }
+
+    private void updateInventory() {
+        OxygenGrade gradeProduced = results.gradeProduced;
+        inventory.setOxygenInventory(gradeProduced, inventory.getInventoryOfGrade(gradeProduced) + results.quantityTankToAddToInventory);
+        inventory.setOxygenRemaining(gradeProduced, results.quantityTankRemaining);
+    }
+}

@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.orders.ID;
+import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 
 public class HeapPassPersistance implements PassPersistance {

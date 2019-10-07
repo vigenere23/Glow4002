@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.NebulaSinglePass;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.passTypes.SupergiantPackagePass;
+import ca.ulaval.glo4002.booking.domain.orders.ID;
+import ca.ulaval.glo4002.booking.domain.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantPackagePass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 

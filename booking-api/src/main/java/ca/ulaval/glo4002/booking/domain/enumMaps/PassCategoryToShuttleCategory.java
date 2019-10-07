@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.enumMaps;
 
 import java.util.EnumMap;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 
 public class PassCategoryToShuttleCategory {

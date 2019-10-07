@@ -2,8 +2,8 @@ package ca.ulaval.glo4002.booking.domain.persistanceInterface;
 
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.Inventory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
 
 public interface OxygenInventory {
     
