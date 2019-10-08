@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.oxygen;
+package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProductionResults;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
+import ca.ulaval.glo4002.booking.services.exposers.OxygenExposer;
 
 public class OxygenRequester extends OxygenExposer {
 

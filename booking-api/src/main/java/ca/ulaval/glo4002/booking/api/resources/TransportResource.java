@@ -17,7 +17,7 @@ import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.services.dtoMappers.ShuttleMapper;
-import ca.ulaval.glo4002.booking.services.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.services.exposers.TransportExposer;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)

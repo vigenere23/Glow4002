@@ -27,27 +27,27 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.services.dtoMappers.PassOrderResponseMapper;
+import ca.ulaval.glo4002.booking.services.exposers.PassOrderExposer;
 import ca.ulaval.glo4002.booking.services.orchestrators.PassOrderingOrchestrator;
-import ca.ulaval.glo4002.booking.services.orders.PassOrderService;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
 
     private PassOrderingOrchestrator orchestrator;
-    private PassOrderService passOrderService;
+    private PassOrderExposer passOrderExposer;
 
     @Inject
-    public OrdersResource(PassOrderingOrchestrator orchestrator, PassOrderService passOrderService) {
+    public OrdersResource(PassOrderingOrchestrator orchestrator, PassOrderExposer passOrderRequester) {
         this.orchestrator = orchestrator;
-        this.passOrderService = passOrderService;
+        this.passOrderExposer = passOrderRequester;
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") String stringId) throws OrderNotFoundException {
         Long id = Long.parseLong(stringId);
-        Optional<PassOrder> passOrder = passOrderService.getOrder(id);
+        Optional<PassOrder> passOrder = passOrderExposer.getOrder(id);
         if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(id);
         }

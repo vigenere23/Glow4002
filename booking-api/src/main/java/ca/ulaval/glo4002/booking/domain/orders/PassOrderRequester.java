@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.orders;
+package ca.ulaval.glo4002.booking.domain.orders;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -13,23 +13,26 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
+import ca.ulaval.glo4002.booking.services.exposers.PassOrderExposer;
 
-public class PassOrderService {
+public class PassOrderRequester implements PassOrderExposer {
 
     private PassOrderPersistance passOrderPersistance;
     private PassPersistance passPersistance;
     private PassOrderFactory passOrderFactory;
 
-    public PassOrderService(Repository repository, Glow4002 festival) {
+    public PassOrderRequester(Repository repository, Glow4002 festival) {
         passOrderPersistance = repository.getPassOrderPersistance();
         passPersistance = repository.getPassPersistance();
         passOrderFactory = new PassOrderFactory(festival);
     }
 
-    public Optional<PassOrder> getOrder(long id) {
+    @Override
+    public Optional<PassOrder> getOrder(Long id) {
         return passOrderPersistance.getById(id);
     }
 
+    @Override
     public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         saveObjects(passOrder);

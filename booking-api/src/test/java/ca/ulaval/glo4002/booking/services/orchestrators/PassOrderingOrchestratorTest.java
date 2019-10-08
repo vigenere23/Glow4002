@@ -18,7 +18,9 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.ID;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
@@ -28,9 +30,7 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaPackagePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.services.orders.PassOrderService;
-import ca.ulaval.glo4002.booking.services.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.services.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class PassOrderingOrchestratorTest {
 
@@ -53,22 +53,22 @@ public class PassOrderingOrchestratorTest {
     private static final ShuttleCategory SUPERGIANT_SHUTTLE_CATEGORY = ShuttleCategory.MILLENNIUM_FALCON;
     private static final ShuttleCategory SUPERNOVA_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
 
-    private TransportExposer transportExposer;
+    private TransportRequester transportRequester;
     private OxygenRequester oxygenRequester;
-    private PassOrderService passOrderService;
+    private PassOrderRequester passOrderRequester;
     private PassOrderingOrchestrator orchestrator;
     private PassOrder passOrder;
     private PassRequest passRequest;
 
     @BeforeEach
     public void setUp() throws Exception {
-        transportExposer = mock(TransportExposer.class);
+        transportRequester = mock(TransportRequester.class);
         oxygenRequester = mock(OxygenRequester.class);
-        passOrderService = mock(PassOrderService.class);
+        passOrderRequester = mock(PassOrderRequester.class);
         passOrder = mock(PassOrder.class);
-        when(passOrderService.orderPasses(any(OffsetDateTime.class), any(String.class), any(PassRequest.class)))
+        when(passOrderRequester.orderPasses(any(OffsetDateTime.class), any(String.class), any(PassRequest.class)))
             .thenReturn(passOrder);
-        orchestrator = new PassOrderingOrchestrator(transportExposer, oxygenRequester, passOrderService);
+        orchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
         passRequest = mock(PassRequest.class);
     }
 
@@ -78,9 +78,9 @@ public class PassOrderingOrchestratorTest {
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportExposer).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportExposer).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
+        verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
+        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
     }
 
@@ -90,9 +90,9 @@ public class PassOrderingOrchestratorTest {
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportExposer).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportExposer).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY);
     }
 
@@ -102,9 +102,9 @@ public class PassOrderingOrchestratorTest {
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportExposer).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportExposer).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
+        verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
+        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
     }
 
@@ -114,9 +114,9 @@ public class PassOrderingOrchestratorTest {
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportExposer).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportExposer).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY);
     }
 
@@ -126,9 +126,9 @@ public class PassOrderingOrchestratorTest {
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportExposer).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportExposer).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
+        verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
+        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
     }
 
@@ -138,9 +138,9 @@ public class PassOrderingOrchestratorTest {
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
-        verify(passOrderService).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportExposer).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportExposer).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY);
     }
 

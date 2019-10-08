@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.oxygen;
+package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import static org.mockito.Mockito.*;
 

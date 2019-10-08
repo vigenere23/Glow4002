@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.orders;
+package ca.ulaval.glo4002.booking.domain.orders;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -21,9 +21,9 @@ import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
 
-public class PassOrderServiceTest {
+public class PassOrderRequesterTest {
 
-    private PassOrderService passOrderService;
+    private PassOrderRequester passOrderService;
     private PassOrderPersistance passOrderPersistance;
     private PassPersistance passPersistance;
     private PassRequest passRequest;
@@ -43,7 +43,7 @@ public class PassOrderServiceTest {
         when(festival.getStartDate()).thenReturn(LocalDate.now());
         when(festival.getEndDate()).thenReturn(LocalDate.now());
         
-        passOrderService = new PassOrderService(repository, festival);
+        passOrderService = new PassOrderRequester(repository, festival);
         passRequest = new PassRequest("package", "nebula", null);
     }
 

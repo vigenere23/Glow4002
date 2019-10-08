@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.oxygen;
+package ca.ulaval.glo4002.booking.services.exposers;
 
 import java.util.List;
 

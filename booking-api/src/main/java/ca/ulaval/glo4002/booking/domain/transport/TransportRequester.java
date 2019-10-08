@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.transport;
+package ca.ulaval.glo4002.booking.domain.transport;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -12,6 +12,7 @@ import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
+import ca.ulaval.glo4002.booking.services.exposers.TransportExposer;
 
 public class TransportRequester extends TransportExposer {
     

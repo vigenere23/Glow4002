@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.transport;
+package ca.ulaval.glo4002.booking.services.exposers;
 
 import java.time.LocalDate;
 import java.util.List;

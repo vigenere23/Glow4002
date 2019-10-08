@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.transport;
+package ca.ulaval.glo4002.booking.domain.transport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +23,6 @@ import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
-import ca.ulaval.glo4002.booking.services.transport.TransportRequester;
 
 class TransportRequesterTest {
 
