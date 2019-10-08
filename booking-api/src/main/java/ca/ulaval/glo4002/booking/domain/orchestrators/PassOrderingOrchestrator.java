@@ -4,9 +4,7 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryToOxygenGrade;
-import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryToOxygenQuantity;
-import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryToShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
@@ -34,16 +32,15 @@ public class PassOrderingOrchestrator {
             throws OutOfSaleDatesException, OutOfFestivalDatesException {
         PassOrder passOrder = passOrderCreator.orderPasses(orderDate, vendorCode, passRequest);
 
-        PassCategoryToShuttleCategory passCategoryToShuttleCategory = new PassCategoryToShuttleCategory();
         for (Pass pass : passOrder.getPasses()) {
             PassCategory passCategory = pass.getPassCategory();
 
-            ShuttleCategory shuttleCategory = passCategoryToShuttleCategory.getAssociatedValue(passCategory);
+            ShuttleCategory shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
             transportRequester.reserveDeparture(shuttleCategory, pass.getStartDate(), pass.getPassNumber());
             transportRequester.reserveArrival(shuttleCategory, pass.getEndDate(), pass.getPassNumber());
             
-            OxygenGrade oxygenGrade = new PassCategoryToOxygenGrade().getAssociatedValue(passCategory);
-            int oxygenQuantityPerDay = new PassCategoryToOxygenQuantity().getAssociatedValue(passCategory);
+            OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
+            int oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
             int numberOfDays = (int) ChronoUnit.DAYS.between(pass.getStartDate(), pass.getEndDate()) + 1;
 
             oxygenRequester.orderOxygen(orderDate.toLocalDate(), oxygenGrade, oxygenQuantityPerDay * numberOfDays);
