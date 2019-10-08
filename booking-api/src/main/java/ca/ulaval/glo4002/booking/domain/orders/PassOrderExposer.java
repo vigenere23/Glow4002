@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.exposers;
+package ca.ulaval.glo4002.booking.domain.orders;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;

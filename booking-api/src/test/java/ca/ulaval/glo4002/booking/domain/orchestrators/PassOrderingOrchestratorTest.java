@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.orchestrators;
+package ca.ulaval.glo4002.booking.domain.orchestrators;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

@@ -3,11 +3,11 @@ package ca.ulaval.glo4002.booking;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderExposer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenExposer;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.services.exposers.OxygenExposer;
-import ca.ulaval.glo4002.booking.services.exposers.PassOrderExposer;
-import ca.ulaval.glo4002.booking.services.exposers.TransportExposer;
-import ca.ulaval.glo4002.booking.services.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 
 public class ResourceConfiguration extends ResourceConfig {
 

@@ -9,11 +9,11 @@ import javax.ws.rs.Produces;
 
 import javax.ws.rs.core.MediaType;
 
+import ca.ulaval.glo4002.booking.api.dtoMappers.OxygenMapper;
 import ca.ulaval.glo4002.booking.api.dtos.oxygen.OxygenHistoryDto;
 import ca.ulaval.glo4002.booking.api.dtos.oxygen.OxygenInventoryDto;
 import ca.ulaval.glo4002.booking.api.dtos.oxygen.ReportOxygenResponse;
-import ca.ulaval.glo4002.booking.services.dtoMappers.OxygenMapper;
-import ca.ulaval.glo4002.booking.services.exposers.OxygenExposer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenExposer;
 
 @Path("/report/o2")
 @Produces(MediaType.APPLICATION_JSON)

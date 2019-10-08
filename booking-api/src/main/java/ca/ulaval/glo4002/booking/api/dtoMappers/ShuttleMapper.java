@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.dtoMappers;
+package ca.ulaval.glo4002.booking.api.dtoMappers;
 
 import java.util.LinkedList;
 import java.util.List;

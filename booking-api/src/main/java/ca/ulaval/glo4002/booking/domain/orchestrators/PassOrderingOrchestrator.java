@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.services.orchestrators;
+package ca.ulaval.glo4002.booking.domain.orchestrators;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;

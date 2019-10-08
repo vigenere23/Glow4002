@@ -11,13 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import ca.ulaval.glo4002.booking.api.dtoMappers.ShuttleMapper;
 import ca.ulaval.glo4002.booking.api.dtos.transport.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.dtos.transport.TransportResponse;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.services.dtoMappers.ShuttleMapper;
-import ca.ulaval.glo4002.booking.services.exposers.TransportExposer;
+import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)

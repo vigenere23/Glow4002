@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.joda.money.Money;
 
+import ca.ulaval.glo4002.booking.api.dtoMappers.PassResponseMapper;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.services.dtoMappers.PassResponseMapper;
 
 public class PassOrderResponse {
 
