@@ -53,13 +53,11 @@ public class TransportRequester extends TransportExposer {
         return transportRepository.getShuttles(Location.ULAVALOGY);
     }
     
-    @Override
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, ID passNumber) {
         List<Shuttle> shuttlesToSave = assignNewPlace(Location.EARTH, shuttleCategory, date, passNumber.getId());
         transportRepository.saveDeparture(shuttlesToSave);
     }
     
-    @Override
     public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, ID passNumber) {
         List<Shuttle> shuttlesToSave = assignNewPlace(Location.ULAVALOGY, shuttleCategory, date, passNumber.getId());
         transportRepository.saveArrival(shuttlesToSave);

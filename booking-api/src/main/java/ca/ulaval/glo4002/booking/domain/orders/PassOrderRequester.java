@@ -31,7 +31,6 @@ public class PassOrderRequester implements PassOrderExposer {
         return passOrderPersistance.getById(id);
     }
 
-    @Override
     public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         saveObjects(passOrder);
