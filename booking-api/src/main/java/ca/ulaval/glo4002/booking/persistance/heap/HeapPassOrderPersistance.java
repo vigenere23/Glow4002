@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.orders.ID;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 
 public class HeapPassOrderPersistance implements PassOrderPersistance {

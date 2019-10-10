@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
 public class HeapOxygenInventoryTest {
 

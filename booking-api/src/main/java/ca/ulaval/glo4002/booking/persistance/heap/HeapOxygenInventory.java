@@ -5,9 +5,9 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.Inventory;;
 
 public class HeapOxygenInventory implements OxygenInventory {
 

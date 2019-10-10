@@ -3,15 +3,14 @@ package ca.ulaval.glo4002.booking.persistance.heap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.passOrdering.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 

@@ -17,8 +17,12 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.ID;
+import ca.ulaval.glo4002.booking.domain.orders.ID;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
+import ca.ulaval.glo4002.booking.domain.transport.Location;
+import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
 class TransportRequesterTest {
 

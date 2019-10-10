@@ -1,20 +1,15 @@
 package ca.ulaval.glo4002.booking;
 
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.domain.Orchestrator;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.domain.passOrdering.orders.PassOrderService;
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
 
@@ -32,9 +27,9 @@ public class BookingServer implements Runnable {
         HeapRepository repository = new HeapRepository();
         Glow4002 festival = new Glow4002();
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), repository.getOxygenPersistance());   
-        TransportExposer transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
-        PassOrderService passOrderService = new PassOrderService(repository, festival);
-        Orchestrator orchestrator = new Orchestrator(transportExposer, oxygenRequester, passOrderService);
+        TransportRequester transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
+        PassOrderRequester passOrderService = new PassOrderRequester(repository, festival);
+        PassOrderingOrchestrator orchestrator = new PassOrderingOrchestrator(transportExposer, oxygenRequester, passOrderService);
 
         ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenRequester, transportExposer, passOrderService, orchestrator).packages("ca.ulaval.glo4002.booking");
         ServletContainer container = new ServletContainer(packageConfig);

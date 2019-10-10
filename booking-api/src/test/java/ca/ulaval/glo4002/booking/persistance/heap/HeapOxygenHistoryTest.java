@@ -8,7 +8,7 @@ import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.pressurizedGaz.History;
+import ca.ulaval.glo4002.booking.domain.oxygen.History;
 
 public class HeapOxygenHistoryTest {
 
