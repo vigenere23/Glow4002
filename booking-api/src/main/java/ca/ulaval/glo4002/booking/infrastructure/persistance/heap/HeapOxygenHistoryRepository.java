@@ -6,11 +6,11 @@ import java.util.HashMap;
 import ca.ulaval.glo4002.booking.domain.oxygen.History;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 
-public class HeapOxygenHistory implements OxygenHistoryRepository {
+public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
 
     private final HashMap<LocalDate, History> history;
 
-    public HeapOxygenHistory() {
+    public HeapOxygenHistoryRepository() {
         super();
         history = new HashMap<LocalDate, History>();
     }

@@ -9,11 +9,11 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
 public class HeapOxygenInventoryRepositoryTest {
 
-    private HeapOxygenInventory inventory;
+    private HeapOxygenInventoryRepository inventory;
 
     @BeforeEach
     public void setUp() {
-        inventory = new HeapOxygenInventory();
+        inventory = new HeapOxygenInventoryRepository();
     }
 
     @Test

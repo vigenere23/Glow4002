@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.orders.ID;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantPackagePass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,15 +16,13 @@ public class HeapPassRepositoryTest {
 
     private static final ID INVALID_ID = new ID(-1L);
 
-    private PassRepository passRepository;
+    private HeapPassRepository passRepository;
     private Pass pass;
     private Pass otherPass;
 
     @BeforeEach
     public void setUp() {
-        Repository repository = new HeapRepository();
-
-        passRepository = repository.getPassRepository();
+        passRepository = new HeapPassRepository();
         pass = new NebulaSinglePass(LocalDate.now());
         otherPass = new SupergiantPackagePass(LocalDate.now(), LocalDate.now());
     }

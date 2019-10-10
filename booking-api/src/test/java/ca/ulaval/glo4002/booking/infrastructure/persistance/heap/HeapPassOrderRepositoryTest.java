@@ -4,9 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -14,21 +12,20 @@ import static org.mockito.Mockito.mock;
 import java.util.Arrays;
 import java.util.List;
 
-public class HeapOrderRepositoryTest {
+public class HeapPassOrderRepositoryTest {
 
     private static final long INVALID_ID = -1L;
 
-    private PassOrderRepository passOrderRepository;
+    private HeapPassOrderRepository passOrderRepository;
     private PassOrder passOrder;
     private PassOrder otherPassOrder;
 
     @BeforeEach
     public void setUp() {
-        Repository repository = new HeapRepository();
         List<Pass> passes1 = Arrays.asList(mock(Pass.class));
         List<Pass> passes2 = Arrays.asList(mock(Pass.class));
 
-        passOrderRepository = repository.getPassOrderRepository();
+        passOrderRepository = new HeapPassOrderRepository();
         passOrder = new PassOrder(passes1);
         otherPassOrder = new PassOrder(passes2);
     }

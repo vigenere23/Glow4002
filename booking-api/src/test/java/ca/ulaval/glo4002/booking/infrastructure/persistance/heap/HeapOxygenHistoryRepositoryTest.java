@@ -12,13 +12,13 @@ import ca.ulaval.glo4002.booking.domain.oxygen.History;
 
 public class HeapOxygenHistoryRepositoryTest {
 
-    private HeapOxygenHistory historyPersistance;
+    private HeapOxygenHistoryRepository historyPersistance;
     private History history;
     private final LocalDate date = LocalDate.of(2050, 2, 17);
 
     @BeforeEach
     public void setUp() {
-        historyPersistance = new HeapOxygenHistory();
+        historyPersistance = new HeapOxygenHistoryRepository();
         history = new History();
         history.date = date;
         history.qtyCandlesUsed = 2;

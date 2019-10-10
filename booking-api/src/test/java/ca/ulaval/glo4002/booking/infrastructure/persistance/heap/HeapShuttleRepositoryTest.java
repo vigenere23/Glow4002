@@ -13,7 +13,7 @@ import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
-class HeapShuttlePersistanceTest {
+class HeapShuttleRepositoryTest {
     
     private HeapShuttleRepository repository;
     private List<Shuttle> shuttles;

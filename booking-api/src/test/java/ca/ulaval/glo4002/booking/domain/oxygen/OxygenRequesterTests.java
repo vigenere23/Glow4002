@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.History;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistory;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventory;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +24,8 @@ public class OxygenRequesterTests {
 
     @BeforeEach
     public void testInitialize() {
-        oxygenInventory = mock(HeapOxygenInventory.class);
-        oxygenHistory = mock(HeapOxygenHistory.class);
+        oxygenInventory = mock(HeapOxygenInventoryRepository.class);
+        oxygenHistory = mock(HeapOxygenHistoryRepository.class);
         when(oxygenHistory.getCreationHistoryPerDate(ONE_MONTH_BEFORE_FESTIVAL_DATE)).thenReturn(new History());
         when(oxygenHistory.getCreationHistoryPerDate(DELIVERY_DATE_GRADE_A_ORDER)).thenReturn(new History());
         when(oxygenHistory.getCreationHistoryPerDate(FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE)).thenReturn(new History());

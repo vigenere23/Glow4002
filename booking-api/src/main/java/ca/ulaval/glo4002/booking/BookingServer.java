@@ -8,10 +8,19 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
@@ -24,14 +33,7 @@ public class BookingServer implements Runnable {
 
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        HeapRepository repository = new HeapRepository();
-        Glow4002 festival = new Glow4002();
-        OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), repository.getOxygenHistoryRepository(), repository.getOxygenInventoryRepository());
-        TransportRequester transportExposer = new TransportRequester(repository.getShuttleRepository(), festival);
-        PassOrderRequester passOrderService = new PassOrderRequester(repository, festival);
-        PassOrderingOrchestrator orchestrator = new PassOrderingOrchestrator(transportExposer, oxygenRequester, passOrderService);
-
-        ResourceConfig packageConfig = new ResourceConfiguration(repository, oxygenRequester, transportExposer, passOrderService, orchestrator).packages("ca.ulaval.glo4002.booking");
+        ResourceConfig packageConfig = setupResourceConfig();
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
@@ -45,5 +47,34 @@ public class BookingServer implements Runnable {
         } finally {
             server.destroy();
         }
+    }
+
+    private ResourceConfig setupResourceConfig() {
+        Glow4002 festival = new Glow4002();
+
+        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+        PassRepository passRepository = new HeapPassRepository();
+        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
+        OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
+        ShuttleRepository shuttleRepository = new HeapShuttleRepository();
+
+        OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
+        TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
+        PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, passRepository, festival);
+        PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
+
+        ResourceConfig packageConfig = new ResourceConfiguration(
+            passOrderRepository,
+            passRepository,
+            oxygenHistoryRepository,
+            oxygenInventoryRepository,
+            shuttleRepository,
+            oxygenRequester,
+            transportRequester,
+            passOrderRequester,
+            passOrderingOrchestrator
+        ).packages("ca.ulaval.glo4002.booking");
+
+        return packageConfig;
     }
 }

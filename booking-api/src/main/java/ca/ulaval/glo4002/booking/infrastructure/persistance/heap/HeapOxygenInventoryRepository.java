@@ -9,12 +9,12 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
 
-public class HeapOxygenInventory implements OxygenInventoryRepository {
+public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 
     private final EnumMap<OxygenGrade, Integer> inventory;
     private final EnumMap<OxygenGrade, Integer> remaining;
 
-    public HeapOxygenInventory() {
+    public HeapOxygenInventoryRepository() {
         remaining = initialize();
         inventory = initialize();
     }
