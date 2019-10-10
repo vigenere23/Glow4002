@@ -6,10 +6,10 @@ import java.util.EnumSet;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
 
-public class HeapOxygenInventory implements OxygenInventory {
+public class HeapOxygenInventory implements OxygenInventoryRepository {
 
     private final EnumMap<OxygenGrade, Integer> inventory;
     private final EnumMap<OxygenGrade, Integer> remaining;

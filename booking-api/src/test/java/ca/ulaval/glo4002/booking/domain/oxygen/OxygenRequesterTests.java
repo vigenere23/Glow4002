@@ -6,19 +6,15 @@ import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.History;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapOxygenHistory;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapOxygenInventory;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapOxygenPersistance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class OxygenRequesterTests {
 
-    private OxygenInventory oxygenInventory;
-    private OxygenHistory oxygenHistory;
+    private OxygenInventoryRepository oxygenInventory;
+    private OxygenHistoryRepository oxygenHistory;
     private OxygenRequester oxygenRequester;
     private final static LocalDate FESTIVAL_STARTING_DATE = LocalDate.of(2050, 7, 17);
     private final static LocalDate ONE_MONTH_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusMonths(1);
@@ -28,16 +24,13 @@ public class OxygenRequesterTests {
 
     @BeforeEach
     public void testInitialize() {
-        OxygenPersistance oxygenPersistance = mock(HeapOxygenPersistance.class);
         oxygenInventory = mock(HeapOxygenInventory.class);
         oxygenHistory = mock(HeapOxygenHistory.class);
-        when(oxygenPersistance.getOxygenInventory()).thenReturn(oxygenInventory);
-        when(oxygenPersistance.getOxygenHistory()).thenReturn(oxygenHistory);
         when(oxygenHistory.getCreationHistoryPerDate(ONE_MONTH_BEFORE_FESTIVAL_DATE)).thenReturn(new History());
         when(oxygenHistory.getCreationHistoryPerDate(DELIVERY_DATE_GRADE_A_ORDER)).thenReturn(new History());
         when(oxygenHistory.getCreationHistoryPerDate(FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE)).thenReturn(new History());
         when(oxygenHistory.getCreationHistoryPerDate(FIVE_DAYS_BEFORE_FESTIVAL_DATE)).thenReturn(new History());
-        oxygenRequester = new OxygenRequester(FESTIVAL_STARTING_DATE, oxygenPersistance);
+        oxygenRequester = new OxygenRequester(FESTIVAL_STARTING_DATE, oxygenHistory, oxygenInventory);
     }
 
     @Test

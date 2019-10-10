@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.History;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 
-public class HeapOxygenHistory implements OxygenHistory {
+public class HeapOxygenHistory implements OxygenHistoryRepository {
 
     private final HashMap<LocalDate, History> history;
 
