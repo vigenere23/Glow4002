@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.util.HashMap;
 import java.util.Map;

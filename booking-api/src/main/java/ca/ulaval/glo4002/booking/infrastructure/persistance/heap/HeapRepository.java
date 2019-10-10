@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;

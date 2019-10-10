@@ -17,8 +17,8 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapPassRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderPersistance;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 
 public class PassOrderRequesterTest {
 

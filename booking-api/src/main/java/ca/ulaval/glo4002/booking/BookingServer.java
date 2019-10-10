@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapRepository;
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;

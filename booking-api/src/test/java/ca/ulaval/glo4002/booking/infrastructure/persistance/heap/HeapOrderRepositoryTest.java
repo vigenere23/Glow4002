@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
