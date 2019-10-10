@@ -15,7 +15,6 @@ import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
@@ -24,7 +23,7 @@ import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
 public class PassOrderRequesterTest {
 
     private PassOrderRequester passOrderService;
-    private PassOrderPersistance passOrderPersistance;
+    private PassOrderRepository passOrderPersistance;
     private PassPersistance passPersistance;
     private PassRequest passRequest;
 
@@ -34,7 +33,7 @@ public class PassOrderRequesterTest {
         passPersistance = mock(HeapPassPersistance.class);
 
         Repository repository = mock(Repository.class);
-        when(repository.getPassOrderPersistance()).thenReturn(passOrderPersistance);
+        when(repository.getPassOrderRepository()).thenReturn(passOrderPersistance);
         when(repository.getPassPersistance()).thenReturn(passPersistance);
 
         Glow4002 festival = mock(Glow4002.class);

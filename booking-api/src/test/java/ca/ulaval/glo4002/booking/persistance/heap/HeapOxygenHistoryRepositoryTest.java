@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.History;
 
-public class HeapOxygenHistoryTest {
+public class HeapOxygenHistoryRepositoryTest {
 
     private HeapOxygenHistory historyPersistance;
     private History history;

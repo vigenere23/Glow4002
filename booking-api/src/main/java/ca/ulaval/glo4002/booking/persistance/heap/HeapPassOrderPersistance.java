@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import ca.ulaval.glo4002.booking.domain.orders.ID;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 
-public class HeapPassOrderPersistance implements PassOrderPersistance {
+public class HeapPassOrderPersistance implements PassOrderRepository {
 
     private static final AtomicLong idGenerator = new AtomicLong(0);
     private Map<ID, PassOrder> passOrders;

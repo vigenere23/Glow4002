@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
-public class HeapOxygenInventoryTest {
+public class HeapOxygenInventoryRepositoryTest {
 
     private HeapOxygenInventory inventory;
 

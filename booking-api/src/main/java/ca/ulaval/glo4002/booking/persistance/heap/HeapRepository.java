@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.booking.persistance.heap;
 
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
 public class HeapRepository implements Repository {
     
-    private final PassOrderPersistance passOrderPersistance;
+    private final PassOrderRepository passOrderPersistance;
     private final PassPersistance passPersistance;
     private final ShuttleRepository shuttleRepository;
     private final OxygenHistoryRepository oxygenHistoryRepository;
@@ -24,7 +24,7 @@ public class HeapRepository implements Repository {
     }
 
     @Override
-    public PassOrderPersistance getPassOrderPersistance() {
+    public PassOrderRepository getPassOrderRepository() {
         return passOrderPersistance;
     }
 

@@ -10,18 +10,17 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 
 public class PassOrderRequester implements PassOrderExposer {
 
-    private PassOrderPersistance passOrderPersistance;
+    private PassOrderRepository passOrderPersistance;
     private PassPersistance passPersistance;
     private PassOrderFactory passOrderFactory;
 
     public PassOrderRequester(Repository repository, Glow4002 festival) {
-        passOrderPersistance = repository.getPassOrderPersistance();
+        passOrderPersistance = repository.getPassOrderRepository();
         passPersistance = repository.getPassPersistance();
         passOrderFactory = new PassOrderFactory(festival);
     }
