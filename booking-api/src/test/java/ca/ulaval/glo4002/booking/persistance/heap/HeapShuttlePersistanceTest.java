@@ -15,12 +15,12 @@ import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
 class HeapShuttlePersistanceTest {
     
-    private HeapShuttlePersistance repository;
+    private HeapShuttleRepository repository;
     private List<Shuttle> shuttles;
     
     @BeforeEach
     public void setUp() {
-        repository = new HeapShuttlePersistance();
+        repository = new HeapShuttleRepository();
         shuttles = new LinkedList<Shuttle>();
     }
     

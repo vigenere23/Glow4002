@@ -27,7 +27,7 @@ public class BookingServer implements Runnable {
         HeapRepository repository = new HeapRepository();
         Glow4002 festival = new Glow4002();
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), repository.getOxygenHistoryRepository(), repository.getOxygenInventoryRepository());
-        TransportRequester transportExposer = new TransportRequester(repository.getShuttlePersistance(), festival);
+        TransportRequester transportExposer = new TransportRequester(repository.getShuttleRepository(), festival);
         PassOrderRequester passOrderService = new PassOrderRequester(repository, festival);
         PassOrderingOrchestrator orchestrator = new PassOrderingOrchestrator(transportExposer, oxygenRequester, passOrderService);
 

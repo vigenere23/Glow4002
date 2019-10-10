@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.ID;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -28,7 +27,7 @@ class TransportRequesterTest {
 
     private List<Shuttle> shuttlesEarth = new LinkedList<Shuttle>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<Shuttle>();
-    private ShuttlePersistance transportRepository;
+    private ShuttleRepository shuttleRepository;
     private Shuttle mockedShuttle;
     private TransportRequester transportRequester;
     private Glow4002 festival;
@@ -38,7 +37,7 @@ class TransportRequesterTest {
 
     @BeforeEach
     public void setUp() {
-        transportRepository = mock(ShuttlePersistance.class);
+        shuttleRepository = mock(ShuttleRepository.class);
         mockedShuttle = mock(SpaceX.class);
         festival = mock(Glow4002.class);
         
@@ -46,20 +45,20 @@ class TransportRequesterTest {
         when(festival.getStartDate()).thenReturn(LocalDate.now());
         when(festival.getEndDate()).thenReturn(LocalDate.now());
 
-        transportRequester = new TransportRequester(transportRepository, festival);
+        transportRequester = new TransportRequester(shuttleRepository, festival);
         shuttlesEarth.add(mockedShuttle);
         shuttlesUlavalogy.add(mockedShuttle);
 
-        willReturn(shuttlesEarth).given(transportRepository).getShuttles(Location.EARTH);
-        willReturn(shuttlesEarth).given(transportRepository).getShuttlesByDate(Location.EARTH, DATE);
-        willReturn(shuttlesUlavalogy).given(transportRepository).getShuttles(Location.ULAVALOGY);
-        willReturn(shuttlesUlavalogy).given(transportRepository).getShuttlesByDate(Location.ULAVALOGY, DATE);
+        willReturn(shuttlesEarth).given(shuttleRepository).getShuttles(Location.EARTH);
+        willReturn(shuttlesEarth).given(shuttleRepository).getShuttlesByDate(Location.EARTH, DATE);
+        willReturn(shuttlesUlavalogy).given(shuttleRepository).getShuttles(Location.ULAVALOGY);
+        willReturn(shuttlesUlavalogy).given(shuttleRepository).getShuttlesByDate(Location.ULAVALOGY, DATE);
     }
 
     @Test
     public void whenGetAllDeparture_thenCallMethodGetShuttlesFromEarthFromRepository() {
         transportRequester.getAllDepartures();
-        verify(transportRepository).getShuttles(Location.EARTH);
+        verify(shuttleRepository).getShuttles(Location.EARTH);
     }
 
     @Test
@@ -70,7 +69,7 @@ class TransportRequesterTest {
     @Test
     public void whenGetAllArrivals_thenCallMethodGetShuttlesFromEarthFromRepository() {
         transportRequester.getAllArrivals();
-        verify(transportRepository).getShuttles(Location.ULAVALOGY);
+        verify(shuttleRepository).getShuttles(Location.ULAVALOGY);
     }
 
     @Test
@@ -81,7 +80,7 @@ class TransportRequesterTest {
     @Test
     public void givenDate_whenGetShuttlesDepartureByDate_thenCallMethodGetShuttlesByDateFromRepository() throws OutOfFestivalDatesException {
         transportRequester.getShuttlesDepartureByDate(DATE);
-        verify(transportRepository).getShuttlesByDate(Location.EARTH, DATE);
+        verify(shuttleRepository).getShuttlesByDate(Location.EARTH, DATE);
     }
     
     @Test
@@ -98,7 +97,7 @@ class TransportRequesterTest {
     @Test
     public void givenDate_whenGetShuttlesArrivalByDate_thenCallMethodGetShuttlesByDateFromRepository() throws OutOfFestivalDatesException {
         transportRequester.getShuttlesArrivalByDate(DATE);
-        verify(transportRepository).getShuttlesByDate(Location.ULAVALOGY, DATE);
+        verify(shuttleRepository).getShuttlesByDate(Location.ULAVALOGY, DATE);
     }
     
     @Test
@@ -115,24 +114,24 @@ class TransportRequesterTest {
     @Test
     public void givenShuttleCategoryPassNumberAndDate_whenReserveDeparture_thenCallMethodGetShuttles() {
         transportRequester.reserveDeparture(ShuttleCategory.SPACE_X, DATE, PASS_NUMBER);
-        verify(transportRepository).getShuttles(Location.EARTH);
+        verify(shuttleRepository).getShuttles(Location.EARTH);
     }
     
     @Test
     public void whenReserveDeparture_thenSaveDepartureIsCalled() {        
         transportRequester.reserveDeparture(ShuttleCategory.SPACE_X, DATE, PASS_NUMBER);
-        verify(transportRepository).saveDeparture(shuttlesEarth);
+        verify(shuttleRepository).saveDeparture(shuttlesEarth);
     }
     
     @Test
     public void givenShuttleCategoryPassNumberAndDate_whenReserveArrival_thenCallMethodGetShuttles() {        
         transportRequester.reserveArrival(ShuttleCategory.SPACE_X, DATE, PASS_NUMBER);
-        verify(transportRepository).getShuttles(Location.ULAVALOGY);
+        verify(shuttleRepository).getShuttles(Location.ULAVALOGY);
     }
     
     @Test
     public void whenReserveDeparture_thenSaveArrivalIsCalled() {        
         transportRequester.reserveArrival(ShuttleCategory.SPACE_X, DATE, PASS_NUMBER);
-        verify(transportRepository).saveArrival(shuttlesUlavalogy);
+        verify(shuttleRepository).saveArrival(shuttlesUlavalogy);
     }
 }

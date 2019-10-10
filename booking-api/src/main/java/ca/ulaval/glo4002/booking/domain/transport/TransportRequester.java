@@ -7,7 +7,6 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.ID;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -15,11 +14,11 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 
 public class TransportRequester extends TransportExposer {
     
-    private ShuttlePersistance transportRepository;
+    private ShuttleRepository transportRepository;
     private ShuttleFiller shuttleFiller;
     private Glow4002 festival;
     
-    public TransportRequester(ShuttlePersistance transportRepository, Glow4002 festival) {
+    public TransportRequester(ShuttleRepository transportRepository, Glow4002 festival) {
         this.transportRepository = transportRepository;
         this.festival = festival;
         shuttleFiller = new ShuttleFiller();

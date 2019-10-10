@@ -5,20 +5,20 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.ShuttlePersistance;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
 public class HeapRepository implements Repository {
     
     private final PassOrderPersistance passOrderPersistance;
     private final PassPersistance passPersistance;
-    private final ShuttlePersistance shuttlePersistance;
+    private final ShuttleRepository shuttleRepository;
     private final OxygenHistoryRepository oxygenHistoryRepository;
     private final OxygenInventoryRepository oxygenInventoryRepository;
     
     public HeapRepository() {
         passOrderPersistance = new HeapPassOrderPersistance();
         passPersistance = new HeapPassPersistance();
-        shuttlePersistance = new HeapShuttlePersistance();
+        shuttleRepository = new HeapShuttleRepository();
         oxygenHistoryRepository = new HeapOxygenHistory();
         oxygenInventoryRepository = new HeapOxygenInventory();
     }
@@ -34,8 +34,8 @@ public class HeapRepository implements Repository {
     }
 
     @Override
-    public ShuttlePersistance getShuttlePersistance() {
-        return shuttlePersistance;
+    public ShuttleRepository getShuttleRepository() {
+        return shuttleRepository;
     }
 
     @Override
