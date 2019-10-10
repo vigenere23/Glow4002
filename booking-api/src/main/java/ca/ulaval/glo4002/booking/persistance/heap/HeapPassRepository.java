@@ -7,14 +7,14 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import ca.ulaval.glo4002.booking.domain.orders.ID;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 
-public class HeapPassPersistance implements PassPersistance {
+public class HeapPassRepository implements PassRepository {
 
     private static final AtomicLong idGenerator = new AtomicLong(0);
     private Map<ID, Pass> passes;
 
-    public HeapPassPersistance() {
+    public HeapPassRepository() {
         passes = new HashMap<>();
     }
 

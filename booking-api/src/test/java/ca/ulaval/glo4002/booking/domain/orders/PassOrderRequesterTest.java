@@ -15,26 +15,26 @@ import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
 import ca.ulaval.glo4002.booking.persistance.heap.HeapPassOrderPersistance;
-import ca.ulaval.glo4002.booking.persistance.heap.HeapPassPersistance;
+import ca.ulaval.glo4002.booking.persistance.heap.HeapPassRepository;
 
 public class PassOrderRequesterTest {
 
     private PassOrderRequester passOrderService;
     private PassOrderRepository passOrderPersistance;
-    private PassPersistance passPersistance;
+    private PassRepository passRepository;
     private PassRequest passRequest;
 
     @BeforeEach
     public void setUp() throws Exception {
         passOrderPersistance = mock(HeapPassOrderPersistance.class);
-        passPersistance = mock(HeapPassPersistance.class);
+        passRepository = mock(HeapPassRepository.class);
 
         Repository repository = mock(Repository.class);
         when(repository.getPassOrderRepository()).thenReturn(passOrderPersistance);
-        when(repository.getPassPersistance()).thenReturn(passPersistance);
+        when(repository.getPassRepository()).thenReturn(passRepository);
 
         Glow4002 festival = mock(Glow4002.class);
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
@@ -55,6 +55,6 @@ public class PassOrderRequesterTest {
     @Test
     public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws Exception {
         passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
-        verify(passPersistance).save(any(Pass.class));
+        verify(passRepository).save(any(Pass.class));
     }
 }
