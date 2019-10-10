@@ -12,13 +12,13 @@ import ca.ulaval.glo4002.booking.domain.oxygen.History;
 
 public class HeapOxygenHistoryRepositoryTest {
 
-    private HeapOxygenHistoryRepository historyPersistance;
+    private HeapOxygenHistoryRepository oxygenHistoryRepository;
     private History history;
     private final LocalDate date = LocalDate.of(2050, 2, 17);
 
     @BeforeEach
     public void setUp() {
-        historyPersistance = new HeapOxygenHistoryRepository();
+        oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         history = new History();
         history.date = date;
         history.qtyCandlesUsed = 2;
@@ -29,13 +29,13 @@ public class HeapOxygenHistoryRepositoryTest {
 
     @Test
     public void whenUpdateCreationHistory_thenHistoryIsCorrectlyUpdated() {
-        historyPersistance.updateCreationHistory(date, history);
-        assertEquals(history, historyPersistance.getCreationHistoryPerDate(date));
+        oxygenHistoryRepository.updateCreationHistory(date, history);
+        assertEquals(history, oxygenHistoryRepository.getCreationHistoryPerDate(date));
     }
 
     @Test
     public void whenGetCompleteCreationHistory_thenHistoryIsCorrectlyReturn() {
-        historyPersistance.updateCreationHistory(date, history);
+        oxygenHistoryRepository.updateCreationHistory(date, history);
        
         History secondHistory = new History();
         LocalDate secondDate = LocalDate.of(2050, 5, 19);
@@ -45,8 +45,8 @@ public class HeapOxygenHistoryRepositoryTest {
         secondHistory.qtyOxygenTankMade = 6;
         secondHistory.qtyWaterUsed = 1;
 
-        historyPersistance.updateCreationHistory(secondDate, secondHistory);
-        HashMap<LocalDate, History> historySaved = historyPersistance.getCreationHistory();
+        oxygenHistoryRepository.updateCreationHistory(secondDate, secondHistory);
+        HashMap<LocalDate, History> historySaved = oxygenHistoryRepository.getCreationHistory();
         
         assertEquals(history, historySaved.get(date));       
         assertEquals(secondHistory, historySaved.get(secondDate));
@@ -54,8 +54,8 @@ public class HeapOxygenHistoryRepositoryTest {
 
     @Test
     public void whenTrySaveNullHistory_thenHistoryIsEmptyForThatDate() {
-        historyPersistance.updateCreationHistory(date, null);
-        History historyForDateProvided = historyPersistance.getCreationHistoryPerDate(date);
+        oxygenHistoryRepository.updateCreationHistory(date, null);
+        History historyForDateProvided = oxygenHistoryRepository.getCreationHistoryPerDate(date);
 
         assertEquals(historyForDateProvided.date, date);
         assertEquals(historyForDateProvided.qtyCandlesUsed, 0);
@@ -66,9 +66,9 @@ public class HeapOxygenHistoryRepositoryTest {
 
     @Test
     public void whenTrySaveNullHistoryOnExistingHistory_thenHistoryIsNotReplaced() {
-        historyPersistance.updateCreationHistory(date, history);
-        historyPersistance.updateCreationHistory(date, null);
+        oxygenHistoryRepository.updateCreationHistory(date, history);
+        oxygenHistoryRepository.updateCreationHistory(date, null);
 
-        assertEquals(history, historyPersistance.getCreationHistoryPerDate(date));
+        assertEquals(history, oxygenHistoryRepository.getCreationHistoryPerDate(date));
     }
 }

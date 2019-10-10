@@ -15,39 +15,39 @@ import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
 class HeapShuttleRepositoryTest {
     
-    private HeapShuttleRepository repository;
+    private HeapShuttleRepository shuttleRepository;
     private List<Shuttle> shuttles;
     
     @BeforeEach
     public void setUp() {
-        repository = new HeapShuttleRepository();
+        shuttleRepository = new HeapShuttleRepository();
         shuttles = new LinkedList<Shuttle>();
     }
     
     @Test
     public void givenShuttleList_whenSaveArrival_thenReplacesShuttleList() {
-        repository.saveArrival(shuttles);
-        assertEquals(shuttles, repository.getShuttles(Location.ULAVALOGY));
+        shuttleRepository.saveArrival(shuttles);
+        assertEquals(shuttles, shuttleRepository.getShuttles(Location.ULAVALOGY));
     }
 
     @Test
     public void givenShuttleListWithNull_whenSaveArrival_thenDontReplacesShuttleList() {
         shuttles.add(null);
-        repository.saveArrival(shuttles);
-        assertEquals(0, repository.getShuttles(Location.ULAVALOGY).size());
+        shuttleRepository.saveArrival(shuttles);
+        assertEquals(0, shuttleRepository.getShuttles(Location.ULAVALOGY).size());
     }
     
     @Test
     public void givenShuttleList_whenSaveDeparture_thenReplacesShuttleList() {
-        repository.saveDeparture(shuttles);
-        assertEquals(shuttles, repository.getShuttles(Location.EARTH));
+        shuttleRepository.saveDeparture(shuttles);
+        assertEquals(shuttles, shuttleRepository.getShuttles(Location.EARTH));
     }
 
     @Test
     public void givenShuttleListWithNull_whenSaveDeparture_thenDontReplacesShuttleList() {
         shuttles.add(null);
-        repository.saveDeparture(shuttles);
-        assertEquals(0, repository.getShuttles(Location.EARTH).size());
+        shuttleRepository.saveDeparture(shuttles);
+        assertEquals(0, shuttleRepository.getShuttles(Location.EARTH).size());
     }
 
     @Test
@@ -58,8 +58,8 @@ class HeapShuttleRepositoryTest {
         shuttles.add(secondShuttle);
         List<Shuttle> shuttlesByDate = new LinkedList<Shuttle>();
         shuttlesByDate.add(firstShuttle);
-        repository.saveDeparture(shuttles);
+        shuttleRepository.saveDeparture(shuttles);
 
-        assertEquals(shuttlesByDate, repository.getShuttlesByDate(Location.EARTH , LocalDate.of(2050, 7, 19)));
+        assertEquals(shuttlesByDate, shuttleRepository.getShuttlesByDate(Location.EARTH , LocalDate.of(2050, 7, 19)));
     }
 }
