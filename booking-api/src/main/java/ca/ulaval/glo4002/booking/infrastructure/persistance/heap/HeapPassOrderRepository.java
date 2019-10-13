@@ -17,7 +17,7 @@ public class HeapPassOrderRepository implements PassOrderRepository {
     }
 
     @Override
-    public Optional<PassOrder> getByOrderNumber(OrderNumber orderNumber) {
+    public Optional<PassOrder> findByOrderNumber(OrderNumber orderNumber) {
         return Optional.ofNullable(passOrders.get(orderNumber.getValue()));
     }
 

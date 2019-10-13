@@ -22,7 +22,7 @@ public class PassOrderRequester implements PassOrderExposer {
 
     @Override
     public Optional<PassOrder> getOrder(OrderNumber orderNumber) {
-        return passOrderRepository.getByOrderNumber(orderNumber);
+        return passOrderRepository.findByOrderNumber(orderNumber);
     }
 
     public PassOrder orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
