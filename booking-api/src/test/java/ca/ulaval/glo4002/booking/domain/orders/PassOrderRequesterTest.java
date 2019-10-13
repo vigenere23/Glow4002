@@ -15,21 +15,17 @@ import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 
 public class PassOrderRequesterTest {
 
     private PassOrderRequester passOrderService;
     private PassOrderRepository passOrderRepository;
-    private PassRepository passRepository;
     private PassRequest passRequest;
 
     @BeforeEach
     public void setUp() throws Exception {
         passOrderRepository = mock(HeapPassOrderRepository.class);
-        passRepository = mock(HeapPassRepository.class);
 
         Glow4002 festival = mock(Glow4002.class);
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
@@ -37,7 +33,7 @@ public class PassOrderRequesterTest {
         when(festival.getStartDate()).thenReturn(LocalDate.now());
         when(festival.getEndDate()).thenReturn(LocalDate.now());
         
-        passOrderService = new PassOrderRequester(passOrderRepository, passRepository, festival);
+        passOrderService = new PassOrderRequester(passOrderRepository, festival);
         passRequest = new PassRequest("package", "nebula", null);
     }
 
@@ -45,11 +41,5 @@ public class PassOrderRequesterTest {
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
         PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
         verify(passOrderRepository).save(passOrder);
-    }
-
-    @Test
-    public void whenCreatingAnOrder_itSavesEveryPassesInTheRepository() throws Exception {
-        passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
-        verify(passRepository).save(any(Pass.class));
     }
 }

@@ -4,11 +4,9 @@ import java.time.LocalDate;
 
 import org.joda.money.Money;
 
-import ca.ulaval.glo4002.booking.domain.orders.ID;
-
 public abstract class Pass {
 
-    protected ID passNumber;
+    protected PassNumber passNumber;
     protected Money price;
     protected LocalDate startDate;
     protected LocalDate endDate;
@@ -22,11 +20,11 @@ public abstract class Pass {
         return price;
     }
 
-    public void setPassNumber(ID id) {
+    public void setPassNumber(PassNumber id) {
         this.passNumber = id;
     }
     
-    public ID getPassNumber() {
+    public PassNumber getPassNumber() {
         return passNumber;
     }
 

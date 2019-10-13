@@ -4,14 +4,16 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
+import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+
 public abstract class Shuttle {
     
     protected int capacity;
-    protected List<Long> passNumbers = new LinkedList<Long>();
+    protected List<PassNumber> passNumbers = new LinkedList<PassNumber>();
     protected LocalDate date;
     protected ShuttleCategory category;
 
-    public List<Long> getPassNumbers() {
+    public List<PassNumber> getPassNumbers() {
         return passNumbers;
     }
     
@@ -23,7 +25,7 @@ public abstract class Shuttle {
         return category;
     }
         
-    public void addPassNumber(Long passNumber) {
+    public void addPassNumber(PassNumber passNumber) {
         this.passNumbers.add(passNumber);
     }
     
