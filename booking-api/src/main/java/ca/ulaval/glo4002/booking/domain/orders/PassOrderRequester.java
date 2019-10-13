@@ -21,11 +21,11 @@ public class PassOrderRequester implements PassOrderExposer {
     }
 
     @Override
-    public Optional<PassOrder> getOrder(Long id) {
-        return passOrderRepository.getById(id);
+    public Optional<PassOrder> getOrder(OrderNumber orderNumber) {
+        return passOrderRepository.getByOrderNumber(orderNumber);
     }
 
-    public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
+    public PassOrder orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         passOrderRepository.save(passOrder);
         return passOrder;

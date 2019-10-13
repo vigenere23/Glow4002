@@ -26,7 +26,7 @@ public class PassOrderFactoryTest {
     @Test
     public void whenPassingNullAsPassDtos_thenItThrowsAnException() {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            passOrderFactory.create(OffsetDateTime.now(), "CODE", null);
+            passOrderFactory.create(OffsetDateTime.now(), VendorCode.TEAM, null);
         });
     }
 }

@@ -22,4 +22,8 @@ public class OrderNumber {
     public String getValue() {
         return value;
     }
+
+    public boolean equals(OrderNumber other) {
+        return value.equals(other.value);
+    }
 }

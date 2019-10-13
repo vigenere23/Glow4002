@@ -39,7 +39,7 @@ public class PassOrderRequesterTest {
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
+        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), VendorCode.TEAM, passRequest);
         verify(passOrderRepository).save(passOrder);
     }
 }

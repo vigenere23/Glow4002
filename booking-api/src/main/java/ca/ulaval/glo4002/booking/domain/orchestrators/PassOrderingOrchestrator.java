@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
+import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -28,7 +29,7 @@ public class PassOrderingOrchestrator {
         this.passOrderCreator = passOrderCreator;
     }
 
-    public PassOrder orchestPassCreation(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest)
+    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest)
             throws OutOfSaleDatesException, OutOfFestivalDatesException {
         PassOrder passOrder = passOrderCreator.orderPasses(orderDate, vendorCode, passRequest);
 

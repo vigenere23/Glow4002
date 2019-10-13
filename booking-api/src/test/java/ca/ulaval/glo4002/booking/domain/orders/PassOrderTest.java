@@ -19,6 +19,7 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
 
 public class PassOrderTest {
 
+    private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
     private static final int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
     private static final Money NEBULA_SINGLE_PASS_PRICE = Money.of(CurrencyUnit.CAD, 50000);
     private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
@@ -55,28 +56,28 @@ public class PassOrderTest {
 
     @Test
     public void whenCreatingOrderWithNoPasses_thenThePriceShouldBeZero() {
-        PassOrder passOrder = new PassOrder(new ArrayList<Pass>());
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<Pass>());
         assertThat(passOrder.getPrice()).isEqualTo(Money.zero(CurrencyUnit.CAD));
     }
 
     @Test
     public void whenCreatingOrderWithOnePass_thenThePriceShouldBeThePassPrice() {
         initNebulaPasses(1);
-        PassOrder passOrder = new PassOrder(passes);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
         assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
     }
 
     @Test
     public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
-        PassOrder passOrder = new PassOrder(passes);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
         assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE.multipliedBy(2));
     }
 
     @Test
     public void givenOverThreeNebulaPasses_whenSinglePassOrderCreated_itShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(passes);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
 
         Money priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Money priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9, RoundingMode.HALF_UP);
@@ -87,7 +88,7 @@ public class PassOrderTest {
     @Test
     public void givenAtLeastFiveSupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
         initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(passes);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
 
         Money priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 
