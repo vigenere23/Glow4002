@@ -27,12 +27,12 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     }
 
     @Override
-    public int getInventoryOfGrade(OxygenGrade grade) {
+    public int findInventoryOfGrade(OxygenGrade grade) {
         return inventory.get(grade);
     }
 
     @Override
-    public List<Inventory> getCompleteInventory() {
+    public List<Inventory> findCompleteInventory() {
         return presentInventory();
     }
 
@@ -54,17 +54,17 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     }
 
     @Override
-    public void setOxygenInventory(OxygenGrade grade, int quantity) {
+    public void saveOxygenInventory(OxygenGrade grade, int quantity) {
        inventory.put(grade, quantity);
     }
 
     @Override
-    public void setOxygenRemaining(OxygenGrade grade, int quantity) {
+    public void saveOxygenRemaining(OxygenGrade grade, int quantity) {
         remaining.put(grade, quantity);
     }
 
     @Override
-    public int getOxygenRemaining(OxygenGrade grade) {
+    public int findOxygenRemaining(OxygenGrade grade) {
         return remaining.get(grade);
     }
 }

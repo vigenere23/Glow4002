@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
@@ -21,11 +22,14 @@ public class PassOrderingOrchestrator {
     private final TransportRequester transportRequester;
     private final OxygenRequester oxygenRequester;
     private final PassOrderRequester passOrderCreator;
+    private final ArtistRepository artistsRepository;
 
-    public PassOrderingOrchestrator(TransportRequester transportRequester, OxygenRequester oxygenRequester, PassOrderRequester passOrderCreator) {
+    public PassOrderingOrchestrator(TransportRequester transportRequester, OxygenRequester oxygenRequester, 
+    PassOrderRequester passOrderCreator, ArtistRepository artistsRepository) {
         this.transportRequester = transportRequester;
         this.oxygenRequester = oxygenRequester;
         this.passOrderCreator = passOrderCreator;
+        this.artistsRepository = artistsRepository;
     }
 
     public PassOrder orchestPassCreation(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest)

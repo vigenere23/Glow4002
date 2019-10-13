@@ -16,18 +16,18 @@ public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
     }
 
     @Override
-    public HashMap<LocalDate, History> getCreationHistory() {
+    public HashMap<LocalDate, History> findCreationHistory() {
         return history;
     }
 
     @Override
-    public void updateCreationHistory(LocalDate date, History history) {
+    public void saveCreationHistory(LocalDate date, History history) {
         if (history == null) return;
         this.history.put(date, history);
     }
 
     @Override
-    public History getCreationHistoryPerDate(LocalDate date) {
+    public History findCreationHistoryPerDate(LocalDate date) {
         History historyPerDate = null;
         if (history.containsKey(date) )
         {

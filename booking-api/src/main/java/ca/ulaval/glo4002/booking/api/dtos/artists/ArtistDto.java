@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ArtistDto {
-    private String name;
-    private int popularityRank;
-    private float price;
-    private int nbPeople;
-    private List<LocalDate> availabilities;
+    public int id;
+    public String name;
+    public int nbPeople;
+    public String musicStyle;
+    public float price;
+    public int popularityRank;
+    public List<LocalDate> availabilities;
 }

@@ -20,13 +20,13 @@ public class HeapShuttleRepository implements ShuttleRepository {
     }
 
     @Override
-    public List<Shuttle> getShuttles(Location location) {
+    public List<Shuttle> findShuttlesByLocation(Location location) {
         return location == Location.EARTH ? departureShuttles : arrivalShuttles;
     }
 
     @Override
-    public List<Shuttle> getShuttlesByDate(Location location, LocalDate date) {
-        List<Shuttle> shuttlesByDate = getShuttles(location).stream()
+    public List<Shuttle> findShuttlesByDate(Location location, LocalDate date) {
+        List<Shuttle> shuttlesByDate = findShuttlesByLocation(location).stream()
             .filter(shuttle -> date.equals(shuttle.getDate()))
             .collect(Collectors.toList());
         return shuttlesByDate;

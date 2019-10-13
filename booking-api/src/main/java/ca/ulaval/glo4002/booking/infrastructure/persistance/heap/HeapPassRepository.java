@@ -19,7 +19,7 @@ public class HeapPassRepository implements PassRepository {
     }
 
     @Override
-    public Optional<Pass> getById(ID id) {
+    public Optional<Pass> findById(ID id) {
         Pass pass = passes.get(id);
         return Optional.ofNullable(pass);
     }
