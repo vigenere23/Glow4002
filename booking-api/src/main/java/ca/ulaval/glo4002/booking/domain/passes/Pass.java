@@ -12,6 +12,7 @@ public abstract class Pass {
     protected LocalDate endDate;
 
     protected Pass(LocalDate startDate, LocalDate endDate) {
+        this.passNumber = new PassNumber();
         this.startDate = startDate;
         this.endDate = endDate;
     }
