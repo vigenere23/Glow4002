@@ -3,12 +3,15 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
 public class ShuttleTest {
 
@@ -20,13 +23,13 @@ public class ShuttleTest {
             category = ShuttleCategory.SPACE_X;
         }
 
-        public List<Long> getPassNumbers() {
-                return passNumbers;    
+        public List<PassNumber> getPassNumbers() {
+                return passNumbers;
         }
     }    
     
     private ShuttleImplementationTest shuttle;
-    private final static Long PASS_NUMBER = 123456L;
+    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
 
     @BeforeEach
     public void setUp() {
