@@ -1,6 +1,9 @@
 package ca.ulaval.glo4002.booking.api.dtos.artists;
 
-import java.time.LocalDate;
+import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class ArtistDto {
@@ -10,5 +13,29 @@ public class ArtistDto {
     public String musicStyle;
     public float price;
     public int popularityRank;
-    public List<LocalDate> availabilities;
+    public List<ArtistAvailabilityDto> availabilities;
+
+    @JsonCreator
+    public ArtistDto(
+            @JsonProperty(value = "id", required = true) int id,
+            @JsonProperty(value = "name", required = true) String name,
+            @JsonProperty(value = "nbPeople", required = true) int nbPeople,
+            @JsonProperty(value = "musicStyle") String musicStyle,
+            @JsonProperty(value = "price", required = true) float price,
+            @JsonProperty(value = "popularityRank", required = true) int popularityRank,
+            @JsonProperty(value = "availabilities") List<ArtistAvailabilityDto> availabilities
+    ) throws InvalidFormatException {
+        try {
+            this.id = id;
+            this.name = name;
+            this.nbPeople = nbPeople;
+            this.musicStyle = musicStyle;
+            this.price = price;
+            this.popularityRank = popularityRank;
+            this.availabilities = availabilities;
+        }
+        catch (Exception exception) {
+            throw new InvalidFormatException();
+        }
+    }
 }

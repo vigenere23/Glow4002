@@ -28,4 +28,15 @@ public class ApiArtistRepository implements ArtistRepository {
         //renvoyer laliste les contenant tous pour que le domaine fase le sorting
         return null;
     }
+
+    public int findArtistPeopleNbById(int idToFind) {
+        // Pour test, va probablement changer!
+        List<ArtistDto> artistDtos = getArtistsDto();
+        for (ArtistDto artist: artistDtos) {
+            if (artist.id == idToFind) {
+                return artist.nbPeople;
+            }
+        }
+        throw new IllegalArgumentException(String.format("Id %s doesn't exist.", idToFind));
+    }
 }
