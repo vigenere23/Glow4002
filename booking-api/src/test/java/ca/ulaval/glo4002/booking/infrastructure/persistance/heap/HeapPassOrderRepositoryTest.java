@@ -37,7 +37,8 @@ public class HeapPassOrderRepositoryTest {
     @Test
     public void givenSavingAOrder_whenGetTheOrderByOrderNumber_itReturnsTheSameOrder() throws Exception {
         passOrderRepository.save(passOrder);
-        PassOrder savedPassOrder = passOrderRepository.getByOrderNumber(passOrder.getOrderNumber()).get();
+        OrderNumber orderNumber = OrderNumber.of(passOrder.getOrderNumber().getValue());
+        PassOrder savedPassOrder = passOrderRepository.getByOrderNumber(orderNumber).get();
         assertThat(savedPassOrder).isEqualTo(passOrder);
     }
 }
