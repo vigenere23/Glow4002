@@ -6,5 +6,5 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 
 public interface PassOrderExposer {
 
-    public Optional<PassOrder> getOrder(Long id);
+    public Optional<PassOrder> getOrder(OrderNumber orderNumber);
 }

@@ -27,6 +27,7 @@ import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderExposer;
 
@@ -45,26 +46,22 @@ public class OrdersResource {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") String stringId) throws OrderNotFoundException {
-        Long id = Long.parseLong(stringId);
-        Optional<PassOrder> passOrder = passOrderExposer.getOrder(id);
+    public Response getById(@PathParam("id") String stringOrderNumber) throws OrderNotFoundException {
+        OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
+        Optional<PassOrder> passOrder = passOrderExposer.getOrder(orderNumber);
         if (!passOrder.isPresent()) {
-            throw new OrderNotFoundException(id);
+            throw new OrderNotFoundException(orderNumber);
         }
         return Response.ok().entity(new PassOrderResponseMapper().getPassOrderResponse(passOrder.get())).build();
     }
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError, URISyntaxException {
-        if (!request.vendorCode.equals("TEAM")) {
-            throw new InvalidVendorCodeException();
-        }
-
         try {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
-            Long orderNumber = passOrder.getOrderNumber().getId();
+            String orderNumber = passOrder.getOrderNumber().getValue();
 
-            UriBuilder builder = uriInfo.getRequestUriBuilder().path(Long.toString(orderNumber));
+            UriBuilder builder = uriInfo.getRequestUriBuilder().path(orderNumber);
             URI uri = uriInfo.getBaseUri().relativize(builder.build());
             return Response.status(201).contentLocation(new URI("/" + uri.toString())).build();
         }

@@ -23,11 +23,11 @@ public class PassOrderFactory {
         passFactory = new PassFactory(festival);
     }
 
-    public PassOrder create(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
+    public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
         validateOrderDate(orderDate);
 
         List<Pass> passes = createPasses(passRequest);
-        PassOrder passOrder = new PassOrder(passes);
+        PassOrder passOrder = new PassOrder(vendorCode, passes);
         return passOrder;
     }
 
