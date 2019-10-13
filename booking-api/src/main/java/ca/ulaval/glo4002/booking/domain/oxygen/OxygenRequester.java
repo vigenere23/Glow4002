@@ -9,38 +9,35 @@ import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProductionResults;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenHistory;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenPersistance;
 
 public class OxygenRequester extends OxygenExposer {
 
     private OxygenProducer oxygenProducer;
     private OxygenProductionResults results;
-    private OxygenInventory inventory;
-    private OxygenHistory history;
+    private OxygenHistoryRepository oxygenHistoryRepository;
+    private OxygenInventoryRepository oxygenInventoryRepository;
 
-    public OxygenRequester(LocalDate limitDeliveryDate, OxygenPersistance oxygenPersistance) {
-        inventory = oxygenPersistance.getOxygenInventory();
-        history = oxygenPersistance.getOxygenHistory();
+    public OxygenRequester(LocalDate limitDeliveryDate, OxygenHistoryRepository oxygenHistoryRepository, OxygenInventoryRepository oxygenInventoryRepository) {
+        this.oxygenHistoryRepository = oxygenHistoryRepository;
+        this.oxygenInventoryRepository = oxygenInventoryRepository;
         oxygenProducer = new OxygenProducer(limitDeliveryDate);
     }
 
     @Override
     public List<Inventory> getInventory() {
-        return inventory.getCompleteInventory();
+        return oxygenInventoryRepository.getCompleteInventory();
     }
 
     @Override
     public List<History> getOxygenHistory() {
-        return new ArrayList<>(history.getCreationHistory().values());
+        return new ArrayList<>(oxygenHistoryRepository.getCreationHistory().values());
     }
 
     public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int quantity) {
-        int remainingQuantity = inventory.getOxygenRemaining(grade);
+        int remainingQuantity = oxygenInventoryRepository.getOxygenRemaining(grade);
 
         if (hasToProduce(quantity, remainingQuantity)) {
-            inventory.setOxygenRemaining(grade, 0);
+            oxygenInventoryRepository.setOxygenRemaining(grade, 0);
             int totalToProduce = oxygenProducer.calculateTotalToProduce(quantity, remainingQuantity);
 
             initializeResults(orderDate, grade);
@@ -54,7 +51,7 @@ public class OxygenRequester extends OxygenExposer {
                 updateHistory();
             }
         } else {
-            inventory.setOxygenRemaining(grade, remainingQuantity - quantity);
+            oxygenInventoryRepository.setOxygenRemaining(grade, remainingQuantity - quantity);
         }
     }
 
@@ -64,21 +61,21 @@ public class OxygenRequester extends OxygenExposer {
 
     private void initializeResults(LocalDate orderDate, OxygenGrade grade) {
         results = new OxygenProductionResults();
-        results.orderDateHistory = history.getCreationHistoryPerDate(orderDate);
+        results.orderDateHistory = oxygenHistoryRepository.getCreationHistoryPerDate(orderDate);
         results.gradeProduced = oxygenProducer.getNextGradeToProduce(orderDate, grade);
 
         LocalDate deliveryDate = oxygenProducer.getFabricationCompletionDate(orderDate, results.gradeProduced);
-        results.deliveryDateHistory = history.getCreationHistoryPerDate(deliveryDate);
+        results.deliveryDateHistory = oxygenHistoryRepository.getCreationHistoryPerDate(deliveryDate);
     }
 
     private void updateHistory() {
-        history.updateCreationHistory(results.orderDateHistory.date, results.orderDateHistory);
-        history.updateCreationHistory(results.deliveryDateHistory.date, results.deliveryDateHistory);
+        oxygenHistoryRepository.updateCreationHistory(results.orderDateHistory.date, results.orderDateHistory);
+        oxygenHistoryRepository.updateCreationHistory(results.deliveryDateHistory.date, results.deliveryDateHistory);
     }
 
     private void updateInventory() {
         OxygenGrade gradeProduced = results.gradeProduced;
-        inventory.setOxygenInventory(gradeProduced, inventory.getInventoryOfGrade(gradeProduced) + results.quantityTankToAddToInventory);
-        inventory.setOxygenRemaining(gradeProduced, results.quantityTankRemaining);
+        oxygenInventoryRepository.setOxygenInventory(gradeProduced, oxygenInventoryRepository.getInventoryOfGrade(gradeProduced) + results.quantityTankToAddToInventory);
+        oxygenInventoryRepository.setOxygenRemaining(gradeProduced, results.quantityTankRemaining);
     }
 }

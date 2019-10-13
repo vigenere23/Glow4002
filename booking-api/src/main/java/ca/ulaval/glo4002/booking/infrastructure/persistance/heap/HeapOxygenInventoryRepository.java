@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -6,15 +6,15 @@ import java.util.EnumSet;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.OxygenInventory;
 
-public class HeapOxygenInventory implements OxygenInventory {
+public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 
     private final EnumMap<OxygenGrade, Integer> inventory;
     private final EnumMap<OxygenGrade, Integer> remaining;
 
-    public HeapOxygenInventory() {
+    public HeapOxygenInventoryRepository() {
         remaining = initialize();
         inventory = initialize();
     }

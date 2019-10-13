@@ -10,25 +10,23 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassOrderPersistance;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.PassPersistance;
-import ca.ulaval.glo4002.booking.domain.persistanceInterface.Repository;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 
 public class PassOrderRequester implements PassOrderExposer {
 
-    private PassOrderPersistance passOrderPersistance;
-    private PassPersistance passPersistance;
+    private PassOrderRepository passOrderRepository;
+    private PassRepository passRepository;
     private PassOrderFactory passOrderFactory;
 
-    public PassOrderRequester(Repository repository, Glow4002 festival) {
-        passOrderPersistance = repository.getPassOrderPersistance();
-        passPersistance = repository.getPassPersistance();
+    public PassOrderRequester(PassOrderRepository passOrderRepository, PassRepository passRepository, Glow4002 festival) {
+        this.passOrderRepository = passOrderRepository;
+        this.passRepository = passRepository;
         passOrderFactory = new PassOrderFactory(festival);
     }
 
     @Override
     public Optional<PassOrder> getOrder(Long id) {
-        return passOrderPersistance.getById(id);
+        return passOrderRepository.getById(id);
     }
 
     public PassOrder orderPasses(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
@@ -39,8 +37,8 @@ public class PassOrderRequester implements PassOrderExposer {
 
     private void saveObjects(PassOrder passOrder) {
         for (Pass pass : passOrder.getPasses()) {
-            passPersistance.save(pass);
+            passRepository.save(pass);
         }
-        passOrderPersistance.save(passOrder);
+        passOrderRepository.save(passOrder);
     }
 }
