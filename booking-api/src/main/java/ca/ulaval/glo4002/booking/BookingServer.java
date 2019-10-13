@@ -64,11 +64,6 @@ public class BookingServer implements Runnable {
         PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
-            passOrderRepository,
-            passRepository,
-            oxygenHistoryRepository,
-            oxygenInventoryRepository,
-            shuttleRepository,
             oxygenRequester,
             transportRequester,
             passOrderRequester,
