@@ -30,12 +30,12 @@ public class HeapPassOrderRepositoryTest {
     }
 
     @Test
-    public void whenGetWithNonExistantId_itReturnsAnEmptyOptional() {
+    public void whenGetWithNonExistantOrderNumber_itReturnsAnEmptyOptional() {
         assertThat(passOrderRepository.getByOrderNumber(INVALID_ORDER_NUMBER)).isNotPresent();
     }
 
     @Test
-    public void givenSavingAOrder_whenGetTheOrderById_itReturnsTheSameOrder() throws Exception {
+    public void givenSavingAOrder_whenGetTheOrderByOrderNumber_itReturnsTheSameOrder() throws Exception {
         passOrderRepository.save(passOrder);
         PassOrder savedPassOrder = passOrderRepository.getByOrderNumber(passOrder.getOrderNumber()).get();
         assertThat(savedPassOrder).isEqualTo(passOrder);
