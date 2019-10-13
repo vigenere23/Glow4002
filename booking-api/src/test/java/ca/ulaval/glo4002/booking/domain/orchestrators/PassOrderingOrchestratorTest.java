@@ -18,13 +18,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.orders.ID;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantPackagePass;
@@ -43,7 +43,7 @@ public class PassOrderingOrchestratorTest {
     private static final LocalDate FESTIVAL_START = ORDER_DATE.plusMonths(12);
     private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
-    private static final ID PASS_ID = new ID(0L);
+    private static final PassNumber PASS_ID = mock(PassNumber.class);
 
     private static final int NEBULA_OXYGEN_QUANTITY = 3;
     private static final int SUPERGIANT_OXYGEN_QUANTITY = 3;

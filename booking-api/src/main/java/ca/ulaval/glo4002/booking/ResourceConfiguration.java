@@ -17,7 +17,6 @@ public class ResourceConfiguration extends ResourceConfig {
         PassOrderingOrchestrator orchestrator
     ) {
         register(new AbstractBinder() {
-
             @Override
             protected void configure() {
                 bind(oxygenExposer).to(OxygenExposer.class);

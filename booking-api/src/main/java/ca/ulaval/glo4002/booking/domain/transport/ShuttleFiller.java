@@ -3,11 +3,13 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
+import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+
 public class ShuttleFiller {
     
     private ShuttleFactory shuttleFactory = new ShuttleFactory();
     
-    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, long passNumber, LocalDate date) {
+    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date);
         availableShuttle.addPassNumber(passNumber);
         if (!shuttlesToFill.contains(availableShuttle)) {

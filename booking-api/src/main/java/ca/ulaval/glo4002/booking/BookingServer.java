@@ -15,13 +15,11 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 
 public class BookingServer implements Runnable {
@@ -55,22 +53,21 @@ public class BookingServer implements Runnable {
         Glow4002 festival = new Glow4002();
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        PassRepository passRepository = new HeapPassRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
 
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
-        PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, passRepository, festival);
+        PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, festival);
         ArtistRepository artistsRepository = new ApiArtistRepository();
         PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester, artistsRepository);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
-                oxygenRequester,
-                transportRequester,
-                passOrderRequester,
-                passOrderingOrchestrator
+            oxygenRequester,
+            transportRequester,
+            passOrderRequester,
+            passOrderingOrchestrator
         ).packages("ca.ulaval.glo4002.booking");
 
         return packageConfig;

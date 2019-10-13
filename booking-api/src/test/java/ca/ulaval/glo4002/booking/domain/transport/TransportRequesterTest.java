@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.domain.orders.ID;
+import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -31,7 +31,7 @@ class TransportRequesterTest {
     private Shuttle mockedShuttle;
     private TransportRequester transportRequester;
     private Glow4002 festival;
-    private final static ID PASS_NUMBER = new ID(1234L);
+    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
     private final static LocalDate DATE = LocalDate.of(2050, 7, 18);
     private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 07, 10);
 
