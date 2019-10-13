@@ -29,14 +29,14 @@ public class HeapPassRepositoryTest {
 
     @Test
     public void whenGetWithNonExistantId_itReturnsAnEmptyOptional() {
-        assertThat(passRepository.getById(INVALID_ID)).isNotPresent();
+        assertThat(passRepository.findById(INVALID_ID)).isNotPresent();
     }
 
     @Test
     public void givenSavingAPass_whenGetThePassById_itReturnsTheSamePass() throws Exception {
         pass.setPassNumber(null);
         passRepository.save(pass);
-        Pass savedPass = passRepository.getById(pass.getPassNumber()).get();
+        Pass savedPass = passRepository.findById(pass.getPassNumber()).get();
         assertThat(savedPass).isEqualTo(pass);
     }
 

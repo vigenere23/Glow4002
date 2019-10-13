@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.History;
 
 public interface OxygenHistoryRepository {
 
-    public HashMap<LocalDate, History> getCreationHistory();
-    public void updateCreationHistory(LocalDate date, History history);
-    public History getCreationHistoryPerDate(LocalDate date);   
+    public HashMap<LocalDate, History> findCreationHistory();
+    public void saveCreationHistory(LocalDate date, History history);
+    public History findCreationHistoryPerDate(LocalDate date);   
 }

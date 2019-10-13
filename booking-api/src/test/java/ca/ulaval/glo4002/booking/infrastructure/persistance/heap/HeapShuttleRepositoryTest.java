@@ -27,27 +27,27 @@ class HeapShuttleRepositoryTest {
     @Test
     public void givenShuttleList_whenSaveArrival_thenReplacesShuttleList() {
         shuttleRepository.saveArrival(shuttles);
-        assertEquals(shuttles, shuttleRepository.getShuttles(Location.ULAVALOGY));
+        assertEquals(shuttles, shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY));
     }
 
     @Test
     public void givenShuttleListWithNull_whenSaveArrival_thenDontReplacesShuttleList() {
         shuttles.add(null);
         shuttleRepository.saveArrival(shuttles);
-        assertEquals(0, shuttleRepository.getShuttles(Location.ULAVALOGY).size());
+        assertEquals(0, shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY).size());
     }
     
     @Test
     public void givenShuttleList_whenSaveDeparture_thenReplacesShuttleList() {
         shuttleRepository.saveDeparture(shuttles);
-        assertEquals(shuttles, shuttleRepository.getShuttles(Location.EARTH));
+        assertEquals(shuttles, shuttleRepository.findShuttlesByLocation(Location.EARTH));
     }
 
     @Test
     public void givenShuttleListWithNull_whenSaveDeparture_thenDontReplacesShuttleList() {
         shuttles.add(null);
         shuttleRepository.saveDeparture(shuttles);
-        assertEquals(0, shuttleRepository.getShuttles(Location.EARTH).size());
+        assertEquals(0, shuttleRepository.findShuttlesByLocation(Location.EARTH).size());
     }
 
     @Test
@@ -60,6 +60,6 @@ class HeapShuttleRepositoryTest {
         shuttlesByDate.add(firstShuttle);
         shuttleRepository.saveDeparture(shuttles);
 
-        assertEquals(shuttlesByDate, shuttleRepository.getShuttlesByDate(Location.EARTH , LocalDate.of(2050, 7, 19)));
+        assertEquals(shuttlesByDate, shuttleRepository.findShuttlesByDate(Location.EARTH , LocalDate.of(2050, 7, 19)));
     }
 }

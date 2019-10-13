@@ -18,24 +18,24 @@ public class HeapOxygenInventoryRepositoryTest {
 
     @Test
     public void whenSetOxygenCategoryInventory_thenInventoryIsCorrectlyUpdated() {
-        oxygenInventoryRepository.setOxygenInventory(OxygenGrade.A, 20);
-        assertEquals(20, oxygenInventoryRepository.getInventoryOfGrade(OxygenGrade.A));
+        oxygenInventoryRepository.saveOxygenInventory(OxygenGrade.A, 20);
+        assertEquals(20, oxygenInventoryRepository.findInventoryOfGrade(OxygenGrade.A));
     }
 
     @Test
     public void whenSetOxygenCategoryRemaining_thenInventoryIsCorrectlyUpdated() {
-        oxygenInventoryRepository.setOxygenRemaining(OxygenGrade.B, 20);
-        assertEquals(20, oxygenInventoryRepository.getOxygenRemaining(OxygenGrade.B));
+        oxygenInventoryRepository.saveOxygenRemaining(OxygenGrade.B, 20);
+        assertEquals(20, oxygenInventoryRepository.findOxygenRemaining(OxygenGrade.B));
     }
 
     @Test
     public void whenGetCompleteInventory_thenInventoryIsCorrectlyPresented() {
-        oxygenInventoryRepository.setOxygenInventory(OxygenGrade.B, 20);
-        oxygenInventoryRepository.setOxygenInventory(OxygenGrade.A, 15);
-        oxygenInventoryRepository.setOxygenInventory(OxygenGrade.E, 26);
+        oxygenInventoryRepository.saveOxygenInventory(OxygenGrade.B, 20);
+        oxygenInventoryRepository.saveOxygenInventory(OxygenGrade.A, 15);
+        oxygenInventoryRepository.saveOxygenInventory(OxygenGrade.E, 26);
         
-        assertEquals(20, oxygenInventoryRepository.getInventoryOfGrade(OxygenGrade.B));
-        assertEquals(15, oxygenInventoryRepository.getInventoryOfGrade(OxygenGrade.A));
-        assertEquals(26, oxygenInventoryRepository.getInventoryOfGrade(OxygenGrade.E));
+        assertEquals(20, oxygenInventoryRepository.findInventoryOfGrade(OxygenGrade.B));
+        assertEquals(15, oxygenInventoryRepository.findInventoryOfGrade(OxygenGrade.A));
+        assertEquals(26, oxygenInventoryRepository.findInventoryOfGrade(OxygenGrade.E));
     }
 }
