@@ -19,7 +19,7 @@ public class PassNumber {
         return new PassNumber(value);
     }
 
-    public Long getValue() {
+    public long getValue() {
         return value;
     }
 }
