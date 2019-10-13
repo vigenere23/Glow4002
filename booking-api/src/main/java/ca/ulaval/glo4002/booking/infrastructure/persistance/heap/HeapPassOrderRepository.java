@@ -21,7 +21,7 @@ public class HeapPassOrderRepository implements PassOrderRepository {
     }
 
     @Override
-    public Optional<PassOrder> getById(Long id) {
+    public Optional<PassOrder> findById(Long id) {
         List<ID> idWanted = passOrders.keySet().stream().filter(key -> key.getId().equals(id)).collect(Collectors.toList());   
         Optional<PassOrder> passOrder = idWanted.isEmpty() ?  Optional.ofNullable(null) : Optional.ofNullable(passOrders.get(idWanted.get(0)));
         return passOrder;

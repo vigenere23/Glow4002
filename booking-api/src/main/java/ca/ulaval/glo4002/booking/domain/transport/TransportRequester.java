@@ -27,13 +27,13 @@ public class TransportRequester extends TransportExposer {
     @Override
     public List<Shuttle> getShuttlesDepartureByDate(LocalDate date) throws OutOfFestivalDatesException {
         validateDateRange(date); 
-        return transportRepository.getShuttlesByDate(Location.EARTH, date);
+        return transportRepository.findShuttlesByDate(Location.EARTH, date);
     }
 
     @Override
     public List<Shuttle> getShuttlesArrivalByDate(LocalDate date) throws OutOfFestivalDatesException {
         validateDateRange(date); 
-        return transportRepository.getShuttlesByDate(Location.ULAVALOGY, date);
+        return transportRepository.findShuttlesByDate(Location.ULAVALOGY, date);
     }
 
     private void validateDateRange(LocalDate date) throws OutOfFestivalDatesException {
@@ -44,12 +44,12 @@ public class TransportRequester extends TransportExposer {
 
     @Override
     public List<Shuttle> getAllDepartures() {
-        return transportRepository.getShuttles(Location.EARTH);
+        return transportRepository.findShuttlesByLocation(Location.EARTH);
     }
 
     @Override
     public List<Shuttle> getAllArrivals() {
-        return transportRepository.getShuttles(Location.ULAVALOGY);
+        return transportRepository.findShuttlesByLocation(Location.ULAVALOGY);
     }
     
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
@@ -64,7 +64,7 @@ public class TransportRequester extends TransportExposer {
 
     private List<Shuttle> assignNewPlace(Location location, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
         List<Shuttle> shuttlesToFill = new LinkedList<Shuttle>();
-        shuttlesToFill = transportRepository.getShuttles(location);  
+        shuttlesToFill = transportRepository.findShuttlesByLocation(location);  
         return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date);
     }
 }
