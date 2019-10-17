@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.api.dtos.artists;
 
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,18 +23,13 @@ public class ArtistDto {
             @JsonProperty(value = "price", required = true) float price,
             @JsonProperty(value = "popularityRank", required = true) int popularityRank,
             @JsonProperty(value = "availabilities") List<ArtistAvailabilityDto> availabilities
-    ) throws InvalidFormatException {
-        try {
-            this.id = id;
-            this.name = name;
-            this.nbPeople = nbPeople;
-            this.musicStyle = musicStyle;
-            this.price = price;
-            this.popularityRank = popularityRank;
-            this.availabilities = availabilities;
-        }
-        catch (Exception exception) {
-            throw new InvalidFormatException();
-        }
+    ) {
+        this.id = id;
+        this.name = name;
+        this.nbPeople = nbPeople;
+        this.musicStyle = musicStyle;
+        this.price = price;
+        this.popularityRank = popularityRank;
+        this.availabilities = availabilities;
     }
 }
