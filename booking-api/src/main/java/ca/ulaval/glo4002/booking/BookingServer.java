@@ -7,9 +7,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
@@ -57,14 +57,14 @@ public class BookingServer implements Runnable {
 
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
-        PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, festival);
-        PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenRequester, passOrderFactory, passOrderRepository);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
-            oxygenRequester,
-            transportRequester,
-            passOrderRequester,
-            passOrderingOrchestrator
+                oxygenRequester,
+                transportRequester,
+                passOrderFactory,
+                passOrderUseCase
         ).packages("ca.ulaval.glo4002.booking");
 
         return packageConfig;

@@ -22,33 +22,29 @@ import ca.ulaval.glo4002.booking.api.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidOrderDateException;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidVendorCodeException;
 import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderExposer;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
 
-    private PassOrderingOrchestrator orchestrator;
-    private PassOrderExposer passOrderExposer;
+    private PassOrderUseCase passOrderUseCase;
 
     @Inject
-    public OrdersResource(PassOrderingOrchestrator orchestrator, PassOrderExposer passOrderRequester) {
-        this.orchestrator = orchestrator;
-        this.passOrderExposer = passOrderRequester;
+    public OrdersResource(PassOrderUseCase passOrderUseCase) {
+        this.passOrderUseCase = passOrderUseCase;
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") String stringOrderNumber) throws OrderNotFoundException {
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
-        Optional<PassOrder> passOrder = passOrderExposer.getOrder(orderNumber);
+        Optional<PassOrder> passOrder = passOrderUseCase.getOrder(orderNumber);
         if (!passOrder.isPresent()) {
             throw new OrderNotFoundException(orderNumber);
         }
@@ -58,7 +54,7 @@ public class OrdersResource {
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError, URISyntaxException {
         try {
-            PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
+            PassOrder passOrder = passOrderUseCase.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             String orderNumber = passOrder.getOrderNumber().getValue();
 
             UriBuilder builder = uriInfo.getRequestUriBuilder().path(orderNumber);
