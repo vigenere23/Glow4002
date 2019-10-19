@@ -24,7 +24,7 @@ public class ArtistRanking {
         return decreasingPriceOrderedArtists;
     }
 
-    public List<String> getascendingPopularityOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
+    public List<String> getAscendingPopularityOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
 
         ascendingPopularityOrderedArtists.clear();
 
