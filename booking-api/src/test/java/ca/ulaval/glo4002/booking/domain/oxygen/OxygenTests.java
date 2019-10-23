@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class OxygenProducerTests {
+public class OxygenTests {
 
-    private OxygenProducer oxygenProducer;
+    private OxygenProducer2 oxygenProducer;
     private OxygenProductionResults results;
     private final static LocalDate FESTIVAL_STARTING_DATE = LocalDate.of(2050, 7, 17);
     private final static LocalDate ONE_MONTH_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusMonths(1);
@@ -21,7 +21,7 @@ public class OxygenProducerTests {
 
     @BeforeEach
     public void testInitialize() {
-        oxygenProducer = new OxygenProducer(FESTIVAL_STARTING_DATE);
+        oxygenProducer = new OxygenProducer2(FESTIVAL_STARTING_DATE);
         results = new OxygenProductionResults();
         results.orderDateHistory = new History();
         results.orderDateHistory.date = ONE_MONTH_BEFORE_FESTIVAL_DATE;

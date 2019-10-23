@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,9 +11,6 @@ import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
@@ -51,17 +49,18 @@ public class BookingServer implements Runnable {
         Glow4002 festival = new Glow4002();
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
+        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
 
-        OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
+        OxygenFactory oxygenFactory = new OxygenFactory(festival.getStartDate().minusDays(1));
+        OxygenProducer oxygenProducer = new OxygenProducer(oxygenFactory);
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenRequester, passOrderFactory, passOrderRepository);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenProducer, passOrderFactory, passOrderRepository, oxygenInventoryRepository, oxygenHistoryRepository);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
-                oxygenRequester,
+                oxygenProducer,
                 transportRequester,
                 passOrderFactory,
                 passOrderUseCase

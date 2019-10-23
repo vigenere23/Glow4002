@@ -4,23 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.History;
-import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProductionResults;
+public class OxygenRequester2 extends OxygenExposer {
 
-public class OxygenRequester extends OxygenExposer {
-
-    private OxygenProducer oxygenProducer;
+    private OxygenProducer2 oxygenProducer;
     private OxygenProductionResults results;
     private OxygenHistoryRepository oxygenHistoryRepository;
     private OxygenInventoryRepository oxygenInventoryRepository;
 
-    public OxygenRequester(LocalDate limitDeliveryDate, OxygenHistoryRepository oxygenHistoryRepository, OxygenInventoryRepository oxygenInventoryRepository) {
+    public OxygenRequester2(LocalDate limitDeliveryDate, OxygenHistoryRepository oxygenHistoryRepository, OxygenInventoryRepository oxygenInventoryRepository) {
         this.oxygenHistoryRepository = oxygenHistoryRepository;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
-        oxygenProducer = new OxygenProducer(limitDeliveryDate);
+        oxygenProducer = new OxygenProducer2(limitDeliveryDate);
     }
 
     @Override

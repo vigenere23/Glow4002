@@ -1,40 +1,46 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.History;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProductionInventory;
 
 public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
 
-    private final HashMap<LocalDate, History> history;
+    private SortedMap<LocalDate, OxygenProductionInventory> history;
 
     public HeapOxygenHistoryRepository() {
         super();
-        history = new HashMap<LocalDate, History>();
+        history = new TreeMap<LocalDate, OxygenProductionInventory>();
     }
 
     @Override
-    public HashMap<LocalDate, History> findCreationHistory() {
+    public SortedMap<LocalDate, OxygenProductionInventory> findOxygenHistory() {
         return history;
     }
 
     @Override
-    public void saveCreationHistory(LocalDate date, History history) {
+    public void saveOxygenHistory(SortedMap<LocalDate, OxygenProductionInventory> history) {
+        this.history = history;
+    }
+
+    @Override
+    public void saveCreationHistory(LocalDate date, OxygenProductionInventory history) {
         if (history == null) return;
         this.history.put(date, history);
     }
 
     @Override
-    public History findCreationHistoryPerDate(LocalDate date) {
-        History historyPerDate = null;
+    public OxygenProductionInventory findCreationHistoryPerDate(LocalDate date) {
+        OxygenProductionInventory historyPerDate = null;
         if (history.containsKey(date) )
         {
             historyPerDate = history.get(date);
         } else {
-            historyPerDate = new History();
-            historyPerDate.date = date;
+            historyPerDate = new OxygenProductionInventory(date);
         }
         return historyPerDate;
     }

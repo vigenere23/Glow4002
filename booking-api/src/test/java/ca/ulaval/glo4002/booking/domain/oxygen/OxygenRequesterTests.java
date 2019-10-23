@@ -4,8 +4,6 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.History;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +13,7 @@ public class OxygenRequesterTests {
 
     private OxygenInventoryRepository oxygenInventory;
     private OxygenHistoryRepository oxygenHistory;
-    private OxygenRequester oxygenRequester;
+    private OxygenRequester2 oxygenRequester;
     private final static LocalDate FESTIVAL_STARTING_DATE = LocalDate.of(2050, 7, 17);
     private final static LocalDate ONE_MONTH_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusMonths(1);
     private final static LocalDate DELIVERY_DATE_GRADE_A_ORDER = LocalDate.of(2050, 7, 7);
@@ -30,7 +28,7 @@ public class OxygenRequesterTests {
         when(oxygenHistory.findCreationHistoryPerDate(DELIVERY_DATE_GRADE_A_ORDER)).thenReturn(new History());
         when(oxygenHistory.findCreationHistoryPerDate(FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE)).thenReturn(new History());
         when(oxygenHistory.findCreationHistoryPerDate(FIVE_DAYS_BEFORE_FESTIVAL_DATE)).thenReturn(new History());
-        oxygenRequester = new OxygenRequester(FESTIVAL_STARTING_DATE, oxygenHistory, oxygenInventory);
+        oxygenRequester = new OxygenRequester2(FESTIVAL_STARTING_DATE, oxygenHistory, oxygenInventory);
     }
 
     @Test

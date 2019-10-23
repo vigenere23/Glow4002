@@ -23,7 +23,7 @@ import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester2;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
@@ -58,7 +58,7 @@ public class PassOrderUseCaseTest {
     private static final ShuttleCategory SUPERNOVA_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
 
     private TransportRequester transportRequester;
-    private OxygenRequester oxygenRequester;
+    private OxygenRequester2 oxygenRequester;
     private PassOrderFactory passOrderFactory;
     private PassOrderUseCase passOrderUseCase;
     private PassOrder passOrder;
@@ -67,7 +67,7 @@ public class PassOrderUseCaseTest {
     @BeforeEach
     public void setUp() throws Exception {
         transportRequester = mock(TransportRequester.class);
-        oxygenRequester = mock(OxygenRequester.class);
+        oxygenRequester = mock(OxygenRequester2.class);
         passOrder = mock(PassOrder.class);
         passOrderFactory = mock(PassOrderFactory.class);
         when(passOrderFactory.create(any(), any(), any())).thenReturn(passOrder);
