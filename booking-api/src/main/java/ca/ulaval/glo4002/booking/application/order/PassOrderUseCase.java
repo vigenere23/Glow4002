@@ -8,6 +8,7 @@ import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
+import ca.ulaval.glo4002.booking.domain.exceptions.NotEnoughTimeException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.*;

@@ -1,64 +1,23 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
+import ca.ulaval.glo4002.booking.domain.exceptions.NotEnoughTimeException;
+
 import java.time.LocalDate;
 import java.util.*;
 
 public abstract class Oxygen {
     protected int tankFabricationQuantity;
     protected int fabricationTimeInDays;
-    protected int totalQuantity;
     protected int remainingQuantity;
     protected EnumMap<HistoryType, Integer> quantityPerFabricationBatch;
     protected OxygenProduction oxygenProduction;
+    protected OxygenInventory oxygenInventory;
 
-    public Oxygen(LocalDate limitDeliveryDate, int totalQuantity, int storageQuantity) {
-        this.totalQuantity = totalQuantity;
-        this.remainingQuantity = storageQuantity;
-        oxygenProduction = new OxygenProduction(limitDeliveryDate, fabricationTimeInDays, tankFabricationQuantity);
+    public Oxygen(LocalDate limitDeliveryDate, int totalQuantity, int remainingQuantity) {
+        this.remainingQuantity = remainingQuantity;
         initializeQuantityPerFabricationBatch();
-    }
-
-    public void adjustInventory(LocalDate orderDate, int requirementQuantity) throws NotEnoughTimeException {
-        int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
-        int quantityToFabricate = getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity);
-        if (hasToFabricateMore(quantityToFabricate) && !oxygenProduction.enoughTimeForFabrication(orderDate)) {
-            throw new NotEnoughTimeException();
-        }
-        updateInventory(quantityToFabricate, quantityOfTanksLacking);
-    }
-
-    public int getQuantityOfTanksLacking(int requirementQuantity) {
-        return requirementQuantity - remainingQuantity;
-    }
-
-    public int getTotalQuantity() {
-        return totalQuantity;
-    }
-
-    public int getRemainingQuantity() {
-        return remainingQuantity;
-    }
-
-    public SortedMap<LocalDate, OxygenProductionInventory> updateOxygenHistory(SortedMap<LocalDate, OxygenProductionInventory> history, LocalDate orderDate, int requirementQuantity) {
-        OxygenProductionInventory orderDateInventory = getOrderDateProductionInventory(orderDate, requirementQuantity);
-        OxygenProductionInventory completionDateInventory = getCompletionDateProductionInventory(orderDate, requirementQuantity);
-        oxygenProduction.updateOxygenHistory(history, orderDateInventory, completionDateInventory);
-        return history;
-    }
-
-    public OxygenProductionInventory getCompletionDateProductionInventory(LocalDate orderDate, int requirementQuantity) {
-        OxygenProductionInventory oxygenProductionInventory = new OxygenProductionInventory(oxygenProduction.getFabricationCompletionDate(orderDate));
-        oxygenProductionInventory.updateQuantity(HistoryType.OXYGEN_TANK_MADE, getQuantityToFabricate(requirementQuantity));
-        return oxygenProductionInventory;
-    }
-
-    public OxygenProductionInventory getOrderDateProductionInventory(LocalDate orderDate, int requirementQuantity) {
-        OxygenProductionInventory oxygenProductionInventory = new OxygenProductionInventory(orderDate);
-        int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
-        quantityPerFabricationBatch.forEach(
-                (historyType, fabricationQuantity) -> oxygenProductionInventory.updateQuantity(historyType, getQuantityToFabricate(quantityOfTanksLacking, fabricationQuantity))
-        );
-        return oxygenProductionInventory;
+        oxygenInventory = new OxygenInventory(totalQuantity, remainingQuantity);
+        oxygenProduction = new OxygenProduction(limitDeliveryDate, fabricationTimeInDays, tankFabricationQuantity, quantityPerFabricationBatch);
     }
 
     protected void initializeQuantityPerFabricationBatch() {
@@ -66,22 +25,40 @@ public abstract class Oxygen {
         quantityPerFabricationBatch.put(HistoryType.OXYGEN_TANK_BOUGHT, tankFabricationQuantity);
     }
 
-    private void updateInventory(int quantityToFabricate, int quantityOfTanksLacking) {
-        remainingQuantity = quantityToFabricate - quantityOfTanksLacking;
-        totalQuantity += quantityToFabricate;
+    public int getTotalQuantity() {
+        return oxygenInventory.getTotalQuantity();
     }
 
-    private boolean hasToFabricateMore(int quantityToFabricate) {
-        return quantityToFabricate > 0;
+    public int getRemainingQuantity() {
+        return oxygenInventory.getRemainingQuantity();
     }
 
-    private int getQuantityToFabricate(int requirementQuantity) {
+    public void adjustInventory(LocalDate orderDate, int requirementQuantity) throws NotEnoughTimeException {
         int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
-        return oxygenProduction.getQuantityOfFabricationBatchesNeeded(quantityOfTanksLacking) * tankFabricationQuantity;
+        int quantityToFabricate = getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity);
+
+        if (hasToFabricateMore(quantityToFabricate) && !oxygenProduction.enoughTimeForFabrication(orderDate)) {
+            throw new NotEnoughTimeException();
+        }
+        oxygenInventory.updateInventory(quantityToFabricate, quantityOfTanksLacking);
+    }
+
+    public int getQuantityOfTanksLacking(int requirementQuantity) {
+        return requirementQuantity - remainingQuantity;
+    }
+
+    public SortedMap<LocalDate, OxygenProductionInventory> updateOxygenHistory(SortedMap<LocalDate, OxygenProductionInventory> history, LocalDate orderDate, int requirementQuantity) {
+        oxygenProduction.setQuantityOfTanksLacking(getQuantityOfTanksLacking(requirementQuantity));
+        oxygenProduction.updateOxygenHistory(history, orderDate, requirementQuantity);
+        return history;
     }
 
     private int getQuantityToFabricate(int quantityOfTanksLacking, int fabricationQuantity) {
         int quantityOfBatchesToFabricate = oxygenProduction.getQuantityOfFabricationBatchesNeeded(quantityOfTanksLacking);
         return quantityOfBatchesToFabricate * fabricationQuantity;
+    }
+
+    private boolean hasToFabricateMore(int quantityToFabricate) {
+        return quantityToFabricate > 0;
     }
 }

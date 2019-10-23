@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.application.program;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester2;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class programUseCase {

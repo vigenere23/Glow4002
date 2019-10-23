@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
+import ca.ulaval.glo4002.booking.domain.exceptions.NotEnoughTimeException;
+
 import java.time.LocalDate;
 import java.util.SortedMap;
 
