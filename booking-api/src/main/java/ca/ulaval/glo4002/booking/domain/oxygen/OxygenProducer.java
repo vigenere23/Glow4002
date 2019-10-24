@@ -12,7 +12,7 @@ public class OxygenProducer {
         this.oxygenFactory = oxygenFactory;
     }
 
-    public Oxygen orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, int totalQuantity, int storageQuantity, SortedMap<LocalDate, OxygenProductionInventory>  history) throws NotEnoughTimeException {
+    public Oxygen orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, int totalQuantity, int storageQuantity, SortedMap<LocalDate, OxygenHistory>  history) throws NotEnoughTimeException {
         Oxygen oxygen = oxygenFactory.create(grade, totalQuantity, storageQuantity);
         oxygen.adjustInventory(orderDate, requiredQuantity);
         oxygen.updateOxygenHistory(history, orderDate, requiredQuantity);

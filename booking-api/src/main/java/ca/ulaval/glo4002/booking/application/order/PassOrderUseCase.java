@@ -75,7 +75,7 @@ public class PassOrderUseCase {
     private void orderOxygen(LocalDate orderDate, OxygenGrade oxygenGrade, int requiredQuantity) {
         int totalQuantity = oxygenInventoryRepository.findInventoryOfGrade(oxygenGrade);
         int remainingQuantity = oxygenInventoryRepository.findOxygenRemaining(oxygenGrade);
-        SortedMap<LocalDate, OxygenProductionInventory> oxygenHistory = oxygenHistoryRepository.findOxygenHistory();
+        SortedMap<LocalDate, OxygenHistory> oxygenHistory = oxygenHistoryRepository.findOxygenHistory();
 
         try {
             Oxygen oxygen = oxygenProducer.orderOxygen(orderDate, oxygenGrade, requiredQuantity, totalQuantity, remainingQuantity, oxygenHistory);
@@ -86,7 +86,7 @@ public class PassOrderUseCase {
         }
     }
 
-    private void saveOxygenRepositories(OxygenGrade oxygenGrade, Oxygen oxygen, SortedMap<LocalDate, OxygenProductionInventory> oxygenHistory) {
+    private void saveOxygenRepositories(OxygenGrade oxygenGrade, Oxygen oxygen, SortedMap<LocalDate, OxygenHistory> oxygenHistory) {
         oxygenInventoryRepository.saveOxygenInventory(oxygenGrade, oxygen.getTotalQuantity());
         oxygenInventoryRepository.saveOxygenRemaining(oxygenGrade, oxygen.getRemainingQuantity());
         oxygenHistoryRepository.saveOxygenHistory(oxygenHistory);

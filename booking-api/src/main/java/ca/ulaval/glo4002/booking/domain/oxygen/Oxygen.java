@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public abstract class Oxygen {
+    private LocalDate limitDeliveryDate;
     protected int tankFabricationQuantity;
     protected int fabricationTimeInDays;
     protected int remainingQuantity;
@@ -14,10 +15,11 @@ public abstract class Oxygen {
     protected OxygenInventory oxygenInventory;
 
     public Oxygen(LocalDate limitDeliveryDate, int totalQuantity, int remainingQuantity) {
+        this.limitDeliveryDate = limitDeliveryDate;
         this.remainingQuantity = remainingQuantity;
         initializeQuantityPerFabricationBatch();
         oxygenInventory = new OxygenInventory(totalQuantity, remainingQuantity);
-        oxygenProduction = new OxygenProduction(limitDeliveryDate, fabricationTimeInDays, tankFabricationQuantity, quantityPerFabricationBatch);
+        oxygenProduction = new OxygenProduction(fabricationTimeInDays, tankFabricationQuantity, quantityPerFabricationBatch);
     }
 
     protected void initializeQuantityPerFabricationBatch() {
@@ -35,30 +37,29 @@ public abstract class Oxygen {
 
     public void adjustInventory(LocalDate orderDate, int requirementQuantity) throws NotEnoughTimeException {
         int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
-        int quantityToFabricate = getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity);
+        int quantityToFabricate = oxygenProduction.getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity);
 
-        if (hasToFabricateMore(quantityToFabricate) && !oxygenProduction.enoughTimeForFabrication(orderDate)) {
+        if (hasToFabricateMore(quantityToFabricate) && !enoughTimeForFabrication(orderDate)) {
             throw new NotEnoughTimeException();
         }
         oxygenInventory.updateInventory(quantityToFabricate, quantityOfTanksLacking);
     }
 
-    public int getQuantityOfTanksLacking(int requirementQuantity) {
+    private int getQuantityOfTanksLacking(int requirementQuantity) {
         return requirementQuantity - remainingQuantity;
-    }
-
-    public SortedMap<LocalDate, OxygenProductionInventory> updateOxygenHistory(SortedMap<LocalDate, OxygenProductionInventory> history, LocalDate orderDate, int requirementQuantity) {
-        oxygenProduction.setQuantityOfTanksLacking(getQuantityOfTanksLacking(requirementQuantity));
-        oxygenProduction.updateOxygenHistory(history, orderDate, requirementQuantity);
-        return history;
-    }
-
-    private int getQuantityToFabricate(int quantityOfTanksLacking, int fabricationQuantity) {
-        int quantityOfBatchesToFabricate = oxygenProduction.getQuantityOfFabricationBatchesNeeded(quantityOfTanksLacking);
-        return quantityOfBatchesToFabricate * fabricationQuantity;
     }
 
     private boolean hasToFabricateMore(int quantityToFabricate) {
         return quantityToFabricate > 0;
+    }
+
+    public boolean enoughTimeForFabrication(LocalDate orderDate) {
+        LocalDate fabricationCompletionDate = orderDate.plusDays(fabricationTimeInDays);
+        return fabricationCompletionDate.isBefore(limitDeliveryDate) || fabricationCompletionDate.equals(limitDeliveryDate);
+    }
+
+    public SortedMap<LocalDate, OxygenHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenHistory> history, LocalDate orderDate, int requirementQuantity) {
+        oxygenProduction.updateOxygenHistory(history, orderDate, getQuantityOfTanksLacking(requirementQuantity));
+        return history;
     }
 }

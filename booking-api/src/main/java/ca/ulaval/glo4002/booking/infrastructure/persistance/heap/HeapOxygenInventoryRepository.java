@@ -7,7 +7,6 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
 
 public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 
