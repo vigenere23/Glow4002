@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application.order;
+package ca.ulaval.glo4002.booking.application;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -73,22 +73,23 @@ public class PassOrderUseCase {
     }
 
     private void orderOxygen(LocalDate orderDate, OxygenGrade oxygenGrade, int requiredQuantity) {
-        int totalQuantity = oxygenInventoryRepository.findInventoryOfGrade(oxygenGrade);
-        int remainingQuantity = oxygenInventoryRepository.findOxygenRemaining(oxygenGrade);
-        SortedMap<LocalDate, OxygenHistory> oxygenHistory = oxygenHistoryRepository.findOxygenHistory();
+        OxygenInventory oxygenInventory = oxygenInventoryRepository.findInventoryOfGrade(oxygenGrade);
+        int totalQuantity = oxygenInventory.getTotalQuantity();
+        int remainingQuantity = oxygenInventory.getRemainingQuantity();
+        SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = oxygenHistoryRepository.findOxygenHistory();
 
         try {
             Oxygen oxygen = oxygenProducer.orderOxygen(orderDate, oxygenGrade, requiredQuantity, totalQuantity, remainingQuantity, oxygenHistory);
-            saveOxygenRepositories(oxygenGrade, oxygen, oxygenHistory);
+            saveOxygenRepositories(oxygen.getOxygenInventory(), oxygenHistory);
         } catch (NotEnoughTimeException exception) {
-            oxygenInventoryRepository.saveOxygenRemaining(oxygenGrade, 0);
+            oxygenInventory.setRemainingQuantity(0);
+            oxygenInventoryRepository.saveOxygenInventory(oxygenInventory);
             orderOxygen(orderDate, getLowerGradeOf(oxygenGrade), requiredQuantity - remainingQuantity);
         }
     }
 
-    private void saveOxygenRepositories(OxygenGrade oxygenGrade, Oxygen oxygen, SortedMap<LocalDate, OxygenHistory> oxygenHistory) {
-        oxygenInventoryRepository.saveOxygenInventory(oxygenGrade, oxygen.getTotalQuantity());
-        oxygenInventoryRepository.saveOxygenRemaining(oxygenGrade, oxygen.getRemainingQuantity());
+    private void saveOxygenRepositories(OxygenInventory oxygenInventory, SortedMap<LocalDate, OxygenDateHistory> oxygenHistory) {
+        oxygenInventoryRepository.saveOxygenInventory(oxygenInventory);
         oxygenHistoryRepository.saveOxygenHistory(oxygenHistory);
     }
 

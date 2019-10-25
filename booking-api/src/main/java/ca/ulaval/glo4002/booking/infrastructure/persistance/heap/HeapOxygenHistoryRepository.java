@@ -5,24 +5,24 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
 
 public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
 
-    private SortedMap<LocalDate, OxygenHistory> history;
+    private SortedMap<LocalDate, OxygenDateHistory> history;
 
     public HeapOxygenHistoryRepository() {
         super();
-        history = new TreeMap<LocalDate, OxygenHistory>();
+        history = new TreeMap<LocalDate, OxygenDateHistory>();
     }
 
     @Override
-    public SortedMap<LocalDate, OxygenHistory> findOxygenHistory() {
+    public SortedMap<LocalDate, OxygenDateHistory> findOxygenHistory() {
         return history;
     }
 
     @Override
-    public void saveOxygenHistory(SortedMap<LocalDate, OxygenHistory> history) {
+    public void saveOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history) {
         this.history = history;
     }
 }

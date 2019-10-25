@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public abstract class Oxygen {
+    protected OxygenGrade oxygenGrade;
     private LocalDate limitDeliveryDate;
     protected int tankFabricationQuantity;
     protected int fabricationTimeInDays;
@@ -18,7 +19,7 @@ public abstract class Oxygen {
         this.limitDeliveryDate = limitDeliveryDate;
         this.remainingQuantity = remainingQuantity;
         initializeQuantityPerFabricationBatch();
-        oxygenInventory = new OxygenInventory(totalQuantity, remainingQuantity);
+        oxygenInventory = new OxygenInventory(oxygenGrade, totalQuantity, remainingQuantity);
         oxygenProduction = new OxygenProduction(fabricationTimeInDays, tankFabricationQuantity, quantityPerFabricationBatch);
     }
 
@@ -27,12 +28,8 @@ public abstract class Oxygen {
         quantityPerFabricationBatch.put(HistoryType.OXYGEN_TANK_BOUGHT, tankFabricationQuantity);
     }
 
-    public int getTotalQuantity() {
-        return oxygenInventory.getTotalQuantity();
-    }
-
-    public int getRemainingQuantity() {
-        return oxygenInventory.getRemainingQuantity();
+    public OxygenInventory getOxygenInventory() {
+        return oxygenInventory;
     }
 
     public void adjustInventory(LocalDate orderDate, int requirementQuantity) throws NotEnoughTimeException {
@@ -58,7 +55,7 @@ public abstract class Oxygen {
         return fabricationCompletionDate.isBefore(limitDeliveryDate) || fabricationCompletionDate.equals(limitDeliveryDate);
     }
 
-    public SortedMap<LocalDate, OxygenHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenHistory> history, LocalDate orderDate, int requirementQuantity) {
+    public SortedMap<LocalDate, OxygenDateHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int requirementQuantity) {
         oxygenProduction.updateOxygenHistory(history, orderDate, getQuantityOfTanksLacking(requirementQuantity));
         return history;
     }

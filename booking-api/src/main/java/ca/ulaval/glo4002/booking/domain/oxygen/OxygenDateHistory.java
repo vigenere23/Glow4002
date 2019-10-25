@@ -4,13 +4,17 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.EnumSet;
 
-public class OxygenHistory {
+public class OxygenDateHistory {
     private EnumMap<HistoryType, Integer> oxygenHistory;
     private LocalDate date;
 
-    public OxygenHistory(LocalDate date) {
+    public OxygenDateHistory(LocalDate date) {
         this.date = date;
         initializeOxygenInventory();
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public EnumMap<HistoryType, Integer> getOxygenHistory() {
@@ -22,12 +26,8 @@ public class OxygenHistory {
         oxygenHistory.put(type, currentQuantity + quantity);
     }
 
-    public void updateQuantities(OxygenHistory oxygenHistory) {
-        oxygenHistory.getOxygenHistory().forEach(this::updateQuantity);
-    }
-
-    public LocalDate getDate() {
-        return date;
+    public void updateQuantities(OxygenDateHistory oxygenDateHistory) {
+        oxygenDateHistory.getOxygenHistory().forEach(this::updateQuantity);
     }
 
     private void initializeOxygenInventory() {

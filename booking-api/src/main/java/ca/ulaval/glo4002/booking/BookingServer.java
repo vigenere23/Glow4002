@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -8,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
@@ -58,12 +59,14 @@ public class BookingServer implements Runnable {
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenProducer, passOrderFactory, passOrderRepository, oxygenInventoryRepository, oxygenHistoryRepository);
+        OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
                 oxygenProducer,
                 transportRequester,
                 passOrderFactory,
-                passOrderUseCase
+                passOrderUseCase,
+                oxygenUseCase
         ).packages("ca.ulaval.glo4002.booking");
 
         return packageConfig;

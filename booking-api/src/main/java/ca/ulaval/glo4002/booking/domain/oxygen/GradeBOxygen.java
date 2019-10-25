@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 
 public class GradeBOxygen extends Oxygen {
+    private static final OxygenGrade oxygenGrade = OxygenGrade.B;
     private static final int gradeBFabricationQuantity = 3;
     private static final int gradeBFabricationTimeInDays = 10;
     private static final int waterFabricationQuantityInLitre = 8;

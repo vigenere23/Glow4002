@@ -15,26 +15,26 @@ public class OxygenProduction {
         this.quantityPerFabricationBatch = quantityPerFabricationBatch;
     }
 
-    public SortedMap<LocalDate, OxygenHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenHistory> history, LocalDate orderDate, int quantityOfTanksLacking) {
-        OxygenHistory orderDateHistory = getOrderDateHistory(orderDate, quantityOfTanksLacking);
+    public SortedMap<LocalDate, OxygenDateHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int quantityOfTanksLacking) {
+        OxygenDateHistory orderDateHistory = getOrderDateHistory(orderDate, quantityOfTanksLacking);
         updateHistory(history, orderDateHistory);
-        OxygenHistory completionDateHistory = getCompletionDateHistory(orderDate, quantityOfTanksLacking);
+        OxygenDateHistory completionDateHistory = getCompletionDateHistory(orderDate, quantityOfTanksLacking);
         updateHistory(history, completionDateHistory);
         return history;
     }
 
-    private OxygenHistory getOrderDateHistory(LocalDate orderDate, int quantityOfTanksLacking) {
-        OxygenHistory oxygenHistory = new OxygenHistory(orderDate);
+    private OxygenDateHistory getOrderDateHistory(LocalDate orderDate, int quantityOfTanksLacking) {
+        OxygenDateHistory oxygenDateHistory = new OxygenDateHistory(orderDate);
         quantityPerFabricationBatch.forEach(
-                (historyType, fabricationQuantity) -> oxygenHistory.updateQuantity(historyType, getQuantityToFabricate(quantityOfTanksLacking, fabricationQuantity))
+                (historyType, fabricationQuantity) -> oxygenDateHistory.updateQuantity(historyType, getQuantityToFabricate(quantityOfTanksLacking, fabricationQuantity))
         );
-        return oxygenHistory;
+        return oxygenDateHistory;
     }
 
-    private OxygenHistory getCompletionDateHistory(LocalDate orderDate, int quantityOfTanksLacking) {
-        OxygenHistory oxygenHistory = new OxygenHistory(getFabricationCompletionDate(orderDate));
-        oxygenHistory.updateQuantity(HistoryType.OXYGEN_TANK_MADE, getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity));
-        return oxygenHistory;
+    private OxygenDateHistory getCompletionDateHistory(LocalDate orderDate, int quantityOfTanksLacking) {
+        OxygenDateHistory oxygenDateHistory = new OxygenDateHistory(getFabricationCompletionDate(orderDate));
+        oxygenDateHistory.updateQuantity(HistoryType.OXYGEN_TANK_MADE, getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity));
+        return oxygenDateHistory;
     }
 
     public LocalDate getFabricationCompletionDate(LocalDate orderDate) {
@@ -52,12 +52,12 @@ public class OxygenProduction {
         return quantityLacking / tankFabricationQuantity;
     }
 
-    private void updateHistory(SortedMap<LocalDate, OxygenHistory> history, OxygenHistory oxygenHistory) {
-        LocalDate date = oxygenHistory.getDate();
+    private void updateHistory(SortedMap<LocalDate, OxygenDateHistory> history, OxygenDateHistory oxygenDateHistory) {
+        LocalDate date = oxygenDateHistory.getDate();
         if (history.containsKey(date)) {
-            history.get(date).updateQuantities(oxygenHistory);
+            history.get(date).updateQuantities(oxygenDateHistory);
         } else {
-            history.put(date, oxygenHistory);
+            history.put(date, oxygenDateHistory);
         }
     }
 }
