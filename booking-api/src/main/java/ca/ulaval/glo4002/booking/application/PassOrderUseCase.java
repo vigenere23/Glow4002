@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application.order;
+package ca.ulaval.glo4002.booking.application;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;

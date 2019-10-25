@@ -25,7 +25,7 @@ import ca.ulaval.glo4002.booking.api.exceptions.InvalidOrderDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 
