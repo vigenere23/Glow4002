@@ -33,7 +33,6 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaPackagePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
-import org.omg.CORBA.Any;
 
 public class PassOrderUseCaseTest {
 
