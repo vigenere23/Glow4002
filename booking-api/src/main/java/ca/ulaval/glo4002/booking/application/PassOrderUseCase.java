@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.application;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.EnumMap;
 import java.util.Optional;
 import java.util.SortedMap;
 
@@ -73,34 +74,12 @@ public class PassOrderUseCase {
     }
 
     private void orderOxygen(LocalDate orderDate, OxygenGrade oxygenGrade, int requiredQuantity) {
-        OxygenInventory oxygenInventory = oxygenInventoryRepository.findInventoryOfGrade(oxygenGrade);
-        int totalQuantity = oxygenInventory.getTotalQuantity();
-        int remainingQuantity = oxygenInventory.getRemainingQuantity();
+        EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = oxygenInventoryRepository.findInventories();
         SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = oxygenHistoryRepository.findOxygenHistory();
 
-        try {
-            Oxygen oxygen = oxygenProducer.orderOxygen(orderDate, oxygenGrade, requiredQuantity, totalQuantity, remainingQuantity, oxygenHistory);
-            saveOxygenRepositories(oxygen.getOxygenInventory(), oxygenHistory);
-        } catch (NotEnoughTimeException exception) {
-            oxygenInventory.setRemainingQuantity(0);
-            oxygenInventoryRepository.saveOxygenInventory(oxygenInventory);
-            orderOxygen(orderDate, getLowerGradeOf(oxygenGrade), requiredQuantity - remainingQuantity);
-        }
-    }
+        oxygenProducer.orderOxygen(orderDate, oxygenGrade, requiredQuantity, oxygenInventories, oxygenHistory);
 
-    private void saveOxygenRepositories(OxygenInventory oxygenInventory, SortedMap<LocalDate, OxygenDateHistory> oxygenHistory) {
-        oxygenInventoryRepository.saveOxygenInventory(oxygenInventory);
+        oxygenInventoryRepository.saveOxygenInventories(oxygenInventories);
         oxygenHistoryRepository.saveOxygenHistory(oxygenHistory);
-    }
-
-    private OxygenGrade getLowerGradeOf(OxygenGrade grade) {
-        switch (grade) {
-            case A:
-                return OxygenGrade.B;
-            case B:
-                return OxygenGrade.E;
-            default:
-                throw new IllegalArgumentException(String.format("No lower oxygen grade exists for grade %s.", grade));
-        }
     }
 }

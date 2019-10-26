@@ -7,49 +7,57 @@ import java.util.SortedMap;
 public class OxygenProduction {
     private int fabricationTimeInDays;
     private int tankFabricationQuantity;
-    private EnumMap<HistoryType, Integer> quantityPerFabricationBatch;
+    private EnumMap<HistoryType, Integer> orderDateQuantityPerBatch;
+    private EnumMap<HistoryType, Integer> completionDateQuantityPerBatch;
 
-    public OxygenProduction(int fabricationTimeInDays, int tankFabricationQuantity, EnumMap<HistoryType, Integer> quantityPerFabricationBatch) {
+    public OxygenProduction(int fabricationTimeInDays, int tankFabricationQuantity, EnumMap<HistoryType, Integer> orderDateQuantityPerBatch, EnumMap<HistoryType, Integer> completionDateQantityPerBatch) {
         this.fabricationTimeInDays = fabricationTimeInDays;
         this.tankFabricationQuantity = tankFabricationQuantity;
-        this.quantityPerFabricationBatch = quantityPerFabricationBatch;
+        this.orderDateQuantityPerBatch = orderDateQuantityPerBatch;
+        this.completionDateQuantityPerBatch = completionDateQantityPerBatch;
     }
 
-    public SortedMap<LocalDate, OxygenDateHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int quantityOfTanksLacking) {
-        OxygenDateHistory orderDateHistory = getOrderDateHistory(orderDate, quantityOfTanksLacking);
-        updateHistory(history, orderDateHistory);
-        OxygenDateHistory completionDateHistory = getCompletionDateHistory(orderDate, quantityOfTanksLacking);
-        updateHistory(history, completionDateHistory);
+    public SortedMap<LocalDate, OxygenDateHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int orderedQuantity) {
+        updateOrderDateHistory(history, orderDate, orderedQuantity);
+        updateCompletionDateHistory(history, orderDate, orderedQuantity);
         return history;
     }
 
-    private OxygenDateHistory getOrderDateHistory(LocalDate orderDate, int quantityOfTanksLacking) {
-        OxygenDateHistory oxygenDateHistory = new OxygenDateHistory(orderDate);
-        quantityPerFabricationBatch.forEach(
-                (historyType, fabricationQuantity) -> oxygenDateHistory.updateQuantity(historyType, getQuantityToFabricate(quantityOfTanksLacking, fabricationQuantity))
+    private void updateOrderDateHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int orderedQuantity) {
+        if (!orderDateQuantityPerBatch.isEmpty()) {
+            OxygenDateHistory orderDateHistory = getDateHistory(orderDateQuantityPerBatch, orderDate, orderedQuantity);
+            updateHistory(history, orderDateHistory);
+        }
+    }
+
+    private void updateCompletionDateHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int orderedQuantity) {
+        if (!completionDateQuantityPerBatch.isEmpty()) {
+            OxygenDateHistory completionDateHistory = getDateHistory(completionDateQuantityPerBatch, getFabricationCompletionDate(orderDate), orderedQuantity);
+            updateHistory(history, completionDateHistory);
+        }
+    }
+
+    private OxygenDateHistory getDateHistory(EnumMap<HistoryType, Integer> quantityPerBatch, LocalDate date, int orderedQuantity) {
+        OxygenDateHistory oxygenDateHistory = new OxygenDateHistory(date);
+        quantityPerBatch.forEach(
+                (historyType, fabricationQuantity) -> oxygenDateHistory.updateQuantity(historyType, getQuantityToFabricate(orderedQuantity, fabricationQuantity))
         );
         return oxygenDateHistory;
     }
 
-    private OxygenDateHistory getCompletionDateHistory(LocalDate orderDate, int quantityOfTanksLacking) {
-        OxygenDateHistory oxygenDateHistory = new OxygenDateHistory(getFabricationCompletionDate(orderDate));
-        oxygenDateHistory.updateQuantity(HistoryType.OXYGEN_TANK_MADE, getQuantityToFabricate(quantityOfTanksLacking, tankFabricationQuantity));
-        return oxygenDateHistory;
-    }
-
-    public LocalDate getFabricationCompletionDate(LocalDate orderDate) {
+    private LocalDate getFabricationCompletionDate(LocalDate orderDate) {
         return orderDate.plusDays(fabricationTimeInDays);
     }
 
-    public int getQuantityToFabricate(int quantityOfTanksLacking, int fabricationQuantity) {
-        return getQuantityOfFabricationBatchesNeeded(quantityOfTanksLacking) * fabricationQuantity;
+    public int getQuantityToFabricate(int tankRequiredQuantity, int fabricationQuantity) {
+        return getQuantityOfFabricationBatchesNeeded(tankRequiredQuantity) * fabricationQuantity;
     }
 
-    public int getQuantityOfFabricationBatchesNeeded(int quantityLacking) {
-        if (quantityLacking % tankFabricationQuantity > 0) {
-            return quantityLacking / tankFabricationQuantity + 1;
+    private int getQuantityOfFabricationBatchesNeeded(int requiredQuantity) {
+        if (requiredQuantity % tankFabricationQuantity > 0) {
+            return requiredQuantity / tankFabricationQuantity + 1;
         }
-        return quantityLacking / tankFabricationQuantity;
+        return requiredQuantity / tankFabricationQuantity;
     }
 
     private void updateHistory(SortedMap<LocalDate, OxygenDateHistory> history, OxygenDateHistory oxygenDateHistory) {

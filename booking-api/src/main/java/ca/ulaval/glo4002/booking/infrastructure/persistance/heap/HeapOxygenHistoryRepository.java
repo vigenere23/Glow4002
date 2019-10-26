@@ -12,17 +12,16 @@ public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
     private SortedMap<LocalDate, OxygenDateHistory> history;
 
     public HeapOxygenHistoryRepository() {
-        super();
         history = new TreeMap<LocalDate, OxygenDateHistory>();
-    }
-
-    @Override
-    public SortedMap<LocalDate, OxygenDateHistory> findOxygenHistory() {
-        return history;
     }
 
     @Override
     public void saveOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history) {
         this.history = history;
+    }
+
+    @Override
+    public SortedMap<LocalDate, OxygenDateHistory> findOxygenHistory() {
+        return history;
     }
 }

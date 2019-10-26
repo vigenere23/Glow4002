@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
+import java.util.EnumMap;
+
 public interface OxygenInventoryRepository {
     
-    public void saveOxygenInventory(OxygenInventory oxygenInventory);
-    public OxygenInventory findInventoryOfGrade(OxygenGrade grade);
+    public void saveOxygenInventories(EnumMap<OxygenGrade, OxygenInventory> oxygenInventories);
+    public EnumMap<OxygenGrade, OxygenInventory> findInventories();
 }

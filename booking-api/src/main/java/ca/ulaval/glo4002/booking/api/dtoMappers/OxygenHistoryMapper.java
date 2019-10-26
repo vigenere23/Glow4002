@@ -13,10 +13,9 @@ public class OxygenHistoryMapper {
 
     public List<OxygenHistoryDto> toDto(SortedMap<LocalDate, OxygenDateHistory> history) {
         ArrayList<OxygenHistoryDto> historyDto = new ArrayList<OxygenHistoryDto>();
-        for (LocalDate date : history.keySet()) {
-            OxygenDateHistory oxygenDateHistory = history.get(date);
+        for (OxygenDateHistory oxygenDateHistory : history.values()) {
             OxygenHistoryDto oxygenHistoryDto = new OxygenHistoryDto();
-            oxygenHistoryDto.date = date;
+            oxygenHistoryDto.date = oxygenDateHistory.getDate();
             oxygenHistoryDto.qtyOxygenTankBought = oxygenDateHistory.getOxygenHistory().get(HistoryType.OXYGEN_TANK_BOUGHT);
             oxygenHistoryDto.qtyWaterUsed = oxygenDateHistory.getOxygenHistory().get(HistoryType.WATER_USED);
             oxygenHistoryDto.qtyCandlesUsed = oxygenDateHistory.getOxygenHistory().get(HistoryType.CANDLES_USED);

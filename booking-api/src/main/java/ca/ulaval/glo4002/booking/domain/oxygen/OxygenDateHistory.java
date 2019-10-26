@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 
 public class OxygenDateHistory {
+
     private EnumMap<HistoryType, Integer> oxygenHistory;
     private LocalDate date;
 

@@ -61,14 +61,12 @@ public class BookingServer implements Runnable {
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenProducer, passOrderFactory, passOrderRepository, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
-        ResourceConfig packageConfig = new ResourceConfiguration(
+        return new ResourceConfiguration(
                 oxygenProducer,
                 transportRequester,
                 passOrderFactory,
                 passOrderUseCase,
                 oxygenUseCase
         ).packages("ca.ulaval.glo4002.booking");
-
-        return packageConfig;
     }
 }

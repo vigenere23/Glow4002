@@ -9,7 +9,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 
 public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 
-    private final EnumMap<OxygenGrade, OxygenInventory> inventories;
+    private EnumMap<OxygenGrade, OxygenInventory> inventories;
 
     public HeapOxygenInventoryRepository() {
         inventories = initialize();
@@ -23,13 +23,12 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     }
 
     @Override
-    public void saveOxygenInventory(OxygenInventory oxygenInventory) {
-        OxygenGrade grade = oxygenInventory.getOxygenGrade();
-        inventories.put(grade, oxygenInventory);
+    public void saveOxygenInventories(EnumMap<OxygenGrade, OxygenInventory> inventories) {
+        this.inventories = inventories;
     }
 
     @Override
-    public OxygenInventory findInventoryOfGrade(OxygenGrade grade) {
-        return inventories.get(grade);
+    public EnumMap<OxygenGrade, OxygenInventory> findInventories() {
+        return inventories;
     }
 }

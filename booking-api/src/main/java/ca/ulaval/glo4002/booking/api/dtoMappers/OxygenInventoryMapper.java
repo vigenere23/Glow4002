@@ -13,7 +13,7 @@ public class OxygenInventoryMapper {
         for (OxygenInventory oxygenInventory: oxygenInventories) {
             OxygenInventoryDto oxygenInventoryDto = new OxygenInventoryDto();
             oxygenInventoryDto.gradeTankOxygen = oxygenInventory.getOxygenGrade().toString();
-            oxygenInventoryDto.quantity = oxygenInventory.getTotalQuantity();
+            oxygenInventoryDto.quantity = oxygenInventory.getInventory();
             inventoryDto.add(oxygenInventoryDto);
         }
         return inventoryDto;

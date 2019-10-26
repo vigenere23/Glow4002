@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -16,12 +17,13 @@ public class OxygenUseCase {
         this.oxygenInventoryRepository = oxygenInventoryRepository;
     }
 
-    public List<OxygenInventory> getOxygenInventory() {
-        List<OxygenInventory> oxygenInventories = new ArrayList<OxygenInventory>();
+    public List<OxygenInventory> getOxygenInventories() {
+        EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = oxygenInventoryRepository.findInventories();
+        List<OxygenInventory> inventoryList = new ArrayList<OxygenInventory>();
         for (OxygenGrade oxygenGrade: OxygenGrade.values()) {
-            oxygenInventories.add(oxygenInventoryRepository.findInventoryOfGrade(oxygenGrade));
+            inventoryList.add(oxygenInventories.get(oxygenGrade));
         }
-        return oxygenInventories;
+        return inventoryList;
     }
 
     public SortedMap<LocalDate, OxygenDateHistory> getOxygenHistory() {
