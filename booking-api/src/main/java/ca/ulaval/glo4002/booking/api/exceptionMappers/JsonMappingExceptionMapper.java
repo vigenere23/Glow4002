@@ -14,7 +14,6 @@ public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingEx
 
     @Override
     public Response toResponse(JsonMappingException exception) {
-        exception.printStackTrace();
         ErrorResponse response = new ErrorResponse(new InvalidFormatException());
         return Response.status(400).entity(response).build();
     }

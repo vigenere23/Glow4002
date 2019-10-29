@@ -20,9 +20,7 @@ import ca.ulaval.glo4002.booking.api.dtoMappers.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassOrderRequest;
 import ca.ulaval.glo4002.booking.api.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidOrderDateException;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidVendorCodeException;
 import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
@@ -70,9 +68,6 @@ public class OrdersResource {
         }
         catch (OutOfFestivalDatesException exception) {
             throw new InvalidEventDateException(exception.getMessage());
-        }
-        catch (IllegalArgumentException exception) {
-            throw new InvalidFormatException();
         }
     }
 }
