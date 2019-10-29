@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.api.resources;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,6 +17,7 @@ import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.helpers.DateHelper;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)
@@ -41,8 +41,7 @@ public class TransportResource {
                 departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
                 arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
             } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-                LocalDate date = LocalDate.parse(stringDate, formatter);
+                LocalDate date = LocalDate.parse(stringDate, DateHelper.dateFormatter);
                 departures = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesDepartureByDate(date));
                 arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
             }    

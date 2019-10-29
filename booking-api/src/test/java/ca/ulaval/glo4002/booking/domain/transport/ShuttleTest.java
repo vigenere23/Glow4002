@@ -27,29 +27,32 @@ public class ShuttleTest {
                 return passNumbers;
         }
     }    
-    
-    private ShuttleImplementationTest shuttle;
+
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
+    private ShuttleImplementationTest shuttle;
 
     @BeforeEach
     public void setUp() {
         shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17));
-        shuttle.addPassNumber(PASS_NUMBER);
     }
 
     @Test
     public void givenPassNumber_whenAddNewPassNumber_thenAddPassesNumberToList() {
+        shuttle.addPassNumber(PASS_NUMBER);
         assertEquals(PASS_NUMBER, shuttle.getPassNumbers().get(0));
     }
     
     @Test
-    public void givenPartiallyFullShuttle_whenIsFullMethod_thenReturnFalse() {        
+    public void givenPartiallyFullShuttle_whenIsFullMethod_thenReturnFalse() {
+        shuttle.addPassNumber(PASS_NUMBER);        
         assertFalse(shuttle.isFull());
     }
 
     @Test
     public void givenPassNumberToFillShuttle_whenIsFullMethod_thenReturnTrue() {
         shuttle.addPassNumber(PASS_NUMBER);
+        shuttle.addPassNumber(PASS_NUMBER);
+
         assertTrue(shuttle.isFull());
     }
 }
