@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.glo4002.booking.api.dtoMappers.PassOrderResponseMapper;
@@ -22,6 +21,7 @@ import ca.ulaval.glo4002.booking.api.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidOrderDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
+import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
