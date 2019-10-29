@@ -59,9 +59,8 @@ public class OrdersResource {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             String orderNumber = passOrder.getOrderNumber().getValue();
 
-            UriBuilder builder = uriInfo.getRequestUriBuilder().path(orderNumber);
-            URI uri = uriInfo.getBaseUri().relativize(builder.build());
-            return Response.status(201).contentLocation(new URI("/" + uri.toString())).build();
+            URI location = LocationHeaderCreator.createURI(uriInfo, orderNumber);
+            return Response.status(201).location(location).build();
         }
         catch (OutOfSaleDatesException exception) {
             throw new InvalidOrderDateException(exception.getMessage());
