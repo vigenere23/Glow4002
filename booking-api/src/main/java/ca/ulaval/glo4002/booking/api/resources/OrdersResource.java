@@ -54,7 +54,7 @@ public class OrdersResource {
     }
 
     @POST
-    public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws ClientError, URISyntaxException {
+    public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws URISyntaxException {
         try {
             PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
             String orderNumber = passOrder.getOrderNumber().getValue();
