@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ArtistRankingResponse {
     
-    public List<String> artistRanked = new LinkedList<>();
+    public List<String> artists = new LinkedList<>();
 
-	public ArtistRankingResponse(List<String> artistsRanked) {
-        this.artistRanked = artistsRanked;
+	public ArtistRankingResponse(List<String> artists) {
+        this.artists = artists;
     }
 }
