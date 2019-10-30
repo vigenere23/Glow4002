@@ -7,12 +7,10 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 
 public class TransportRequester extends TransportExposer {
+
+    private final static int ONE_NEW_PLACE = 1;
     
     private ShuttleRepository transportRepository;
     private ShuttleFiller shuttleFiller;
@@ -52,19 +50,19 @@ public class TransportRequester extends TransportExposer {
         return transportRepository.findShuttlesByLocation(Location.ULAVALOGY);
     }
     
-    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
-        List<Shuttle> shuttlesToSave = assignNewPlace(Location.EARTH, shuttleCategory, date, passNumber);
+    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int passengers) {
+        List<Shuttle> shuttlesToSave = assignNewPlace(Location.EARTH, shuttleCategory, date, passNumber, passengers);
         transportRepository.saveDeparture(shuttlesToSave);
     }
     
-    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
-        List<Shuttle> shuttlesToSave = assignNewPlace(Location.ULAVALOGY, shuttleCategory, date, passNumber);
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int passengers) {
+        List<Shuttle> shuttlesToSave = assignNewPlace(Location.ULAVALOGY, shuttleCategory, date, passNumber, passengers);
         transportRepository.saveArrival(shuttlesToSave);
-    }   
+    }  
 
-    private List<Shuttle> assignNewPlace(Location location, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+    private List<Shuttle> assignNewPlace(Location location, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int passengers) {
         List<Shuttle> shuttlesToFill = new LinkedList<Shuttle>();
         shuttlesToFill = transportRepository.findShuttlesByLocation(location);  
-        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date);
+        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date, passengers);
     }
 }

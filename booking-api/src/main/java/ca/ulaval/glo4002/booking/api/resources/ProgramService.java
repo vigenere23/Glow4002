@@ -29,6 +29,9 @@ public class ProgramService {
 
     private void orderShuttle(String artist, LocalDate eventDate) {
         //Artist artist artistRepository.getArtistByName(artist);
-        //transportRequester.reserveShuttleForArtist(artist.getId(), artist.getPeopleNumber(), eventDate));
+        
+        //PassNumber passNumber = new PassNumber(artist.getPassNumber());
+        //transportRequester.reserveDeparture(artist.getShuttleCategory(), eventDate, passNumber, artist.getPeopleNumber());
+        //transportRequester.reserveArrival(artist.getShuttleCategory(), eventDate, passNumber, artist.getPeopleNumber());
     }
 }
