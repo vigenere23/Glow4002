@@ -7,7 +7,7 @@ import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.core.JsonParseException;
 
-import ca.ulaval.glo4002.booking.api.dtos.ErrorResponse;
+import ca.ulaval.glo4002.booking.api.dtos.ErrorDto;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 
 @Provider
@@ -16,7 +16,7 @@ public class JsonParseExceptionMapper implements ExceptionMapper<JsonParseExcept
 
     @Override
     public Response toResponse(JsonParseException exception) {
-        ErrorResponse response = new ErrorResponse(new InvalidFormatException());
+        ErrorDto response = new ErrorDto(new InvalidFormatException());
         return Response.status(400).entity(response).build();
     }
 }

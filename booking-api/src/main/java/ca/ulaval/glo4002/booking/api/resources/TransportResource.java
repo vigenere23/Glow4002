@@ -32,22 +32,17 @@ public class TransportResource {
 
     @GET
     public TransportResponse transport(@QueryParam("date") String stringDate) throws InvalidFormatException {
-        try {
-            List<ShuttleDto> departures;
-            List<ShuttleDto> arrivals;
-            if (stringDate == null) {
-                departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
-                arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
-            } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-                LocalDate date = LocalDate.parse(stringDate, formatter);
-                departures = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesDepartureByDate(date));
-                arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
-            }    
-            return new TransportResponse(departures, arrivals);
-        }
-        catch (Exception exception) {
-            throw new InvalidFormatException();
-        }
+        List<ShuttleDto> departures;
+        List<ShuttleDto> arrivals;
+        if (stringDate == null) {
+            departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
+            arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+            LocalDate date = LocalDate.parse(stringDate, formatter);
+            departures = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesDepartureByDate(date));
+            arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
+        }    
+        return new TransportResponse(departures, arrivals);
     }
 }
