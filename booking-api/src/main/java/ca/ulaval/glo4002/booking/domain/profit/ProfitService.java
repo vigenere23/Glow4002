@@ -15,4 +15,13 @@ public class ProfitService {
 	public float getOutcome() {
 		return profitRepository.getOutcome();
 	}
+
+	public void saveOutcome(float outcome) {
+		profitRepository.saveOutcome(outcome);
+	}
+	
+	public void saveIncome(float income) {
+		profitRepository.saveIncome(income);
+	}
+
 }
