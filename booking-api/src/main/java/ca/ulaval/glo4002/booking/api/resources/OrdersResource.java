@@ -17,7 +17,7 @@ import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.glo4002.booking.api.dtoMappers.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassOrderRequest;
-import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
+import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
 import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
@@ -39,11 +39,11 @@ public class OrdersResource {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") String stringOrderNumber) throws OrderNotFoundException {
+    public Response getById(@PathParam("id") String stringOrderNumber) {
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
         Optional<PassOrder> passOrder = passOrderExposer.getOrder(orderNumber);
         if (!passOrder.isPresent()) {
-            throw new OrderNotFoundException(orderNumber);
+            throw new NotFoundException("order", orderNumber.getValue());
         }
         return Response.ok().entity(new PassOrderResponseMapper().getPassOrderResponse(passOrder.get())).build();
     }

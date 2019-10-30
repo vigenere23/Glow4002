@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.api.dtos;
 
-import ca.ulaval.glo4002.booking.api.exceptions.ClientError;
+import ca.ulaval.glo4002.booking.api.exceptions.ClientException;
 
 public class ErrorResponse {
 
@@ -12,7 +12,7 @@ public class ErrorResponse {
         this.description = description;
     }
 
-    public ErrorResponse(ClientError exception) {
+    public ErrorResponse(ClientException exception) {
         this(exception.errorType, exception.description);
     }
 }
