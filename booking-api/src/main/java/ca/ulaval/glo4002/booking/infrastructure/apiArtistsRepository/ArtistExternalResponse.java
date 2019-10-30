@@ -1,7 +1,8 @@
-package ca.ulaval.glo4002.booking.api.dtos.artists;
+package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
 
-import ca.ulaval.glo4002.booking.api.dtoMappers.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

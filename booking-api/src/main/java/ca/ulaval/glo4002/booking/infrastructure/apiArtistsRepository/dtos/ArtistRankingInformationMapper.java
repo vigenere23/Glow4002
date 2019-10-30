@@ -1,6 +1,5 @@
-package ca.ulaval.glo4002.booking.api.dtoMappers;
+package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos;
 
-import ca.ulaval.glo4002.booking.api.dtos.artists.ArtistDto;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 
 public class ArtistRankingInformationMapper {

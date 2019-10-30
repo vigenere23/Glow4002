@@ -1,10 +1,8 @@
 package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
 
-import ca.ulaval.glo4002.booking.api.dtos.artists.ArtistExternalResponse;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ApiArtistRepository implements ArtistRepository {
