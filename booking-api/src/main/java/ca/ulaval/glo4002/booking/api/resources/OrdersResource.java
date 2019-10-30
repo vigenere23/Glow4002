@@ -17,13 +17,8 @@ import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.glo4002.booking.api.dtoMappers.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassOrderRequest;
-import ca.ulaval.glo4002.booking.api.exceptions.ClientError;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidOrderDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
 import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
@@ -55,18 +50,10 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws URISyntaxException {
-        try {
-            PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
-            String orderNumber = passOrder.getOrderNumber().getValue();
+        PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
+        String orderNumber = passOrder.getOrderNumber().getValue();
 
-            URI location = LocationHeaderCreator.createURI(uriInfo, orderNumber);
-            return Response.status(201).location(location).build();
-        }
-        catch (OutOfSaleDatesException exception) {
-            throw new InvalidOrderDateException(exception.getMessage());
-        }
-        catch (OutOfFestivalDatesException exception) {
-            throw new InvalidEventDateException(exception.getMessage());
-        }
+        URI location = LocationHeaderCreator.createURI(uriInfo, orderNumber);
+        return Response.status(201).location(location).build();
     }
 }

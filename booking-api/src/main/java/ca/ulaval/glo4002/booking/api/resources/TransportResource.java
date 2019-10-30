@@ -14,9 +14,7 @@ import javax.ws.rs.core.MediaType;
 import ca.ulaval.glo4002.booking.api.dtoMappers.ShuttleMapper;
 import ca.ulaval.glo4002.booking.api.dtos.transport.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.dtos.transport.TransportResponse;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 
 @Path("/shuttle-manifests")
@@ -33,7 +31,7 @@ public class TransportResource {
     }
 
     @GET
-    public TransportResponse transport(@QueryParam("date") String stringDate) throws InvalidEventDateException, InvalidFormatException {
+    public TransportResponse transport(@QueryParam("date") String stringDate) throws InvalidFormatException {
         try {
             List<ShuttleDto> departures;
             List<ShuttleDto> arrivals;
@@ -47,9 +45,6 @@ public class TransportResource {
                 arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
             }    
             return new TransportResponse(departures, arrivals);
-        }
-        catch (OutOfFestivalDatesException exception) {
-            throw new InvalidEventDateException(exception.getMessage());
         }
         catch (Exception exception) {
             throw new InvalidFormatException();
