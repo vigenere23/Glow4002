@@ -10,17 +10,17 @@ public class ArtistRanking {
     private List<ArtistRankingInformation> artistsToOrder;    
 
     public ArtistRanking() {
-        artistsToOrder = new ArrayList<ArtistRankingInformation>();
+        artistsToOrder = new ArrayList<ArtistRankingInformation>();        
     } 
 
     public List<String> getDecreasingPriceOrderedArtists() {
-        Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPrice)
-        .thenComparing(ArtistRankingInformation::getPopularity).reversed());
+        Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPrice).reversed()
+        .thenComparing(ArtistRankingInformation::getPopularity));
         return extractArtistsName(artistsToOrder);
     }
 
     public List<String> getAscendingPopularityOrderedArtists() {
-        Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPrice));
+        Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPopularity));
         return extractArtistsName(artistsToOrder);
     }
 
