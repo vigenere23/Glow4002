@@ -5,7 +5,6 @@ import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 
 public class PassOrderRequest {
@@ -20,13 +19,8 @@ public class PassOrderRequest {
         @JsonProperty(value = "vendorCode", required = true) String vendorCode,
         @JsonProperty(value = "passes", required = true) PassRequest passes
     ) {
-        try {
-            this.orderDate = OffsetDateTime.parse(orderDate);
-            this.vendorCode = VendorCode.valueOf(vendorCode);
-            this.passes = passes;
-        }
-        catch (Exception exception) {
-            throw new InvalidFormatException();
-        }
+        this.orderDate = OffsetDateTime.parse(orderDate);
+        this.vendorCode = VendorCode.valueOf(vendorCode);
+        this.passes = passes;
     }
 }
