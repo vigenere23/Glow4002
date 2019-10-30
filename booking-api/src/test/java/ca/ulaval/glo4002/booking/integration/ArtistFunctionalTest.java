@@ -10,15 +10,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArtistFunctionalTest {
-    private static final int SOME_ID = 4;
-    private List<Integer> someIdToFind = new ArrayList<>();
 
     private ArtistRepository artistRepository;
 
@@ -32,7 +29,6 @@ public class ArtistFunctionalTest {
 
     @BeforeEach
     public void setUp() {
-        initializeIdToFind();
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         ArtistExternalResponse artistExternalResponse = new ArtistExternalResponse(artistRankingInformationMapper);
         artistRepository = new ApiArtistRepository(artistExternalResponse);
@@ -40,14 +36,10 @@ public class ArtistFunctionalTest {
 
     @Test
     public void whenOrderSupergiantSinglePass_thenRightLocationHeader() {
-        // TODO to remote, for test only
-        List<ArtistRankingInformation> artistRankingInformations = artistRepository.findArtistRankingInformationById(someIdToFind);
+        // TODO to remove/modify, for test only
+        List<ArtistRankingInformation> artistRankingInformations = artistRepository.findArtistRankingInformation();
         String firstArtistName = artistRankingInformations.get(0).getArtistName();
 
         assertEquals("Sun 41", firstArtistName);
-    }
-
-    private void initializeIdToFind() {
-        someIdToFind.add(SOME_ID);
     }
 }
