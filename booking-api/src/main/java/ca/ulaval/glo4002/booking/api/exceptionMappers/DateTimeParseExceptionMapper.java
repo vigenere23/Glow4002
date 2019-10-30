@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import ca.ulaval.glo4002.booking.api.dtos.ErrorDto;
+import ca.ulaval.glo4002.booking.api.dtos.errors.ClientErrorResponseBuilder;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 
 
@@ -15,7 +15,6 @@ public class DateTimeParseExceptionMapper implements ExceptionMapper<DateTimePar
 
     @Override
     public Response toResponse(DateTimeParseException exception) {
-        ErrorDto response = new ErrorDto(new InvalidFormatException());
-        return Response.status(400).entity(response).build();
+        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();
     }
 }
