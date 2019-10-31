@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.integration;
 
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ArtistExternalResponse;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -30,8 +29,7 @@ public class ArtistFunctionalTest {
     @BeforeEach
     public void setUp() {
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
-        ArtistExternalResponse artistExternalResponse = new ArtistExternalResponse(artistRankingInformationMapper);
-        artistRepository = new ApiArtistRepository(artistExternalResponse);
+        artistRepository = new ApiArtistRepository(artistRankingInformationMapper);
     }
 
     @Test
