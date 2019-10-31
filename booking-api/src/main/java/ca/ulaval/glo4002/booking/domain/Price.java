@@ -9,14 +9,20 @@ import org.joda.money.Money;
 
 public class Price {
 
+    private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
+
     private Money price;
+
+    public static Price zero() {
+        return new Price(0);
+    }
 
     public Price(Price other) {
         this(other.getAmount());
     }
 
     public Price(double amount) {
-        price = Money.of(CurrencyUnit.CAD, amount);
+        this(BigDecimal.valueOf(amount));
     }
 
     public Price(BigDecimal amount) {
@@ -25,6 +31,10 @@ public class Price {
 
     public BigDecimal getAmount() {
         return price.getAmount();
+    }
+
+    public BigDecimal getRoundedAmount(int numberOfDecimals) {
+        return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount();
     }
 
     public boolean equals(Price other) {
@@ -40,28 +50,24 @@ public class Price {
     }
 
     public Price multipliedBy(double multiplier) {
-        return new Price(price.multipliedBy(multiplier, RoundingMode.HALF_UP).getAmount());
+        return new Price(price.multipliedBy(multiplier, ROUNDING_MODE).getAmount());
     }
 
     public Price multipliedBy(Price other) {
-        return new Price(price.multipliedBy(other.getAmount(), RoundingMode.HALF_UP).getAmount());
+        return new Price(price.multipliedBy(other.getAmount(), ROUNDING_MODE).getAmount());
     }
 
     public Price dividedBy(double multiplier) {
-        return new Price(price.dividedBy(multiplier, RoundingMode.HALF_UP).getAmount());
+        return new Price(price.dividedBy(multiplier, ROUNDING_MODE).getAmount());
     }
 
     public Price dividedBy(Price other) {
-        return new Price(price.dividedBy(other.getAmount(), RoundingMode.HALF_UP).getAmount());
+        return new Price(price.dividedBy(other.getAmount(), ROUNDING_MODE).getAmount());
     }
 
     public static Price sum(List<Price> prices) {
-        Price total = new Price(0.0);
-
-        for (Price price : prices) {
-            total = total.plus(price);
-        }
-
-        return total;
+        return prices
+            .stream()
+            .reduce(Price.zero(), (subtotal, price) -> subtotal.plus(price));
     }
 }

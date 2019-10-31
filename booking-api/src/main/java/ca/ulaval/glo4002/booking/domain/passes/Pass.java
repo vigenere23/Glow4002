@@ -2,12 +2,12 @@ package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
 
-import org.joda.money.Money;
+import ca.ulaval.glo4002.booking.domain.Price;
 
 public abstract class Pass {
 
     protected PassNumber passNumber;
-    protected Money price;
+    protected Price price;
     protected LocalDate startDate;
     protected LocalDate endDate;
 
@@ -17,7 +17,7 @@ public abstract class Pass {
         this.endDate = endDate;
     }
 
-    public Money getPrice() {
+    public Price getPrice() {
         return price;
     }
 

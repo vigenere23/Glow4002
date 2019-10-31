@@ -1,21 +1,18 @@
 package ca.ulaval.glo4002.booking.domain.orders.discounts;
 
-import java.math.RoundingMode;
 import java.util.List;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
-
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
 
 public class NebulaSinglePassDiscount extends OrderDiscount {
 
     @Override
-    public Money priceAfterDiscounts(List<Pass> passes, Money totalPrice) {
+    public Price priceAfterDiscounts(List<Pass> passes, Price totalPrice) {
         long numberOfSupergiantSinglePass = getNumberOfWantedObjects(passes);
-        Money discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
-        Money newPrice = totalPrice.minus(discount);
+        Price discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
+        Price newPrice = totalPrice.minus(discount);
 
         if (nextDiscount != null) {
             return nextDiscount.priceAfterDiscounts(passes, newPrice);
@@ -30,10 +27,10 @@ public class NebulaSinglePassDiscount extends OrderDiscount {
             .count();
     }
 
-    private Money getDiscount(long numberOfWantedPasses, Money totalPrice) {
+    private Price getDiscount(long numberOfWantedPasses, Price totalPrice) {
         if (numberOfWantedPasses > 3) {
-            return totalPrice.multipliedBy(0.1, RoundingMode.HALF_UP);
+            return totalPrice.multipliedBy(0.1);
         }
-        return Money.zero(CurrencyUnit.CAD);
+        return Price.zero();
     }
 }
