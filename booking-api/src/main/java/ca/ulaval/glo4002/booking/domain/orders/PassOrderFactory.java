@@ -24,7 +24,7 @@ public class PassOrderFactory {
     }
 
     public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
-        validateOrderDate(orderDate);
+        festival.validateOrderDate(orderDate);
 
         List<Pass> passes = createPasses(passRequest);
         PassOrder passOrder = new PassOrder(vendorCode, passes);
@@ -32,29 +32,15 @@ public class PassOrderFactory {
     }
 
     private List<Pass> createPasses(PassRequest passRequest) throws OutOfFestivalDatesException {
-        validatePassRequest(passRequest);
-
         List<Pass> passes = new ArrayList<>();
 
         if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
-            passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
+            passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory));
         } else {
             for (LocalDate eventDate : passRequest.eventDates) {
                 passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
             }
         }
         return passes;
-    }
-
-    private void validateOrderDate(OffsetDateTime orderDate) throws OutOfSaleDatesException {
-        if (!festival.isDuringSaleTime(orderDate)) {
-            throw new OutOfSaleDatesException(festival.getSaleStartDate(), festival.getSaleEndDate());
-        }
-    }
-
-    private void validatePassRequest(PassRequest passRequest) {
-        if (passRequest == null) {
-            throw new IllegalArgumentException("Passes cannot be null");
-        }
     }
 }
