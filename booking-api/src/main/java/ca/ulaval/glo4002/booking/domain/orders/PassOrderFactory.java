@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.factories.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 
 public class PassOrderFactory {
 

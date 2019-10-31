@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
+
 public class Glow4002 {
 
     private final LocalDate startDate;
@@ -41,5 +43,11 @@ public class Glow4002 {
 
     public boolean isDuringEventTime(LocalDate date) {
         return !(date.isBefore(startDate) || date.isAfter(endDate));
+    }
+
+    public void validateEventDates(LocalDate startDate, LocalDate endDate) {
+        if (!isDuringEventTime(startDate) || !isDuringEventTime(endDate)) {
+            throw new OutOfFestivalDatesException(getStartDate(), getEndDate());
+        }
     }
 }

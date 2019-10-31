@@ -7,9 +7,13 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class NebulaSinglePassDiscount extends OrderDiscount {
+
+    private static final double PERCENTAGE_DISCOUNT = 0.1;
+    private static final int NUMBER_OF_ITEMS_REQUIRED = 4;
 
     @Override
     public Money priceAfterDiscounts(List<Pass> passes, Money totalPrice) {
@@ -26,13 +30,16 @@ public class NebulaSinglePassDiscount extends OrderDiscount {
     private long getNumberOfWantedObjects(List<Pass> passes) {
         return passes
             .stream()
-            .filter(pass -> pass instanceof NebulaSinglePass)
+            .filter(pass -> {
+                return pass.getPassOption() == PassOption.SINGLE_PASS
+                    && pass.getPassCategory() == PassCategory.NEBULA;
+            })
             .count();
     }
 
     private Money getDiscount(long numberOfWantedPasses, Money totalPrice) {
-        if (numberOfWantedPasses > 3) {
-            return totalPrice.multipliedBy(0.1, RoundingMode.HALF_UP);
+        if (numberOfWantedPasses >= NUMBER_OF_ITEMS_REQUIRED) {
+            return totalPrice.multipliedBy(PERCENTAGE_DISCOUNT, RoundingMode.HALF_UP);
         }
         return Money.zero(CurrencyUnit.CAD);
     }
