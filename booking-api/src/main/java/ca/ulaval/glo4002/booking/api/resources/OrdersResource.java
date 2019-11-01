@@ -22,7 +22,6 @@ import ca.ulaval.glo4002.booking.api.exceptions.ClientError;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidEventDateException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidOrderDateException;
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidVendorCodeException;
 import ca.ulaval.glo4002.booking.api.exceptions.OrderNotFoundException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;

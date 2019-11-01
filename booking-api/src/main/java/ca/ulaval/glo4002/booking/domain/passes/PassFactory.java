@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
@@ -24,8 +23,6 @@ public class PassFactory {
     }
 
     public Pass create(PassOption passOption, PassCategory passCategory, LocalDate eventDate) {
-        validateEventDate(passOption, eventDate);
-
         switch(passOption) {
             case SINGLE_PASS:
                 return createSinglePass(passCategory, eventDate);
@@ -38,13 +35,11 @@ public class PassFactory {
         }
     }
 
-    private void validateEventDate(PassOption passOption, LocalDate eventDate) {
-        if (passOption == PassOption.SINGLE_PASS && eventDate == null) {
-            throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
-        }
-    }
-
     private Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
+        if (eventDate == null) {
+            throw new IllegalArgumentException("A single pass must have an event date");
+        }
+
         Money price = Money.of(CurrencyUnit.CAD, 0);
 
         switch(passCategory) {
