@@ -4,17 +4,16 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 
 public class PassOrderRequester implements PassOrderExposer {
 
     private PassOrderRepository passOrderRepository;
     private PassOrderFactory passOrderFactory;
 
+    // TODO inject the passOrderFactory
     public PassOrderRequester(PassOrderRepository passOrderRepository, Glow4002 festival) {
         this.passOrderRepository = passOrderRepository;
         passOrderFactory = new PassOrderFactory(festival);
@@ -25,7 +24,8 @@ public class PassOrderRequester implements PassOrderExposer {
         return passOrderRepository.findByOrderNumber(orderNumber);
     }
 
-    public PassOrder orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfSaleDatesException, OutOfFestivalDatesException {
+    // TODO unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
+    public PassOrder orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         passOrderRepository.save(passOrder);
         return passOrder;

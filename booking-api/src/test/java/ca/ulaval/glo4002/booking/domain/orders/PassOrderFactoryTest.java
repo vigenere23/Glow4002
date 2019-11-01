@@ -43,4 +43,6 @@ public class PassOrderFactoryTest {
             passOrderFactory.create(OffsetDateTime.now(), VENDOR_CODE, passRequest);            
         });
     }
+
+    // TODO verify that PassFactory is called with correct arguments (once it will be injected)
 }

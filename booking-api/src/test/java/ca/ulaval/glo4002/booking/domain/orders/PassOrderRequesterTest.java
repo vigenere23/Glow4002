@@ -28,6 +28,7 @@ public class PassOrderRequesterTest {
         passOrderRepository = mock(HeapPassOrderRepository.class);
 
         Glow4002 festival = mock(Glow4002.class);
+        // TODO inject factory in requester, so that only the factory will need to be mocked
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
         when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
         when(festival.getStartDate()).thenReturn(LocalDate.now());
