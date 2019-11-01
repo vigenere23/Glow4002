@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 
 import ca.ulaval.glo4002.booking.helpers.DateHelper;
 
-public class OutOfSaleDatesException extends Exception {
+public class OutOfSaleDatesException extends RuntimeException {
     
     public OutOfSaleDatesException(OffsetDateTime festivalSaleStart, OffsetDateTime festivalSaleEnd) {
         super(
