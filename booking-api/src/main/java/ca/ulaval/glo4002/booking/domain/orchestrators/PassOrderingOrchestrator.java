@@ -22,14 +22,12 @@ public class PassOrderingOrchestrator {
     private final TransportRequester transportRequester;
     private final OxygenRequester oxygenRequester;
     private final PassOrderRequester passOrderCreator;
-    private final ArtistRepository artistsRepository;
 
     public PassOrderingOrchestrator(TransportRequester transportRequester, OxygenRequester oxygenRequester, 
-    PassOrderRequester passOrderCreator, ArtistRepository artistsRepository) {
+    PassOrderRequester passOrderCreator) {
         this.transportRequester = transportRequester;
         this.oxygenRequester = oxygenRequester;
         this.passOrderCreator = passOrderCreator;
-        this.artistsRepository = artistsRepository;
     }
 
     public PassOrder orchestPassCreation(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest)

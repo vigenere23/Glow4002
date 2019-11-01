@@ -57,7 +57,6 @@ public class PassOrderingOrchestratorTest {
 
     private TransportRequester transportRequester;
     private OxygenRequester oxygenRequester;
-    private ArtistRepository artistsRepository;
     private PassOrderRequester passOrderRequester;
     private PassOrderingOrchestrator orchestrator;
     private PassOrder passOrder;
@@ -67,12 +66,11 @@ public class PassOrderingOrchestratorTest {
     public void setUp() throws Exception {
         transportRequester = mock(TransportRequester.class);
         oxygenRequester = mock(OxygenRequester.class);
-        artistsRepository = mock(ApiArtistRepository.class);
         passOrderRequester = mock(PassOrderRequester.class);
         passOrder = mock(PassOrder.class);
         when(passOrderRequester.orderPasses(any(OffsetDateTime.class), any(String.class), any(PassRequest.class)))
             .thenReturn(passOrder);
-        orchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester, artistsRepository);
+        orchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
         passRequest = mock(PassRequest.class);
     }
 

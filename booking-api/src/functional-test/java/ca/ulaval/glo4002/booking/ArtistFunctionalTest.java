@@ -40,4 +40,6 @@ public class ArtistFunctionalTest {
 
         assertEquals("Sun 41", firstArtistName);
     }
+
+    // TODO to complete (issue #127)
 }

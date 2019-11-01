@@ -63,7 +63,7 @@ public class BookingServer implements Runnable {
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
         PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, festival);
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
-        PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester, artistsRepository);
+        PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
             oxygenRequester,

@@ -36,5 +36,5 @@ public class ApiArtistRepository implements ArtistRepository {
         return invocationBuilder.get(new GenericType<List<ArtistDto>>() {});
     }
 
-    // TODO
+    // TODO (issue #134)
 }

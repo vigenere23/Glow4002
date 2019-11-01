@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.artists;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class ArtistRanking {
         decreasingPriceOrderedArtists.clear();
 
 
-        //todo: add logique pour classer les artistes comme il le faut
+        //todo: add logique pour classer les artistes comme il le faut (issue #132)
         return decreasingPriceOrderedArtists;
     }
 
@@ -29,7 +27,7 @@ public class ArtistRanking {
         ascendingPopularityOrderedArtists.clear();
 
 
-        //todo: add logique pour classer les artistes comme il le faut
+        //todo: add logique pour classer les artistes comme il le faut (issue #132)
         return decreasingPriceOrderedArtists;
     }
 }

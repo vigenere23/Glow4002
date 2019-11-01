@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ArtistDto {
@@ -14,7 +13,6 @@ public class ArtistDto {
     public Object availabilities;
 
     @JsonCreator
-    @JsonIgnoreProperties({ "availabilities"})
     public ArtistDto(
             @JsonProperty(value = "id", required = true) int id,
             @JsonProperty(value = "name", required = true) String name,
