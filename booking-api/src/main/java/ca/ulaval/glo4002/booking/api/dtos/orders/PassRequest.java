@@ -12,9 +12,9 @@ import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassRequest {
-    public final PassOption passOption;
-    public final PassCategory passCategory;
-    public final List<LocalDate> eventDates;
+    private final PassOption passOption;
+    private final PassCategory passCategory;
+    private final List<LocalDate> eventDates;
 
     @JsonCreator
     public PassRequest(
@@ -37,5 +37,17 @@ public class PassRequest {
         catch (Exception exception) {
             throw new InvalidFormatException();
         }
+    }
+
+    public PassOption getPassOption() {
+        return passOption;
+    }
+
+    public PassCategory getPassCategory() {
+        return passCategory;
+    }
+
+    public List<LocalDate> getEventDates() {
+        return eventDates;
     }
 }

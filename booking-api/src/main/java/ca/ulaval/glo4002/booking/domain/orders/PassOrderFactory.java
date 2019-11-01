@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -23,7 +21,7 @@ public class PassOrderFactory {
         passFactory = new PassFactory(festival);
     }
 
-    public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
+    public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         festival.validateOrderDate(orderDate);
 
         List<Pass> passes = createPasses(passRequest);
@@ -31,14 +29,14 @@ public class PassOrderFactory {
         return passOrder;
     }
 
-    private List<Pass> createPasses(PassRequest passRequest) throws OutOfFestivalDatesException {
+    private List<Pass> createPasses(PassRequest passRequest) {
         List<Pass> passes = new ArrayList<>();
 
-        if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
-            passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory));
+        if (passRequest.getEventDates() == null || passRequest.getEventDates().isEmpty()) {
+            passes.add(passFactory.create(passRequest.getPassOption(), passRequest.getPassCategory()));
         } else {
-            for (LocalDate eventDate : passRequest.eventDates) {
-                passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
+            for (LocalDate eventDate : passRequest.getEventDates()) {
+                passes.add(passFactory.create(passRequest.getPassOption(), passRequest.getPassCategory(), eventDate));
             }
         }
         return passes;
