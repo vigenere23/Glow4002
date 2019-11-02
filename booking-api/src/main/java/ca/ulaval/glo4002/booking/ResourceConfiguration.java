@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.orchestrators;
+package ca.ulaval.glo4002.booking.domain.application;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -12,7 +12,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;

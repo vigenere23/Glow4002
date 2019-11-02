@@ -17,7 +17,7 @@ import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.glo4002.booking.api.dtoMappers.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassOrderRequest;
-import ca.ulaval.glo4002.booking.application.order.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
