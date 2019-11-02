@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingService;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -57,21 +59,23 @@ public class BookingServer implements Runnable {
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
 
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
         PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, festival);
-        ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
         PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
 
-        ResourceConfig packageConfig = new ResourceConfiguration(
-            oxygenRequester,
-            transportRequester,
-            passOrderRequester,
-            passOrderingOrchestrator
-        ).packages("ca.ulaval.glo4002.booking");
+        ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
+        ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
+        ArtistRankingService artistRankingService = new ArtistRankingService();
+        ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingService);
 
-        return packageConfig;
+        return new ResourceConfiguration(
+                oxygenRequester,
+                transportRequester,
+                passOrderRequester,
+                passOrderingOrchestrator,
+                artistRankingUseCase
+        ).packages("ca.ulaval.glo4002.booking");
     }
 }

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -14,7 +15,8 @@ public class ResourceConfiguration extends ResourceConfig {
         OxygenExposer oxygenExposer,
         TransportExposer transportExposer,
         PassOrderExposer passOrderExposer,
-        PassOrderingOrchestrator orchestrator
+        PassOrderingOrchestrator orchestrator,
+        ArtistRankingUseCase artistRankingUseCase
     ) {
         register(new AbstractBinder() {
             @Override
@@ -23,6 +25,8 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(transportExposer).to(TransportExposer.class);
                 bind(passOrderExposer).to(PassOrderExposer.class);
                 bind(orchestrator).to(PassOrderingOrchestrator.class);
+                bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
+
             }
         });
     }

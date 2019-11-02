@@ -7,28 +7,24 @@ import java.util.List;
 
 public class ArtistRanking {
 
-    private List<ArtistRankingInformation> artistsToOrder;
+    public ArtistRanking() {}
 
-    public ArtistRanking() {
-        artistsToOrder = new ArrayList<ArtistRankingInformation>();
-    }
-
-    public List<String> getDecreasingPriceOrderedArtists() {
+    public List<String> getDecreasingPriceOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
         Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPrice).reversed()
         .thenComparing(ArtistRankingInformation::getPopularity));
         return extractArtistsName(artistsToOrder);
     }
 
-    public List<String> getAscendingPopularityOrderedArtists() {
+    public List<String> getAscendingPopularityOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
         Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPopularity));
         return extractArtistsName(artistsToOrder);
     }
 
     private List<String> extractArtistsName(List<ArtistRankingInformation> orderedArtists) {
-        List<String> orderedArtistsName = new ArrayList<String>();
-        for (ArtistRankingInformation artist : orderedArtists) {
-            orderedArtistsName.add(artist.getArtistName());
-        }
-        return orderedArtistsName;
+            List<String> orderedArtistsName = new ArrayList<String>();
+            for (ArtistRankingInformation artist : orderedArtists) {
+                orderedArtistsName.add(artist.getArtistName());
+            }
+            return orderedArtistsName;
     }
 }
