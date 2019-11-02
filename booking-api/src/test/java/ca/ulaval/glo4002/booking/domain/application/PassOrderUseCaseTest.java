@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.application;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,152 +8,102 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
+import ca.ulaval.glo4002.booking.domain.orders.*;
+import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class PassOrderUseCaseTest {
 
-    private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
-    private static final LocalDate ORDER_DATE = LocalDate.of(2050, 1, 1);
-    private static final OffsetDateTime ORDER_DATE_TIME = OffsetDateTime.of(ORDER_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
-    private static final int NUMBER_OF_FESTIVAL_DAYS = 5;
-    private static final LocalDate FESTIVAL_START = ORDER_DATE.plusMonths(12);
-    private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
-    private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
-    private static final PassNumber PASS_ID = mock(PassNumber.class);
+    private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    private static final LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
+    private static final OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(SOME_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
 
-    private static final int NEBULA_OXYGEN_QUANTITY = 3;
-    private static final int SUPERGIANT_OXYGEN_QUANTITY = 3;
-    private static final int SUPERNOVA_OXYGEN_QUANTITY = 5;
-    private static final OxygenGrade NEBULA_OXYGEN_GRADE = OxygenGrade.A;
-    private static final OxygenGrade SUPERGIANT_OXYGEN_GRADE = OxygenGrade.B;
-    private static final OxygenGrade SUPERNOVA_OXYGEN_GRADE = OxygenGrade.E;
-    private static final ShuttleCategory NEBULA_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
-    private static final ShuttleCategory SUPERGIANT_SHUTTLE_CATEGORY = ShuttleCategory.MILLENNIUM_FALCON;
-    private static final ShuttleCategory SUPERNOVA_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
+    private List<Shuttle> shuttlesEarth = new LinkedList<>();
+    private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
 
-    private TransportRequester transportRequester;
-    private OxygenRequester oxygenRequester;
-    private PassOrderFactory passOrderFactory;
+    private OrderResources orderResources;
     private PassOrderUseCase passOrderUseCase;
-    private PassOrder passOrder;
-    private PassRequest passRequest;
+    private PassOrder somePassOrder;
+    private PassRequest somePassRequest;
+    private PassOrderRepository passOrderRepository;
+    private ShuttleRepository shuttleRepository;
 
     @BeforeEach
-    public void setUp() throws Exception {
-        transportRequester = mock(TransportRequester.class);
-        oxygenRequester = mock(OxygenRequester.class);
-        passOrder = mock(PassOrder.class);
-        passOrderFactory = mock(PassOrderFactory.class);
-        when(passOrderFactory.create(any(), any(), any())).thenReturn(passOrder);
-        PassOrderRepository passOrderRepository = mock(HeapPassOrderRepository.class);
+    public void setUp() {
+        mockShuttles();
+        mockShuttleRepository();
+        orderResources = mock(OrderResources.class);
+        passOrderRepository = mock(HeapPassOrderRepository.class);
 
-        passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenRequester, passOrderFactory, passOrderRepository);
-        passRequest = mock(PassRequest.class);
+        somePassOrder = mock(PassOrder.class);
+        somePassRequest = mock(PassRequest.class);
+
+        passOrderUseCase = new PassOrderUseCase(orderResources, passOrderRepository, shuttleRepository);
     }
 
     @Test
-    public void givenFestivalOf5Days_whenCreatingANebulaPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+    public void whenOrchestPassCreation_thenGetDepartureShuttleFromRepository() {
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-
-        verify(passOrderFactory).create(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
-        verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
+        verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
     }
 
     @Test
-    public void whenCreatingANebulaSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void whenOrchestPassCreation_thenSaveDepartureShuttleInRepository() {
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-
-        verify(passOrderFactory).create(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY);
+        verify(shuttleRepository).saveDeparture(shuttlesEarth);
     }
 
     @Test
-    public void givenFestivalOf5Days_whenCreatingASupergiantPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+    public void whenOrchestPassCreation_thenGetArrivalShuttleFromRepository() {
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-
-        verify(passOrderFactory).create(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
-        verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
+        verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
     }
 
     @Test
-    public void whenCreatingASupergiantSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void whenOrchestPassCreation_thenSaveArrivalShuttleInRepository() {
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-
-        verify(passOrderFactory).create(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY);
+        verify(shuttleRepository).saveArrival(shuttlesUlavalogy);
     }
 
     @Test
-    public void givenFestivalOf5Days_whenCreatingASupernovaPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+    public void whenOrchestPassCreation_thenPassesAreOrdered() {
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-
-        verify(passOrderFactory).create(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
-        verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
+        verify(orderResources).orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
-    public void whenCreatingASupernovaSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void whenOrchestPassCreation_thenSavePassOrderInRepository() {
+        when(orderResources.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest, shuttlesEarth, shuttlesUlavalogy)).thenReturn(somePassOrder);
 
-        passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        verify(passOrderFactory).create(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY);
+        verify(passOrderRepository).save(somePassOrder);
     }
 
-    private void mockPass(Pass pass, PassCategory passCategory, LocalDate start, LocalDate end) {
-        List<Pass> passes = new ArrayList<>();
-        when(pass.getStartDate()).thenReturn(start);
-        when(pass.getEndDate()).thenReturn(end);
-        when(pass.getPassNumber()).thenReturn(PASS_ID);
-        when(pass.getPassCategory()).thenReturn(passCategory);
-        passes.add(pass);
-        when(passOrder.getPasses()).thenReturn(passes);
+    private void mockShuttles() {
+        Shuttle mockedShuttle = mock(SpaceX.class);
+
+        shuttlesEarth.add(mockedShuttle);
+        shuttlesUlavalogy.add(mockedShuttle);
+    }
+
+    private void mockShuttleRepository() {
+        shuttleRepository = mock(HeapShuttleRepository.class);
+
+        when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
+        when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
     }
 }

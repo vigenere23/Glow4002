@@ -1,19 +1,18 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.domain.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
-import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 
 public class ResourceConfiguration extends ResourceConfig {
 
     public ResourceConfiguration(
         OxygenRequester oxygenRequester,
-        TransportRequester transportRequester,
+        TransportUseCase transportUseCase,
         PassOrderFactory passOrderFactory,
         PassOrderUseCase passOrderUseCase
     ) {
@@ -21,7 +20,7 @@ public class ResourceConfiguration extends ResourceConfig {
             @Override
             protected void configure() {
                 bind(oxygenRequester).to(OxygenRequester.class);
-                bind(transportRequester).to(TransportExposer.class);
+                bind(transportUseCase).to(TransportUseCase.class);
                 bind(passOrderFactory).to(PassOrderFactory.class);
                 bind(passOrderUseCase).to(PassOrderUseCase.class);
             }

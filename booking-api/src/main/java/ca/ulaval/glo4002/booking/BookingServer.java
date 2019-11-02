@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.domain.application.TransportUseCase;
+import ca.ulaval.glo4002.booking.domain.orders.OrderResources;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -17,7 +19,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
@@ -60,14 +62,16 @@ public class BookingServer implements Runnable {
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
 
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
-        TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
+        TransportReservation transportReservation = new TransportReservation();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenRequester, passOrderFactory, passOrderRepository);
+        OrderResources orderResources = new OrderResources(transportReservation, oxygenRequester, passOrderFactory);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(orderResources, passOrderRepository, shuttleRepository);
+        TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
                 oxygenRequester,
-                transportRequester,
+                transportUseCase,
                 passOrderFactory,
                 passOrderUseCase
         ).packages("ca.ulaval.glo4002.booking");
