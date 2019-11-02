@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 
 public class PassOrderRequesterTest {
@@ -39,7 +38,7 @@ public class PassOrderRequesterTest {
 
     @Test
     public void whenCreatingAnOrder_itSavesTheOrderInTheRepository() throws Exception {
-        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), "CODE", passRequest);
+        PassOrder passOrder = passOrderService.orderPasses(OffsetDateTime.now(), VendorCode.TEAM, passRequest);
         verify(passOrderRepository).save(passOrder);
     }
 }

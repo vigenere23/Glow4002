@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -23,15 +22,15 @@ public class PassOrderFactory {
         passFactory = new PassFactory(festival);
     }
 
-    public PassOrder create(OffsetDateTime orderDate, String vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
+    public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         validateOrderDate(orderDate);
 
         List<Pass> passes = createPasses(passRequest);
-        PassOrder passOrder = new PassOrder(passes);
+        PassOrder passOrder = new PassOrder(vendorCode, passes);
         return passOrder;
     }
 
-    private List<Pass> createPasses(PassRequest passRequest) throws OutOfFestivalDatesException {
+    private List<Pass> createPasses(PassRequest passRequest) {
         validatePassRequest(passRequest);
 
         List<Pass> passes = new ArrayList<>();
@@ -46,7 +45,7 @@ public class PassOrderFactory {
         return passes;
     }
 
-    private void validateOrderDate(OffsetDateTime orderDate) throws OutOfSaleDatesException {
+    private void validateOrderDate(OffsetDateTime orderDate) {
         if (!festival.isDuringSaleTime(orderDate)) {
             throw new OutOfSaleDatesException(festival.getSaleStartDate(), festival.getSaleEndDate());
         }
