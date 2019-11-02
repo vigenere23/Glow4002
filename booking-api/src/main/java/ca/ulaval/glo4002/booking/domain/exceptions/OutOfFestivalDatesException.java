@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.helpers.DateHelper;
 
-public class OutOfFestivalDatesException extends Exception {
+public class OutOfFestivalDatesException extends RuntimeException {
 
     public OutOfFestivalDatesException(LocalDate festivalStart, LocalDate festivalEnd) {
         super(
