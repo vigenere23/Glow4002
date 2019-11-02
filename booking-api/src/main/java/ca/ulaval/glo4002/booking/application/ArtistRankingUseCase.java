@@ -1,22 +1,21 @@
 package ca.ulaval.glo4002.booking.application;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingService;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.domain.artists.Ranking;
+import ca.ulaval.glo4002.booking.domain.artists.*;
 
 import java.util.List;
 
 public class ArtistRankingUseCase {
 
     private ArtistRepository artistsRepository;
-    private ArtistRankingService artistRankingService;
+    private ArtistRankingFactory artistRankingFactory;
 
-    public ArtistRankingUseCase(ArtistRepository artistsRepository, ArtistRankingService artistRankingService) {
+    public ArtistRankingUseCase(ArtistRepository artistsRepository, ArtistRankingFactory artistRankingFactory) {
         this.artistsRepository = artistsRepository;
-        this.artistRankingService = artistRankingService;
+        this.artistRankingFactory = artistRankingFactory;
     }
 
     public List<String> orderBy(Ranking rankingType) {
-        return artistRankingService.orderBy(rankingType, artistsRepository.findArtistRankingInformation());
+        List<ArtistRankingInformation> artistsToOrder = artistsRepository.findArtistRankingInformation();
+        return artistRankingFactory.createArtistRanking(rankingType).getOrderedArtits(artistsToOrder);
     }
 }

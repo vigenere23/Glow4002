@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking;
 
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingService;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -67,8 +67,8 @@ public class BookingServer implements Runnable {
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
-        ArtistRankingService artistRankingService = new ArtistRankingService();
-        ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingService);
+        ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
+        ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
         return new ResourceConfiguration(
                 oxygenRequester,

@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.api.dtos.artists.ArtistRankingResponse;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingService;
 import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
 @Path("/program/artists")
