@@ -43,13 +43,13 @@ public class ShuttleTest {
     }
     
     @Test
-    public void givenPartiallyFullShuttle_whenIsFullMethod_thenReturnFalse() {
+    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleIsNotFulled() {
         shuttle.addPassNumber(PASS_NUMBER);        
         assertFalse(shuttle.isFull());
     }
 
     @Test
-    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenReturnTrue() {
+    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleIsFulled() {
         shuttle.addPassNumber(PASS_NUMBER);
         shuttle.addPassNumber(PASS_NUMBER);
 
