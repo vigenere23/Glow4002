@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.dtos.artists;
+package ca.ulaval.glo4002.booking.api.dtos.artist;
 
 import java.util.LinkedList;
 import java.util.List;

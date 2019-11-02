@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AscendingPopularityOrderedArtists extends ArtistRanking{
 
-    public List<String> getOrderedArtits(List<ArtistRankingInformation> artistsToOrder) {
+    public List<String> getOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
         artistsToOrder.sort(Comparator.comparingDouble(ArtistRankingInformation::getPopularity));
         return extractArtistsName(artistsToOrder);
     }

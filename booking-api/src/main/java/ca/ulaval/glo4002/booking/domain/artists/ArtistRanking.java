@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class ArtistRanking {
 
-    public abstract List<String> getOrderedArtits(List<ArtistRankingInformation> artistsToOrder);
+    public abstract List<String> getOrderedArtists(List<ArtistRankingInformation> artistsToOrder);
 
     protected List<String> extractArtistsName(List<ArtistRankingInformation> orderedArtists) {
             List<String> orderedArtistsName = new ArrayList<>();

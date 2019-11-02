@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application;
+package ca.ulaval.glo4002.booking.domain.application;
 
 import ca.ulaval.glo4002.booking.domain.artists.*;
 
@@ -16,6 +16,6 @@ public class ArtistRankingUseCase {
 
     public List<String> orderBy(Ranking rankingType) {
         List<ArtistRankingInformation> artistsToOrder = artistsRepository.findArtistRankingInformation();
-        return artistRankingFactory.createArtistRanking(rankingType).getOrderedArtits(artistsToOrder);
+        return artistRankingFactory.createArtistRanking(rankingType).getOrderedArtists(artistsToOrder);
     }
 }
