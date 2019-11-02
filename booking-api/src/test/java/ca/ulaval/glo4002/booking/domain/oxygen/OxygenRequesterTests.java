@@ -4,8 +4,6 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.History;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import org.junit.jupiter.api.BeforeEach;

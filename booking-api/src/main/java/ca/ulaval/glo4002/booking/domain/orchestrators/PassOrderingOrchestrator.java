@@ -4,9 +4,8 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
@@ -23,14 +22,14 @@ public class PassOrderingOrchestrator {
     private final OxygenRequester oxygenRequester;
     private final PassOrderRequester passOrderCreator;
 
-    public PassOrderingOrchestrator(TransportRequester transportRequester, OxygenRequester oxygenRequester, PassOrderRequester passOrderCreator) {
+    public PassOrderingOrchestrator(TransportRequester transportRequester, OxygenRequester oxygenRequester, 
+    PassOrderRequester passOrderCreator) {
         this.transportRequester = transportRequester;
         this.oxygenRequester = oxygenRequester;
         this.passOrderCreator = passOrderCreator;
     }
 
-    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest)
-            throws OutOfSaleDatesException, OutOfFestivalDatesException {
+    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderCreator.orderPasses(orderDate, vendorCode, passRequest);
 
         for (Pass pass : passOrder.getPasses()) {
