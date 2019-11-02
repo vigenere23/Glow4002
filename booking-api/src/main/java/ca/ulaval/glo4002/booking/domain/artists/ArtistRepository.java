@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ArtistRepository {
 
-    List<ArtistRankingInformation> findArtistRankingInformationById(List<Integer> idToFind);
+    List<ArtistRankingInformation> findArtistRankingInformation();
 }

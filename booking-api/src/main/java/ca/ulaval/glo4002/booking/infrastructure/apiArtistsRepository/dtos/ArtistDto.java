@@ -1,9 +1,7 @@
-package ca.ulaval.glo4002.booking.api.dtos.artists;
+package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
 
 public class ArtistDto {
     public int id;
@@ -12,7 +10,7 @@ public class ArtistDto {
     public String musicStyle;
     public float price;
     public int popularityRank;
-    public List<ArtistAvailabilityDto> availabilities;
+    public Object availabilities;
 
     @JsonCreator
     public ArtistDto(
@@ -22,7 +20,7 @@ public class ArtistDto {
             @JsonProperty(value = "musicStyle") String musicStyle,
             @JsonProperty(value = "price", required = true) float price,
             @JsonProperty(value = "popularityRank", required = true) int popularityRank,
-            @JsonProperty(value = "availabilities") List<ArtistAvailabilityDto> availabilities
+            @JsonProperty(value = "availabilities") Object availabilities
     ) {
         this.id = id;
         this.name = name;

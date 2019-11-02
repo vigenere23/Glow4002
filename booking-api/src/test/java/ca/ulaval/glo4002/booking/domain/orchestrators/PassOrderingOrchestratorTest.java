@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
+import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -36,7 +37,7 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class PassOrderingOrchestratorTest {
 
-    private static final String VENDOR_CODE = "CODE";
+    private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
     private static final LocalDate ORDER_DATE = LocalDate.of(2050, 1, 1);
     private static final OffsetDateTime ORDER_DATE_TIME = OffsetDateTime.of(ORDER_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
     private static final int NUMBER_OF_FESTIVAL_DAYS = 5;
@@ -57,7 +58,6 @@ public class PassOrderingOrchestratorTest {
 
     private TransportRequester transportRequester;
     private OxygenRequester oxygenRequester;
-    private ArtistRepository artistsRepository;
     private PassOrderRequester passOrderRequester;
     private PassOrderingOrchestrator orchestrator;
     private PassOrder passOrder;
@@ -67,12 +67,11 @@ public class PassOrderingOrchestratorTest {
     public void setUp() throws Exception {
         transportRequester = mock(TransportRequester.class);
         oxygenRequester = mock(OxygenRequester.class);
-        artistsRepository = mock(ApiArtistRepository.class);
         passOrderRequester = mock(PassOrderRequester.class);
         passOrder = mock(PassOrder.class);
-        when(passOrderRequester.orderPasses(any(OffsetDateTime.class), any(String.class), any(PassRequest.class)))
+        when(passOrderRequester.orderPasses(any(OffsetDateTime.class), any(VendorCode.class), any(PassRequest.class)))
             .thenReturn(passOrder);
-        orchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester, artistsRepository);
+        orchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
         passRequest = mock(PassRequest.class);
     }
 

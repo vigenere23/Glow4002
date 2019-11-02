@@ -14,14 +14,14 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
 public class PassOrder {
 
+    private OrderNumber orderNumber;
     private List<Pass> passes = new ArrayList<Pass>();
     private OrderDiscount orderDiscount;
 
-    private ID id;
-
-    public PassOrder(List<Pass> passes) {
+    public PassOrder(VendorCode vendorCode, List<Pass> passes) {
         this.passes = passes;
         
+        orderNumber = new OrderNumber(vendorCode);
         orderDiscount = new SupergiantSinglePassDiscount();
         orderDiscount.setNextDiscount(new NebulaSinglePassDiscount());
     }
@@ -42,12 +42,8 @@ public class PassOrder {
         return orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(passes), priceBeforeDiscounts);
     }
 
-    public ID getOrderNumber() {
-        return id;
-    }
-
-    public void setId(ID id) {
-        this.id = id;
+    public OrderNumber getOrderNumber() {
+        return orderNumber;
     }
 
     public List<Pass> getPasses() {

@@ -7,11 +7,11 @@ import java.util.List;
 
 public class ArtistRanking {
 
-    private List<ArtistRankingInformation> artistsToOrder;    
+    private List<ArtistRankingInformation> artistsToOrder;
 
     public ArtistRanking() {
-        artistsToOrder = new ArrayList<ArtistRankingInformation>();        
-    } 
+        artistsToOrder = new ArrayList<ArtistRankingInformation>();
+    }
 
     public List<String> getDecreasingPriceOrderedArtists() {
         Collections.sort(artistsToOrder, Comparator.comparingDouble(ArtistRankingInformation::getPrice).reversed()

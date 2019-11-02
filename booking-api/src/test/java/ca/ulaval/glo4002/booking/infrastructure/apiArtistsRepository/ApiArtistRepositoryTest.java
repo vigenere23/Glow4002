@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.*;
+package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
 
 class ApiArtistRepositoryTest {
 

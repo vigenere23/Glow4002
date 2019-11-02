@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.booking.api.exceptions;
 
-public class InvalidFormatException extends ClientError {
+public class InvalidFormatException extends ClientException {
     
     public InvalidFormatException() {
-        super(ClientErrorType.INVALID_FORMAT, "invalid format");
+        super("INVALID_FORMAT", "invalid format");
     }
 }
