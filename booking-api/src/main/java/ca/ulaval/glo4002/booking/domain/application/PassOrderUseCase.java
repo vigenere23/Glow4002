@@ -14,12 +14,12 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
 public class PassOrderUseCase {
 
-    private OrderResources orderResources;
+    private PassUtilities passUtilities;
     private PassOrderRepository passOrderRepository;
     private ShuttleRepository transportRepository;
 
-    public PassOrderUseCase(OrderResources orderResources, PassOrderRepository passOrderRepository, ShuttleRepository transportRepository) {
-        this.orderResources = orderResources;
+    public PassOrderUseCase(PassUtilities passUtilities, PassOrderRepository passOrderRepository, ShuttleRepository transportRepository) {
+        this.passUtilities = passUtilities;
         this.passOrderRepository = passOrderRepository;
         this.transportRepository = transportRepository;
     }
@@ -32,7 +32,7 @@ public class PassOrderUseCase {
             throws OutOfSaleDatesException, OutOfFestivalDatesException {
         List<Shuttle> departureShuttles = transportRepository.findShuttlesByLocation(Location.EARTH);
         List<Shuttle> arrivalShuttles = transportRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        PassOrder passOrder = orderResources.orderPasses(orderDate, vendorCode, passRequest, departureShuttles, arrivalShuttles);
+        PassOrder passOrder = passUtilities.orderPasses(orderDate, vendorCode, passRequest, departureShuttles, arrivalShuttles);
         saveInRepositories(passOrder, departureShuttles, arrivalShuttles);
 
         return passOrder;

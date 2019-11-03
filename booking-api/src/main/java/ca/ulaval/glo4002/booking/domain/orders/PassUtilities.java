@@ -14,12 +14,12 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class OrderResources {
+public class PassUtilities {
     private final TransportReservation transportReservation;
     private final OxygenRequester oxygenRequester;
     private final PassOrderFactory passOrderFactory;
 
-    public OrderResources(TransportReservation transportReservation, OxygenRequester oxygenRequester, PassOrderFactory passOrderFactory) {
+    public PassUtilities(TransportReservation transportReservation, OxygenRequester oxygenRequester, PassOrderFactory passOrderFactory) {
         this.transportReservation = transportReservation;
         this.oxygenRequester = oxygenRequester;
         this.passOrderFactory = passOrderFactory;

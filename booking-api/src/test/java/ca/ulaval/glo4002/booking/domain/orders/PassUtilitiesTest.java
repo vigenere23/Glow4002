@@ -4,14 +4,11 @@ import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.*;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,13 +17,12 @@ import java.time.ZoneOffset;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class OrderResourcesTest {
+class PassUtilitiesTest {
     private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
     private static final LocalDate ORDER_DATE = LocalDate.of(2050, 1, 1);
     private static final OffsetDateTime ORDER_DATE_TIME = OffsetDateTime.of(ORDER_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
@@ -48,7 +44,7 @@ class OrderResourcesTest {
 
     private List<Shuttle> shuttlesEarth = new LinkedList<>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
-    private OrderResources orderResources;
+    private PassUtilities passUtilities;
     private TransportReservation transportReservation;
     private OxygenRequester oxygenRequester;
     private PassOrderFactory passOrderFactory;
@@ -61,7 +57,7 @@ class OrderResourcesTest {
     @BeforeEach
     public void setUp() {
         mockShuttles();
-        orderResources = mock(OrderResources.class);
+        passUtilities = mock(PassUtilities.class);
         transportReservation = mock(TransportReservation.class);
         oxygenRequester = mock(OxygenRequester.class);
         passOrder = mock(PassOrder.class);
@@ -70,7 +66,7 @@ class OrderResourcesTest {
         passOrderRepository = mock(HeapPassOrderRepository.class);
         shuttleRepository = mock(HeapShuttleRepository.class);
 
-        passOrderUseCase = new PassOrderUseCase(orderResources, passOrderRepository, shuttleRepository);
+        passOrderUseCase = new PassOrderUseCase(passUtilities, passOrderRepository, shuttleRepository);
         passRequest = mock(PassRequest.class);
     }
 

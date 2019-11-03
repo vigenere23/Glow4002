@@ -29,7 +29,7 @@ public class PassOrderUseCaseTest {
     private List<Shuttle> shuttlesEarth = new LinkedList<>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
 
-    private OrderResources orderResources;
+    private PassUtilities passUtilities;
     private PassOrderUseCase passOrderUseCase;
     private PassOrder somePassOrder;
     private PassRequest somePassRequest;
@@ -40,13 +40,13 @@ public class PassOrderUseCaseTest {
     public void setUp() {
         mockShuttles();
         mockShuttleRepository();
-        orderResources = mock(OrderResources.class);
+        passUtilities = mock(PassUtilities.class);
         passOrderRepository = mock(HeapPassOrderRepository.class);
 
         somePassOrder = mock(PassOrder.class);
         somePassRequest = mock(PassRequest.class);
 
-        passOrderUseCase = new PassOrderUseCase(orderResources, passOrderRepository, shuttleRepository);
+        passOrderUseCase = new PassOrderUseCase(passUtilities, passOrderRepository, shuttleRepository);
     }
 
     @Test
@@ -81,12 +81,12 @@ public class PassOrderUseCaseTest {
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        verify(orderResources).orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest, shuttlesEarth, shuttlesUlavalogy);
+        verify(passUtilities).orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
     public void whenOrchestPassCreation_thenSavePassOrderInRepository() {
-        when(orderResources.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest, shuttlesEarth, shuttlesUlavalogy)).thenReturn(somePassOrder);
+        when(passUtilities.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest, shuttlesEarth, shuttlesUlavalogy)).thenReturn(somePassOrder);
 
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
