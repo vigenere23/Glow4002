@@ -48,6 +48,6 @@ public class SupergiantSinglePassDiscountTests {
 	}
 
 	private Price getPriceAfterDiscount() {
-		return supergiantSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
+		return supergiantSinglePassDiscount.getPriceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
 	}
 }

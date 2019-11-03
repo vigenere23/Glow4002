@@ -2,13 +2,14 @@ package ca.ulaval.glo4002.booking.domain;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 public class Price {
 
+    private static final CurrencyUnit CURRENCY = CurrencyUnit.CAD;
     private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
 
     private Money price;
@@ -17,28 +18,29 @@ public class Price {
         return new Price(0);
     }
 
-    public Price(Price other) {
-        this(other.getAmount());
-    }
-
     public Price(double amount) {
         this(BigDecimal.valueOf(amount));
     }
 
     public Price(BigDecimal amount) {
-        price = Money.of(CurrencyUnit.CAD, amount);
+        price = Money.of(CURRENCY, amount);
     }
 
     public BigDecimal getAmount() {
         return price.getAmount();
     }
 
-    public BigDecimal getRoundedAmount(int numberOfDecimals) {
-        return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount();
+    public double getRoundedAmount(int numberOfDecimals) {
+        return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount().doubleValue();
     }
 
-    public boolean equals(Price other) {
-        return price.equals(other.price);
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (!(other instanceof Price)) return false;
+
+        Price otherPrice = (Price) other;
+        return price.equals(otherPrice.price);
     }
 
     public Price plus(Price other) {
@@ -53,21 +55,11 @@ public class Price {
         return new Price(price.multipliedBy(multiplier, ROUNDING_MODE).getAmount());
     }
 
-    public Price multipliedBy(Price other) {
-        return new Price(price.multipliedBy(other.getAmount(), ROUNDING_MODE).getAmount());
-    }
-
     public Price dividedBy(double multiplier) {
         return new Price(price.dividedBy(multiplier, ROUNDING_MODE).getAmount());
     }
 
-    public Price dividedBy(Price other) {
-        return new Price(price.dividedBy(other.getAmount(), ROUNDING_MODE).getAmount());
-    }
-
-    public static Price sum(List<Price> prices) {
-        return prices
-            .stream()
-            .reduce(Price.zero(), (subtotal, price) -> subtotal.plus(price));
+    public static Price sum(Stream<Price> prices) {
+        return prices.reduce(Price.zero(), (subtotal, price) -> subtotal.plus(price));
     }
 }

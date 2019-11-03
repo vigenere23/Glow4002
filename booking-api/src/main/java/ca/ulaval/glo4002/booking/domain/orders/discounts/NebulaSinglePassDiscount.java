@@ -9,13 +9,13 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
 public class NebulaSinglePassDiscount extends OrderDiscount {
 
     @Override
-    public Price priceAfterDiscounts(List<Pass> passes, Price totalPrice) {
+    public Price getPriceAfterDiscounts(List<Pass> passes, Price totalPrice) {
         long numberOfSupergiantSinglePass = getNumberOfWantedObjects(passes);
         Price discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
         Price newPrice = totalPrice.minus(discount);
 
         if (nextDiscount != null) {
-            return nextDiscount.priceAfterDiscounts(passes, newPrice);
+            return nextDiscount.getPriceAfterDiscounts(passes, newPrice);
         }
         return newPrice;
     }

@@ -13,5 +13,5 @@ public abstract class OrderDiscount {
         this.nextDiscount = nextDiscount;
     }
 
-    public abstract Price priceAfterDiscounts(List<Pass> passes, Price totalPrice);
+    public abstract Price getPriceAfterDiscounts(List<Pass> passes, Price totalPrice);
 }

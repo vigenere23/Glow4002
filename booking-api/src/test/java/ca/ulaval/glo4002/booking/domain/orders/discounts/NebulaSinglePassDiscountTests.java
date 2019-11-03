@@ -48,6 +48,6 @@ public class NebulaSinglePassDiscountTests {
     }
 
     private Price getPriceAfterDiscount() {
-        return nebulaSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
+        return nebulaSinglePassDiscount.getPriceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
     }
 }

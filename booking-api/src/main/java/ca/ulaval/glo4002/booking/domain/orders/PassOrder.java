@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
@@ -30,14 +31,17 @@ public class PassOrder {
     }
 
     private Price calculateTotalPrice() {
-        Price priceBeforeDiscounts = Price.sum(
-            passes.stream().map(Pass::getPrice).collect(Collectors.toList())
-        );
+        Price priceBeforeDiscounts = Price.sum(getPrices());
 
-        if (orderDiscount == null) {
-            return priceBeforeDiscounts;
-        }
-        return orderDiscount.priceAfterDiscounts(Collections.unmodifiableList(passes), priceBeforeDiscounts);
+        return orderDiscount == null
+            ? priceBeforeDiscounts
+            : orderDiscount.getPriceAfterDiscounts(
+                Collections.unmodifiableList(passes), priceBeforeDiscounts
+            );
+    }
+
+    private Stream<Price> getPrices() {
+        return passes.stream().map(Pass::getPrice);
     }
 
     public OrderNumber getOrderNumber() {

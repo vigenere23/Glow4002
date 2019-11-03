@@ -53,43 +53,46 @@ public class PassOrderTest {
     }
 
     @Test
-    public void whenCreatingOrderWithNoPasses_thenThePriceShouldBeZero() {
+    public void NoPasses_whenGettingPrice_itShouldBeZero() {
         PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<Pass>());
-        assertThat(passOrder.getPrice().getAmount()).isEqualTo(Price.zero().getAmount());
+        Price nullPrice = Price.zero();
+        assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
     }
 
     @Test
-    public void whenCreatingOrderWithOnePass_thenThePriceShouldBeThePassPrice() {
+    public void givenOnePass_whenGettingPrice_itShouldBeThePassPrice() {
         initNebulaPasses(1);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
-        assertThat(passOrder.getPrice().getAmount()).isEqualTo(NEBULA_SINGLE_PASS_PRICE.getAmount());
+        assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
     }
 
     @Test
-    public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
+    public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
-        assertThat(passOrder.getPrice().getAmount()).isEqualTo(NEBULA_SINGLE_PASS_PRICE.multipliedBy(2).getAmount());
+
+        Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
+        assertThat(passOrder.getPrice()).isEqualTo(twoTimesNebulaSinglePassPrice);
     }
 
     @Test
-    public void givenOverThreeNebulaPasses_whenSinglePassOrderCreated_itShouldHaveTenPercentDiscount() {
+    public void givenOverThreeNebulaSinglePasses_whenGettingPrice_itShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
 
         Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
 
-        assertThat(passOrder.getPrice().getAmount()).isEqualTo(priceAfterDiscount.getAmount());
+        assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
     }
 
     @Test
-    public void givenAtLeastFiveSupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
+    public void givenAtLeastFiveSupergiantSinglePasses_whenGettingPrice_itShouldHaveDiscountOnEachPass() {
         initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
 
         Price priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 
-        assertThat(passOrder.getPrice().getAmount()).isEqualTo(priceAfterDiscount.getAmount());
+        assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
     }
 }

@@ -9,13 +9,14 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
 public class PassOrderResponse {
 
-    public final float orderPrice;
+    public final double orderPrice;
     public final List<PassResponse> passes;
 
     public PassOrderResponse(Price orderPrice, List<Pass> passes) {
-        this.orderPrice = orderPrice.getRoundedAmount(2).floatValue();
+        PassResponseMapper passResponseMapper = new PassResponseMapper();
+        this.orderPrice = orderPrice.getRoundedAmount(2);
         this.passes = passes.stream()
-            .map(pass -> new PassResponseMapper().getPassResponse(pass))
+            .map(pass -> passResponseMapper.getPassResponse(pass))
             .collect(Collectors.toList());
     }
 }
