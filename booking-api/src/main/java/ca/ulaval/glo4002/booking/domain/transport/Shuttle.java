@@ -29,7 +29,7 @@ public abstract class Shuttle {
         this.passNumbers.add(passNumber);
     }
     
-    public boolean isFull() {
-        return passNumbers.size() == capacity ? true : false; 
+    public boolean availableCapacity(int passengers) {
+        return (passNumbers.size() + passengers) > capacity ? true : false; 
     }
 }
