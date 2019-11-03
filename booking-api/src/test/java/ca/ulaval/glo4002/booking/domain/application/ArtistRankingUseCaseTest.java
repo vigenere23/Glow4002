@@ -19,7 +19,7 @@ import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
 public class ArtistRankingUseCaseTest {
 
-    private final static Ranking RANKING_TYPE = Ranking.LOW_COSTS;
+    private final static Ranking SOME_RANKING_TYPE = Ranking.LOW_COSTS;
     private final static List<ArtistRankingInformation> artistsToOrder = new ArrayList<>();
     
     private ArtistRepository artistRepository;
@@ -35,24 +35,24 @@ public class ArtistRankingUseCaseTest {
         artistRankingUseCase = new ArtistRankingUseCase(artistRepository, artistRankingFactory);
     
         willReturn(artistsToOrder).given(artistRepository).findArtistRankingInformation();
-        willReturn(decreasingPriceOrderedArtists).given(artistRankingFactory).createArtistRanking(RANKING_TYPE);
+        willReturn(decreasingPriceOrderedArtists).given(artistRankingFactory).createArtistRanking(SOME_RANKING_TYPE);
     }
 
     @Test
     public void whenOrderBy_thenCallMethodFindArtistRankingInformationFromRepository() {
-        artistRankingUseCase.orderBy(RANKING_TYPE);
+        artistRankingUseCase.orderBy(SOME_RANKING_TYPE);
         verify(artistRepository).findArtistRankingInformation();
     }
 
     @Test
     public void givenRankingType_whenOrderBy_thenCallMethodCreateArtistRankingFromFactory() {
-        artistRankingUseCase.orderBy(RANKING_TYPE);
-        verify(artistRankingFactory).createArtistRanking(RANKING_TYPE);
+        artistRankingUseCase.orderBy(SOME_RANKING_TYPE);
+        verify(artistRankingFactory).createArtistRanking(SOME_RANKING_TYPE);
     }
 
     @Test
     public void whenOrderBy_thenGetOrderedArtists() {
-        artistRankingUseCase.orderBy(RANKING_TYPE);
+        artistRankingUseCase.orderBy(SOME_RANKING_TYPE);
         verify(decreasingPriceOrderedArtists).getOrderedArtists(artistsToOrder);
     }
 }

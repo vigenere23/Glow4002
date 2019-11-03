@@ -26,7 +26,6 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(passOrderExposer).to(PassOrderExposer.class);
                 bind(orchestrator).to(PassOrderingOrchestrator.class);
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
-
             }
         });
     }
