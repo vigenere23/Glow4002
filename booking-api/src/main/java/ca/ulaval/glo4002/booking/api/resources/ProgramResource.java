@@ -11,24 +11,22 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.dtos.program.ProgramRequest;
-import ca.ulaval.glo4002.booking.api.dtos.program.SingleDayProgramRequest;
+import ca.ulaval.glo4002.booking.domain.application.ProgramResourcesProvider;
 
 @Path("/program")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProgramResource {
 
-    private ProgramService programService;
+    private ProgramResourcesProvider programResourcesProvider;
 
     @Inject
-    public ProgramResource(ProgramService programService) {
-        this.programService = programService;
+    public ProgramResource(ProgramResourcesProvider programResourcesProvider) {
+        this.programResourcesProvider = programResourcesProvider;
     }
 
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
-        for (SingleDayProgramRequest singleDayProgramRequest : request.program) {
-            programService.provideProgramDailyResources(singleDayProgramRequest.activity, singleDayProgramRequest.artist, singleDayProgramRequest.eventDate);
-        }
+        programResourcesProvider.provideProgramResources(request);
         return Response.status(200).contentLocation(new URI("/")).build();
     }
 }
