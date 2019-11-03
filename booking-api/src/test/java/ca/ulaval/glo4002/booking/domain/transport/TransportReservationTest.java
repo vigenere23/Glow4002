@@ -28,17 +28,5 @@ class TransportReservationTest {
         transportReservation = new TransportReservation();
     }
 
-    @Test
-    public void whenReserveDeparture_thenShuttleFillerIsCalled() {
-        transportReservation.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASS_NUMBER, someShuttles);
-
-        // TODO
-    }
-
-    @Test
-    public void whenReserveArrival_thenShuttleFillerIsCalled() {
-        transportReservation.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASS_NUMBER, someShuttles);
-
-        // TODO
-}
+    // TODO (issue #144)
 }

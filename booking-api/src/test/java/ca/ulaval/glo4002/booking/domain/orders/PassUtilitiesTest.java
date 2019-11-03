@@ -72,21 +72,12 @@ class PassUtilitiesTest {
     }
 
     @Test
-    public void givenFestivalOf5Days_whenOrderANebulaPackagePass_thenDepartureShuttlesAreReserved() {
+    public void givenFestivalOf5Days_whenOrderANebulaPackagePass_thenShuttlesAreReserved() {
         mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
-        verify(transportReservation).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, shuttlesEarth);
-    }
-
-    @Test
-    public void givenFestivalOf5Days_whenOrderANebulaPackagePass_thenArrivalShuttlesAreReserved() {
-        mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
-
-        passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
-
-        verify(transportReservation).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID, shuttlesUlavalogy);
+        verify(transportReservation).reserveShuttles(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
@@ -99,21 +90,12 @@ class PassUtilitiesTest {
     }
 
     @Test
-    public void whenOrderANebulaSinglePass_thenDepartureShuttlesAreReserved() {
+    public void whenOrderANebulaSinglePass_thenShuttlesAreReserved() {
         mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
-        verify(transportReservation).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesEarth);
-    }
-
-    @Test
-    public void whenOrderANebulaSinglePass_thenArrivalShuttlesAreReserved() {
-        mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-
-        passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
-
-        verify(transportReservation).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesUlavalogy);
+        verify(transportReservation).reserveShuttles(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
@@ -126,21 +108,12 @@ class PassUtilitiesTest {
     }
 
     @Test
-    public void givenFestivalOf5Days_whenOrderASupergiantPackagePass_thenDepartureShuttlesAreReserved()  {
+    public void givenFestivalOf5Days_whenOrderASupergiantPackagePass_thenShuttlesAreReserved()  {
         mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
-        verify(transportReservation).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID,shuttlesEarth);
-    }
-
-    @Test
-    public void givenFestivalOf5Days_whenOrderASupergiantPackagePass_thenArrivalShuttlesAreReserved()  {
-        mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
-
-        passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
-
-        verify(transportReservation).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID, shuttlesUlavalogy);
+        verify(transportReservation).reserveShuttles(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
@@ -153,21 +126,12 @@ class PassUtilitiesTest {
     }
 
     @Test
-    public void whenOrderASupergiantSinglePass_thenDepartureShuttlesAreReserved() {
+    public void whenOrderASupergiantSinglePass_thenShuttlesAreReserved() {
         mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
-        verify(transportReservation).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesEarth);
-    }
-
-    @Test
-    public void whenOrderASupergiantSinglePass_thenArrivalShuttlesAreReserved() {
-        mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-
-        passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
-
-        verify(transportReservation).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesUlavalogy);
+        verify(transportReservation).reserveShuttles(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
@@ -180,21 +144,12 @@ class PassUtilitiesTest {
     }
 
     @Test
-    public void givenFestivalOf5Days_whenOrderASupernovaPackagePass_thenDepartureShuttlesAreReserved() {
+    public void givenFestivalOf5Days_whenOrderASupernovaPackagePass_thenShuttlesAreReserved() {
         mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
-        verify(transportReservation).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, shuttlesEarth);
-    }
-
-    @Test
-    public void givenFestivalOf5Days_whenOrderASupernovaPackagePass_thenArrivalShuttlesAreReserved() {
-        mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
-
-        passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
-
-        verify(transportReservation).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID, shuttlesUlavalogy);
+        verify(transportReservation).reserveShuttles(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test
@@ -207,21 +162,12 @@ class PassUtilitiesTest {
     }
 
     @Test
-    public void whenOrderASupernovaSinglePass_thenDepartureShuttlesAreReserved() {
+    public void whenOrderASupernovaSinglePass_thenShuttlesAreReserved() {
         mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
-        verify(transportReservation).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesEarth);
-    }
-
-    @Test
-    public void whenOrderASupernovaSinglePass_thenArrivalShuttlesAreReserved() {
-        mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-
-        passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
-
-        verify(transportReservation).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesUlavalogy);
+        verify(transportReservation).reserveShuttles(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, shuttlesEarth, shuttlesUlavalogy);
     }
 
     @Test

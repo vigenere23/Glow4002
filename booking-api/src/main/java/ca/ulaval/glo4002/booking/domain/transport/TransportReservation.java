@@ -12,16 +12,21 @@ public class TransportReservation {
     public TransportReservation() {
         shuttleFiller = new ShuttleFiller();
     }
-    
-    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> departureShuttles) {
-        assignNewPlace(departureShuttles, Location.EARTH, shuttleCategory, date, passNumber);
+
+    public void reserveShuttles(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> departureShuttles, List<Shuttle> arrivalShuttles) {
+        reserveDeparture(shuttleCategory, date, passNumber, departureShuttles);
+        reserveArrival(shuttleCategory, date, passNumber, arrivalShuttles);
     }
     
-    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> arrivalShuttles) {
-        assignNewPlace(arrivalShuttles, Location.ULAVALOGY, shuttleCategory, date, passNumber);
+    private void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> departureShuttles) {
+        assignNewPlace(departureShuttles, shuttleCategory, date, passNumber);
+    }
+    
+    private void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> arrivalShuttles) {
+        assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber);
     }   
 
-    private void assignNewPlace(List<Shuttle> shuttlesToFill, Location location, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+    private void assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
         shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date);
     }
 }
