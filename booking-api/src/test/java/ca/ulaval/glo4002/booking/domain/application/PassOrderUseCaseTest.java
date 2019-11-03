@@ -25,16 +25,14 @@ public class PassOrderUseCaseTest {
     private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
     private static final LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
     private static final OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(SOME_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
-
     private List<Shuttle> shuttlesEarth = new LinkedList<>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
-
     private PassUtilities passUtilities;
-    private PassOrderUseCase passOrderUseCase;
     private PassOrder somePassOrder;
     private PassRequest somePassRequest;
     private PassOrderRepository passOrderRepository;
     private ShuttleRepository shuttleRepository;
+    private PassOrderUseCase passOrderUseCase;
 
     @BeforeEach
     public void setUp() {
