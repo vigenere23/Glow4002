@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.booking;
 
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -54,10 +57,12 @@ public class BookingServer implements Runnable {
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
+        ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
 
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
         TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
         PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, festival);
+        ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
         PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
 
         ResourceConfig packageConfig = new ResourceConfiguration(
