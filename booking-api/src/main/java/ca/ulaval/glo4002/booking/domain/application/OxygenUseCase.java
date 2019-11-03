@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application;
+package ca.ulaval.glo4002.booking.domain.application;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 
