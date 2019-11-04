@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.passes.factories;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SinglePass;
@@ -11,10 +11,10 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
 
 public class SinglePassFactory {
-    private Glow4002 festival;
+    private FestivalDates festival;
 
-    public SinglePassFactory(Glow4002 festival) {
-        this.festival = festival;
+    public SinglePassFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
     }
 
     public SinglePass create(PassCategory passCategory, LocalDate eventDate) throws OutOfFestivalDatesException {

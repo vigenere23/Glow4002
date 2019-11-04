@@ -27,30 +27,38 @@ public class ShuttleTest {
                 return passNumbers;
         }
     }    
-    
-    private ShuttleImplementationTest shuttle;
+
+    private final static int ONE_PLACE = 1;
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
+    private ShuttleImplementationTest shuttle;
 
     @BeforeEach
     public void setUp() {
         shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17));
-        shuttle.addPassNumber(PASS_NUMBER);
     }
 
     @Test
-    public void givenPassNumber_whenAddNewPassNumber_thenAddPassesNumberToList() {
+    public void givenPassNumber_whenAddNewPassNumber_thenAPassNumberIsInShuttle() {
+        shuttle.addPassNumber(PASS_NUMBER);
         assertEquals(PASS_NUMBER, shuttle.getPassNumbers().get(0));
     }
     
     @Test
-    public void givenPartiallyFullShuttle_whenIsFullMethod_thenReturnFalse() {        
-        assertFalse(shuttle.isFull());
+    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleIsNotFulled() {
+        boolean fullShuttle;
+        shuttle.addPassNumber(PASS_NUMBER); 
+        
+        fullShuttle = shuttle.availableCapacity(ONE_PLACE);
+
+        assertFalse(fullShuttle);
     }
 
     @Test
-    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenReturnTrue() {
+    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleIsFulled() {
         shuttle.addPassNumber(PASS_NUMBER);
-        assertTrue(shuttle.isFull());
+        shuttle.addPassNumber(PASS_NUMBER);
+
+        assertTrue(shuttle.availableCapacity(ONE_PLACE));
     }
 }
 

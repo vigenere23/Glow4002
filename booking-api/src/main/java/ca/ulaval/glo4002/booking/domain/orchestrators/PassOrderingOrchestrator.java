@@ -4,7 +4,6 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
@@ -17,6 +16,8 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class PassOrderingOrchestrator {
+
+    private final static int ONE_PLACE = 1;
 
     private final TransportRequester transportRequester;
     private final OxygenRequester oxygenRequester;
@@ -36,8 +37,8 @@ public class PassOrderingOrchestrator {
             PassCategory passCategory = pass.getPassCategory();
 
             ShuttleCategory shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
-            transportRequester.reserveDeparture(shuttleCategory, pass.getStartDate(), pass.getPassNumber());
-            transportRequester.reserveArrival(shuttleCategory, pass.getEndDate(), pass.getPassNumber());
+            transportRequester.reserveDeparture(shuttleCategory, pass.getStartDate(), pass.getPassNumber(), ONE_PLACE);
+            transportRequester.reserveArrival(shuttleCategory, pass.getEndDate(), pass.getPassNumber(), ONE_PLACE);
             
             OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
             int oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);

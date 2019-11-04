@@ -12,8 +12,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +53,7 @@ public class PassOrderingOrchestratorTest {
     private static final ShuttleCategory NEBULA_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
     private static final ShuttleCategory SUPERGIANT_SHUTTLE_CATEGORY = ShuttleCategory.MILLENNIUM_FALCON;
     private static final ShuttleCategory SUPERNOVA_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
+    private static final int ONE_PLACE = 1;
 
     private TransportRequester transportRequester;
     private OxygenRequester oxygenRequester;
@@ -82,8 +81,8 @@ public class PassOrderingOrchestratorTest {
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
         verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
+        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, ONE_PLACE);
+        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID, ONE_PLACE);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
     }
 
@@ -94,8 +93,8 @@ public class PassOrderingOrchestratorTest {
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
         verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(transportRequester).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, ONE_PLACE);
+        verify(transportRequester).reserveArrival(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, ONE_PLACE);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY);
     }
 
@@ -106,8 +105,8 @@ public class PassOrderingOrchestratorTest {
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
         verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
+        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, ONE_PLACE);
+        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID, ONE_PLACE);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
     }
 
@@ -118,8 +117,8 @@ public class PassOrderingOrchestratorTest {
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
         verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(transportRequester).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, ONE_PLACE);
+        verify(transportRequester).reserveArrival(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, ONE_PLACE);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY);
     }
 
@@ -130,8 +129,8 @@ public class PassOrderingOrchestratorTest {
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
         verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID);
+        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, PASS_ID, ONE_PLACE);
+        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_END, PASS_ID, ONE_PLACE);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
     }
 
@@ -142,8 +141,8 @@ public class PassOrderingOrchestratorTest {
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
         verify(passOrderRequester).orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
-        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
-        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID);
+        verify(transportRequester).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, ONE_PLACE);
+        verify(transportRequester).reserveArrival(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, PASS_ID, ONE_PLACE);
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY);
     }
 

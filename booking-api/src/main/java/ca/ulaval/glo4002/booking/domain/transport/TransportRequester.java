@@ -5,20 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
-public class TransportRequester extends TransportExposer {
-
-    private final static int ONE_NEW_PLACE = 1;
+public class TransportRequester implements TransportExposer {
     
     private ShuttleRepository transportRepository;
     private ShuttleFiller shuttleFiller;
-    private Glow4002 festival;
+    private FestivalDates festival;
     
-    public TransportRequester(ShuttleRepository transportRepository, Glow4002 festival) {
+    public TransportRequester(ShuttleRepository transportRepository, FestivalDates festivalDates) {
         this.transportRepository = transportRepository;
-        this.festival = festival;
+        this.festival = festivalDates;
         shuttleFiller = new ShuttleFiller();
     }
 

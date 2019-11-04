@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
-import ca.ulaval.glo4002.booking.helpers.DateHelper;
+import ca.ulaval.glo4002.booking.helpers.DateFormatter;
 
 public class SingleDayProgramRequest {
 
@@ -21,7 +21,7 @@ public class SingleDayProgramRequest {
         @JsonProperty(value = "eventDate", required = true) String eventDate
     ) throws InvalidFormatException {
         try {
-            this.eventDate = LocalDate.parse(eventDate, DateHelper.dateFormatter);
+            this.eventDate = LocalDate.parse(eventDate, DateFormatter.formatter);
             this.artist = artist;
             this.activity = Activity.fromString(activity);
         }

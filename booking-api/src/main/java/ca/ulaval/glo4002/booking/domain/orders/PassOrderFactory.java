@@ -7,19 +7,19 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.factories.PassFactory;
 
 public class PassOrderFactory {
 
     private PassFactory passFactory;
-    private Glow4002 festival;
+    private FestivalDates festival;
 
-    public PassOrderFactory(Glow4002 festival) {
-        this.festival = festival;
+    public PassOrderFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
         
-        passFactory = new PassFactory(festival);
+        passFactory = new PassFactory(festivalDates);
     }
 
     public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {

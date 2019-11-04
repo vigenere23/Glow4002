@@ -2,17 +2,17 @@ package ca.ulaval.glo4002.booking.domain.passes.factories;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassFactory {
 
-    private Glow4002 festival;
+    private FestivalDates festival;
 
-    public PassFactory(Glow4002 festival) {
-        this.festival = festival;
+    public PassFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
     }
 
     public Pass create(PassOption passOption, PassCategory passCategory, LocalDate eventDate) {
