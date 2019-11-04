@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.api.resources;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
