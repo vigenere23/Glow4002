@@ -5,14 +5,14 @@ import java.math.RoundingMode;
 import java.util.stream.Stream;
 
 import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
+import org.joda.money.BigMoney;
 
 public class Price {
 
     private static final CurrencyUnit CURRENCY = CurrencyUnit.CAD;
     private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
 
-    private Money price;
+    private BigMoney price;
 
     public static Price zero() {
         return new Price(0);
@@ -23,7 +23,7 @@ public class Price {
     }
 
     public Price(BigDecimal amount) {
-        price = Money.of(CURRENCY, amount);
+        price = BigMoney.of(CURRENCY, amount);
     }
 
     public BigDecimal getAmount() {
@@ -51,8 +51,12 @@ public class Price {
         return new Price(price.minus(other.price).getAmount());
     }
 
+    public Price multipliedBy(int multiplier) {
+        return new Price(price.multipliedBy(multiplier).getAmount());
+    }
+
     public Price multipliedBy(double multiplier) {
-        return new Price(price.multipliedBy(multiplier, ROUNDING_MODE).getAmount());
+        return new Price(price.multipliedBy(multiplier).getAmount());
     }
 
     public Price dividedBy(double multiplier) {

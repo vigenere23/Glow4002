@@ -31,14 +31,14 @@ public class NebulaSinglePassDiscountTests {
     @Test
     public void givenTwoNebulaPasses_thenThereIsNoDiscount() {
         initPasses(2);
-        assertThat(getPriceAfterDiscount().getAmount()).isEqualTo(PRICE_WITHOUT_DISCOUNT.getAmount());
+        assertThat(getPriceAfterDiscount()).isEqualTo(PRICE_WITHOUT_DISCOUNT);
     }
 
     @Test
     public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
         initPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT);
-        assertThat(getPriceAfterDiscount().getAmount()).isEqualTo(expectedPriceAfterDiscount.getAmount());
+        assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
     }
     
     private void initPasses(int numberOfPasses) {

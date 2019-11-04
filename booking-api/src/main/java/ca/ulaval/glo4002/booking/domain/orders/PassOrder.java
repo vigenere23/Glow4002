@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking.domain.orders;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ca.ulaval.glo4002.booking.domain.Price;
@@ -33,11 +32,9 @@ public class PassOrder {
     private Price calculateTotalPrice() {
         Price priceBeforeDiscounts = Price.sum(getPrices());
 
-        return orderDiscount == null
-            ? priceBeforeDiscounts
-            : orderDiscount.getPriceAfterDiscounts(
-                Collections.unmodifiableList(passes), priceBeforeDiscounts
-            );
+        return orderDiscount.getPriceAfterDiscounts(
+            Collections.unmodifiableList(passes), priceBeforeDiscounts
+        );
     }
 
     private Stream<Price> getPrices() {

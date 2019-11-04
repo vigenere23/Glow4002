@@ -31,14 +31,14 @@ public class SupergiantSinglePassDiscountTests {
 	@Test
 	public void givenTwoSupergiantPasses_thenThereIsNoDiscount() {
 		initPasses(2);
-		assertThat(getPriceAfterDiscount().getAmount()).isEqualTo(PRICE_WITHOUT_DISCOUNT.getAmount());
+		assertThat(getPriceAfterDiscount()).isEqualTo(PRICE_WITHOUT_DISCOUNT);
 	}
 
 	@Test
 	public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
 		initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 		Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
-		assertThat(getPriceAfterDiscount().getAmount()).isEqualTo(expectedPriceAfterDiscount.getAmount());
+		assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
 	}
 	
 	private void initPasses(int numberOfPasses) {
