@@ -9,10 +9,9 @@ import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
+import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class PassUtilities {
@@ -46,12 +45,8 @@ public class PassUtilities {
         PassCategory passCategory = pass.getPassCategory();
         OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
         int oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
-        int numberOfDays = calculateDayRange(pass.getStartDate(), pass.getEndDate());
+        int numberOfDays = DateCalculator.daysBetween(pass.getStartDate(), pass.getEndDate());
 
         oxygenRequester.orderOxygen(orderDate.toLocalDate(), oxygenGrade, oxygenQuantityPerDay * numberOfDays);
-    }
-
-    private int calculateDayRange(LocalDate startDate, LocalDate endDate) {
-        return (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
     }
 }
