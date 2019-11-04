@@ -11,17 +11,17 @@ import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 
 public class PassFactoryTest {
 
     private PassFactory passFactory;
-    private Glow4002 festival;
+    private FestivalDates festivalDates;
 
     @BeforeEach
     public void setUp() {
-        festival = mock(Glow4002.class);
-        passFactory = new PassFactory(festival);
+        festivalDates = mock(FestivalDates.class);
+        passFactory = new PassFactory(festivalDates);
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 
@@ -13,10 +13,9 @@ public class PassOrderRequester implements PassOrderExposer {
     private PassOrderRepository passOrderRepository;
     private PassOrderFactory passOrderFactory;
 
-    // TODO #129 inject the passOrderFactory
-    public PassOrderRequester(PassOrderRepository passOrderRepository, Glow4002 festival) {
+    public PassOrderRequester(PassOrderRepository passOrderRepository, FestivalDates festivalDates) {
         this.passOrderRepository = passOrderRepository;
-        passOrderFactory = new PassOrderFactory(festival);
+        passOrderFactory = new PassOrderFactory(festivalDates);
     }
 
     @Override

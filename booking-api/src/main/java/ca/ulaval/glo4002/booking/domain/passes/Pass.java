@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.joda.money.Money;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 
 public class Pass {
 
@@ -15,8 +15,8 @@ public class Pass {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Pass(Glow4002 festival, PassOption passOption, PassCategory passCategory, Money price, LocalDate startDate, LocalDate endDate) {
-        festival.validateEventDates(startDate, endDate);
+    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Money price, LocalDate startDate, LocalDate endDate) {
+        festivalDates.validateEventDates(startDate, endDate);
 
         this.passNumber = new PassNumber();
         this.passOption = passOption;

@@ -7,15 +7,16 @@ import java.time.ZoneOffset;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;;
 
-public class Glow4002 {
+public class Glow4002Dates implements FestivalDates {
 
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final OffsetDateTime saleStartDate;
     private final OffsetDateTime saleEndDate;
 
-    public Glow4002() {
+    public Glow4002Dates() {
         startDate = LocalDate.of(2050, 7, 17);
         endDate = LocalDate.of(2050, 7, 24);
         saleStartDate = OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC);
