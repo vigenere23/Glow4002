@@ -15,7 +15,6 @@ import ca.ulaval.glo4002.booking.api.dtos.transport.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.dtos.transport.TransportResponse;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
-import ca.ulaval.glo4002.booking.helpers.DateFormatter;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)
