@@ -16,10 +16,10 @@ public class PassOrderFactory {
     private PassFactory passFactory;
     private FestivalDates festival;
 
-    public PassOrderFactory(FestivalDates festival) {
-        this.festival = festival;
+    public PassOrderFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
         
-        passFactory = new PassFactory(festival);
+        passFactory = new PassFactory(festivalDates);
     }
 
     public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {

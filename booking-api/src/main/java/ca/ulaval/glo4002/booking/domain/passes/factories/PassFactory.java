@@ -11,8 +11,8 @@ public class PassFactory {
 
     private FestivalDates festival;
 
-    public PassFactory(FestivalDates festival) {
-        this.festival = festival;
+    public PassFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
     }
 
     public Pass create(PassOption passOption, PassCategory passCategory, LocalDate eventDate) {

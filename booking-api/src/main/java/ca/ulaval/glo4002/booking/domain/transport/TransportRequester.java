@@ -18,9 +18,9 @@ public class TransportRequester implements TransportExposer {
     private ShuttleFiller shuttleFiller;
     private FestivalDates festival;
     
-    public TransportRequester(ShuttleRepository transportRepository, FestivalDates festival) {
+    public TransportRequester(ShuttleRepository transportRepository, FestivalDates festivalDates) {
         this.transportRepository = transportRepository;
-        this.festival = festival;
+        this.festival = festivalDates;
         shuttleFiller = new ShuttleFiller();
     }
 

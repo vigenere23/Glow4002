@@ -11,8 +11,8 @@ public class PackagePassFactory {
 
     private FestivalDates festival;
 
-    public PackagePassFactory(FestivalDates festival) {
-        this.festival = festival;
+    public PackagePassFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
     }
 
     public PackagePass create(PassCategory passCategory) {

@@ -13,9 +13,9 @@ public class PassOrderRequester implements PassOrderExposer {
     private PassOrderRepository passOrderRepository;
     private PassOrderFactory passOrderFactory;
 
-    public PassOrderRequester(PassOrderRepository passOrderRepository, FestivalDates festival) {
+    public PassOrderRequester(PassOrderRepository passOrderRepository, FestivalDates festivalDates) {
         this.passOrderRepository = passOrderRepository;
-        passOrderFactory = new PassOrderFactory(festival);
+        passOrderFactory = new PassOrderFactory(festivalDates);
     }
 
     @Override

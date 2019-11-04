@@ -13,8 +13,8 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
 public class SinglePassFactory {
     private FestivalDates festival;
 
-    public SinglePassFactory(FestivalDates festival) {
-        this.festival = festival;
+    public SinglePassFactory(FestivalDates festivalDates) {
+        this.festival = festivalDates;
     }
 
     public SinglePass create(PassCategory passCategory, LocalDate eventDate) throws OutOfFestivalDatesException {
