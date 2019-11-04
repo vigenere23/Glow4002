@@ -40,7 +40,7 @@ public class SupergiantSinglePassDiscountTests {
 	public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
 		initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 		Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
-		assertThat(getPriceAfterDiscount().getAmount()).isEqualTo(expectedPriceAfterDiscount.getAmount());
+		assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
 	}
 	
 	private void initPasses(int numberOfPasses) {
