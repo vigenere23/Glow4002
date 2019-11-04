@@ -4,33 +4,28 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class NebulaSinglePassDiscount extends OrderDiscount {
 
+    private static final double PERCENTAGE_DISCOUNT = 0.1;
+    private static final int NUMBER_OF_ITEMS_REQUIRED = 4;
+
     @Override
     public Price getPriceAfterDiscounts(List<Pass> passes, Price totalPrice) {
-        long numberOfSupergiantSinglePass = getNumberOfWantedObjects(passes);
+        long numberOfSupergiantSinglePass = getQuantityOfMatchingPasses(passes, PassOption.SINGLE_PASS, PassCategory.NEBULA);
         Price discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
-        Price newPrice = totalPrice.minus(discount);
+        Price priceAfterDiscount = totalPrice.minus(discount);
 
-        if (nextDiscount != null) {
-            return nextDiscount.getPriceAfterDiscounts(passes, newPrice);
-        }
-        return newPrice;
+        return nextDiscount.isPresent()
+            ? nextDiscount.get().getPriceAfterDiscounts(passes, priceAfterDiscount)
+            : priceAfterDiscount;
     }
 
-    private long getNumberOfWantedObjects(List<Pass> passes) {
-        return passes
-            .stream()
-            .filter(pass -> pass instanceof NebulaSinglePass)
-            .count();
-    }
-
-    private Price getDiscount(long numberOfWantedPasses, Price totalPrice) {
-        if (numberOfWantedPasses > 3) {
-            return totalPrice.multipliedBy(0.1);
-        }
-        return Price.zero();
+    private Price getDiscount(long numberOfPasses, Price totalPrice) {
+        return numberOfPasses >= NUMBER_OF_ITEMS_REQUIRED
+            ? totalPrice.multipliedBy(PERCENTAGE_DISCOUNT)
+            : Price.zero();
     }
 }

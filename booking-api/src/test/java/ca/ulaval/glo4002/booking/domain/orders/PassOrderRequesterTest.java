@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 
@@ -26,13 +26,13 @@ public class PassOrderRequesterTest {
     public void setUp() throws Exception {
         passOrderRepository = mock(HeapPassOrderRepository.class);
 
-        Glow4002 festival = mock(Glow4002.class);
-        when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
-        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
-        when(festival.getStartDate()).thenReturn(LocalDate.now());
-        when(festival.getEndDate()).thenReturn(LocalDate.now());
+        FestivalDates festivalDates = mock(FestivalDates.class);
+        when(festivalDates.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
+        when(festivalDates.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+        when(festivalDates.getStartDate()).thenReturn(LocalDate.now());
+        when(festivalDates.getEndDate()).thenReturn(LocalDate.now());
         
-        passOrderService = new PassOrderRequester(passOrderRepository, festival);
+        passOrderService = new PassOrderRequester(passOrderRepository, festivalDates);
         passRequest = new PassRequest("package", "nebula", null);
     }
 

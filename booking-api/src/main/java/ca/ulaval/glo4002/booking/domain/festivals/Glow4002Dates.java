@@ -5,14 +5,18 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-public class Glow4002 {
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;;
+
+public class Glow4002Dates implements FestivalDates {
 
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final OffsetDateTime saleStartDate;
     private final OffsetDateTime saleEndDate;
 
-    public Glow4002() {
+    public Glow4002Dates() {
         startDate = LocalDate.of(2050, 7, 17);
         endDate = LocalDate.of(2050, 7, 24);
         saleStartDate = OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC);
@@ -35,11 +39,23 @@ public class Glow4002 {
         return saleEndDate;
     }
 
-    public boolean isDuringSaleTime(OffsetDateTime dateTime) {
-        return !(dateTime.isBefore(saleStartDate) || dateTime.isAfter(saleEndDate));
+    public boolean isDuringSaleTime(OffsetDateTime orderDate) {
+        return !(orderDate.isBefore(saleStartDate) || orderDate.isAfter(saleEndDate));
     }
 
     public boolean isDuringEventTime(LocalDate date) {
         return !(date.isBefore(startDate) || date.isAfter(endDate));
+    }
+
+    public void validateEventDates(LocalDate startDate, LocalDate endDate) {
+        if (!isDuringEventTime(startDate) || !isDuringEventTime(endDate)) {
+            throw new OutOfFestivalDatesException(getStartDate(), getEndDate());
+        }
+    }
+
+    public void validateOrderDate(OffsetDateTime orderDate) {
+        if (!isDuringSaleTime(orderDate)) {
+            throw new OutOfSaleDatesException(getSaleStartDate(), getSaleEndDate());
+        }
     }
 }

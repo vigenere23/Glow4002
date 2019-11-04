@@ -24,12 +24,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
@@ -75,7 +70,7 @@ public class PassOrderingOrchestratorTest {
 
     @Test
     public void givenFestivalOf5Days_whenCreatingANebulaPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -87,7 +82,7 @@ public class PassOrderingOrchestratorTest {
 
     @Test
     public void whenCreatingANebulaSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -99,7 +94,7 @@ public class PassOrderingOrchestratorTest {
 
     @Test
     public void givenFestivalOf5Days_whenCreatingASupergiantPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -111,7 +106,7 @@ public class PassOrderingOrchestratorTest {
 
     @Test
     public void whenCreatingASupergiantSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -123,7 +118,7 @@ public class PassOrderingOrchestratorTest {
 
     @Test
     public void givenFestivalOf5Days_whenCreatingASupernovaPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -135,7 +130,7 @@ public class PassOrderingOrchestratorTest {
 
     @Test
     public void whenCreatingASupernovaSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         orchestrator.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -145,8 +140,9 @@ public class PassOrderingOrchestratorTest {
         verify(oxygenRequester).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY);
     }
 
-    private void mockPass(Pass pass, PassCategory passCategory, LocalDate start, LocalDate end) {
+    private void mockPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {
         List<Pass> passes = new ArrayList<>();
+        Pass pass = mock(Pass.class);
         when(pass.getStartDate()).thenReturn(start);
         when(pass.getEndDate()).thenReturn(end);
         when(pass.getPassNumber()).thenReturn(PASS_ID);

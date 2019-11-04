@@ -51,7 +51,7 @@ public class Price {
         return new Price(price.minus(other.price).getAmount());
     }
 
-    public Price multipliedBy(int multiplier) {
+    public Price multipliedBy(long multiplier) {
         return new Price(price.multipliedBy(multiplier).getAmount());
     }
 

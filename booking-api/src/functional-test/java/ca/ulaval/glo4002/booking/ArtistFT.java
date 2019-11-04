@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ArtistFunctionalTest {
+public class ArtistFT {
 
     private ArtistRepository artistRepository;
 

@@ -4,33 +4,28 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class SupergiantSinglePassDiscount extends OrderDiscount {
 
+    private static final Price ABSOLUTE_DISCOUNT = new Price(10000);
+    private static final int NUMBER_OF_ITEMS_REQUIRED = 5;
+
     @Override
     public Price getPriceAfterDiscounts(List<Pass> passes, Price totalPrice) {
-        long numberOfSupergiantSinglePass = getNumberOfWantedObjects(passes);
+        long numberOfSupergiantSinglePass = getQuantityOfMatchingPasses(passes, PassOption.SINGLE_PASS, PassCategory.SUPERGIANT);
         Price discount = getDiscount(numberOfSupergiantSinglePass, totalPrice);
-        Price newPrice = totalPrice.minus(discount);
+        Price priceAfterDiscount = totalPrice.minus(discount);
 
-        if (nextDiscount != null) {
-            return nextDiscount.getPriceAfterDiscounts(passes, newPrice);
-        }
-        return newPrice;
+        return nextDiscount.isPresent()
+            ? nextDiscount.get().getPriceAfterDiscounts(passes, priceAfterDiscount)
+            : priceAfterDiscount;
     }
 
-    private long getNumberOfWantedObjects(List<Pass> passes) {
-        return passes
-            .stream()
-            .filter(pass -> pass instanceof SupergiantSinglePass)
-            .count();
-    }
-
-    private Price getDiscount(long numberOfWantedPasses, Price totalPrice) {
-        if (numberOfWantedPasses >= 5) {
-            return new Price(numberOfWantedPasses * 10000);
-        }
-        return Price.zero();
+    private Price getDiscount(long numberOfPasses, Price totalPrice) {
+        return numberOfPasses >= NUMBER_OF_ITEMS_REQUIRED
+            ? ABSOLUTE_DISCOUNT.multipliedBy(numberOfPasses)
+            : Price.zero();
     }
 }
