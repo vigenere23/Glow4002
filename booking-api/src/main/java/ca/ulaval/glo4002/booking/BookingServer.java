@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking;
 
-import ca.ulaval.glo4002.booking.domain.application.TransportUseCase;
+import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassUtilities;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
@@ -12,7 +12,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
-import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;

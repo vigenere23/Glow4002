@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.application;
+package ca.ulaval.glo4002.booking.application;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;

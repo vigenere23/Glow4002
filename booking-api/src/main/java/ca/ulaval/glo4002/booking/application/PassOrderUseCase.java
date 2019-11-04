@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.application;
+package ca.ulaval.glo4002.booking.application;
 
 import java.time.OffsetDateTime;
 import java.util.List;

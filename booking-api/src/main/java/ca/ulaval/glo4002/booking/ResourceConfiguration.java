@@ -1,11 +1,11 @@
 package ca.ulaval.glo4002.booking;
 
-import ca.ulaval.glo4002.booking.domain.application.TransportUseCase;
+import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 
 public class ResourceConfiguration extends ResourceConfig {
