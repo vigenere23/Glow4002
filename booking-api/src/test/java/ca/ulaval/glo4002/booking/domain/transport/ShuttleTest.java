@@ -37,15 +37,19 @@ public class ShuttleTest {
     }
 
     @Test
-    public void givenPassNumber_whenAddNewPassNumber_thenAddPassesNumberToList() {
+    public void givenPassNumber_whenAddNewPassNumber_thenAPassNumberIsInShuttle() {
         shuttle.addPassNumber(PASS_NUMBER);
         assertEquals(PASS_NUMBER, shuttle.getPassNumbers().get(0));
     }
     
     @Test
     public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleIsNotFulled() {
-        shuttle.addPassNumber(PASS_NUMBER);        
-        assertFalse(shuttle.isFull());
+        boolean fullShuttle;
+        shuttle.addPassNumber(PASS_NUMBER); 
+        
+        fullShuttle = shuttle.isFull();
+
+        assertFalse(fullShuttle);
     }
 
     @Test
