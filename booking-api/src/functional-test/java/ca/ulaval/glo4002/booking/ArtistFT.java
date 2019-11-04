@@ -4,9 +4,11 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.Artist
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalServiceApiArtist;
 import ca.ulaval.glo4002.organisation.OrganisationServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -28,11 +30,13 @@ public class ArtistFT {
 
     @BeforeEach
     public void setUp() {
+        ExternalServiceApiArtist apiArtist = new ExternalServiceApiArtist();
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
-        artistRepository = new ApiArtistRepository(artistRankingInformationMapper);
+        artistRepository = new ApiArtistRepository(artistRankingInformationMapper, apiArtist);
     }
 
     @Test
+    @Tag("IntegrationTests")
     public void whenOrderSupergiantSinglePass_thenRightLocationHeader() {
         // TODO to remove/modify, for test only
         List<ArtistRankingInformation> artistRankingInformations = artistRepository.findArtistRankingInformation();

@@ -12,7 +12,10 @@ import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtist;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalServiceApiArtist;
+
 import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -73,9 +76,9 @@ public class BookingServer implements Runnable {
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
-
+        ApiArtist apiArtist = new ExternalServiceApiArtist();
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
-        ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
+        ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper, apiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 

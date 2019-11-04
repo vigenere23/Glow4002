@@ -138,11 +138,39 @@
                             <skipTests>false</skipTests>
                             <includes>
                                 <include>**/*FT.java</include>
-                            </includes>
+                            </includes>                          
+                            <excludedGroups>IntegrationTests</excludedGroups>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.5.2</version>
+                    </dependency>
+                  </dependencies>
+                <configuration>
+                    <groups>IntegrationTests</groups>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                    </excludes>
+                    <skipITs>**/*Test.java</skipITs>
+                </configuration>
+                <executions>
+                  <execution>
+                    <goals>
+                      <goal>integration-test</goal>
+                      <goal>verify</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
         </plugins>
     </build>
 </project>
