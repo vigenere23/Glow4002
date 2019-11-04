@@ -12,7 +12,7 @@ import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 
-public class TransportRequester extends TransportExposer {
+public class TransportRequester implements TransportExposer {
     
     private ShuttleRepository transportRepository;
     private ShuttleFiller shuttleFiller;

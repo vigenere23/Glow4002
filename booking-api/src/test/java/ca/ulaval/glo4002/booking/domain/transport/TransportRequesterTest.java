@@ -2,11 +2,10 @@ package ca.ulaval.glo4002.booking.domain.transport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Matchers.any;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -18,12 +17,12 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
 class TransportRequesterTest {
+
+    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
+    private final static LocalDate DATE = LocalDate.of(2050, 7, 18);
+    private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 07, 10);
 
     private List<Shuttle> shuttlesEarth = new LinkedList<Shuttle>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<Shuttle>();
@@ -31,28 +30,21 @@ class TransportRequesterTest {
     private Shuttle mockedShuttle;
     private TransportRequester transportRequester;
     private Glow4002 festival;
-    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
-    private final static LocalDate DATE = LocalDate.of(2050, 7, 18);
-    private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 07, 10);
 
     @BeforeEach
     public void setUp() {
+
+        //À retravailler... pourrait probablement être diminuer encore, mais difficilement faisable. 
         shuttleRepository = mock(ShuttleRepository.class);
         mockedShuttle = mock(SpaceX.class);
         festival = mock(Glow4002.class);
-        
-        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
-        when(festival.getStartDate()).thenReturn(LocalDate.now());
-        when(festival.getEndDate()).thenReturn(LocalDate.now());
-
         transportRequester = new TransportRequester(shuttleRepository, festival);
         shuttlesEarth.add(mockedShuttle);
         shuttlesUlavalogy.add(mockedShuttle);
 
-        willReturn(shuttlesEarth).given(shuttleRepository).findShuttlesByLocation(Location.EARTH);
-        willReturn(shuttlesEarth).given(shuttleRepository).findShuttlesByDate(Location.EARTH, DATE);
-        willReturn(shuttlesUlavalogy).given(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
-        willReturn(shuttlesUlavalogy).given(shuttleRepository).findShuttlesByDate(Location.ULAVALOGY, DATE);
+        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+        when(festival.getStartDate()).thenReturn(LocalDate.now());
+        when(festival.getEndDate()).thenReturn(LocalDate.now());
     }
 
     @Test
@@ -63,6 +55,7 @@ class TransportRequesterTest {
 
     @Test
     public void whenGetAllDeparture_thenReturnListOfShuttlesForLocation() {
+        when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
         assertEquals(shuttlesEarth, transportRequester.getAllDepartures());
     }
 
@@ -74,6 +67,7 @@ class TransportRequesterTest {
 
     @Test
     public void whenGetAllArrivals_thenReturnListOfShuttlesForLocation() {
+        when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
         assertEquals(shuttlesUlavalogy, transportRequester.getAllArrivals());
     }
 
@@ -84,7 +78,8 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {        
+    public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException { 
+        when(shuttleRepository.findShuttlesByDate(Location.EARTH, DATE)).thenReturn(shuttlesEarth);
         assertEquals(shuttlesEarth, transportRequester.getShuttlesDepartureByDate(DATE));
     }
 
@@ -101,7 +96,8 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {        
+    public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {      
+        when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, DATE)).thenReturn(shuttlesUlavalogy);
         assertEquals(shuttlesUlavalogy, transportRequester.getShuttlesArrivalByDate(DATE));
     }
 
@@ -118,8 +114,11 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void whenReserveDeparture_thenSaveDepartureIsCalled() {        
+    public void whenReserveDeparture_thenSaveDepartureIsCalled() {
+        when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
+
         transportRequester.reserveDeparture(ShuttleCategory.SPACE_X, DATE, PASS_NUMBER);
+        
         verify(shuttleRepository).saveDeparture(shuttlesEarth);
     }
     
@@ -130,8 +129,11 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void whenReserveDeparture_thenSaveArrivalIsCalled() {        
+    public void whenReserveArrival_thenSaveArrivalIsCalled() {
+        when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
+        
         transportRequester.reserveArrival(ShuttleCategory.SPACE_X, DATE, PASS_NUMBER);
+
         verify(shuttleRepository).saveArrival(shuttlesUlavalogy);
     }
 }

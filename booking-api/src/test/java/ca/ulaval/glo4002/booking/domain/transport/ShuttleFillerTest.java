@@ -16,15 +16,16 @@ import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
 class ShuttleFillerTest {
     
-    private ShuttleFiller shuttleFiller;
-    private List<Shuttle> shuttles;
-    private Shuttle firstMockedShuttle; 
     private final static LocalDate DATE = LocalDate.of(2050, 7, 22);
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
 
+    private ShuttleFiller shuttleFiller;
+    private List<Shuttle> shuttles;
+    private Shuttle firstMockedShuttle; 
+
     @BeforeEach
     public void setUp() {
-        firstMockedShuttle = mock(ETSpaceship.class);
+        firstMockedShuttle = mock(Shuttle.class);
         shuttles = new LinkedList<Shuttle>();
         shuttleFiller = new ShuttleFiller();
     }
