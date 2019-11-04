@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 
 public class PassOrderFactoryTest {
 
@@ -18,7 +18,7 @@ public class PassOrderFactoryTest {
 
     @BeforeEach
     public void setUp() {
-        Glow4002 festival = mock(Glow4002.class);
+        Glow4002Dates festival = mock(Glow4002Dates.class);
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
         passOrderFactory = new PassOrderFactory(festival);
     }

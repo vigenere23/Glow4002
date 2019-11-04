@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
 class TransportRequesterTest {
@@ -29,7 +29,7 @@ class TransportRequesterTest {
     private ShuttleRepository shuttleRepository;
     private Shuttle mockedShuttle;
     private TransportRequester transportRequester;
-    private Glow4002 festival;
+    private Glow4002Dates festival;
 
     @BeforeEach
     public void setUp() {
@@ -37,7 +37,7 @@ class TransportRequesterTest {
         //À retravailler... pourrait probablement être diminuer encore, mais difficilement faisable. 
         shuttleRepository = mock(ShuttleRepository.class);
         mockedShuttle = mock(SpaceX.class);
-        festival = mock(Glow4002.class);
+        festival = mock(Glow4002Dates.class);
         transportRequester = new TransportRequester(shuttleRepository, festival);
         shuttlesEarth.add(mockedShuttle);
         shuttlesUlavalogy.add(mockedShuttle);

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 
@@ -26,7 +26,7 @@ public class PassOrderRequesterTest {
     public void setUp() throws Exception {
         passOrderRepository = mock(HeapPassOrderRepository.class);
 
-        Glow4002 festival = mock(Glow4002.class);
+        Glow4002Dates festival = mock(Glow4002Dates.class);
         when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
         when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
         when(festival.getStartDate()).thenReturn(LocalDate.now());

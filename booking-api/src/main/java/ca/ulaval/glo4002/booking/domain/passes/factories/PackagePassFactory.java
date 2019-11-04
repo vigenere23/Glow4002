@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passes.factories;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.PackagePass;
@@ -9,9 +9,9 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaPackagePass;
 
 public class PackagePassFactory {
 
-    private Glow4002 festival;
+    private FestivalDates festival;
 
-    public PackagePassFactory(Glow4002 festival) {
+    public PackagePassFactory(FestivalDates festival) {
         this.festival = festival;
     }
 
