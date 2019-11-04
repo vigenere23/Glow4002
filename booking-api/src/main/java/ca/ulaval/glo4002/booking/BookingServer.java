@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking;
 
-import ca.ulaval.glo4002.booking.domain.application.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.orders.PassUtilities;
