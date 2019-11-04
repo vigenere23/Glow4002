@@ -6,14 +6,9 @@ import java.time.OffsetDateTime;
 public interface FestivalDates {
 
     public LocalDate getStartDate();
-
     public LocalDate getEndDate();
-
     public OffsetDateTime getSaleStartDate();
-
     public OffsetDateTime getSaleEndDate();
-
     public boolean isDuringSaleTime(OffsetDateTime dateTime);
-
     public boolean isDuringEventTime(LocalDate date);
 }

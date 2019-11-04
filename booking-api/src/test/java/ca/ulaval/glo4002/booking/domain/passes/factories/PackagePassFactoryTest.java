@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.PackagePass;
@@ -19,7 +19,7 @@ public class PackagePassFactoryTest {
 
     @BeforeEach
     public void setUp() {
-        Glow4002Dates festival = mock(Glow4002Dates.class);
+        FestivalDates festival = mock(FestivalDates.class);
         passFactory = new PackagePassFactory(festival);
     }
 

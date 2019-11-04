@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.factories.SinglePassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
@@ -22,14 +22,14 @@ import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
 
 public class SinglePassFactoryTest {
 
-    private Glow4002Dates festival;
+    private FestivalDates festival;
     private SinglePassFactory passFactory;
 
     private static final LocalDate ANY_DATE = LocalDate.now();
 
     @BeforeEach
     public void seTup() {
-        festival = mock(Glow4002Dates.class);
+        festival = mock(FestivalDates.class);
         when(festival.getStartDate()).thenReturn(ANY_DATE);
         when(festival.getEndDate()).thenReturn(ANY_DATE);
 
