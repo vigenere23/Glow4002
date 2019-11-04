@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassOrderTest {
 
@@ -47,11 +47,15 @@ public class PassOrderTest {
     public void setUp() {
         passes = new ArrayList<>();
 
-        nebulaSinglePassMock = mock(NebulaSinglePass.class);
+        nebulaSinglePassMock = mock(Pass.class);
         when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
+        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA))
+            .thenReturn(true);
 
-        supergiantSinglePassMock = mock(SupergiantSinglePass.class);
+        supergiantSinglePassMock = mock(Pass.class);
         when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
+        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT))
+            .thenReturn(true);
     }
 
     @Test

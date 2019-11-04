@@ -38,7 +38,7 @@ public class TransportResource {
             departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
             arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
         } else {
-            LocalDate date = LocalDate.parse(stringDate, DateFormatter.formatter);
+            LocalDate date = LocalDate.parse(stringDate);
             departures = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesDepartureByDate(date));
             arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
         }    

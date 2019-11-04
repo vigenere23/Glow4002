@@ -23,6 +23,7 @@ public class PassOrderRequester implements PassOrderExposer {
         return passOrderRepository.findByOrderNumber(orderNumber);
     }
 
+    // TODO #129 unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
     public PassOrder orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         passOrderRepository.save(passOrder);

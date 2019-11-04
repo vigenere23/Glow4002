@@ -11,9 +11,9 @@ import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassRequest {
-    public final PassOption passOption;
-    public final PassCategory passCategory;
-    public final List<LocalDate> eventDates;
+    private final PassOption passOption;
+    private final PassCategory passCategory;
+    private final List<LocalDate> eventDates;
 
     @JsonCreator
     public PassRequest(
@@ -23,13 +23,23 @@ public class PassRequest {
     ) {
         this.passOption = PassOption.fromString(passOption);
         this.passCategory = PassCategory.fromString(passCategory);
-        if (eventDates != null) {
-            this.eventDates = eventDates
+        this.eventDates = eventDates == null
+            ? null
+            : eventDates
                 .stream()
                 .map(LocalDate::parse)
                 .collect(Collectors.toList());
-        } else {
-            this.eventDates = null;
-        }
+    }
+
+    public PassOption getPassOption() {
+        return passOption;
+    }
+
+    public PassCategory getPassCategory() {
+        return passCategory;
+    }
+
+    public List<LocalDate> getEventDates() {
+        return eventDates;
     }
 }

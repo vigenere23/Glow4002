@@ -26,13 +26,13 @@ public class PassOrderRequesterTest {
     public void setUp() throws Exception {
         passOrderRepository = mock(HeapPassOrderRepository.class);
 
-        FestivalDates festival = mock(FestivalDates.class);
-        when(festival.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
-        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
-        when(festival.getStartDate()).thenReturn(LocalDate.now());
-        when(festival.getEndDate()).thenReturn(LocalDate.now());
+        FestivalDates festivalDates = mock(FestivalDates.class);
+        when(festivalDates.isDuringSaleTime(any(OffsetDateTime.class))).thenReturn(true);
+        when(festivalDates.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
+        when(festivalDates.getStartDate()).thenReturn(LocalDate.now());
+        when(festivalDates.getEndDate()).thenReturn(LocalDate.now());
         
-        passOrderService = new PassOrderRequester(passOrderRepository, festival);
+        passOrderService = new PassOrderRequester(passOrderRepository, festivalDates);
         passRequest = new PassRequest("package", "nebula", null);
     }
 

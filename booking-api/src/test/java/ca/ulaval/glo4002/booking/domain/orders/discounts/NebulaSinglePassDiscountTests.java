@@ -10,10 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NebulaSinglePassDiscountTests {
 
@@ -44,8 +46,11 @@ public class NebulaSinglePassDiscountTests {
     }
     
     private void initPasses(int numberOfPasses) {
+        Pass pass = mock(Pass.class);
+        when(pass.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
+
         for (int i = 0; i < numberOfPasses; i++) {
-            passes.add(mock(NebulaSinglePass.class));
+            passes.add(pass);
         }
     }
 
