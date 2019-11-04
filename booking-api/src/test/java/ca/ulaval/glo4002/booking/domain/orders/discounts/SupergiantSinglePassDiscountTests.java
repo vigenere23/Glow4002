@@ -46,9 +46,8 @@ public class SupergiantSinglePassDiscountTests {
 	
 	private void initPasses(int numberOfPasses) {
 		Pass pass = mock(Pass.class);
-		when(pass.getPassOption()).thenReturn(PassOption.SINGLE_PASS);
-		when(pass.getPassCategory()).thenReturn(PassCategory.SUPERGIANT);
-		
+		when(pass.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
+
 		for (int i = 0; i < numberOfPasses; i++) {
 			passes.add(pass);
 		}

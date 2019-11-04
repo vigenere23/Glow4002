@@ -13,7 +13,7 @@ public class PassOrderRequester implements PassOrderExposer {
     private PassOrderRepository passOrderRepository;
     private PassOrderFactory passOrderFactory;
 
-    // TODO inject the passOrderFactory
+    // TODO #129 inject the passOrderFactory
     public PassOrderRequester(PassOrderRepository passOrderRepository, Glow4002 festival) {
         this.passOrderRepository = passOrderRepository;
         passOrderFactory = new PassOrderFactory(festival);
@@ -24,7 +24,7 @@ public class PassOrderRequester implements PassOrderExposer {
         return passOrderRepository.findByOrderNumber(orderNumber);
     }
 
-    // TODO unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
+    // TODO #129 unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
     public PassOrder orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         passOrderRepository.save(passOrder);

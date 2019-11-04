@@ -26,6 +26,10 @@ public class Pass {
         this.endDate = endDate;
     }
 
+    public boolean isOfType(PassOption passOption, PassCategory passCategory) {
+        return this.passOption == passOption && this.passCategory == passCategory;
+    }
+
     public Money getPrice() {
         return price;
     }

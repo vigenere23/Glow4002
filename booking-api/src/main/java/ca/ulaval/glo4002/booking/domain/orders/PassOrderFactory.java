@@ -15,17 +15,15 @@ public class PassOrderFactory {
     private PassFactory passFactory;
     private Glow4002 festival;
 
-    // TODO inject the PassFactory
+    // TODO #129 inject the PassFactory
     public PassOrderFactory(Glow4002 festival) {
         this.festival = festival;
-        
         passFactory = new PassFactory(festival);
     }
 
-    // TODO unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
+    // TODO #129 unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
     public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         festival.validateOrderDate(orderDate);
-
         List<Pass> passes = createPasses(passRequest);
         PassOrder passOrder = new PassOrder(vendorCode, passes);
         return passOrder;
