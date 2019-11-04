@@ -25,18 +25,18 @@ public class TransportRequester implements TransportExposer {
     }
 
     @Override
-    public List<Shuttle> getShuttlesDepartureByDate(LocalDate date) throws OutOfFestivalDatesException {
+    public List<Shuttle> getShuttlesDepartureByDate(LocalDate date) {
         validateDateRange(date); 
         return transportRepository.findShuttlesByDate(Location.EARTH, date);
     }
 
     @Override
-    public List<Shuttle> getShuttlesArrivalByDate(LocalDate date) throws OutOfFestivalDatesException {
+    public List<Shuttle> getShuttlesArrivalByDate(LocalDate date) {
         validateDateRange(date); 
         return transportRepository.findShuttlesByDate(Location.ULAVALOGY, date);
     }
 
-    private void validateDateRange(LocalDate date) throws OutOfFestivalDatesException {
+    private void validateDateRange(LocalDate date) {
         if (!festival.isDuringEventTime(date)) {
             throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
         }

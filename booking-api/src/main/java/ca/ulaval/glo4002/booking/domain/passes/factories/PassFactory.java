@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.domain.passes.factories;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
@@ -16,7 +15,7 @@ public class PassFactory {
         this.festival = festival;
     }
 
-    public Pass create(PassOption passOption, PassCategory passCategory, LocalDate eventDate) throws OutOfFestivalDatesException {
+    public Pass create(PassOption passOption, PassCategory passCategory, LocalDate eventDate) {
         validateOptionAndEventDate(passOption, eventDate);
 
         switch (passOption) {
