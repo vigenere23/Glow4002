@@ -25,14 +25,12 @@ public class PassRequest {
         try {
             this.passOption = PassOption.fromString(passOption);
             this.passCategory = PassCategory.fromString(passCategory);
-            if (eventDates != null) {
-                this.eventDates = eventDates
+            this.eventDates = eventDates == null
+                ? null
+                : eventDates
                     .stream()
                     .map(LocalDate::parse)
                     .collect(Collectors.toList());
-            } else {
-                this.eventDates = null;
-            }
         }
         catch (Exception exception) {
             throw new InvalidFormatException();
