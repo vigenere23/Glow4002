@@ -34,15 +34,11 @@ public class HeapShuttleRepository implements ShuttleRepository {
 
     @Override
     public void saveDeparture(List<Shuttle> shuttlesToSave) {
-        if (!shuttlesToSave.contains(null)) {
-            departureShuttles = shuttlesToSave;
-        }
+        departureShuttles = shuttlesToSave;
     }
 
     @Override
     public void saveArrival(List<Shuttle> shuttlesToSave) {
-        if (!shuttlesToSave.contains(null)) {
-            arrivalShuttles = shuttlesToSave;
-        }
+        arrivalShuttles = shuttlesToSave;
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 
-public abstract class TransportExposer {
+public interface TransportExposer {
     
     public abstract List<Shuttle> getShuttlesDepartureByDate(LocalDate date);
     public abstract List<Shuttle> getShuttlesArrivalByDate(LocalDate date);
