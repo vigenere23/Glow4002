@@ -30,6 +30,8 @@ public class PassOrderFactory {
     }
 
     private List<Pass> createPasses(PassRequest passRequest) {
+        validatePassRequest(passRequest);
+
         List<Pass> passes = new ArrayList<>();
 
         if (passRequest.getEventDates() == null || passRequest.getEventDates().isEmpty()) {
@@ -40,5 +42,11 @@ public class PassOrderFactory {
             }
         }
         return passes;
+    }
+
+    private void validatePassRequest(PassRequest passRequest) {
+        if (passRequest == null) {
+            throw new IllegalArgumentException("Passes cannot be null");
+        }
     }
 }
