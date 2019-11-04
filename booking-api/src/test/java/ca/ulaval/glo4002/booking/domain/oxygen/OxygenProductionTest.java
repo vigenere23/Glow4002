@@ -23,9 +23,9 @@ class OxygenProductionTest {
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 6, 22);
     private final static LocalDate SOME_COMPLETION_DATE = LocalDate.of(2050, 6, 26);
 
-    private EnumMap<HistoryType, Integer> someOrderDateQuantityPerBatch = new EnumMap<HistoryType, Integer>(HistoryType.class);
-    private EnumMap<HistoryType, Integer> someCompletionDateQuantityPerBatch = new EnumMap<HistoryType, Integer>(HistoryType.class);
-    private SortedMap<LocalDate, OxygenDateHistory> someHistory = new TreeMap<LocalDate, OxygenDateHistory>();
+    private EnumMap<HistoryType, Integer> someOrderDateQuantityPerBatch = new EnumMap<>(HistoryType.class);
+    private EnumMap<HistoryType, Integer> someCompletionDateQuantityPerBatch = new EnumMap<>(HistoryType.class);
+    private SortedMap<LocalDate, OxygenDateHistory> someHistory = new TreeMap<>();
     private OxygenProduction oxygenProduction;
 
     @BeforeEach

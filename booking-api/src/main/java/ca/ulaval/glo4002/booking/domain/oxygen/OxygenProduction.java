@@ -50,10 +50,10 @@ public class OxygenProduction {
     }
 
     public int getQuantityToFabricate(int tankRequiredQuantity, int fabricationQuantity) {
-        return getQuantityOfFabricationBatchesNeeded(tankRequiredQuantity) * fabricationQuantity;
+        return getQuantityOfFabricationBatchesRequired(tankRequiredQuantity) * fabricationQuantity;
     }
 
-    private int getQuantityOfFabricationBatchesNeeded(int requiredQuantity) {
+    private int getQuantityOfFabricationBatchesRequired(int requiredQuantity) {
         if (requiredQuantity % tankFabricationQuantity > 0) {
             return requiredQuantity / tankFabricationQuantity + 1;
         }

@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.NotEnoughTimeException;
-
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.SortedMap;
@@ -17,14 +15,14 @@ public class OxygenProducer {
     public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, EnumMap<OxygenGrade, OxygenInventory> oxygenInventories, SortedMap<LocalDate, OxygenDateHistory>  history) {
         OxygenInventory oxygenInventory = oxygenInventories.get(grade);
         Oxygen oxygen = oxygenFactory.create(grade, oxygenInventory);
-        try {
-            oxygen.adjustInventory(orderDate, requiredQuantity);
-            oxygen.updateOxygenHistory(history, orderDate, requiredQuantity);
-        } catch (NotEnoughTimeException exception) {
+
+        boolean adjustInventory = oxygen.adjustInventory(orderDate, requiredQuantity);
+        if (!adjustInventory) {
             int quantityToOrder = requiredQuantity - oxygenInventory.getRemainingQuantity();
             oxygenInventory.setRemainingQuantity(0);
             orderOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder, oxygenInventories, history);
         }
+        oxygen.updateOxygenHistory(history, orderDate, requiredQuantity);
     }
 
     private OxygenGrade getLowerGradeOf(OxygenGrade grade) {

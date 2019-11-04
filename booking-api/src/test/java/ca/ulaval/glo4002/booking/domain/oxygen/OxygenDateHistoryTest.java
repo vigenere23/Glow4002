@@ -39,7 +39,7 @@ class OxygenDateHistoryTest {
         }
     }
 
-    @Test
+    //TODO issue #112 part 2
 
     private void initializeDateHistory() {
         someOxygenDateHistory = new OxygenDateHistory(SOME_DATE);

@@ -38,7 +38,7 @@ class OxygenProducerTest {
         assertEquals(5, oxygenInventories.get(OxygenGrade.A).getInventory());
     }
 
-    // TODO
+    //TODO issue #112 part 2
 
     public void initializeOxygenInventories() {
         EnumSet.allOf(OxygenGrade.class)

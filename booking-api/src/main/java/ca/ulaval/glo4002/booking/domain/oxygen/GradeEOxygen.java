@@ -4,14 +4,8 @@ import java.time.LocalDate;
 
 public class GradeEOxygen extends Oxygen {
 
-    public GradeEOxygen(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory) {
-        this.limitDeliveryDate = limitDeliveryDate;
-        this.remainingQuantity = oxygenInventory.getRemainingQuantity();
-        this.oxygenInventory = oxygenInventory;
-        tankFabricationQuantity = 1;
-        fabricationTimeInDays = 0;
-        initializeQuantitiesPerBatch();
-        oxygenProduction = new OxygenProduction(fabricationTimeInDays, tankFabricationQuantity, orderDateQuantityPerBatch, completionDateQuantityPerBatch);
+    public GradeEOxygen(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
+        super(limitDeliveryDate, oxygenInventory, tankFabricationQuantity, fabricationTimeInDays);
     }
 
     protected void initializeQuantitiesPerBatch() {
