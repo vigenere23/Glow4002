@@ -12,7 +12,7 @@ public class Price {
     private static final CurrencyUnit CURRENCY = CurrencyUnit.CAD;
     private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
 
-    private BigMoney price;
+    private final BigMoney price;
 
     public static Price zero() {
         return new Price(0);
