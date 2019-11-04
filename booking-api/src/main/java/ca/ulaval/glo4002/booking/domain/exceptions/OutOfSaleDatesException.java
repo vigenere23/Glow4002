@@ -10,8 +10,8 @@ public class OutOfSaleDatesException extends RuntimeException {
         super(
             String.format(
                 "order date should be between %s and %s",
-                festivalSaleStart.format(DateFormatter.dateFormatter),
-                festivalSaleEnd.format(DateFormatter.dateFormatter)
+                festivalSaleStart.format(DateFormatter.formatter),
+                festivalSaleEnd.format(DateFormatter.formatter)
             )
         );
     }
