@@ -2,9 +2,7 @@ package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
-
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
@@ -40,17 +38,17 @@ public class PassFactory {
             throw new IllegalArgumentException("A single pass must have an event date");
         }
 
-        Money price = Money.of(CurrencyUnit.CAD, 0);
+        Price price = Price.zero();
 
         switch(passCategory) {
             case NEBULA:
-                price = Money.of(CurrencyUnit.CAD, 50000);
+                price = new Price(50000);
                 break;
             case SUPERGIANT:
-                price = Money.of(CurrencyUnit.CAD, 100000);
+                price = new Price(100000);
                 break;
             case SUPERNOVA:
-                price = Money.of(CurrencyUnit.CAD, 150000);
+                price = new Price(150000);
                 break;
             default:
                 throw new IllegalArgumentException(
@@ -62,17 +60,17 @@ public class PassFactory {
     }
 
     private Pass createPackagePass(PassCategory passCategory) {
-        Money price = Money.of(CurrencyUnit.CAD, 0);
+        Price price = Price.zero();
 
         switch(passCategory) {
             case NEBULA:
-                price = Money.of(CurrencyUnit.CAD, 250000);
+                price = new Price(250000);
                 break;
             case SUPERGIANT:
-                price = Money.of(CurrencyUnit.CAD, 500000);
+                price = new Price(500000);
                 break;
             case SUPERNOVA:
-                price = Money.of(CurrencyUnit.CAD, 700000);
+                price = new Price(700000);
                 break;
             default:
                 throw new IllegalArgumentException(

@@ -2,20 +2,20 @@ package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
 
-import org.joda.money.Money;
+import ca.ulaval.glo4002.booking.domain.Price;
 
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 
 public class Pass {
 
     private PassNumber passNumber;
-    private Money price;
+    private Price price;
     private PassOption passOption;
     private PassCategory passCategory;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Money price, LocalDate startDate, LocalDate endDate) {
+    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price, LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDates(startDate, endDate);
 
         this.passNumber = new PassNumber();
@@ -29,8 +29,8 @@ public class Pass {
     public boolean isOfType(PassOption passOption, PassCategory passCategory) {
         return this.passOption == passOption && this.passCategory == passCategory;
     }
-
-    public Money getPrice() {
+    
+    public Price getPrice() {
         return price;
     }
 

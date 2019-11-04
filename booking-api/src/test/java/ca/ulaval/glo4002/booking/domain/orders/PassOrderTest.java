@@ -3,15 +3,13 @@ package ca.ulaval.glo4002.booking.domain.orders;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
@@ -21,10 +19,10 @@ public class PassOrderTest {
 
     private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
     private static final int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
-    private static final Money NEBULA_SINGLE_PASS_PRICE = Money.of(CurrencyUnit.CAD, 50000);
+    private static final Price NEBULA_SINGLE_PASS_PRICE = new Price(50000);
     private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
-    private static final Money SUPERGIANT_SINGLE_PASS_PRICE = Money.of(CurrencyUnit.CAD, 100000);
-    private static final Money SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE = Money.of(CurrencyUnit.CAD, 90000);
+    private static final Price SUPERGIANT_SINGLE_PASS_PRICE = new Price(100000);
+    private static final Price SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE = new Price(90000);
 
     private Pass nebulaSinglePassMock;
     private Pass supergiantSinglePassMock;
@@ -59,42 +57,45 @@ public class PassOrderTest {
     }
 
     @Test
-    public void whenCreatingOrderWithNoPasses_thenThePriceShouldBeZero() {
+    public void NoPasses_whenGettingPrice_itShouldBeZero() {
         PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<Pass>());
-        assertThat(passOrder.getPrice()).isEqualTo(Money.zero(CurrencyUnit.CAD));
+        Price nullPrice = Price.zero();
+        assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
     }
 
     @Test
-    public void whenCreatingOrderWithOnePass_thenThePriceShouldBeThePassPrice() {
+    public void givenOnePass_whenGettingPrice_itShouldBeThePassPrice() {
         initNebulaPasses(1);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
         assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
     }
 
     @Test
-    public void whenCreatingOrderWithTwoPasses_thenThePriceShouldBeDoubleThePassPrice() {
+    public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
-        assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE.multipliedBy(2));
+
+        Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
+        assertThat(passOrder.getPrice()).isEqualTo(twoTimesNebulaSinglePassPrice);
     }
 
     @Test
-    public void givenOverThreeNebulaPasses_whenSinglePassOrderCreated_itShouldHaveTenPercentDiscount() {
+    public void givenOverThreeNebulaSinglePasses_whenGettingPrice_itShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
 
-        Money priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-        Money priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9, RoundingMode.HALF_UP);
+        Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+        Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
 
         assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
     }
 
     @Test
-    public void givenAtLeastFiveSupergiantPasses_whenSinglePassOrderCreated_itShouldHaveDiscountOnEachPass() {
+    public void givenAtLeastFiveSupergiantSinglePasses_whenGettingPrice_itShouldHaveDiscountOnEachPass() {
         initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes);
 
-        Money priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
+        Price priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 
         assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
     }

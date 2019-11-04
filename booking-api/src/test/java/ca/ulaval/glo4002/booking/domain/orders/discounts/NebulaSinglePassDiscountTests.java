@@ -1,14 +1,12 @@
 package ca.ulaval.glo4002.booking.domain.orders.discounts;
 
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class NebulaSinglePassDiscountTests {
 
     private static final int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
-    private static final Money PRICE_WITHOUT_DISCOUNT = Money.of(CurrencyUnit.CAD, 50000);
+    private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
     private static final double PERCENTAGE_DISCOUNT = 0.1;
 
     private NebulaSinglePassDiscount nebulaSinglePassDiscount;
@@ -41,7 +39,7 @@ public class NebulaSinglePassDiscountTests {
     @Test
     public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
         initPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-        Money expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT, RoundingMode.HALF_UP);
+        Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT);
         assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
     }
     
@@ -54,7 +52,7 @@ public class NebulaSinglePassDiscountTests {
         }
     }
 
-    private Money getPriceAfterDiscount() {
-        return nebulaSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
+    private Price getPriceAfterDiscount() {
+        return nebulaSinglePassDiscount.getPriceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
     }
 }

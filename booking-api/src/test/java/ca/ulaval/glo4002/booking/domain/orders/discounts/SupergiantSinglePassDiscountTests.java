@@ -3,11 +3,10 @@ package ca.ulaval.glo4002.booking.domain.orders.discounts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
@@ -19,8 +18,8 @@ import static org.mockito.Mockito.when;
 public class SupergiantSinglePassDiscountTests {
 
 	private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
-	private static final Money PRICE_WITHOUT_DISCOUNT = Money.of(CurrencyUnit.CAD, 50000);
-	private static final Money DISCOUNT_PER_PASS = Money.of(CurrencyUnit.CAD, 10000);
+	private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
+	private static final Price DISCOUNT_PER_PASS = new Price(10000);
 
 	private SupergiantSinglePassDiscount supergiantSinglePassDiscount;
 	private List<Pass> passes;
@@ -40,7 +39,7 @@ public class SupergiantSinglePassDiscountTests {
 	@Test
 	public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
 		initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
-		Money expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
+		Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
 		assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
 	}
 	
@@ -53,7 +52,7 @@ public class SupergiantSinglePassDiscountTests {
 		}
 	}
 
-	private Money getPriceAfterDiscount() {
-		return supergiantSinglePassDiscount.priceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
+	private Price getPriceAfterDiscount() {
+		return supergiantSinglePassDiscount.getPriceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
 	}
 }
