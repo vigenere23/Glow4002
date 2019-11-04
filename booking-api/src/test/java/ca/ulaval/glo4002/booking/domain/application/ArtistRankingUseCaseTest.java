@@ -39,7 +39,7 @@ public class ArtistRankingUseCaseTest {
     }
 
     @Test
-    public void whenOrderBy_thenCallMethodFindArtistRankingInformationFromRepository() {
+    public void whenOrderBy_thenFindArtistRankingInformationFromRepositoryIsCalled() {
         artistRankingUseCase.orderBy(SOME_RANKING_TYPE);
         verify(artistRepository).findArtistRankingInformation();
     }

@@ -9,20 +9,26 @@ class ArtistRankingFactoryTest {
     
     private ArtistRankingFactory artistRankingFactory;
      
-     @BeforeEach
-     public void setUp() {
-         artistRankingFactory = new ArtistRankingFactory();
+    @BeforeEach
+    public void setUp() {
+        artistRankingFactory = new ArtistRankingFactory();
      }
      
-     @Test
-     void givenLowCostRankingType_whenCreateArtistRanking_thenCreatesNewDecreasingPriceOrderedArtists() {
-         ArtistRanking artistRankingTest = artistRankingFactory.createArtistRanking(Ranking.LOW_COSTS);
-         assertTrue(artistRankingTest instanceof DecreasingPriceOrderedArtists);
-     }
+    @Test
+    void givenLowCostRankingType_whenCreateArtistRanking_thenCreatesNewDecreasingPriceOrderedArtists() {
+        Ranking rankingType = Ranking.LOW_COSTS;
+
+        ArtistRanking artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
+
+        assertTrue(artistRankingTest instanceof DecreasingPriceOrderedArtists);
+    }
  
-     @Test
-     void givenMostPopularityRankingType_whenCreateArtistRanking_thenCreatesNewAscendingPopularityOrderedArtists() {
-        ArtistRanking artistRankingTest = artistRankingFactory.createArtistRanking(Ranking.MOST_POPULARITY);
+    @Test
+    void givenMostPopularityRankingType_whenCreateArtistRanking_thenCreatesNewAscendingPopularityOrderedArtists() {
+        Ranking rankingType = Ranking.MOST_POPULARITY;
+
+        ArtistRanking artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
+
         assertTrue(artistRankingTest instanceof AscendingPopularityOrderedArtists);
-     }
- }
+    }
+}
