@@ -3,31 +3,15 @@ package ca.ulaval.glo4002.booking.domain.artists;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistRanking {
+public abstract class ArtistRanking {
 
-    private List<String> decreasingPriceOrderedArtists;
-    private List<String> ascendingPopularityOrderedArtists;
+    public abstract List<String> getOrderedArtists(List<ArtistRankingInformation> artistsToOrder);
 
-    public ArtistRanking() {
-        decreasingPriceOrderedArtists = new ArrayList<String>();
-        ascendingPopularityOrderedArtists = new ArrayList<String>();
-    }
-
-    public List<String> getDecreasingPriceOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
-
-        decreasingPriceOrderedArtists.clear();
-
-
-        //todo: add logique pour classer les artistes comme il le faut (issue #132)
-        return decreasingPriceOrderedArtists;
-    }
-
-    public List<String> getAscendingPopularityOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
-
-        ascendingPopularityOrderedArtists.clear();
-
-
-        //todo: add logique pour classer les artistes comme il le faut (issue #132)
-        return decreasingPriceOrderedArtists;
+    protected List<String> extractArtistsName(List<ArtistRankingInformation> orderedArtists) {
+            List<String> orderedArtistsName = new ArrayList<>();
+            for (ArtistRankingInformation artist : orderedArtists) {
+                orderedArtistsName.add(artist.getArtistName());
+            }
+            return orderedArtistsName;
     }
 }
