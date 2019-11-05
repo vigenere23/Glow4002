@@ -1,27 +1,31 @@
 package ca.ulaval.glo4002.booking.application;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.*;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 
 public class PassOrderUseCase {
 
-    private PassUtilities passUtilities;
+    private PassOrderFactory passOrderFactory;
     private PassOrderRepository passOrderRepository;
+    private TransportReservation transportReservation;
     private ShuttleRepository transportRepository;
+    private OxygenRequester oxygenRequester;
 
-    public PassOrderUseCase(PassUtilities passUtilities, PassOrderRepository passOrderRepository, ShuttleRepository transportRepository) {
-        this.passUtilities = passUtilities;
+    public PassOrderUseCase(PassOrderFactory passFactory, PassOrderRepository passOrderRepository, TransportReservation transportReservation, ShuttleRepository transportRepository, OxygenRequester oxygenRequester) {
+        this.passOrderFactory = passFactory;
         this.passOrderRepository = passOrderRepository;
+        this.transportReservation = transportReservation;
         this.transportRepository = transportRepository;
+        this.oxygenRequester = oxygenRequester;
     }
 
     public Optional<PassOrder> getOrder(OrderNumber orderNumber) {
@@ -30,17 +34,17 @@ public class PassOrderUseCase {
 
     public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest)
             throws OutOfSaleDatesException, OutOfFestivalDatesException {
-        List<Shuttle> departureShuttles = transportRepository.findShuttlesByLocation(Location.EARTH);
-        List<Shuttle> arrivalShuttles = transportRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        PassOrder passOrder = passUtilities.orderPasses(orderDate, vendorCode, passRequest, departureShuttles, arrivalShuttles);
-        saveInRepositories(passOrder, departureShuttles, arrivalShuttles);
+        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
+        orderUtilities(orderDate, passOrder);
+        passOrderRepository.save(passOrder);
 
         return passOrder;
     }
 
-    private void saveInRepositories(PassOrder passOrder, List<Shuttle> departureShuttles, List<Shuttle> arrivalShuttles) {
-        passOrderRepository.save(passOrder);
-        transportRepository.saveDeparture(departureShuttles);
-        transportRepository.saveArrival(arrivalShuttles);
+    private void orderUtilities(OffsetDateTime orderDate, PassOrder passOrder) {
+        for (Pass pass : passOrder.getPasses()) {
+            pass.reserveShuttles(transportReservation, transportRepository);
+            pass.orderOxygen(orderDate.toLocalDate(), oxygenRequester);
+        }
     }
 }

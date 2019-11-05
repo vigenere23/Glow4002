@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
-import ca.ulaval.glo4002.booking.domain.orders.PassUtilities;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -66,8 +65,7 @@ public class BookingServer implements Runnable {
         OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
         TransportReservation transportReservation = new TransportReservation();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
-        PassUtilities passUtilities = new PassUtilities(transportReservation, oxygenRequester, passOrderFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passUtilities, passOrderRepository, shuttleRepository);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReservation, shuttleRepository, oxygenRequester);
         TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
