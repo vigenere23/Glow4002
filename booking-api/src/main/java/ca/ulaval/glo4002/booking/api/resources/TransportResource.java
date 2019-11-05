@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.api.resources;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,8 +37,7 @@ public class TransportResource {
             departures = shuttleMapper.getShuttlesDto(transportUseCase.getAllDepartures());
             arrivals = shuttleMapper.getShuttlesDto(transportUseCase.getAllArrivals());
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-            LocalDate date = LocalDate.parse(stringDate, formatter);
+            LocalDate date = LocalDate.parse(stringDate);
             departures = shuttleMapper.getShuttlesDto(transportUseCase.getShuttlesDepartureByDate(date));
             arrivals = shuttleMapper.getShuttlesDto(transportUseCase.getShuttlesArrivalByDate(date));
         }    

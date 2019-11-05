@@ -10,8 +10,8 @@ public class OutOfFestivalDatesException extends RuntimeException {
         super(
             String.format(
                 "event date should be between %s and %s",
-                festivalStart.format(DateFormatter.formatter),
-                festivalEnd.format(DateFormatter.formatter)
+                festivalStart.format(DateFormatter.outputFormatter),
+                festivalEnd.format(DateFormatter.outputFormatter)
             )
         );
     }
