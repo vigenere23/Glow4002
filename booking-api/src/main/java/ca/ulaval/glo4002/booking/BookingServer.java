@@ -13,11 +13,9 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;

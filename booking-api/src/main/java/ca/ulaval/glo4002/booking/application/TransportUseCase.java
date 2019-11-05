@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.application;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class TransportUseCase {
 
-    private Glow4002 festival;
+    private FestivalDates festival;
     private ShuttleRepository transportRepository;
 
-    public TransportUseCase(Glow4002 festival, ShuttleRepository transportRepository) {
+    public TransportUseCase(FestivalDates festival, ShuttleRepository transportRepository) {
         this.festival = festival;
         this.transportRepository = transportRepository;
     }

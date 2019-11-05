@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.*;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,7 +73,7 @@ class PassUtilitiesTest {
 
     @Test
     public void givenFestivalOf5Days_whenOrderANebulaPackagePass_thenShuttlesAreReserved() {
-        mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -82,7 +82,7 @@ class PassUtilitiesTest {
 
     @Test
     public void givenFestivalOf5Days_whenOrderANebulaPackagePass_thenOxygenIsOrdered() {
-        mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -91,7 +91,7 @@ class PassUtilitiesTest {
 
     @Test
     public void whenOrderANebulaSinglePass_thenShuttlesAreReserved() {
-        mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -100,7 +100,7 @@ class PassUtilitiesTest {
 
     @Test
     public void whenOrderANebulaSinglePass_thenOxygenIsOrdered() {
-        mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -109,7 +109,7 @@ class PassUtilitiesTest {
 
     @Test
     public void givenFestivalOf5Days_whenOrderASupergiantPackagePass_thenShuttlesAreReserved()  {
-        mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -118,7 +118,7 @@ class PassUtilitiesTest {
 
     @Test
     public void givenFestivalOf5Days_whenOrderASupergiantPackagePass_thenOxygenIsOrdered()  {
-        mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -127,7 +127,7 @@ class PassUtilitiesTest {
 
     @Test
     public void whenOrderASupergiantSinglePass_thenShuttlesAreReserved() {
-        mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -136,7 +136,7 @@ class PassUtilitiesTest {
 
     @Test
     public void whenOrderASupergiantSinglePass_thenOxygenIsOrdered() {
-        mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -145,7 +145,7 @@ class PassUtilitiesTest {
 
     @Test
     public void givenFestivalOf5Days_whenOrderASupernovaPackagePass_thenShuttlesAreReserved() {
-        mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -154,7 +154,7 @@ class PassUtilitiesTest {
 
     @Test
     public void givenFestivalOf5Days_whenOrderASupernovaPackagePass_thenOxygenIsOrdered() {
-        mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -163,7 +163,7 @@ class PassUtilitiesTest {
 
     @Test
     public void whenOrderASupernovaSinglePass_thenShuttlesAreReserved() {
-        mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -172,7 +172,7 @@ class PassUtilitiesTest {
 
     @Test
     public void whenOrderASupernovaSinglePass_thenOxygenIsOrdered() {
-        mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passUtilities.orderPasses(ORDER_DATE_TIME, VENDOR_CODE, passRequest, shuttlesEarth, shuttlesUlavalogy);
 
@@ -186,12 +186,14 @@ class PassUtilitiesTest {
         shuttlesUlavalogy.add(mockedShuttle);
     }
 
-    private void mockPass(Pass pass, PassCategory passCategory, LocalDate start, LocalDate end) {
+    private void mockPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {
         List<Pass> passes = new ArrayList<>();
+        Pass pass = mock(Pass.class);
         when(pass.getStartDate()).thenReturn(start);
         when(pass.getEndDate()).thenReturn(end);
         when(pass.getPassNumber()).thenReturn(PASS_ID);
         when(pass.getPassCategory()).thenReturn(passCategory);
+        when(pass.getPassOption()).thenReturn(passOption);
         passes.add(pass);
         when(passOrder.getPasses()).thenReturn(passes);
     }

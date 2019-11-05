@@ -1,7 +1,8 @@
 package ca.ulaval.glo4002.booking.application;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 class TransportUseCaseTest {
     private List<Shuttle> shuttlesEarth = new LinkedList<>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
-    private Glow4002 festival;
+    private FestivalDates festival;
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);
     private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 7, 10);
     private ShuttleRepository shuttleRepository;
@@ -110,7 +111,7 @@ class TransportUseCaseTest {
     }
 
     private void mockFestival() {
-        festival = mock(Glow4002.class);
+        festival = mock(Glow4002Dates.class);
 
         when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
         when(festival.getStartDate()).thenReturn(LocalDate.now());
