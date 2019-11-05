@@ -1,9 +1,7 @@
 package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,21 +9,25 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+
+import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistInformationMapper;
 
 public class ApiArtistRepository implements ArtistRepository {
-    private ArtistRankingInformationMapper artistRankingInformationMapper;
+    private ArtistInformationMapper artistInformationMapper;
 
-    public ApiArtistRepository(ArtistRankingInformationMapper artistRankingInformationMapper) {
-        this.artistRankingInformationMapper = artistRankingInformationMapper;
+    public ApiArtistRepository(ArtistInformationMapper artistInformationMapper) {
+        this.artistInformationMapper = artistInformationMapper;
     }
 
     @Override
     public List<ArtistRankingInformation> findArtistRankingInformation() {
         List<ArtistRankingInformation> artistRankingInformations = new ArrayList<ArtistRankingInformation>();
         List<ArtistDto> artistDtos = getArtistsDto();
-        artistDtos.forEach(artistDto -> artistRankingInformations.add(artistRankingInformationMapper.fromDto(artistDto)));
+        artistDtos.forEach(artistDto -> artistRankingInformations.add(artistInformationMapper.rankingFromDto(artistDto)));
         return artistRankingInformations;
     }
 
@@ -33,7 +35,14 @@ public class ApiArtistRepository implements ArtistRepository {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target("http://localhost:8080/artists");
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-        return invocationBuilder.get(new GenericType<List<ArtistDto>>() {});
+        return invocationBuilder.get(new GenericType<List<ArtistDto>>() {
+        });
+    }
+
+    @Override
+    public ArtistProgramInformation getArtistByName(String artistName) {
+        List<ArtistDto> artistDtos = getArtistsDto();
+        return artistInformationMapper.programFromDto(artistDtos.stream().filter(artist -> artistName.equals(artist.name)).findAny().orElse(null));
     }
 
     // TODO (issue #134)

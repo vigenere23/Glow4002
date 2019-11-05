@@ -15,4 +15,12 @@ public enum ShuttleCategory {
     public String toString() {
         return text;
     }
+
+    public static ShuttleCategory artistShuttle(int numberPeople) {
+        if(numberPeople == 1) {
+            return ET_SPACESHIP;
+        } else {
+            return MILLENNIUM_FALCON;
+        }
+    }
 }

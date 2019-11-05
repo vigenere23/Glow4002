@@ -6,7 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
+import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class Program {
     private List<SingleDayProgram> program;
@@ -20,17 +24,14 @@ public class Program {
         validateArtistDifferentOnEachDay();
     }
      
-    private void validateEventDates() {
-        boolean programDates = true;
-        
+    private void validateEventDates() {       
         for(SingleDayProgram programForOneDay : program) {
             if(!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
-                programDates = false;
-                break;
+                throw new InvalidProgramException();
             }
         }
-        if (programDates) {
-           programDates = retrieveDates().size() == ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate());
+        if (retrieveDates().size() != ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate())) {
+            throw new InvalidProgramException();
         }
     }
 
@@ -50,11 +51,9 @@ public class Program {
     }
 
     private void validateArtistDifferentOnEachDay() {
-        boolean artistIsUnique = true;
         for(SingleDayProgram programForOneDay : program) {
             if(Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) != 1) {
-                artistIsUnique = false;
-                break;
+                throw new InvalidProgramException();
             }
         }
     }
@@ -62,4 +61,11 @@ public class Program {
     private List<String> retrieveArtists() {
         return program.stream().map(SingleDayProgram::getArtist).collect(Collectors.toList());
     }
+
+	public void provideProgramResources(TransportRequester transportRequester, OxygenRequester oxygenRequester, ArtistRepository artistRepository) {
+        for (SingleDayProgram programForOneDay : program) {
+            programForOneDay.orderOxygen(oxygenRequester, artistRepository);
+            programForOneDay.orderShuttle(transportRequester, artistRepository);
+        }
+	}
 }
