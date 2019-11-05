@@ -6,25 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.factories.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 
 public class PassOrderFactory {
 
     private PassFactory passFactory;
-    private Glow4002 festival;
+    private FestivalDates festivalDates;
 
-    public PassOrderFactory(Glow4002 festival) {
-        this.festival = festival;
-        
-        passFactory = new PassFactory(festival);
+    public PassOrderFactory(FestivalDates festivalDates) {
+        this.festivalDates = festivalDates;
+        passFactory = new PassFactory(festivalDates);
     }
 
+    // TODO #129 unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
     public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
-        validateOrderDate(orderDate);
-
+        festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passRequest);
         PassOrder passOrder = new PassOrder(vendorCode, passes);
         return passOrder;
@@ -35,20 +33,14 @@ public class PassOrderFactory {
 
         List<Pass> passes = new ArrayList<>();
 
-        if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
-            passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
+        if (passRequest.getEventDates() == null || passRequest.getEventDates().isEmpty()) {
+            passes.add(passFactory.create(passRequest.getPassOption(), passRequest.getPassCategory()));
         } else {
-            for (LocalDate eventDate : passRequest.eventDates) {
-                passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
+            for (LocalDate eventDate : passRequest.getEventDates()) {
+                passes.add(passFactory.create(passRequest.getPassOption(), passRequest.getPassCategory(), eventDate));
             }
         }
         return passes;
-    }
-
-    private void validateOrderDate(OffsetDateTime orderDate) {
-        if (!festival.isDuringSaleTime(orderDate)) {
-            throw new OutOfSaleDatesException(festival.getSaleStartDate(), festival.getSaleEndDate());
-        }
     }
 
     private void validatePassRequest(PassRequest passRequest) {

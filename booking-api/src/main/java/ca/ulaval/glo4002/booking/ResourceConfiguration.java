@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import ca.ulaval.glo4002.booking.domain.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
 
@@ -17,7 +18,8 @@ public class ResourceConfiguration extends ResourceConfig {
         TransportRequester transportRequester,
         PassOrderFactory passOrderFactory,
         PassOrderUseCase passOrderUseCase,
-        OxygenUseCase oxygenUseCase
+        OxygenUseCase oxygenUseCase,
+        ArtistRankingUseCase artistRankingUseCase
     ) {
         register(new AbstractBinder() {
             @Override
@@ -27,6 +29,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(passOrderFactory).to(PassOrderFactory.class);
                 bind(passOrderUseCase).to(PassOrderUseCase.class);
                 bind(oxygenUseCase).to(OxygenUseCase.class);
+                bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
             }
         });
     }

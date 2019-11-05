@@ -29,25 +29,11 @@ class HeapShuttleRepositoryTest {
         shuttleRepository.saveArrival(shuttles);
         assertEquals(shuttles, shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY));
     }
-
-    @Test
-    public void givenShuttleListWithNull_whenSaveArrival_thenDontReplacesShuttleList() {
-        shuttles.add(null);
-        shuttleRepository.saveArrival(shuttles);
-        assertEquals(0, shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY).size());
-    }
     
     @Test
     public void givenShuttleList_whenSaveDeparture_thenReplacesShuttleList() {
         shuttleRepository.saveDeparture(shuttles);
         assertEquals(shuttles, shuttleRepository.findShuttlesByLocation(Location.EARTH));
-    }
-
-    @Test
-    public void givenShuttleListWithNull_whenSaveDeparture_thenDontReplacesShuttleList() {
-        shuttles.add(null);
-        shuttleRepository.saveDeparture(shuttles);
-        assertEquals(0, shuttleRepository.findShuttlesByLocation(Location.EARTH).size());
     }
 
     @Test

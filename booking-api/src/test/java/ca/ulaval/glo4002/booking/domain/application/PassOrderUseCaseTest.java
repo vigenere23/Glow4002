@@ -24,12 +24,7 @@ import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.NebulaSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupergiantSinglePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaPackagePass;
-import ca.ulaval.glo4002.booking.domain.passes.passTypes.SupernovaSinglePass;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
@@ -45,7 +40,7 @@ public class PassOrderUseCaseTest {
     private static final PassNumber PASS_ID = mock(PassNumber.class);
     private static final int SOME_OXYGEN_REMAINING = 2;
     private static final int SOME_OXYGEN_INVENTORY = 3;
-    private static final SortedMap<LocalDate, OxygenDateHistory> SOME_OXYGEN_HISTORIES = new TreeMap<LocalDate, OxygenDateHistory>();
+    private static final SortedMap<LocalDate, OxygenDateHistory> SOME_OXYGEN_HISTORIES = new TreeMap<>();
 
     private static final int NEBULA_OXYGEN_QUANTITY = 3;
     private static final int SUPERGIANT_OXYGEN_QUANTITY = 3;
@@ -64,10 +59,10 @@ public class PassOrderUseCaseTest {
     private PassOrder passOrder;
     private PassRequest passRequest;
     private OxygenInventory oxygenInventory;
-    private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<OxygenGrade, OxygenInventory>(OxygenGrade.class);
+    private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<>(OxygenGrade.class);
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         PassOrderRepository passOrderRepository = mock(HeapPassOrderRepository.class);
         mockPassOrder();
         mockOxygen();
@@ -81,8 +76,8 @@ public class PassOrderUseCaseTest {
     }
 
     @Test
-    public void givenFestivalOf5Days_whenCreatingANebulaPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(NebulaPackagePass.class), PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+    public void givenFestivalOf5Days_whenCreatingANebulaPackagePass_itCallsTheRightServices() {
+        mockPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
         passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -93,8 +88,8 @@ public class PassOrderUseCaseTest {
     }
 
     @Test
-    public void whenCreatingANebulaSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(NebulaSinglePass.class), PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void whenCreatingANebulaSinglePass_itCallsTheRightServices() {
+        mockPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -105,8 +100,8 @@ public class PassOrderUseCaseTest {
     }
 
     @Test
-    public void givenFestivalOf5Days_whenCreatingASupergiantPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupergiantPackagePass.class), PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+    public void givenFestivalOf5Days_whenCreatingASupergiantPackagePass_itCallsTheRightServices() {
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
         passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -117,8 +112,8 @@ public class PassOrderUseCaseTest {
     }
 
     @Test
-    public void whenCreatingASupergiantSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupergiantSinglePass.class), PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void whenCreatingASupergiantSinglePass_itCallsTheRightServices() {
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -129,8 +124,8 @@ public class PassOrderUseCaseTest {
     }
 
     @Test
-    public void givenFestivalOf5Days_whenCreatingASupernovaPackagePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupernovaPackagePass.class), PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+    public void givenFestivalOf5Days_whenCreatingASupernovaPackagePass_itCallsTheRightServices() {
+        mockPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
         passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -141,8 +136,8 @@ public class PassOrderUseCaseTest {
     }
 
     @Test
-    public void whenCreatingASupernovaSinglePass_itCallsTheRightServices() throws Exception {
-        mockPass(mock(SupernovaSinglePass.class), PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void whenCreatingASupernovaSinglePass_itCallsTheRightServices() {
+        mockPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         passOrderUseCase.orchestPassCreation(ORDER_DATE_TIME, VENDOR_CODE, passRequest);
 
@@ -152,7 +147,7 @@ public class PassOrderUseCaseTest {
         verify(oxygenProducer).orderOxygen(ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY, oxygenInventories, SOME_OXYGEN_HISTORIES);
     }
 
-    private void mockPassOrder() throws Exception {
+    private void mockPassOrder() {
         passOrder = mock(PassOrder.class);
         passOrderFactory = mock(PassOrderFactory.class);
         when(passOrderFactory.create(any(), any(), any())).thenReturn(passOrder);
@@ -176,8 +171,9 @@ public class PassOrderUseCaseTest {
         transportRequester = mock(TransportRequester.class);
     }
 
-    private void mockPass(Pass pass, PassCategory passCategory, LocalDate start, LocalDate end) {
+    private void mockPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {
         List<Pass> passes = new ArrayList<>();
+        Pass pass = mock(Pass.class);
         when(pass.getStartDate()).thenReturn(start);
         when(pass.getEndDate()).thenReturn(end);
         when(pass.getPassNumber()).thenReturn(PASS_ID);

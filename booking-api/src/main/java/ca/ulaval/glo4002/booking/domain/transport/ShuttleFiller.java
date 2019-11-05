@@ -21,13 +21,10 @@ public class ShuttleFiller {
     private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date) {
         Shuttle availableShuttle = shuttlesToFill.stream()
             .filter(shuttle -> {
-                if (shuttleIsAvailable(shuttle, shuttleCategory, date)) {
-                    return true;
-                }
-                return false;
+                return shuttleIsAvailable(shuttle, shuttleCategory, date) ? true : false ;
             }).findAny()
             .orElse(shuttleFactory.createShuttle(shuttleCategory, date));
-        return availableShuttle;                      
+        return availableShuttle;            
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date) {

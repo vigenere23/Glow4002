@@ -137,7 +137,7 @@
                         <configuration>
                             <skipTests>false</skipTests>
                             <includes>
-                                <include>**/*FunctionalTest.java</include>
+                                <include>**/*FT.java</include>
                             </includes>
                         </configuration>
                     </execution>
