@@ -32,30 +32,30 @@ public class SingleDayProgram {
         return artistName;
     }
 
-	public void validateIfAmAndPm() {
+    public void validateIfAmAndPm() {
         if(activity == null || artistName.equals(null)) {
             throw new InvalidProgramException();
         }
-	}
+    }
 
-	public void validateActivityOnlyOnAm() {
+    public void validateActivityOnlyOnAm() {
         if(!Activity.contains(activity)) {
             throw new InvalidProgramException();
         }
     }
 
-	public boolean isDuringFestivalDate(FestivalDates glow4002Dates) {
+    public boolean isDuringFestivalDate(FestivalDates glow4002Dates) {
         return glow4002Dates.isDuringEventTime(date);
-	}
+    }
 
-	public void orderOxygen(OxygenRequester oxygenRequester, ArtistRepository artistRepository) {
+    public void orderOxygen(OxygenRequester oxygenRequester, ArtistRepository artistRepository) {
         //TODO
-	}
+    }
 
-	public void orderShuttle(TransportRequester transportRequester, ArtistRepository artistRepository) {
+    public void orderShuttle(TransportRequester transportRequester, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
         ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttle(artist.getGroupSize());
         transportRequester.reserveDeparture(shuttleCategory, date, artist.getId(), artist.getGroupSize());
         transportRequester.reserveArrival(shuttleCategory, date, artist.getId(), artist.getGroupSize());
-	}
+    }
 }
