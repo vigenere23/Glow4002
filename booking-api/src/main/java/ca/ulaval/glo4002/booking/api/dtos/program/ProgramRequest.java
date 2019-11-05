@@ -17,7 +17,6 @@ public class ProgramRequest {
     )  throws InvalidFormatException {
         try {
             this.program = program;
-            System.out.println("prog");
         }
         catch (Exception exception) {
             throw new InvalidFormatException();

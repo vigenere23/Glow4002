@@ -33,7 +33,6 @@ public class ProgramResource {
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
         programResourcesProvider.provideProgramResources(programMapper.fromDto(request, glow4002Dates));
-        System.out.println("groschiasse");
         return Response.status(200).contentLocation(new URI("/")).build();
     }
 }

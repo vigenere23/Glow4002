@@ -19,7 +19,6 @@ public class ProgramResourcesProvider {
     }
 
     public void provideProgramResources(Program program) {
-        System.out.println("connasse");
        program.provideProgramResources(transportRequester, oxygenRequester, artistRepository);
     }
 }

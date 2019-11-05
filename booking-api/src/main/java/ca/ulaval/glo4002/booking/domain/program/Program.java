@@ -20,11 +20,8 @@ public class Program {
         this.program = program;
         this.glow4002Dates = glow4002Dates;
         validateEventDates();
-        System.out.println("connasse7");
         validateDailySchedule();
-        System.out.println("connasse8");
         validateArtistDifferentOnEachDay();
-        System.out.println("connasse9");
 
     }
      
@@ -34,7 +31,6 @@ public class Program {
                 throw new InvalidProgramException();
             }
         }
-        System.out.println(ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate()));
         if (retrieveDates().size() != ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate().plusDays(1))) {
             throw new InvalidProgramException();
         }
