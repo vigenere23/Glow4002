@@ -1,41 +1,65 @@
 package ca.ulaval.glo4002.booking.domain.program;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 
 public class Program {
     private List<SingleDayProgram> program;
+    private FestivalDates glow4002Dates;
 
-    public Program(List<SingleDayProgram> program) {
+    public Program(List<SingleDayProgram> program, FestivalDates glow4002Dates) {
         this.program = program;
+        this.glow4002Dates = glow4002Dates;
         validateEventDates();
-        validateIfAmAndPm();
-        validateArtistOnlyOnPm();
-        validateActivityOnlyOnAm();
+        validateDailySchedule();
         validateArtistDifferentOnEachDay();
     }
      
     private void validateEventDates() {
-        //TODO => vérifie s'il y a deux fois la même date ou s'il manque une date
-        //En général, vérifie que ce soit bel et bien les dates du festival
-    }
-
-    private void validateIfAmAndPm() {
+        boolean programDates = true;
+        
         for(SingleDayProgram programForOneDay : program) {
-            programForOneDay.validateIfAmAndPm();
+            if(!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
+                programDates = false;
+                break;
+            }
+        }
+        if (programDates) {
+           programDates = retrieveDates().size() == ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate());
         }
     }
 
-    private void validateArtistOnlyOnPm() {
-        //TODO
+    private boolean dateIsUnique(SingleDayProgram programForOneDay) {
+        return Collections.frequency(retrieveDates(), programForOneDay.getDate()) == 1;
     }
 
-    private void validateActivityOnlyOnAm() {
+    private List<LocalDate> retrieveDates() {
+        return program.stream().map(SingleDayProgram::getDate).collect(Collectors.toList());
+    }
+    
+    private void validateDailySchedule() {
         for(SingleDayProgram programForOneDay : program) {
+            programForOneDay.validateIfAmAndPm();
             programForOneDay.validateActivityOnlyOnAm();
         }
     }
 
     private void validateArtistDifferentOnEachDay() {
-        //TODO => vérifie si un artiste est présent 2 fois
+        boolean artistIsUnique = true;
+        for(SingleDayProgram programForOneDay : program) {
+            if(Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) != 1) {
+                artistIsUnique = false;
+                break;
+            }
+        }
+    }
+
+    private List<String> retrieveArtists() {
+        return program.stream().map(SingleDayProgram::getArtist).collect(Collectors.toList());
     }
 }
