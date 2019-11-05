@@ -20,8 +20,12 @@ public class Program {
         this.program = program;
         this.glow4002Dates = glow4002Dates;
         validateEventDates();
+        System.out.println("connasse7");
         validateDailySchedule();
+        System.out.println("connasse8");
         validateArtistDifferentOnEachDay();
+        System.out.println("connasse9");
+
     }
      
     private void validateEventDates() {       
@@ -30,7 +34,8 @@ public class Program {
                 throw new InvalidProgramException();
             }
         }
-        if (retrieveDates().size() != ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate())) {
+        System.out.println(ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate()));
+        if (retrieveDates().size() != ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate().plusDays(1))) {
             throw new InvalidProgramException();
         }
     }
@@ -63,7 +68,7 @@ public class Program {
     }
 
 	public void provideProgramResources(TransportRequester transportRequester, OxygenRequester oxygenRequester, ArtistRepository artistRepository) {
-        for (SingleDayProgram programForOneDay : program) {
+        for (SingleDayProgram programForOneDay : program) {   
             programForOneDay.orderOxygen(oxygenRequester, artistRepository);
             programForOneDay.orderShuttle(transportRequester, artistRepository);
         }

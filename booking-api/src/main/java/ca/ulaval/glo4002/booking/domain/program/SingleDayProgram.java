@@ -39,7 +39,7 @@ public class SingleDayProgram {
 	}
 
 	public void validateActivityOnlyOnAm() {
-        if(Activity.contains(activity)) {
+        if(!Activity.contains(activity)) {
             throw new InvalidProgramException();
         }
     }

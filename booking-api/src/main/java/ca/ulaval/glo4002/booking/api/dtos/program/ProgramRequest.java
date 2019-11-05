@@ -16,7 +16,8 @@ public class ProgramRequest {
         @JsonProperty(value = "program", required = true) List<SingleDayProgramRequest> program
     )  throws InvalidFormatException {
         try {
-              this.program = program;
+            this.program = program;
+            System.out.println("prog");
         }
         catch (Exception exception) {
             throw new InvalidFormatException();

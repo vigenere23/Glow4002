@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking;
 
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -28,8 +28,8 @@ public class ArtistFT {
 
     @BeforeEach
     public void setUp() {
-        ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
-        artistRepository = new ApiArtistRepository(artistRankingInformationMapper);
+        ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
+        artistRepository = new ApiArtistRepository(artistInformationMapper);
     }
 
     @Test

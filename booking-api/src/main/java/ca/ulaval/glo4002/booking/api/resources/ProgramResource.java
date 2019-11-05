@@ -21,23 +21,19 @@ import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 public class ProgramResource {
 
     private ProgramMapper programMapper;
-
-    public ProgramResource () {
-        programMapper = new ProgramMapper();
-    }
-
     private ProgramResourcesProvider programResourcesProvider;
-    private FestivalDates glow4002Dates;
+    private FestivalDates glow4002Dates = new Glow4002Dates();
 
     @Inject
-    public ProgramResource(ProgramResourcesProvider programResourcesProvider, FestivalDates glow4002Dates) {
+    public ProgramResource(ProgramResourcesProvider programResourcesProvider) {
         this.programResourcesProvider = programResourcesProvider;
-        this.glow4002Dates = glow4002Dates;
+        programMapper = new ProgramMapper();
     }
 
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
         programResourcesProvider.provideProgramResources(programMapper.fromDto(request, glow4002Dates));
+        System.out.println("groschiasse");
         return Response.status(200).contentLocation(new URI("/")).build();
     }
 }
