@@ -5,6 +5,5 @@ import java.util.List;
 public interface ArtistRepository {
 
     List<ArtistRankingInformation> findArtistRankingInformation();
-
-	ArtistProgramInformation getArtistByName(String artistName);
+    ArtistProgramInformation getArtistByName(String artistName);
 }

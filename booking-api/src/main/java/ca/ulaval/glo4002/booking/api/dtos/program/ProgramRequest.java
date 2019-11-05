@@ -13,8 +13,7 @@ public class ProgramRequest {
 
     @JsonCreator
     public ProgramRequest(
-        @JsonProperty(value = "program", required = true) List<SingleDayProgramRequest> program
-    )  throws InvalidFormatException {
+        @JsonProperty(value = "program", required = true) List<SingleDayProgramRequest> program) throws InvalidFormatException {
         try {
             this.program = program;
         }

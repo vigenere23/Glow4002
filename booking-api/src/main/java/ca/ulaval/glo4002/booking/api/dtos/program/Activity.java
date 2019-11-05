@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public enum Activity {
 
-	YOGA("yoga"),
+    YOGA("yoga"),
     CARDIO("cardio");
 
     private final String text;
@@ -27,7 +27,7 @@ public enum Activity {
         return value.get();
     }
 
-	public static boolean contains(Activity am) {
+    public static boolean contains(Activity am) {
         boolean isAnActivity = false;
         for(Activity activity : Activity.values()) {
             if (activity.equals(am)) {
@@ -36,5 +36,4 @@ public enum Activity {
         } 
         return isAnActivity; 
     }
-
 }
