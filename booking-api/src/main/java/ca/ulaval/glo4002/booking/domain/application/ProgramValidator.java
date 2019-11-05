@@ -3,8 +3,15 @@ package ca.ulaval.glo4002.booking.domain.application;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.api.dtos.program.SingleDayProgramRequest;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 
 public class ProgramValidator {
+
+    private FestivalDates glow4002Dates;
+
+    public ProgramValidator(FestivalDates glow4002Dates) {
+        this.glow4002Dates = glow4002Dates;
+    }
 
 	public void validateProgram(List<SingleDayProgramRequest> program) {
         validateEventDates(program);

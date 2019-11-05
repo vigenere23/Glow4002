@@ -27,4 +27,14 @@ public enum Activity {
         return value.get();
     }
 
+	public static boolean contains(Activity am) {
+        boolean isAnActivity = false;
+        for(Activity activity : Activity.values()) {
+            if (activity.equals(am)) {
+                isAnActivity = true;
+            }
+        } 
+        return isAnActivity; 
+    }
+
 }
