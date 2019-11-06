@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.exceptions;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.helpers.DateHelper;
+import ca.ulaval.glo4002.booking.helpers.DateFormatter;
 
 public class OutOfFestivalDatesException extends RuntimeException {
 
@@ -10,8 +10,8 @@ public class OutOfFestivalDatesException extends RuntimeException {
         super(
             String.format(
                 "event date should be between %s and %s",
-                festivalStart.format(DateHelper.dateFormatter),
-                festivalEnd.format(DateHelper.dateFormatter)
+                festivalStart.format(DateFormatter.outputFormatter),
+                festivalEnd.format(DateFormatter.outputFormatter)
             )
         );
     }

@@ -6,22 +6,21 @@ import static org.mockito.Mockito.mock;
 
 import java.time.LocalDate;
 
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 
 public class PassFactoryTest {
 
     private PassFactory passFactory;
-    private Glow4002 festival;
+    private FestivalDates festivalDates;
 
     @BeforeEach
     public void setUp() {
-        festival = mock(Glow4002.class);
-        passFactory = new PassFactory(festival);
+        festivalDates = mock(FestivalDates.class);
+        passFactory = new PassFactory(festivalDates);
     }
 
     @Test
@@ -41,36 +40,42 @@ public class PassFactoryTest {
     @Test
     public void whenCreatingANebulaSinglePass_itSetsThePriceTo50000() {
         Pass pass = passFactory.create(PassOption.SINGLE_PASS, PassCategory.NEBULA, LocalDate.now());
-        assertThat(pass.getPrice()).isEqualTo(Money.of(CurrencyUnit.CAD, 50000));
+        Price expectedPrice = new Price(50000);
+        assertThat(pass.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
     public void whenCreatingANebulaPackagePass_itSetsThePriceTo250000() {
         Pass pass = passFactory.create(PassOption.PACKAGE, PassCategory.NEBULA, LocalDate.now());
-        assertThat(pass.getPrice()).isEqualTo(Money.of(CurrencyUnit.CAD, 250000));
+        Price expectedPrice = new Price(250000);
+        assertThat(pass.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
     public void whenCreatingASupergiantSinglePass_itSetsThePriceTo100000() {
         Pass pass = passFactory.create(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, LocalDate.now());
-        assertThat(pass.getPrice()).isEqualTo(Money.of(CurrencyUnit.CAD, 100000));
+        Price expectedPrice = new Price(100000);
+        assertThat(pass.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
     public void whenCreatingASupergiantPackagePass_itSetsThePriceTo500000() {
         Pass pass = passFactory.create(PassOption.PACKAGE, PassCategory.SUPERGIANT, LocalDate.now());
-        assertThat(pass.getPrice()).isEqualTo(Money.of(CurrencyUnit.CAD, 500000));
+        Price expectedPrice = new Price(500000);
+        assertThat(pass.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
     public void whenCreatingASupernovaSinglePass_itSetsThePriceTo150000() {
         Pass pass = passFactory.create(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, LocalDate.now());
-        assertThat(pass.getPrice()).isEqualTo(Money.of(CurrencyUnit.CAD, 150000));
+        Price expectedPrice = new Price(150000);
+        assertThat(pass.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
     public void whenCreatingASupernovaPackagePass_itSetsThePriceTo700000() {
         Pass pass = passFactory.create(PassOption.PACKAGE, PassCategory.SUPERNOVA, LocalDate.now());
-        assertThat(pass.getPrice()).isEqualTo(Money.of(CurrencyUnit.CAD, 700000));
+        Price expectedPrice = new Price(700000);
+        assertThat(pass.getPrice()).isEqualTo(expectedPrice);
     }
 }

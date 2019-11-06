@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.api.resources;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,18 +14,18 @@ import ca.ulaval.glo4002.booking.api.dtoMappers.ShuttleMapper;
 import ca.ulaval.glo4002.booking.api.dtos.transport.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.dtos.transport.TransportResponse;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
-import ca.ulaval.glo4002.booking.domain.transport.TransportExposer;
+import ca.ulaval.glo4002.booking.application.TransportUseCase;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)
 public class TransportResource {
     
-    private TransportExposer transportExposer;
+    private TransportUseCase transportUseCase;
     private ShuttleMapper shuttleMapper;
     
     @Inject
-    public TransportResource(TransportExposer transportExposer) {
-        this.transportExposer = transportExposer;
+    public TransportResource(TransportUseCase transportUseCase) {
+        this.transportUseCase = transportUseCase;
         shuttleMapper = new ShuttleMapper();
     }
 
@@ -35,13 +34,12 @@ public class TransportResource {
         List<ShuttleDto> departures;
         List<ShuttleDto> arrivals;
         if (stringDate == null) {
-            departures = shuttleMapper.getShuttlesDto(transportExposer.getAllDepartures());
-            arrivals = shuttleMapper.getShuttlesDto(transportExposer.getAllArrivals());
+            departures = shuttleMapper.getShuttlesDto(transportUseCase.getAllDepartures());
+            arrivals = shuttleMapper.getShuttlesDto(transportUseCase.getAllArrivals());
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-            LocalDate date = LocalDate.parse(stringDate, formatter);
-            departures = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesDepartureByDate(date));
-            arrivals = shuttleMapper.getShuttlesDto(transportExposer.getShuttlesArrivalByDate(date));
+            LocalDate date = LocalDate.parse(stringDate);
+            departures = shuttleMapper.getShuttlesDto(transportUseCase.getShuttlesDepartureByDate(date));
+            arrivals = shuttleMapper.getShuttlesDto(transportUseCase.getShuttlesArrivalByDate(date));
         }    
         return new TransportResponse(departures, arrivals);
     }
