@@ -60,10 +60,6 @@ public class Pass {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
     public void reserveShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
         reserveDepartureShuttles(transportReservation, shuttleRepository);
         reserveArrivalShuttles(transportReservation, shuttleRepository);
