@@ -17,31 +17,28 @@ import javax.ws.rs.core.UriInfo;
 
 import ca.ulaval.glo4002.booking.api.dtoMappers.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassOrderRequest;
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
-import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
 import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderExposer;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdersResource {
 
-    private PassOrderingOrchestrator orchestrator;
-    private PassOrderExposer passOrderExposer;
+    private PassOrderUseCase passOrderUseCase;
 
     @Inject
-    public OrdersResource(PassOrderingOrchestrator orchestrator, PassOrderExposer passOrderRequester) {
-        this.orchestrator = orchestrator;
-        this.passOrderExposer = passOrderRequester;
+    public OrdersResource(PassOrderUseCase passOrderUseCase) {
+        this.passOrderUseCase = passOrderUseCase;
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") String stringOrderNumber) {
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
-        Optional<PassOrder> passOrder = passOrderExposer.getOrder(orderNumber);
+        Optional<PassOrder> passOrder = passOrderUseCase.getOrder(orderNumber);
         if (!passOrder.isPresent()) {
             throw new NotFoundException("order", orderNumber.getValue());
         }
@@ -50,7 +47,7 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws URISyntaxException {
-        PassOrder passOrder = orchestrator.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
+        PassOrder passOrder = passOrderUseCase.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
         String orderNumber = passOrder.getOrderNumber().getValue();
 
         URI location = LocationHeaderCreator.createURI(uriInfo, orderNumber);
