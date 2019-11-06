@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;;
 
 public class Glow4002Dates implements FestivalDates {
@@ -37,11 +39,23 @@ public class Glow4002Dates implements FestivalDates {
         return saleEndDate;
     }
 
-    public boolean isDuringSaleTime(OffsetDateTime dateTime) {
-        return !(dateTime.isBefore(saleStartDate) || dateTime.isAfter(saleEndDate));
+    public boolean isDuringSaleTime(OffsetDateTime orderDate) {
+        return !(orderDate.isBefore(saleStartDate) || orderDate.isAfter(saleEndDate));
     }
 
     public boolean isDuringEventTime(LocalDate date) {
         return !(date.isBefore(startDate) || date.isAfter(endDate));
+    }
+
+    public void validateEventDates(LocalDate startDate, LocalDate endDate) {
+        if (!isDuringEventTime(startDate) || !isDuringEventTime(endDate)) {
+            throw new OutOfFestivalDatesException(getStartDate(), getEndDate());
+        }
+    }
+
+    public void validateOrderDate(OffsetDateTime orderDate) {
+        if (!isDuringSaleTime(orderDate)) {
+            throw new OutOfSaleDatesException(getSaleStartDate(), getSaleEndDate());
+        }
     }
 }

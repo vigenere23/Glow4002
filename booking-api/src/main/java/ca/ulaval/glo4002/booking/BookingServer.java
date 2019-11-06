@@ -6,20 +6,23 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.domain.application.ArtistRankingUseCase;
-import ca.ulaval.glo4002.booking.domain.application.ProgramResourcesProvider;
+import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.application.OxygenUseCase;
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.ProgramUseCase;
+import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
@@ -57,29 +60,32 @@ public class BookingServer implements Runnable {
     private ResourceConfig setupResourceConfig() {
         FestivalDates festival = new Glow4002Dates();
 
-        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
-        ShuttleRepository shuttleRepository = new HeapShuttleRepository();
+        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
+        OxygenFactory oxygenFactory = new OxygenFactory(festival.getStartDate().minusDays(1));
+        OxygenProducer oxygenProducer = new OxygenProducer(oxygenFactory);
+        OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
-        OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
-        TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
-        PassOrderRequester passOrderRequester = new PassOrderRequester(passOrderRepository, festival);
-        PassOrderingOrchestrator passOrderingOrchestrator = new PassOrderingOrchestrator(transportRequester, oxygenRequester, passOrderRequester);
+        ShuttleRepository shuttleRepository = new HeapShuttleRepository();
+        TransportReservation transportReservation = new TransportReservation();
+        TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
+
+        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReservation, shuttleRepository, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
 
         ArtistInformationMapper artistRankingInformationMapper = new ArtistInformationMapper();
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-        ProgramResourcesProvider programResourcesProvider = new ProgramResourcesProvider(transportRequester, oxygenRequester, artistsRepository);
+        ProgramUseCase programUseCase = new ProgramUseCase(shuttleRepository, transportReservation, artistsRepository);
 
         return new ResourceConfiguration(
-                oxygenRequester,
-                transportRequester,
-                passOrderRequester,
-                passOrderingOrchestrator,
+                passOrderUseCase,
+                transportUseCase,
+                oxygenUseCase,
                 artistRankingUseCase,
-                programResourcesProvider,
+                programUseCase,
                 festival
         ).packages("ca.ulaval.glo4002.booking");
     }

@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 
 public class Program {
     private List<SingleDayProgram> program;
@@ -58,10 +58,10 @@ public class Program {
         return program.stream().map(SingleDayProgram::getDate).collect(Collectors.toList());
     }
     
-    public void provideProgramResources(TransportRequester transportRequester, OxygenRequester oxygenRequester, ArtistRepository artistRepository) {
+    public void provideProgramResources(TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistRepository artistRepository) {
         for (SingleDayProgram programForOneDay : program) {   
-            programForOneDay.orderOxygen(oxygenRequester, artistRepository);
-            programForOneDay.orderShuttle(transportRequester, artistRepository);
+            //programForOneDay.orderOxygen(shuttleRepository, artistRepository);
+            programForOneDay.orderShuttle(transportReservation, shuttleRepository, artistRepository);
         }
     }
 }
