@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.application;
+package ca.ulaval.glo4002.booking.application;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 
@@ -19,7 +19,7 @@ public class OxygenUseCase {
 
     public List<OxygenInventory> getOxygenInventories() {
         EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = oxygenInventoryRepository.findInventories();
-        List<OxygenInventory> inventoryList = new ArrayList<OxygenInventory>();
+        List<OxygenInventory> inventoryList = new ArrayList<>();
         for (OxygenGrade oxygenGrade: OxygenGrade.values()) {
             inventoryList.add(oxygenInventories.get(oxygenGrade));
         }
