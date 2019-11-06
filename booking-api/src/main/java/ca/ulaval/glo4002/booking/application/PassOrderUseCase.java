@@ -4,8 +4,6 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -32,9 +30,8 @@ public class PassOrderUseCase {
         return passOrderRepository.findByOrderNumber(orderNumber);
     }
 
-    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest)
-            throws OutOfSaleDatesException, OutOfFestivalDatesException {
-        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
+    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
+        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates());
         orderUtilities(orderDate, passOrder);
         passOrderRepository.save(passOrder);
 
