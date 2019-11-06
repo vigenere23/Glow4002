@@ -20,6 +20,7 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
@@ -55,18 +56,19 @@ public class BookingServer implements Runnable {
     }
 
     private ResourceConfig setupResourceConfig() {
-        FestivalDates festival = new Glow4002Dates();
+        FestivalDates festivalDates = new Glow4002Dates();
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
 
-        OxygenRequester oxygenRequester = new OxygenRequester(festival.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
+        OxygenRequester oxygenRequester = new OxygenRequester(festivalDates.getStartDate().minusDays(1), oxygenHistoryRepository, oxygenInventoryRepository);
         TransportReservation transportReservation = new TransportReservation();
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
+        PassFactory passFactory = new PassFactory(festivalDates);
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReservation, shuttleRepository, oxygenRequester);
-        TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
+        TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);

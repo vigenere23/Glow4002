@@ -28,7 +28,7 @@ public class PassFactoryTest {
     }
 
     @Test
-    public void givenAnEmptyEventDate_whenCreatingASinglePass_itThrowsAnIllegalArgumentException() {
+    public void givenNoEventDate_whenCreatingASinglePass_itThrowsAnIllegalArgumentException() {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             passFactory.create(PassOption.SINGLE_PASS, PassCategory.NEBULA, Optional.empty());
         });

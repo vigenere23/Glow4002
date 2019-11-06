@@ -17,9 +17,9 @@ public class PassOrderFactory {
     private PassFactory passFactory;
     private FestivalDates festivalDates;
 
-    public PassOrderFactory(FestivalDates festivalDates) {
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory) {
         this.festivalDates = festivalDates;
-        passFactory = new PassFactory(festivalDates);
+        this.passFactory = passFactory;
     }
 
     public PassOrder create(
