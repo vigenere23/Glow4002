@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
@@ -19,6 +20,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +39,8 @@ public class PassOrderUseCaseTest {
     private ShuttleRepository shuttleRepository;
     private OxygenRequester oxygenRequester;
     private Pass pass;
-    private PassOrder somePassOrder;
-    private PassRequest somePassRequest;
+    private PassOrder passOrder;
+    private PassRequest passRequest;
     private PassOrderRepository passOrderRepository;
     private PassOrderUseCase passOrderUseCase;
 
@@ -52,54 +54,50 @@ public class PassOrderUseCaseTest {
         oxygenRequester = mock(OxygenRequester.class);
 
         mockPassOrder();
-        somePassRequest = mock(PassRequest.class);
-        when(somePassRequest.getPassOption()).thenReturn(PASS_OPTION);
-        when(somePassRequest.getPassCategory()).thenReturn(PASS_CATEGORY);
-        when(passOrderFactory.create(
-            any(OffsetDateTime.class),
-            any(VendorCode.class),
-            any(PassOption.class),
-            any(PassCategory.class),
-            any(List.class)
-        )).thenReturn(somePassOrder);
+        passRequest = mock(PassRequest.class);
+        when(passRequest.getPassOption()).thenReturn(PASS_OPTION);
+        when(passRequest.getPassCategory()).thenReturn(PASS_CATEGORY);
+        when(passRequest.getEventDates()).thenReturn(Optional.empty());
+        when(passOrderFactory.create(any(), any(), any(), any(), any()))
+            .thenReturn(passOrder);
 
         passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReservation, shuttleRepository, oxygenRequester);
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, somePassRequest);
+        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
 
-        verify(passOrderFactory).create(ORDER_DATE, VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, new ArrayList<>());
+        verify(passOrderFactory).create(ORDER_DATE, VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, Optional.empty());
     }
 
     @Test
     public void whenOrchestPassCreation_thenSavePassOrderInRepository() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, somePassRequest);
+        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
 
-        verify(passOrderRepository).save(somePassOrder);
+        verify(passOrderRepository).save(passOrder);
     }
 
     @Test
     public void whenOrchestPassCreation_thenShuttlesAreReserved() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, somePassRequest);
+        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
 
         verify(pass).reserveShuttles(transportReservation, shuttleRepository);
     }
 
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, somePassRequest);
+        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
 
         verify(pass).orderOxygen(DATE, oxygenRequester);
     }
 
     private void mockPassOrder() {
-        somePassOrder = mock(PassOrder.class);
+        passOrder = mock(PassOrder.class);
 
         List<Pass> passes = new ArrayList<>();
         passes.add(pass);
 
-        when(somePassOrder.getPasses()).thenReturn(passes);
+        when(passOrder.getPasses()).thenReturn(passes);
     }
 }

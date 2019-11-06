@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class PassOrderFactoryTest {
             .when(festivalDates).validateOrderDate(any(OffsetDateTime.class));
 
         assertThatExceptionOfType(OutOfSaleDatesException.class).isThrownBy(() -> {
-            passOrderFactory.create(OffsetDateTime.now(), VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, new ArrayList<>());
+            passOrderFactory.create(OffsetDateTime.now(), VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, Optional.empty());
         });
     }
 

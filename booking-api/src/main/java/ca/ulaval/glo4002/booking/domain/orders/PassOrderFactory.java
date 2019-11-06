@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -21,23 +22,27 @@ public class PassOrderFactory {
         passFactory = new PassFactory(festivalDates);
     }
 
-    // TODO #129 unfold passRequest into 3 separated arguments (passOption, passCategory, eventDates)
-    public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassOption passOption, PassCategory passCategory, List<LocalDate> eventDates) {
+    public PassOrder create(
+        OffsetDateTime orderDate,
+        VendorCode vendorCode,
+        PassOption passOption,
+        PassCategory passCategory,
+        Optional<List<LocalDate>> eventDates
+    ) {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
-        PassOrder passOrder = new PassOrder(vendorCode, passes);
-        return passOrder;
+        return new PassOrder(vendorCode, passes);
     }
 
-    private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, List<LocalDate> eventDates) {
+    private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {
         List<Pass> passes = new ArrayList<>();
 
-        if (eventDates == null || eventDates.isEmpty()) {
-            passes.add(passFactory.create(passOption, passCategory));
-        } else {
-            for (LocalDate eventDate : eventDates) {
-                passes.add(passFactory.create(passOption, passCategory, eventDate));
+        if (eventDates.isPresent() && !eventDates.get().isEmpty()) {
+            for (LocalDate eventDate : eventDates.get()) {
+                passes.add(passFactory.create(passOption, passCategory, Optional.of(eventDate)));
             }
+        } else {
+            passes.add(passFactory.create(passOption, passCategory));
         }
         return passes;
     }
