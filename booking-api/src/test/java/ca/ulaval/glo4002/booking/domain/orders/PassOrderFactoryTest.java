@@ -51,5 +51,37 @@ public class PassOrderFactoryTest {
         });
     }
 
+    @Test
+    public void givenNoEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
+        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.empty());
+        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.empty());
+    }
+
+    @Test
+    public void givenEmptyListOfEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
+        Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
+        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, emptyList);
+        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.empty());
+    }
+
+    @Test
+    public void givenListOfNEventDates_whenCreatingOrder_thenThePassFactoryIsCalledNTimes() {
+        final int NUMBER_OF_DATES = 5;
+        LocalDate date = LocalDate.now();
+        Optional<List<LocalDate>> eventDates = Optional.of(getListOfNowDates(NUMBER_OF_DATES, date));
+
+        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, eventDates);
+        
+        verify(passFactory, times(NUMBER_OF_DATES)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.of(date));
+    }
+
+    private List<LocalDate> getListOfNowDates(int numberOfDates, LocalDate date) {
+        List<LocalDate> listOfDates = new ArrayList<>();
+        for (int i = 0; i < numberOfDates; i++) {
+            listOfDates.add(date);
+        }
+        return listOfDates;
+    }
+
     // TODO  #129 verify that PassFactory is called with correct arguments (once it will be injected)
 }
