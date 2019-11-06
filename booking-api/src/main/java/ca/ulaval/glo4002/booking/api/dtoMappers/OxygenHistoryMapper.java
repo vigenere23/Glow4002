@@ -17,11 +17,10 @@ public class OxygenHistoryMapper {
         for (OxygenDateHistory oxygenDateHistory : history.values()) {
             OxygenHistoryDto oxygenHistoryDto = new OxygenHistoryDto();
             oxygenHistoryDto.date = oxygenDateHistory.getDate();
-            EnumMap<HistoryType, Integer> oxygenHistory = oxygenDateHistory.getOxygenHistory();
-            oxygenHistoryDto.qtyOxygenTankBought = oxygenHistory.get(HistoryType.OXYGEN_TANK_BOUGHT);
-            oxygenHistoryDto.qtyWaterUsed = oxygenHistory.get(HistoryType.WATER_USED);
-            oxygenHistoryDto.qtyCandlesUsed = oxygenHistory.get(HistoryType.CANDLES_USED);
-            oxygenHistoryDto.qtyOxygenTankMade = oxygenHistory.get(HistoryType.OXYGEN_TANK_MADE);
+            oxygenHistoryDto.qtyOxygenTankBought = oxygenDateHistory.getOxygenTankBought();
+            oxygenHistoryDto.qtyWaterUsed = oxygenDateHistory.getWaterUsed();
+            oxygenHistoryDto.qtyCandlesUsed = oxygenDateHistory.getCandlesUsed();
+            oxygenHistoryDto.qtyOxygenTankMade = oxygenDateHistory.getOxygenTankMade();
         }
         return historyDto;
     }

@@ -9,6 +9,6 @@ public class GradeEOxygen extends Oxygen {
     }
 
     protected void initializeQuantitiesPerBatch() {
-        orderDateQuantityPerBatch.put(HistoryType.OXYGEN_TANK_BOUGHT, tankFabricationQuantity);
+        orderDateQuantitiesPerBatch.put(HistoryType.OXYGEN_TANK_BOUGHT, tankFabricationQuantity);
     }
 }

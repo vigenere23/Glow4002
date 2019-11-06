@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OxygenProducerTest {
+
     private static final int QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY = 4;
     private static final int QUANTITY_LESS_THAN_TWO_GRADE_A_TANK_FABRICATION_QUANTITIES = 6;
     private final static LocalDate FESTIVAL_STARTING_DATE = LocalDate.of(2050, 7, 17);
@@ -20,8 +21,8 @@ class OxygenProducerTest {
     private final static LocalDate FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusDays(15);
     private final static LocalDate FIVE_DAYS_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusDays(5);
 
-    private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<OxygenGrade, OxygenInventory>(OxygenGrade.class);
-    private SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = new TreeMap<LocalDate, OxygenDateHistory>();
+    private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<>(OxygenGrade.class);
+    private SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = new TreeMap<>();
     private OxygenFactory oxygenFactory;
     private OxygenProducer oxygenProducer;
 
@@ -29,13 +30,16 @@ class OxygenProducerTest {
     public void setUp() {
         initializeOxygenInventories();
         oxygenFactory = new OxygenFactory(FESTIVAL_STARTING_DATE);
+
         oxygenProducer = new OxygenProducer(oxygenFactory);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanTankFabricationQuantity_thenTankFabricationQuantityIsAdded() {
         oxygenProducer.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY, oxygenInventories, oxygenHistory);
-        assertEquals(5, oxygenInventories.get(OxygenGrade.A).getInventory());
+
+        int expectedInventory = oxygenInventories.get(OxygenGrade.A).getInventory();
+        assertEquals(5, expectedInventory);
     }
 
     //TODO issue #112 part 2

@@ -12,10 +12,10 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     private EnumMap<OxygenGrade, OxygenInventory> inventories;
 
     public HeapOxygenInventoryRepository() {
-        inventories = initialize();
+        inventories = initializeInventories();
     }
 
-    private EnumMap<OxygenGrade, OxygenInventory> initialize() {
+    private EnumMap<OxygenGrade, OxygenInventory> initializeInventories() {
         EnumMap<OxygenGrade, OxygenInventory> collection = new EnumMap<OxygenGrade, OxygenInventory>(OxygenGrade.class);
         EnumSet.allOf(OxygenGrade.class)
             .forEach(grade -> collection.put(grade, new OxygenInventory(grade, 0, 0)));

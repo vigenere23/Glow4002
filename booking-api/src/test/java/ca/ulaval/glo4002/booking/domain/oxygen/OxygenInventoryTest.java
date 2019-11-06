@@ -23,8 +23,8 @@ class OxygenInventoryTest {
     @Test
     public void whenUpdateInventory_thenInventoryIncreases() {
         oxygenInventory.updateInventory(SOME_QUANTITY_TO_FABRICATE, SOME_REQUIRED_QUANTITY);
-        int inventory = SOME_INVENTORY + SOME_QUANTITY_TO_FABRICATE;
 
+        int inventory = SOME_INVENTORY + SOME_QUANTITY_TO_FABRICATE;
         assertEquals(inventory, oxygenInventory.getInventory());
     }
 
@@ -32,10 +32,9 @@ class OxygenInventoryTest {
     public void whenUpdateInventory_thenRemainingQuantityIsUpdated() {
         int someQuantityToFabricate = 4;
         int someQuantityRequired = 2;
-        int remainingQuantity = 2;
-
         oxygenInventory.updateInventory(someQuantityToFabricate, someQuantityRequired);
 
-        assertEquals(remainingQuantity, oxygenInventory.getRemainingQuantity());
+        int expectedRemainingQuantity = 2;
+        assertEquals(expectedRemainingQuantity, oxygenInventory.getRemainingQuantity());
     }
 }

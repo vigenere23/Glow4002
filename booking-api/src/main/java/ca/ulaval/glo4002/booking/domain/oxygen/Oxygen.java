@@ -9,8 +9,8 @@ public abstract class Oxygen {
     protected int tankFabricationQuantity;
     protected int fabricationTimeInDays;
     protected int remainingQuantity;
-    protected EnumMap<HistoryType, Integer> orderDateQuantityPerBatch = new EnumMap<>(HistoryType.class);
-    protected EnumMap<HistoryType, Integer> completionDateQuantityPerBatch = new EnumMap<>(HistoryType.class);
+    protected EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch = new EnumMap<>(HistoryType.class);
+    protected EnumMap<HistoryType, Integer> completionDateQuantitiesPerBatch = new EnumMap<>(HistoryType.class);
     protected OxygenProduction oxygenProduction;
     protected OxygenInventory oxygenInventory;
 
@@ -21,7 +21,7 @@ public abstract class Oxygen {
         this.tankFabricationQuantity = tankFabricationQuantity;
         this.fabricationTimeInDays = fabricationTimeInDays;
         initializeQuantitiesPerBatch();
-        oxygenProduction = new OxygenProduction(fabricationTimeInDays, tankFabricationQuantity, orderDateQuantityPerBatch, completionDateQuantityPerBatch);
+        oxygenProduction = new OxygenProduction(fabricationTimeInDays, tankFabricationQuantity, orderDateQuantitiesPerBatch, completionDateQuantitiesPerBatch);
     }
 
     abstract void initializeQuantitiesPerBatch();

@@ -27,6 +27,7 @@ class OxygenDateHistoryTest {
     @BeforeEach
     public void setUp() {
         initializeDateHistory();
+
         oxygenDateHistory = new OxygenDateHistory(SOME_DATE);
     }
 

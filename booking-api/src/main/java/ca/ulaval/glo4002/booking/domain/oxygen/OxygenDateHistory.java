@@ -32,8 +32,24 @@ public class OxygenDateHistory {
     }
 
     private void initializeOxygenInventory() {
-        oxygenHistory = new EnumMap<HistoryType, Integer>(HistoryType.class);
+        oxygenHistory = new EnumMap<>(HistoryType.class);
         EnumSet.allOf(HistoryType.class)
                 .forEach(type -> oxygenHistory.put(type, 0));
+    }
+
+    public int getOxygenTankBought() {
+        return oxygenHistory.get(HistoryType.OXYGEN_TANK_BOUGHT);
+    }
+
+    public int getOxygenTankMade() {
+        return oxygenHistory.get(HistoryType.OXYGEN_TANK_MADE);
+    }
+
+    public int getWaterUsed() {
+        return oxygenHistory.get(HistoryType.WATER_USED);
+    }
+
+    public int getCandlesUsed() {
+        return oxygenHistory.get(HistoryType.CANDLES_USED);
     }
 }

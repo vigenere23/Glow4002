@@ -7,14 +7,14 @@ import java.util.SortedMap;
 public class OxygenProduction {
     private int fabricationTimeInDays;
     private int tankFabricationQuantity;
-    private EnumMap<HistoryType, Integer> orderDateQuantityPerBatch;
-    private EnumMap<HistoryType, Integer> completionDateQuantityPerBatch;
+    private EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch;
+    private EnumMap<HistoryType, Integer> completionDateQuantitiesPerBatch;
 
-    public OxygenProduction(int fabricationTimeInDays, int tankFabricationQuantity, EnumMap<HistoryType, Integer> orderDateQuantityPerBatch, EnumMap<HistoryType, Integer> completionDateQantityPerBatch) {
+    public OxygenProduction(int fabricationTimeInDays, int tankFabricationQuantity, EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch, EnumMap<HistoryType, Integer> completionDateQantitiesPerBatch) {
         this.fabricationTimeInDays = fabricationTimeInDays;
         this.tankFabricationQuantity = tankFabricationQuantity;
-        this.orderDateQuantityPerBatch = orderDateQuantityPerBatch;
-        this.completionDateQuantityPerBatch = completionDateQantityPerBatch;
+        this.orderDateQuantitiesPerBatch = orderDateQuantitiesPerBatch;
+        this.completionDateQuantitiesPerBatch = completionDateQantitiesPerBatch;
     }
 
     public SortedMap<LocalDate, OxygenDateHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int orderedQuantity) {
@@ -24,22 +24,22 @@ public class OxygenProduction {
     }
 
     private void updateOrderDateHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int orderedQuantity) {
-        if (!orderDateQuantityPerBatch.isEmpty()) {
-            OxygenDateHistory orderDateHistory = getDateHistory(orderDateQuantityPerBatch, orderDate, orderedQuantity);
+        if (!orderDateQuantitiesPerBatch.isEmpty()) {
+            OxygenDateHistory orderDateHistory = getDateHistory(orderDateQuantitiesPerBatch, orderDate, orderedQuantity);
             updateHistory(history, orderDateHistory);
         }
     }
 
     private void updateCompletionDateHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int orderedQuantity) {
-        if (!completionDateQuantityPerBatch.isEmpty()) {
-            OxygenDateHistory completionDateHistory = getDateHistory(completionDateQuantityPerBatch, getFabricationCompletionDate(orderDate), orderedQuantity);
+        if (!completionDateQuantitiesPerBatch.isEmpty()) {
+            OxygenDateHistory completionDateHistory = getDateHistory(completionDateQuantitiesPerBatch, getFabricationCompletionDate(orderDate), orderedQuantity);
             updateHistory(history, completionDateHistory);
         }
     }
 
-    private OxygenDateHistory getDateHistory(EnumMap<HistoryType, Integer> quantityPerBatch, LocalDate date, int orderedQuantity) {
+    private OxygenDateHistory getDateHistory(EnumMap<HistoryType, Integer> quantitiesPerBatch, LocalDate date, int orderedQuantity) {
         OxygenDateHistory oxygenDateHistory = new OxygenDateHistory(date);
-        quantityPerBatch.forEach(
+        quantitiesPerBatch.forEach(
                 (historyType, fabricationQuantity) -> oxygenDateHistory.updateQuantity(historyType, getQuantityToFabricate(orderedQuantity, fabricationQuantity))
         );
         return oxygenDateHistory;

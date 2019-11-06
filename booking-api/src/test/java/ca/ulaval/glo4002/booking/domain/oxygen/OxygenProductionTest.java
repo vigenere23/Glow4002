@@ -32,35 +32,39 @@ class OxygenProductionTest {
     public void setUp() {
         initializeQuantitiesPerFabricationBatch();
         initializeHistory();
+
         oxygenProduction = new OxygenProduction(SOME_FABRICATION_TIME_IN_DAYS, SOME_TANK_FABRICATION_QUANTITY, someOrderDateQuantityPerBatch, someCompletionDateQuantityPerBatch);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanFabricationQuantity_thenFabricationQuantityIsFabricated() {
         int quantityToFabricate = oxygenProduction.getQuantityToFabricate(QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_QUANTITY);
+
         assertEquals(SOME_FABRICATION_QUANTITY, quantityToFabricate);
     }
 
     @Test
     public void whenOrderOxygenQuantityMoreThanFabricationQuantity_thenMultipleOfFabricationQuantityIsAdded() {
         int quantityToFabricate = oxygenProduction.getQuantityToFabricate(QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES, SOME_FABRICATION_QUANTITY);
-        assertEquals(2 * SOME_FABRICATION_QUANTITY, quantityToFabricate);
+
+        int expectedQuantity = 2 * SOME_FABRICATION_QUANTITY;
+        assertEquals(expectedQuantity, quantityToFabricate);
     }
 
     @Test
     public void whenUpdateOxygenHistory_thenOrderedDateHistoryIsUpdated() {
         SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenProduction.updateOxygenHistory(someHistory, SOME_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
-        int producedQuantity = updatedOxygenHistory.get(SOME_DATE).getOxygenHistory().get(SOME_ORDER_DATE_HISTORY_TYPE);
-        int updatedQuantity = SOME_QUANTITY + SOME_FABRICATION_QUANTITY;
 
+        int producedQuantity = updatedOxygenHistory.get(SOME_DATE).getCandlesUsed();
+        int updatedQuantity = SOME_QUANTITY + SOME_FABRICATION_QUANTITY;
         assertEquals(updatedQuantity, producedQuantity);
     }
 
     @Test
     public void whenUpdateOxygenHistory_thenCompletionDateHistoryIsUpdated() {
         SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenProduction.updateOxygenHistory(someHistory, SOME_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
-        int producedQuantity = updatedOxygenHistory.get(SOME_COMPLETION_DATE).getOxygenHistory().get(SOME_COMPLETION_DATE_HISTORY_TYPE);
 
+        int producedQuantity = updatedOxygenHistory.get(SOME_COMPLETION_DATE).getOxygenTankMade();
         assertEquals(SOME_TANK_FABRICATION_QUANTITY, producedQuantity);
     }
 

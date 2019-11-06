@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OxygenTest {
+
     private final static int SOME_INVENTORY = 2;
     private final static int SOME_REMAINING_QUANTITY = 2;
     private static final int SOME_QUANTITY = 2;
@@ -29,14 +30,13 @@ class OxygenTest {
 
     private class OxygenImplementationTest extends Oxygen {
 
-
         public OxygenImplementationTest(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
             super(limitDeliveryDate, oxygenInventory, tankFabricationQuantity, fabricationTimeInDays);
         }
 
         protected void initializeQuantitiesPerBatch() {
-            completionDateQuantityPerBatch.put(SOME_COMPLETION_DATE_HISTORY_TYPE, tankFabricationQuantity);
-            orderDateQuantityPerBatch.put(SOME_ORDER_DATE_HISTORY_TYPE, SOME_FABRICATION_QUANTITY);
+            completionDateQuantitiesPerBatch.put(SOME_COMPLETION_DATE_HISTORY_TYPE, tankFabricationQuantity);
+            orderDateQuantitiesPerBatch.put(SOME_ORDER_DATE_HISTORY_TYPE, SOME_FABRICATION_QUANTITY);
         }
     }
 
@@ -57,18 +57,18 @@ class OxygenTest {
     @Test
     public void whenOrderMoreOxygenThanRemainingQuantity_thenOrderDateHistoryIsUpdated() {
         SortedMap<LocalDate, OxygenDateHistory> history = oxygen.updateOxygenHistory(someHistory, SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
         EnumMap<HistoryType, Integer> expectedOrderDatehistory = updatedHistory.get(SOME_ORDER_DATE).getOxygenHistory();
         EnumMap<HistoryType, Integer> orderDateHistory =  history.get(SOME_ORDER_DATE).getOxygenHistory();
-
         assertEquals(expectedOrderDatehistory, orderDateHistory);
     }
 
     @Test
     public void whenOrderMoreOxygenThanRemainingQuantity_thenCompletionDateHistoryIsUpdated() {
         SortedMap<LocalDate, OxygenDateHistory> history = oxygen.updateOxygenHistory(someHistory, SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
         EnumMap<HistoryType, Integer> expectedOrderDatehistory = updatedHistory.get(COMPLETION_DATE).getOxygenHistory();
         EnumMap<HistoryType, Integer> orderDateHistory =  history.get(COMPLETION_DATE).getOxygenHistory();
-
         assertEquals(expectedOrderDatehistory, orderDateHistory);
     }
 
@@ -82,35 +82,35 @@ class OxygenTest {
     @Test
     public void whenOrderMoreOxygenThanRemainingQuantity_thenInventoryIsUpdated() {
         oxygen.adjustInventory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
         int inventory = oxygen.getOxygenInventory().getInventory();
         int expectedInventory = SOME_TANK_FABRICATION_QUANTITY + SOME_INVENTORY;
-
         assertEquals(expectedInventory, inventory);
     }
 
     @Test
     public void whenOrderMoreOxygenThanRemainingQuantity_thenRemainingQuantityIsUpdated() {
         oxygen.adjustInventory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
         int remainingQuantity = oxygen.getOxygenInventory().getRemainingQuantity();
         int expectedRemainingQuantity = SOME_TANK_FABRICATION_QUANTITY - QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY + SOME_REMAINING_QUANTITY;
-
         assertEquals(expectedRemainingQuantity, remainingQuantity);
     }
 
     @Test
     public void whenOrderLessOxygenThanRemainingQuantity_thenInventoryIsNotUpdated() {
         oxygen.adjustInventory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_REMAINING_QUANTITY);
-        int inventory = oxygen.getOxygenInventory().getInventory();
 
+        int inventory = oxygen.getOxygenInventory().getInventory();
         assertEquals(SOME_INVENTORY, inventory);
     }
 
     @Test
     public void whenOrderLessOxygenThanRemainingQuantity_thenRemainingQuantityIsUpdated() {
         oxygen.adjustInventory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_REMAINING_QUANTITY);
+
         int expectedRemainingQuantity = SOME_REMAINING_QUANTITY - QUANTITY_LESS_THAN_REMAINING_QUANTITY;
         int remainingQuantity = oxygen.getOxygenInventory().getRemainingQuantity();
-
         assertEquals(expectedRemainingQuantity, remainingQuantity);
     }
 
@@ -128,15 +128,15 @@ class OxygenTest {
 
     @Test void whenOrderTooLate_thenInventoryIsNotUpdated() {
         oxygen.adjustInventory(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
-        int inventory = oxygen.getOxygenInventory().getInventory();
 
+        int inventory = oxygen.getOxygenInventory().getInventory();
         assertEquals(SOME_INVENTORY, inventory);
     }
 
     @Test void whenOrderTooLate_thenRemainingQuantityIsNotUpdated() {
         oxygen.adjustInventory(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
-        int remainingQuantity = oxygen.getOxygenInventory().getRemainingQuantity();
 
+        int remainingQuantity = oxygen.getOxygenInventory().getRemainingQuantity();
         assertEquals(SOME_REMAINING_QUANTITY, remainingQuantity);
     }
 
