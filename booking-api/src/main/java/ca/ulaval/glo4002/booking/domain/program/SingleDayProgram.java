@@ -64,13 +64,13 @@ public class SingleDayProgram {
 
     private void reserveDepartureShuttles(ShuttleCategory shuttleCategory, TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistProgramInformation artist) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveDeparture(shuttleCategory, date, artist.getId() , departureShuttles, artist.getGroupSize());
+        departureShuttles = transportReservation.reserveShuttle(shuttleCategory, date, artist.getId() , departureShuttles, artist.getGroupSize());
         shuttleRepository.saveDeparture(departureShuttles);
     }
 
     private void reserveArrivalShuttles(ShuttleCategory shuttleCategory, TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistProgramInformation artist) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveDeparture(shuttleCategory, date, artist.getId() , departureShuttles, artist.getGroupSize());
+        departureShuttles = transportReservation.reserveShuttle(shuttleCategory, date, artist.getId() , departureShuttles, artist.getGroupSize());
         shuttleRepository.saveDeparture(departureShuttles);
     }
 

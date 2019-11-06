@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.time.LocalDate;
@@ -17,16 +17,20 @@ class TransportReservationTest {
     private final static ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
     private final static PassNumber SOME_PASS_NUMBER = mock(PassNumber.class);
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);
-    private List<Shuttle> someShuttles = new LinkedList<>();
+    private final static int SOME_PLACES = 1;
+    private final static List<Shuttle> SOME_SHUTTLES = new LinkedList<>();
+
     private TransportReservation transportReservation;
 
     @BeforeEach
-    public void setUp() {
-        Shuttle mockedShuttle = mock(SpaceX.class);
-        someShuttles.add(mockedShuttle);
-
+    public void setUpTransportReservation() {
         transportReservation = new TransportReservation();
     }
 
-    // TODO (issue #144)
+    @Test
+    public void givenShuttleReservationInformation_whenReserveShuttle_thenFillShuttle() {
+        List<Shuttle> filledShuttles = transportReservation.reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASS_NUMBER, SOME_SHUTTLES, SOME_PLACES);
+        
+        assertEquals(1, filledShuttles.size());
+    }
 }

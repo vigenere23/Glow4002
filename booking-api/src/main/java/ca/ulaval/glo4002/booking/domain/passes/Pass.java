@@ -79,13 +79,13 @@ public class Pass {
 
     private void reserveDepartureShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveDeparture(shuttleCategory, startDate, passNumber, departureShuttles, ONE_PLACE);
+        departureShuttles = transportReservation.reserveShuttle(shuttleCategory, startDate, passNumber, departureShuttles, ONE_PLACE);
         shuttleRepository.saveDeparture(departureShuttles);
     }
 
     private void reserveArrivalShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
         List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        arrivalShuttles = transportReservation.reserveArrival(shuttleCategory, startDate, passNumber, arrivalShuttles, ONE_PLACE);
+        arrivalShuttles = transportReservation.reserveShuttle(shuttleCategory, startDate, passNumber, arrivalShuttles, ONE_PLACE);
         shuttleRepository.saveArrival(arrivalShuttles);
     }
 

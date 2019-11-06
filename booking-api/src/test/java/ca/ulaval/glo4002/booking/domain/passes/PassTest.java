@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -162,7 +163,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -173,7 +174,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy, ONE_PLACE);
     }
 
     @Test
@@ -183,7 +184,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -202,7 +203,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -221,7 +222,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -240,7 +241,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -259,7 +260,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -278,7 +279,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReservation, shuttleRepository);
 
-        verify(transportReservation).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
+        verify(transportReservation, times(2)).reserveShuttle(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
     }
 
     @Test
@@ -317,8 +318,8 @@ class PassTest {
     }
 
     private void mockTransportReservation(PassNumber passNumber) {
-        when(transportReservation.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth, ONE_PLACE)).thenReturn(shuttlesEarth);
-        when(transportReservation.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy, ONE_PLACE)).thenReturn(shuttlesUlavalogy);
+        when(transportReservation.reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth, ONE_PLACE)).thenReturn(shuttlesEarth);
+        when(transportReservation.reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy, ONE_PLACE)).thenReturn(shuttlesUlavalogy);
     }
     
     private Pass createPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {

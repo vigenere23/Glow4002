@@ -13,15 +13,7 @@ public class TransportReservation {
         shuttleFiller = new ShuttleFiller();
     }
     
-    public List<Shuttle> reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> departureShuttles, int passengers) {
-        return assignNewPlace(departureShuttles, shuttleCategory, date, passNumber, passengers);
-    }
-    
-    public List<Shuttle> reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> arrivalShuttles, int passengers) {
-        return assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber, passengers);
-    }   
-
-    private List<Shuttle> assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int passengers) {
-        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date, passengers);
-    }
+    public List<Shuttle> reserveShuttle(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> currentShuttlesForLocation, int passengers) {
+        return shuttleFiller.fillShuttle(currentShuttlesForLocation, shuttleCategory, passNumber, date, passengers);
+    }  
 }
