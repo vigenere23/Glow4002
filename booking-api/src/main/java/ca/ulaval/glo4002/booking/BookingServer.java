@@ -1,8 +1,9 @@
 package ca.ulaval.glo4002.booking;
 
-import ca.ulaval.glo4002.booking.domain.application.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.application.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
@@ -14,12 +15,13 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
@@ -62,9 +64,10 @@ public class BookingServer implements Runnable {
 
         OxygenFactory oxygenFactory = new OxygenFactory(festival.getStartDate().minusDays(1));
         OxygenProducer oxygenProducer = new OxygenProducer(oxygenFactory);
-        TransportRequester transportRequester = new TransportRequester(shuttleRepository, festival);
+        TransportReservation transportReservation = new TransportReservation();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(transportRequester, oxygenProducer, passOrderFactory, passOrderRepository, oxygenInventoryRepository, oxygenHistoryRepository);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReservation, shuttleRepository, oxygenRequester);
+        TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
@@ -74,7 +77,7 @@ public class BookingServer implements Runnable {
 
         return new ResourceConfiguration(
                 oxygenProducer,
-                transportRequester,
+                transportUseCase,
                 passOrderFactory,
                 passOrderUseCase,
                 oxygenUseCase,
