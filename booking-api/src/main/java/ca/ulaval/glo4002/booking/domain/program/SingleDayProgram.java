@@ -12,16 +12,15 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportRequester;
 
 public class SingleDayProgram {
+
     private Activity activity;
     private String artistName;
     private LocalDate date;
-
 
     public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
         this.activity = activity;
         this.artistName = artistName;
         this.date = date;
-
     }
 
     public LocalDate getDate() {

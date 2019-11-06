@@ -14,7 +14,6 @@ import ca.ulaval.glo4002.booking.api.dtoMappers.ProgramMapper;
 import ca.ulaval.glo4002.booking.api.dtos.program.ProgramRequest;
 import ca.ulaval.glo4002.booking.domain.application.ProgramResourcesProvider;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 
 @Path("/program")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,10 +21,11 @@ public class ProgramResource {
 
     private ProgramMapper programMapper;
     private ProgramResourcesProvider programResourcesProvider;
-    private FestivalDates glow4002Dates = new Glow4002Dates();
+    private FestivalDates glow4002Dates;
 
     @Inject
-    public ProgramResource(ProgramResourcesProvider programResourcesProvider) {
+    public ProgramResource(ProgramResourcesProvider programResourcesProvider, FestivalDates glow4002Dates) {
+        this.glow4002Dates = glow4002Dates;
         this.programResourcesProvider = programResourcesProvider;
         programMapper = new ProgramMapper();
     }

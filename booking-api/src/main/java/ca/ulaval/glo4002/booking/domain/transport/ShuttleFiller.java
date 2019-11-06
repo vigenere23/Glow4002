@@ -21,14 +21,14 @@ public class ShuttleFiller {
     private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, int passengers) {
         Shuttle availableShuttle = shuttlesToFill.stream()
             .filter(shuttle -> {
-                return shuttleIsAvailable(shuttle, shuttleCategory, date, passengers) ? true : false ;
+                return shuttleIsAvailable(shuttle, shuttleCategory, date, passengers) ? true : false;
             }).findAny()
             .orElse(shuttleFactory.createShuttle(shuttleCategory, date));
         return availableShuttle;            
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int passengers) {
-        return date.equals(shuttleToVerify.getDate()) && shuttleCategory.equals(shuttleToVerify.getCategory()) && !shuttleToVerify.availableCapacity(passengers);
+        return shuttleToVerify.hasCorrectDate(date) && shuttleToVerify.hasCorrectCategory(shuttleCategory) && !shuttleToVerify.availableCapacity(passengers);
     }
 
     private void assignNewPlaces(Shuttle availableShuttle, PassNumber passNumber, int passengers) {

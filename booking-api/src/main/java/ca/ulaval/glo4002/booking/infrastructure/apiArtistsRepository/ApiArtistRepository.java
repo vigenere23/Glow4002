@@ -42,7 +42,9 @@ public class ApiArtistRepository implements ArtistRepository {
     @Override
     public ArtistProgramInformation getArtistByName(String artistName) {
         List<ArtistDto> artistDtos = getArtistsDto();
-        return artistInformationMapper.programFromDto(artistDtos.stream().filter(artist -> artistName.equals(artist.name)).findAny().orElse(null));
+        return artistInformationMapper.programFromDto(artistDtos.stream()
+                                        .filter(artist -> artistName.equals(artist.name))
+                                        .findAny().orElse(null));
     }
 
     // TODO (issue #134)

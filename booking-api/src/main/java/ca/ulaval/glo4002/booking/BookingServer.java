@@ -79,7 +79,8 @@ public class BookingServer implements Runnable {
                 passOrderRequester,
                 passOrderingOrchestrator,
                 artistRankingUseCase,
-                programResourcesProvider
+                programResourcesProvider,
+                festival
         ).packages("ca.ulaval.glo4002.booking");
     }
 }

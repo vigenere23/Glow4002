@@ -5,6 +5,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import ca.ulaval.glo4002.booking.domain.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.application.ProgramResourcesProvider;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.orchestrators.PassOrderingOrchestrator;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderExposer;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenExposer;
@@ -18,7 +19,8 @@ public class ResourceConfiguration extends ResourceConfig {
         PassOrderExposer passOrderExposer,
         PassOrderingOrchestrator orchestrator,
         ArtistRankingUseCase artistRankingUseCase,
-        ProgramResourcesProvider programResourcesProvider 
+        ProgramResourcesProvider programResourcesProvider,
+        FestivalDates festival
     ) {
         register(new AbstractBinder() {
             @Override
@@ -29,6 +31,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(orchestrator).to(PassOrderingOrchestrator.class);
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
                 bind(programResourcesProvider).to(ProgramResourcesProvider.class);
+                bind(festival).to(FestivalDates.class);
             }
         });
     }

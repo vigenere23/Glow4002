@@ -17,10 +17,6 @@ public enum ShuttleCategory {
     }
 
     public static ShuttleCategory artistShuttle(int numberPeople) {
-        if(numberPeople == 1) {
-            return ET_SPACESHIP;
-        } else {
-            return MILLENNIUM_FALCON;
-        }
+        return numberPeople == 1 ? ET_SPACESHIP : MILLENNIUM_FALCON;
     }
 }

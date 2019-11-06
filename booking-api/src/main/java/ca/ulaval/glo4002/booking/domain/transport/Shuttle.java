@@ -32,4 +32,12 @@ public abstract class Shuttle {
     public boolean availableCapacity(int passengers) {
         return (passNumbers.size() + passengers) > capacity ? true : false; 
     }
+
+    public boolean hasCorrectDate(LocalDate date) {
+        return this.date == date ? true : false;
+    }
+
+	public boolean hasCorrectCategory(ShuttleCategory shuttleCategory) {
+		return this.category == shuttleCategory ? true : false;
+	}
 }

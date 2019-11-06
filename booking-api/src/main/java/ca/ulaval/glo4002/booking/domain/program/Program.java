@@ -18,18 +18,33 @@ public class Program {
 
     public Program(List<SingleDayProgram> program, FestivalDates glow4002Dates) {
         this.program = program;
-        this.glow4002Dates = glow4002Dates;
-        validateEventDates();
-        validateDailySchedule();
-        validateArtistDifferentOnEachDay();
+		this.glow4002Dates = glow4002Dates;
+		validateProgram();
     }
      
-    private void validateEventDates() {       
+    private void validateProgram() {
         for(SingleDayProgram programForOneDay : program) {
-            if(!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
-                throw new InvalidProgramException();
-            }
-        }
+        	programForOneDay.validateIfAmAndPm();
+			programForOneDay.validateActivityOnlyOnAm();
+			validateArtistDifferentOnEachDay(programForOneDay);
+			validateEventDates(programForOneDay);
+		}
+	}
+
+    private void validateArtistDifferentOnEachDay(SingleDayProgram programForOneDay) {
+		if(Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) != 1) {
+			throw new InvalidProgramException();
+		}
+	}
+	
+    private List<String> retrieveArtists() {
+        return program.stream().map(SingleDayProgram::getArtist).collect(Collectors.toList());
+	}
+	
+	private void validateEventDates(SingleDayProgram programForOneDay) {
+		if(!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
+			throw new InvalidProgramException();
+		}
         if (retrieveDates().size() != ChronoUnit.DAYS.between(glow4002Dates.getStartDate(), glow4002Dates.getEndDate().plusDays(1))) {
             throw new InvalidProgramException();
         }
@@ -43,25 +58,6 @@ public class Program {
         return program.stream().map(SingleDayProgram::getDate).collect(Collectors.toList());
     }
     
-    private void validateDailySchedule() {
-        for(SingleDayProgram programForOneDay : program) {
-            programForOneDay.validateIfAmAndPm();
-            programForOneDay.validateActivityOnlyOnAm();
-        }
-    }
-
-    private void validateArtistDifferentOnEachDay() {
-        for(SingleDayProgram programForOneDay : program) {
-            if(Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) != 1) {
-                throw new InvalidProgramException();
-            }
-        }
-    }
-
-    private List<String> retrieveArtists() {
-        return program.stream().map(SingleDayProgram::getArtist).collect(Collectors.toList());
-    }
-
     public void provideProgramResources(TransportRequester transportRequester, OxygenRequester oxygenRequester, ArtistRepository artistRepository) {
         for (SingleDayProgram programForOneDay : program) {   
             programForOneDay.orderOxygen(oxygenRequester, artistRepository);
