@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.orders;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -7,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.lang.StackWalker.Option;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class PassOrderFactoryTest {
     private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
     private static final PassOption ANY_PASS_OPTION = PassOption.PACKAGE;
     private static final PassCategory ANY_PASS_CATEGORY = PassCategory.NEBULA;
+    private static final Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
+    private static final Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
 
     @BeforeEach
     public void setUp() {
@@ -53,15 +57,15 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenNoEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
-        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.empty());
-        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.empty());
+        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATES_LIST);
+        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATE);
     }
 
     @Test
     public void givenEmptyListOfEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
         passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, emptyList);
-        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.empty());
+        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATE);
     }
 
     @Test
@@ -73,6 +77,35 @@ public class PassOrderFactoryTest {
         passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, eventDates);
         
         verify(passFactory, times(NUMBER_OF_DATES)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.of(date));
+    }
+
+    @Test
+    public void givenNoEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
+        PassOrder passOrder = passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATES_LIST);
+        int numberOfPasses = passOrder.getPasses().size();
+        assertThat(numberOfPasses).isEqualTo(1);
+    }
+
+    @Test
+    public void givenEmptyListOfEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
+        Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
+        
+        PassOrder passOrder = passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, emptyList);
+        
+        int numberOfPasses = passOrder.getPasses().size();
+        assertThat(numberOfPasses).isEqualTo(1);
+    }
+
+    @Test
+    public void givenListOfNEventDates_whenCreatingOrder_thenTheReturnedOrderHasNPasses() {
+        final int NUMBER_OF_DATES = 5;
+        LocalDate date = LocalDate.now();
+        Optional<List<LocalDate>> eventDates = Optional.of(getListOfNowDates(NUMBER_OF_DATES, date));
+
+        PassOrder passOrder = passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, eventDates);
+
+        int numberOfPasses = passOrder.getPasses().size();
+        assertThat(numberOfPasses).isEqualTo(NUMBER_OF_DATES);
     }
 
     private List<LocalDate> getListOfNowDates(int numberOfDates, LocalDate date) {
