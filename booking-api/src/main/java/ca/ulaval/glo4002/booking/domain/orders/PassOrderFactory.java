@@ -42,7 +42,7 @@ public class PassOrderFactory {
                 passes.add(passFactory.create(passOption, passCategory, Optional.of(eventDate)));
             }
         } else {
-            passes.add(passFactory.create(passOption, passCategory));
+            passes.add(passFactory.create(passOption, passCategory, Optional.empty()));
         }
         return passes;
     }

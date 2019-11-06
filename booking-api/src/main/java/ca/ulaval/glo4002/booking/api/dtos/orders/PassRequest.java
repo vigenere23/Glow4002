@@ -24,7 +24,7 @@ public class PassRequest {
     ) {
         this.passOption = PassOption.fromString(passOption);
         this.passCategory = PassCategory.fromString(passCategory);
-        this.eventDates = eventDates == null
+        this.eventDates = eventDates == null || eventDates.isEmpty()
             ? Optional.empty()
             : Optional.of(eventDates
                 .stream()

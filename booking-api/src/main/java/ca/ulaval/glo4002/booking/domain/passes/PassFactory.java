@@ -14,16 +14,13 @@ public class PassFactory {
         this.festivalDates = festivalDates;
     }
 
-    public Pass create(PassOption passOption, PassCategory passCategory) {
-        return create(passOption, passCategory, Optional.empty());
-    }
-
     public Pass create(PassOption passOption, PassCategory passCategory, Optional<LocalDate> eventDate) {
         switch (passOption) {
             case SINGLE_PASS:
-                validateEventDateIsPresent(eventDate);
+                validateEventDatePresence(eventDate);
                 return createSinglePass(passCategory, eventDate.get());
             case PACKAGE:
+                validateEventDateAbsence(eventDate);
                 return createPackagePass(passCategory);
             default:
                 throw new IllegalArgumentException(
@@ -32,13 +29,19 @@ public class PassFactory {
         }
     }
 
-    private void validateEventDateIsPresent(Optional<LocalDate> eventDate) {
+    private void validateEventDatePresence(Optional<LocalDate> eventDate) {
         if (!eventDate.isPresent()) {
             throw new IllegalArgumentException("An event date is required");
         }
     }
 
-    public Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
+    private void validateEventDateAbsence(Optional<LocalDate> eventDate) {
+        if (eventDate.isPresent()) {
+            throw new IllegalArgumentException("No event date must be specified");
+        }
+    }
+
+    private Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
         Price price = Price.zero();
 
         switch (passCategory) {
@@ -60,7 +63,7 @@ public class PassFactory {
         return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, eventDate, eventDate);
     }
 
-    public Pass createPackagePass(PassCategory passCategory) {
+    private Pass createPackagePass(PassCategory passCategory) {
         Price price = Price.zero();
 
         switch (passCategory) {
@@ -79,6 +82,6 @@ public class PassFactory {
                 );
         }
 
-        return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
+        return new Pass(festivalDates, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
     }
 }
