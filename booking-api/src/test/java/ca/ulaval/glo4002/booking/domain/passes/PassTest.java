@@ -4,15 +4,20 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
-import ca.ulaval.glo4002.booking.domain.transport.*;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class PassTest {
@@ -39,7 +44,6 @@ class PassTest {
     private FestivalDates someFestivalDates;
     private TransportReserver transportReserver;
     private OxygenProducer oxygenProducer;
-    private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
     private Price price;
     private ShuttleRepository shuttleRepository;
     private OxygenInventoryRepository oxygenInventoryRepository;
@@ -49,35 +53,12 @@ class PassTest {
     
     @BeforeEach
     public void setUp() {
-        mockShuttles();
-        mockShuttleRepository();
         mockOxygenIventoryRepository();
         mockOxygenHistoryRepository();
-        transportReserver = mock(TransportReserver.class);
         someFestivalDates = new Glow4002Dates();
         price = mock(Price.class);
         transportReserver = mock(TransportReserver.class);
         oxygenProducer = mock(OxygenProducer.class);
-    }
-
-    @Test
-    public void givenSomePass_whenReserveShuttles_thenGetArrivalShuttleFromRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-
-        pass.reserveShuttles(transportReserver, shuttleRepository);
-
-        verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
-    }
-
-    @Test
-    public void givenSomePass_whenReserveShuttles_thenSaveArrivalShuttleInRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-        mocktransportReserver(passNumber);
-
-        pass.reserveShuttles(transportReserver, shuttleRepository);
-
-        verify(shuttleRepository).saveArrival(shuttlesUlavalogy);
     }
 
     @Test
@@ -120,7 +101,6 @@ class PassTest {
     public void givenSomePass_whenReserveShuttles_thenDepartureShuttlesAreReserved() {
         Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         PassNumber passNumber = pass.getPassNumber();
-        mocktransportReserver(passNumber);
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
@@ -131,11 +111,10 @@ class PassTest {
     public void givenSomePass_whenReserveShuttles_thenArrivalShuttlesAreReserved() {
         Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         PassNumber passNumber = pass.getPassNumber();
-        mocktransportReserver(passNumber);
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy);
+        verify(transportReserver).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber);
     }
 
     @Test
@@ -252,12 +231,6 @@ class PassTest {
         verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
     }
 
-    private void mockShuttles() {
-        Shuttle mockedShuttle = mock(SpaceX.class);
-
-        shuttlesUlavalogy.add(mockedShuttle);
-    }
-
     private void mockOxygenIventoryRepository() {
         oxygenInventoryRepository = mock(OxygenInventoryRepository.class);
         when(oxygenInventoryRepository.findInventories()).thenReturn(someOxygenInventories);
@@ -268,15 +241,6 @@ class PassTest {
         when(oxygenHistoryRepository.findOxygenHistory()).thenReturn(someOxygenHistory);
     }
 
-    private void mockShuttleRepository() {
-        shuttleRepository = mock(HeapShuttleRepository.class);
-        when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
-    }
-
-    private void mocktransportReserver(PassNumber passNumber) {
-        when(transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy)).thenReturn(shuttlesUlavalogy);
-    }
-    
     private Pass createPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {
         return new Pass(someFestivalDates, passOption, passCategory, price, start, end);
     }

@@ -66,13 +66,7 @@ public class Pass {
 
     public void reserveShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
         transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber);
-        reserveArrivalShuttles(transportReserver, shuttleRepository);
-    }
-
-    private void reserveArrivalShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
-        List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        arrivalShuttles = transportReserver.reserveArrival(shuttleCategory, startDate, passNumber, arrivalShuttles);
-        shuttleRepository.saveArrival(arrivalShuttles);
+        transportReserver.reserveArrival(shuttleCategory, startDate, passNumber);
     }
 
     public void orderOxygen(LocalDate orderDate, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {

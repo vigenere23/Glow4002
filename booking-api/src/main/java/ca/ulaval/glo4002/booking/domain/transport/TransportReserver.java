@@ -21,8 +21,10 @@ public class TransportReserver {
         shuttleRepository.saveDeparture(shuttlesToSave);
     }
     
-    public List<Shuttle> reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> arrivalShuttles) {
-        return assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber);
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+        List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
+        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber);
+        shuttleRepository.saveArrival(shuttlesToSave);
     }   
 
     private List<Shuttle> assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
