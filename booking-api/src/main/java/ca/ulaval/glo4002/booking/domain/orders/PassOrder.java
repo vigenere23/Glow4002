@@ -22,7 +22,7 @@ public class PassOrder {
         this.passes = passes;
         
         orderNumber = new OrderNumber(vendorCode);
-        orderDiscount = new OrderDiscountFactory().linkDiscounts(
+        orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );
     }
