@@ -80,12 +80,12 @@ public class Pass {
         shuttleRepository.saveArrival(arrivalShuttles);
     }
 
-    public void orderOxygen(LocalDate orderDate, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+    public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
         EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
         SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
 
         int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
-        oxygenProducer.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
+        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
 
         oxygenInventoryRepository.saveOxygenInventories(inventories);
         oxygenHistoryRepository.saveOxygenHistory(history);

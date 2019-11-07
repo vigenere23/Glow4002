@@ -9,7 +9,7 @@ import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -20,19 +20,19 @@ public class PassOrderUseCase {
     private PassOrderRepository passOrderRepository;
     private TransportReserver transportReserver;
     private ShuttleRepository transportRepository;
-    private OxygenProducer oxygenProducer;
+    private OxygenReserver oxygenReserver;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
 
     public PassOrderUseCase(
             PassOrderFactory passFactory, PassOrderRepository passOrderRepository, TransportReserver transportReserver,
-            ShuttleRepository transportRepository, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository,
+            ShuttleRepository transportRepository, OxygenReserver oxygenReserver, OxygenInventoryRepository oxygenInventoryRepository,
             OxygenHistoryRepository oxygenHistoryRepository) {
         this.passOrderFactory = passFactory;
         this.passOrderRepository = passOrderRepository;
         this.transportReserver = transportReserver;
         this.transportRepository = transportRepository;
-        this.oxygenProducer = oxygenProducer;
+        this.oxygenReserver = oxygenReserver;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
         this.oxygenHistoryRepository = oxygenHistoryRepository;
     }
@@ -52,7 +52,7 @@ public class PassOrderUseCase {
     private void orderUtilities(OffsetDateTime orderDate, PassOrder passOrder) {
         for (Pass pass : passOrder.getPasses()) {
             pass.reserveShuttles(transportReserver, transportRepository);
-            pass.orderOxygen(orderDate.toLocalDate(), oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+            pass.reserveOxygen(orderDate.toLocalDate(), oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
         }
     }
 }
