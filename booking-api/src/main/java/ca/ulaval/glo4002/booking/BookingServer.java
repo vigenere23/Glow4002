@@ -63,7 +63,7 @@ public class BookingServer implements Runnable {
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        TransportReserver transportReserver = new TransportReserver();
+        TransportReserver transportReserver = new TransportReserver(shuttleRepository);
         TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();

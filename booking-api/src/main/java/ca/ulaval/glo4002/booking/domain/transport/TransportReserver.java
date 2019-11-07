@@ -9,8 +9,8 @@ public class TransportReserver {
 
     private ShuttleFiller shuttleFiller;
     
-    public TransportReserver() {
-        shuttleFiller = new ShuttleFiller();
+    public TransportReserver(ShuttleRepository shuttleRepository) {
+        shuttleFiller = new ShuttleFiller(shuttleRepository);
     }
     
     public List<Shuttle> reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> departureShuttles) {
