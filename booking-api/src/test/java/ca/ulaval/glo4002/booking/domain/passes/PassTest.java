@@ -39,7 +39,6 @@ class PassTest {
     private FestivalDates someFestivalDates;
     private TransportReserver transportReserver;
     private OxygenProducer oxygenProducer;
-    private List<Shuttle> shuttlesEarth = new LinkedList<>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
     private Price price;
     private ShuttleRepository shuttleRepository;
@@ -59,26 +58,6 @@ class PassTest {
         price = mock(Price.class);
         transportReserver = mock(TransportReserver.class);
         oxygenProducer = mock(OxygenProducer.class);
-    }
-    
-    @Test
-    public void givenSomePass_whenReserveShuttles_thenGetDepartureShuttleFromRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-
-        pass.reserveShuttles(transportReserver, shuttleRepository);
-
-        verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
-    }
-
-    @Test
-    public void givenSomePass_whenReserveShuttles_thenSaveDepartureShuttleInRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-        mocktransportReserver(passNumber);
-
-        pass.reserveShuttles(transportReserver, shuttleRepository);
-
-        verify(shuttleRepository).saveDeparture(shuttlesEarth);
     }
 
     @Test
@@ -145,7 +124,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber);
     }
 
     @Test
@@ -166,7 +145,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber);
     }
 
     @Test
@@ -185,7 +164,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber);
     }
 
     @Test
@@ -204,7 +183,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber);
     }
 
     @Test
@@ -223,7 +202,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber);
     }
 
     @Test
@@ -242,7 +221,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber);
     }
 
     @Test
@@ -261,7 +240,7 @@ class PassTest {
 
         pass.reserveShuttles(transportReserver, shuttleRepository);
 
-        verify(transportReserver).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth);
+        verify(transportReserver).reserveDeparture(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber);
     }
 
     @Test
@@ -276,31 +255,25 @@ class PassTest {
     private void mockShuttles() {
         Shuttle mockedShuttle = mock(SpaceX.class);
 
-        shuttlesEarth.add(mockedShuttle);
         shuttlesUlavalogy.add(mockedShuttle);
     }
 
     private void mockOxygenIventoryRepository() {
         oxygenInventoryRepository = mock(OxygenInventoryRepository.class);
-
         when(oxygenInventoryRepository.findInventories()).thenReturn(someOxygenInventories);
     }
 
     private void mockOxygenHistoryRepository() {
         oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
-
         when(oxygenHistoryRepository.findOxygenHistory()).thenReturn(someOxygenHistory);
     }
 
     private void mockShuttleRepository() {
         shuttleRepository = mock(HeapShuttleRepository.class);
-
-        when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
         when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
     }
 
     private void mocktransportReserver(PassNumber passNumber) {
-        when(transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth)).thenReturn(shuttlesEarth);
         when(transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy)).thenReturn(shuttlesUlavalogy);
     }
     

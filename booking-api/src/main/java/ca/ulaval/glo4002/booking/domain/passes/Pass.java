@@ -28,12 +28,13 @@ public class Pass {
     public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price, LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDates(startDate, endDate);
 
-        this.passNumber = new PassNumber();
         this.passOption = passOption;
         this.passCategory = passCategory;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
+        
+        passNumber = new PassNumber();
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
@@ -64,14 +65,8 @@ public class Pass {
     }
 
     public void reserveShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
-        reserveDepartureShuttles(transportReserver, shuttleRepository);
+        transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber);
         reserveArrivalShuttles(transportReserver, shuttleRepository);
-    }
-
-    private void reserveDepartureShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
-        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber, departureShuttles);
-        shuttleRepository.saveDeparture(departureShuttles);
     }
 
     private void reserveArrivalShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
