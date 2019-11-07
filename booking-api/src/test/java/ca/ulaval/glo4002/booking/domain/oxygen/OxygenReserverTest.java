@@ -12,7 +12,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class OxygenProducerTest {
+class OxygenReserverTest {
 
     private static final int QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY = 4;
     private static final int QUANTITY_LESS_THAN_TWO_GRADE_A_TANK_FABRICATION_QUANTITIES = 6;
@@ -27,7 +27,7 @@ class OxygenProducerTest {
     private OxygenFactory oxygenFactory;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
-    private OxygenProducer oxygenProducer;
+    private OxygenReserver oxygenReserver;
 
     @BeforeEach
     public void setUp() {
@@ -37,12 +37,12 @@ class OxygenProducerTest {
         oxygenInventory = new OxygenInventory(OxygenGrade.A, 0, 0);
         when(oxygenInventoryRepository.findByGrade(any(OxygenGrade.class))).thenReturn(oxygenInventory);
         oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
-        oxygenProducer = new OxygenProducer(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+        oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanTankFabricationQuantity_thenTankFabricationQuantityIsAdded() {
-        oxygenProducer.reserveOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY);
+        oxygenReserver.reserveOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY);
 
         int expectedInventory = oxygenInventory.getInventory();
         assertEquals(5, expectedInventory);

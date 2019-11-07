@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.orders.*;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
@@ -29,7 +29,7 @@ public class PassOrderUseCaseTest {
 
     private PassOrderFactory passOrderFactory;
     private TransportReserver transportReserver;
-    private OxygenProducer oxygenProducer;
+    private OxygenReserver oxygenReserver;
     private Pass pass;
     private PassOrder somePassOrder;
     private PassRequest somePassRequest;
@@ -42,13 +42,13 @@ public class PassOrderUseCaseTest {
         passOrderFactory = mock(PassOrderFactory.class);
         passOrderRepository = mock(HeapPassOrderRepository.class);
         transportReserver = mock(TransportReserver.class);
-        oxygenProducer = mock(OxygenProducer.class);
+        oxygenReserver = mock(OxygenReserver.class);
 
         mockPassOrder();
         somePassRequest = mock(PassRequest.class);
         when(passOrderFactory.create(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest)).thenReturn(somePassOrder);
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenProducer);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class PassOrderUseCaseTest {
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        verify(pass).reserveOxygen(SOME_DATE, oxygenProducer);
+        verify(pass).reserveOxygen(SOME_DATE, oxygenReserver);
     }
 
     private void mockPassOrder() {

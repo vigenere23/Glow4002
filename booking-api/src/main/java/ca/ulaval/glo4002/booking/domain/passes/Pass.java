@@ -66,8 +66,8 @@ public class Pass {
         transportReserver.reserveArrival(shuttleCategory, startDate, passNumber);
     }
 
-    public void reserveOxygen(LocalDate orderDate, OxygenProducer oxygenProducer) {
+    public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {
         int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
-        oxygenProducer.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
+        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
     }
 }

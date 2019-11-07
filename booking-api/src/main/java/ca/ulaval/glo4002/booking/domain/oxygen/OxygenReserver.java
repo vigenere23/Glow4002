@@ -3,13 +3,13 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.util.SortedMap;
 
-public class OxygenProducer {
+public class OxygenReserver {
 
     private OxygenFactory oxygenFactory;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
 
-    public OxygenProducer(OxygenFactory oxygenFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+    public OxygenReserver(OxygenFactory oxygenFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
         this.oxygenFactory = oxygenFactory;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
         this.oxygenHistoryRepository = oxygenHistoryRepository;

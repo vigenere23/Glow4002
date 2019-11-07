@@ -59,7 +59,7 @@ public class BookingServer implements Runnable {
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenFactory oxygenFactory = new OxygenFactory(festival.getStartDate().minusDays(1));
-        OxygenProducer oxygenProducer = new OxygenProducer(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+        OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
@@ -68,7 +68,7 @@ public class BookingServer implements Runnable {
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenProducer);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
