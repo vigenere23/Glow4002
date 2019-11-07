@@ -5,11 +5,11 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
-public class TransportReservation {
+public class TransportReserver {
 
     private ShuttleFiller shuttleFiller;
     
-    public TransportReservation() {
+    public TransportReserver() {
         shuttleFiller = new ShuttleFiller();
     }
     

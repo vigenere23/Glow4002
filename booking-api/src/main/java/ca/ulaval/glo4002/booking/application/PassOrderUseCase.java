@@ -12,25 +12,25 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class PassOrderUseCase {
 
     private PassOrderFactory passOrderFactory;
     private PassOrderRepository passOrderRepository;
-    private TransportReservation transportReservation;
+    private TransportReserver transportReserver;
     private ShuttleRepository transportRepository;
     private OxygenProducer oxygenProducer;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
 
     public PassOrderUseCase(
-            PassOrderFactory passFactory, PassOrderRepository passOrderRepository, TransportReservation transportReservation,
+            PassOrderFactory passFactory, PassOrderRepository passOrderRepository, TransportReserver transportReserver,
             ShuttleRepository transportRepository, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository,
             OxygenHistoryRepository oxygenHistoryRepository) {
         this.passOrderFactory = passFactory;
         this.passOrderRepository = passOrderRepository;
-        this.transportReservation = transportReservation;
+        this.transportReserver = transportReserver;
         this.transportRepository = transportRepository;
         this.oxygenProducer = oxygenProducer;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
@@ -41,8 +41,7 @@ public class PassOrderUseCase {
         return passOrderRepository.findByOrderNumber(orderNumber);
     }
 
-    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest)
-            throws OutOfSaleDatesException, OutOfFestivalDatesException {
+    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
         orderUtilities(orderDate, passOrder);
         passOrderRepository.save(passOrder);
@@ -52,7 +51,7 @@ public class PassOrderUseCase {
 
     private void orderUtilities(OffsetDateTime orderDate, PassOrder passOrder) {
         for (Pass pass : passOrder.getPasses()) {
-            pass.reserveShuttles(transportReservation, transportRepository);
+            pass.reserveShuttles(transportReserver, transportRepository);
             pass.orderOxygen(orderDate.toLocalDate(), oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
         }
     }

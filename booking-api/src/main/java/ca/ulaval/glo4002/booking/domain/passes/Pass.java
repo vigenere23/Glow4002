@@ -63,20 +63,20 @@ public class Pass {
         return startDate;
     }
 
-    public void reserveShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
-        reserveDepartureShuttles(transportReservation, shuttleRepository);
-        reserveArrivalShuttles(transportReservation, shuttleRepository);
+    public void reserveShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
+        reserveDepartureShuttles(transportReserver, shuttleRepository);
+        reserveArrivalShuttles(transportReserver, shuttleRepository);
     }
 
-    private void reserveDepartureShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
+    private void reserveDepartureShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveDeparture(shuttleCategory, startDate, passNumber, departureShuttles);
+        departureShuttles = transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber, departureShuttles);
         shuttleRepository.saveDeparture(departureShuttles);
     }
 
-    private void reserveArrivalShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
+    private void reserveArrivalShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
         List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        arrivalShuttles = transportReservation.reserveArrival(shuttleCategory, startDate, passNumber, arrivalShuttles);
+        arrivalShuttles = transportReserver.reserveArrival(shuttleCategory, startDate, passNumber, arrivalShuttles);
         shuttleRepository.saveArrival(arrivalShuttles);
     }
 
