@@ -30,9 +30,9 @@ import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
 
 public class PassOrderUseCaseTest {
 
-    private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
-    private static final LocalDate DATE = LocalDate.of(2050, 1, 1);
-    private static final OffsetDateTime ORDER_DATE = OffsetDateTime.of(DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
+    private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    private static final LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
+    private static final OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(SOME_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
     private static final PassOption PASS_OPTION = PassOption.SINGLE_PASS;
     private static final PassCategory PASS_CATEGORY = PassCategory.NEBULA;
 
@@ -64,38 +64,39 @@ public class PassOrderUseCaseTest {
         when(passRequest.getPassOption()).thenReturn(PASS_OPTION);
         when(passRequest.getPassCategory()).thenReturn(PASS_CATEGORY);
         when(passRequest.getEventDates()).thenReturn(Optional.empty());
-        when(passOrderFactory.create(any(), any(), any(), any(), any()))
-            .thenReturn(passOrder);
+        when(passOrderFactory.create(
+            any(OffsetDateTime.class), any(VendorCode.class), any(PassOption.class), any(PassCategory.class), any())
+        ).thenReturn(passOrder);
 
         passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReservation, shuttleRepository, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
-        verify(passOrderFactory).create(ORDER_DATE, VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, Optional.empty());
+        verify(passOrderFactory).create(SOME_ORDER_DATE, SOME_VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, Optional.empty());
     }
 
     @Test
     public void whenOrchestPassCreation_thenSavePassOrderInRepository() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
         verify(passOrderRepository).save(passOrder);
     }
 
     @Test
     public void whenOrchestPassCreation_thenShuttlesAreReserved() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
         verify(pass).reserveShuttles(transportReservation, shuttleRepository);
     }
 
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
-        passOrderUseCase.orchestPassCreation(ORDER_DATE, VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
-        verify(pass).orderOxygen(DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        verify(pass).orderOxygen(SOME_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
     }
 
     private void mockPassOrder() {
