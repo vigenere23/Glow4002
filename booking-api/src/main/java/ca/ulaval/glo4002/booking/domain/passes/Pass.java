@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 
@@ -64,19 +61,13 @@ public class Pass {
         return startDate;
     }
 
-    public void reserveShuttles(TransportReserver transportReserver, ShuttleRepository shuttleRepository) {
+    public void reserveShuttles(TransportReserver transportReserver) {
         transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber);
         transportReserver.reserveArrival(shuttleCategory, startDate, passNumber);
     }
 
-    public void orderOxygen(LocalDate orderDate, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
-        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
-        SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
-
+    public void reserveOxygen(LocalDate orderDate, OxygenProducer oxygenProducer) {
         int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
-        oxygenProducer.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
-
-        oxygenInventoryRepository.saveOxygenInventories(inventories);
-        oxygenHistoryRepository.saveOxygenHistory(history);
+        oxygenProducer.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
     }
 }

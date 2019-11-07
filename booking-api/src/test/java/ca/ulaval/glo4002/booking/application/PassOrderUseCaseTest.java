@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.orders.*;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.transport.*;
@@ -31,10 +29,7 @@ public class PassOrderUseCaseTest {
 
     private PassOrderFactory passOrderFactory;
     private TransportReserver transportReserver;
-    private ShuttleRepository shuttleRepository;
     private OxygenProducer oxygenProducer;
-    private OxygenInventoryRepository oxygenInventoryRepository;
-    private OxygenHistoryRepository oxygenHistoryRepository;
     private Pass pass;
     private PassOrder somePassOrder;
     private PassRequest somePassRequest;
@@ -47,16 +42,13 @@ public class PassOrderUseCaseTest {
         passOrderFactory = mock(PassOrderFactory.class);
         passOrderRepository = mock(HeapPassOrderRepository.class);
         transportReserver = mock(TransportReserver.class);
-        shuttleRepository = mock(ShuttleRepository.class);
         oxygenProducer = mock(OxygenProducer.class);
-        oxygenInventoryRepository = mock(OxygenInventoryRepository.class);
-        oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
 
         mockPassOrder();
         somePassRequest = mock(PassRequest.class);
         when(passOrderFactory.create(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest)).thenReturn(somePassOrder);
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, shuttleRepository, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenProducer);
     }
 
     @Test
@@ -77,14 +69,14 @@ public class PassOrderUseCaseTest {
     public void whenOrchestPassCreation_thenShuttlesAreReserved() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        verify(pass).reserveShuttles(transportReserver, shuttleRepository);
+        verify(pass).reserveShuttles(transportReserver);
     }
 
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, somePassRequest);
 
-        verify(pass).orderOxygen(SOME_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        verify(pass).reserveOxygen(SOME_DATE, oxygenProducer);
     }
 
     private void mockPassOrder() {

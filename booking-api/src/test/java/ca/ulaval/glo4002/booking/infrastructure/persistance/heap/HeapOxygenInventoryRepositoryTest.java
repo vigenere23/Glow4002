@@ -27,7 +27,7 @@ public class HeapOxygenInventoryRepositoryTest {
 
     @Test
     public void inventoriesAreInitialized() {
-        EnumMap<OxygenGrade, OxygenInventory> initialOxygenInventories = oxygenInventoryRepository.findInventories();
+        EnumMap<OxygenGrade, OxygenInventory> initialOxygenInventories = oxygenInventoryRepository.findAll();
 
         for (OxygenInventory oxygenInventory: initialOxygenInventories.values()) {
             assertEquals(0, oxygenInventory.getInventory());
@@ -36,7 +36,7 @@ public class HeapOxygenInventoryRepositoryTest {
 
     @Test
     public void remainingQuantitiesAreInitialized() {
-        EnumMap<OxygenGrade, OxygenInventory> initialOxygenInventories = oxygenInventoryRepository.findInventories();
+        EnumMap<OxygenGrade, OxygenInventory> initialOxygenInventories = oxygenInventoryRepository.findAll();
 
         for (OxygenInventory oxygenInventory: initialOxygenInventories.values()) {
             assertEquals(0, oxygenInventory.getRemainingQuantity());
@@ -46,6 +46,6 @@ public class HeapOxygenInventoryRepositoryTest {
     @Test
     public void whenSetOxygenCategoryInventory_thenInventoryIsCorrectlyUpdated() {
         oxygenInventoryRepository.saveOxygenInventories(oxygenInventories);
-        assertEquals(oxygenInventories, oxygenInventoryRepository.findInventories());
+        assertEquals(oxygenInventories, oxygenInventoryRepository.findAll());
     }
 }

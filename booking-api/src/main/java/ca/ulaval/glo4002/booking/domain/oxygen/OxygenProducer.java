@@ -1,28 +1,39 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
 import java.util.SortedMap;
 
 public class OxygenProducer {
 
     private OxygenFactory oxygenFactory;
+    private OxygenInventoryRepository oxygenInventoryRepository;
+    private OxygenHistoryRepository oxygenHistoryRepository;
 
-    public OxygenProducer(OxygenFactory oxygenFactory) {
+    public OxygenProducer(OxygenFactory oxygenFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
         this.oxygenFactory = oxygenFactory;
+        this.oxygenInventoryRepository = oxygenInventoryRepository;
+        this.oxygenHistoryRepository = oxygenHistoryRepository;
     }
 
-    public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, EnumMap<OxygenGrade, OxygenInventory> oxygenInventories, SortedMap<LocalDate, OxygenDateHistory>  history) {
-        OxygenInventory oxygenInventory = oxygenInventories.get(grade);
-        Oxygen oxygen = oxygenFactory.create(grade, oxygenInventory);
+    public void reserveOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity) {
+        OxygenInventory oxygenInventory = oxygenInventoryRepository.findByGrade(grade);
+        SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
 
+        orderOxygen(orderDate, grade, requiredQuantity, oxygenInventory, history);
+
+        oxygenInventoryRepository.save(oxygenInventory);
+        oxygenHistoryRepository.save(history);
+    }
+
+    public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, OxygenInventory oxygenInventory, SortedMap<LocalDate, OxygenDateHistory> oxygenHistory) {
+        Oxygen oxygen = oxygenFactory.create(grade, oxygenInventory);
         boolean adjustInventory = oxygen.adjustInventory(orderDate, requiredQuantity);
         if (!adjustInventory) {
             int quantityToOrder = requiredQuantity - oxygenInventory.getRemainingQuantity();
             oxygenInventory.setRemainingQuantity(0);
-            orderOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder, oxygenInventories, history);
+            reserveOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder);
         }
-        oxygen.updateOxygenHistory(history, orderDate, requiredQuantity);
+        oxygen.updateOxygenHistory(oxygenHistory, orderDate, requiredQuantity);
     }
 
     private OxygenGrade getLowerGradeOf(OxygenGrade grade) {

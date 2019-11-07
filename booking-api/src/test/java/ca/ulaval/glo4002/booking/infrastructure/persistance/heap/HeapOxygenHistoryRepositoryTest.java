@@ -33,7 +33,7 @@ public class HeapOxygenHistoryRepositoryTest {
 
     @Test
     public void whenUpdateHistory_thenHistoryIsCorrectlyUpdated() {
-        oxygenHistoryRepository.saveOxygenHistory(oxygenHistory);
+        oxygenHistoryRepository.save(oxygenHistory);
         assertEquals(oxygenHistory, oxygenHistoryRepository.findOxygenHistory());
     }
 

@@ -18,7 +18,7 @@ public class OxygenUseCase {
     }
 
     public List<OxygenInventory> getOxygenInventories() {
-        EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = oxygenInventoryRepository.findInventories();
+        EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = oxygenInventoryRepository.findAll();
         List<OxygenInventory> inventoryList = new ArrayList<>();
         for (OxygenGrade oxygenGrade: OxygenGrade.values()) {
             inventoryList.add(oxygenInventories.get(oxygenGrade));
