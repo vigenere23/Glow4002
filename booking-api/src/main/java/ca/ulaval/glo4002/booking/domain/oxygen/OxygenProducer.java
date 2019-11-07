@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.SortedMap;
 
-public class OxygenProduction {
+public class OxygenProducer {
     private int fabricationTimeInDays;
     private int tankFabricationQuantity;
     private EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch;
     private EnumMap<HistoryType, Integer> completionDateQuantitiesPerBatch;
 
-    public OxygenProduction(int fabricationTimeInDays, int tankFabricationQuantity, EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch, EnumMap<HistoryType, Integer> completionDateQantitiesPerBatch) {
+    public OxygenProducer(int fabricationTimeInDays, int tankFabricationQuantity, EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch, EnumMap<HistoryType, Integer> completionDateQantitiesPerBatch) {
         this.fabricationTimeInDays = fabricationTimeInDays;
         this.tankFabricationQuantity = tankFabricationQuantity;
         this.orderDateQuantitiesPerBatch = orderDateQuantitiesPerBatch;
