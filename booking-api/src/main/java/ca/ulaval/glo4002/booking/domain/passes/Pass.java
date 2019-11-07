@@ -1,14 +1,15 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
@@ -22,6 +23,7 @@ public class Pass {
     private LocalDate endDate;
     private ShuttleCategory shuttleCategory;
     private OxygenGrade oxygenGrade;
+    int oxygenQuantityPerDay;
 
     public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price, LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDates(startDate, endDate);
@@ -34,6 +36,7 @@ public class Pass {
         this.endDate = endDate;
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
+        oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
     }
 
     public boolean isOfType(PassOption passOption, PassCategory passCategory) {
@@ -77,11 +80,14 @@ public class Pass {
         shuttleRepository.saveArrival(arrivalShuttles);
     }
 
-    public void orderOxygen(LocalDate orderDate, OxygenRequester oxygenRequester) {
-        // TODO modify in issue #112
-        int oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
-        int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
+    public void orderOxygen(LocalDate orderDate, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
+        SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
 
-        oxygenRequester.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
+        int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
+        oxygenProducer.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
+
+        oxygenInventoryRepository.saveOxygenInventories(inventories);
+        oxygenHistoryRepository.saveOxygenHistory(history);
     }
 }
