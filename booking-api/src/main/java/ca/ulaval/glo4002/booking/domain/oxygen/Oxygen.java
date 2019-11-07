@@ -11,7 +11,7 @@ public abstract class Oxygen {
     protected int remainingQuantity;
     protected EnumMap<HistoryType, Integer> orderDateQuantitiesPerBatch = new EnumMap<>(HistoryType.class);
     protected EnumMap<HistoryType, Integer> completionDateQuantitiesPerBatch = new EnumMap<>(HistoryType.class);
-    protected OxygenProducer oxygenProducer;
+    protected OxygenProduction oxygenProduction;
     protected OxygenInventory oxygenInventory;
 
     public Oxygen(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
@@ -21,7 +21,7 @@ public abstract class Oxygen {
         this.tankFabricationQuantity = tankFabricationQuantity;
         this.fabricationTimeInDays = fabricationTimeInDays;
         initializeQuantitiesPerBatch();
-        oxygenProducer = new OxygenProducer(fabricationTimeInDays, tankFabricationQuantity, orderDateQuantitiesPerBatch, completionDateQuantitiesPerBatch);
+        oxygenProduction = new OxygenProduction(fabricationTimeInDays, tankFabricationQuantity, orderDateQuantitiesPerBatch, completionDateQuantitiesPerBatch);
     }
 
     abstract void initializeQuantitiesPerBatch();
@@ -33,14 +33,14 @@ public abstract class Oxygen {
     public SortedMap<LocalDate, OxygenDateHistory> updateOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history, LocalDate orderDate, int requirementQuantity) {
         int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
         if (quantityOfTanksLacking >= 0) {
-            return oxygenProducer.updateOxygenHistory(history, orderDate, quantityOfTanksLacking);
+            return oxygenProduction.updateOxygenHistory(history, orderDate, quantityOfTanksLacking);
         }
         return history;
     }
 
     public boolean adjustInventory(LocalDate orderDate, int requirementQuantity) {
         int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
-        int quantityToFabricate = oxygenProducer.getQuantityToFabricate(quantityOfTanksLacking, this.tankFabricationQuantity);
+        int quantityToFabricate = oxygenProduction.getQuantityToFabricate(quantityOfTanksLacking, this.tankFabricationQuantity);
 
         if (hasToFabricateMore(quantityToFabricate) && !enoughTimeForFabrication(orderDate)) {
             return false;

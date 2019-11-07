@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class OxygenProducerTest {
+class OxygenProductionTest {
 
     private static final int SOME_FABRICATION_TIME_IN_DAYS = 4;
     private static final int SOME_TANK_FABRICATION_QUANTITY = 5;
@@ -26,26 +26,26 @@ class OxygenProducerTest {
     private EnumMap<HistoryType, Integer> someOrderDateQuantityPerBatch = new EnumMap<>(HistoryType.class);
     private EnumMap<HistoryType, Integer> someCompletionDateQuantityPerBatch = new EnumMap<>(HistoryType.class);
     private SortedMap<LocalDate, OxygenDateHistory> someHistory = new TreeMap<>();
-    private OxygenProducer oxygenProducer;
+    private OxygenProduction oxygenProduction;
 
     @BeforeEach
     public void setUp() {
         initializeQuantitiesPerFabricationBatch();
         initializeHistory();
 
-        oxygenProducer = new OxygenProducer(SOME_FABRICATION_TIME_IN_DAYS, SOME_TANK_FABRICATION_QUANTITY, someOrderDateQuantityPerBatch, someCompletionDateQuantityPerBatch);
+        oxygenProduction = new OxygenProduction(SOME_FABRICATION_TIME_IN_DAYS, SOME_TANK_FABRICATION_QUANTITY, someOrderDateQuantityPerBatch, someCompletionDateQuantityPerBatch);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanFabricationQuantity_thenFabricationQuantityIsFabricated() {
-        int quantityToFabricate = oxygenProducer.getQuantityToFabricate(QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_QUANTITY);
+        int quantityToFabricate = oxygenProduction.getQuantityToFabricate(QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_QUANTITY);
 
         assertEquals(SOME_FABRICATION_QUANTITY, quantityToFabricate);
     }
 
     @Test
     public void whenOrderOxygenQuantityMoreThanFabricationQuantity_thenMultipleOfFabricationQuantityIsAdded() {
-        int quantityToFabricate = oxygenProducer.getQuantityToFabricate(QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES, SOME_FABRICATION_QUANTITY);
+        int quantityToFabricate = oxygenProduction.getQuantityToFabricate(QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES, SOME_FABRICATION_QUANTITY);
 
         int expectedQuantity = 2 * SOME_FABRICATION_QUANTITY;
         assertEquals(expectedQuantity, quantityToFabricate);
@@ -53,7 +53,7 @@ class OxygenProducerTest {
 
     @Test
     public void whenUpdateOxygenHistory_thenOrderedDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenProducer.updateOxygenHistory(someHistory, SOME_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+        SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenProduction.updateOxygenHistory(someHistory, SOME_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
 
         int producedQuantity = updatedOxygenHistory.get(SOME_DATE).getCandlesUsed();
         int updatedQuantity = SOME_QUANTITY + SOME_FABRICATION_QUANTITY;
@@ -62,7 +62,7 @@ class OxygenProducerTest {
 
     @Test
     public void whenUpdateOxygenHistory_thenCompletionDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenProducer.updateOxygenHistory(someHistory, SOME_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+        SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenProduction.updateOxygenHistory(someHistory, SOME_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
 
         int producedQuantity = updatedOxygenHistory.get(SOME_COMPLETION_DATE).getOxygenTankMade();
         assertEquals(SOME_TANK_FABRICATION_QUANTITY, producedQuantity);
