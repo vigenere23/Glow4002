@@ -1,70 +1,34 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.Inventory;
 
 public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 
-    private final EnumMap<OxygenGrade, Integer> inventory;
-    private final EnumMap<OxygenGrade, Integer> remaining;
+    private EnumMap<OxygenGrade, OxygenInventory> inventories;
 
     public HeapOxygenInventoryRepository() {
-        remaining = initialize();
-        inventory = initialize();
+        inventories = initializeInventories();
     }
 
-    private EnumMap<OxygenGrade, Integer> initialize() {
-        EnumMap<OxygenGrade, Integer> collection = new EnumMap<OxygenGrade, Integer>(OxygenGrade.class);
+    private EnumMap<OxygenGrade, OxygenInventory> initializeInventories() {
+        EnumMap<OxygenGrade, OxygenInventory> collection = new EnumMap<>(OxygenGrade.class);
         EnumSet.allOf(OxygenGrade.class)
-            .forEach(grade -> collection.put(grade, 0));
+            .forEach(grade -> collection.put(grade, new OxygenInventory(grade, 0, 0)));
             return collection;
     }
 
     @Override
-    public int findInventoryOfGrade(OxygenGrade grade) {
-        return inventory.get(grade);
+    public void saveOxygenInventories(EnumMap<OxygenGrade, OxygenInventory> inventories) {
+        this.inventories = inventories;
     }
 
     @Override
-    public List<Inventory> findCompleteInventory() {
-        return presentInventory();
-    }
-
-    private List<Inventory> presentInventory() {
-        List<Inventory> inventoryList = new ArrayList<Inventory>();      
-        for (OxygenGrade grade : inventory.keySet()) {
-            if(!inventory.get(grade).equals(0)) {
-                addInventory(inventoryList, grade.name(), inventory.get(grade));
-            }         
-        }
-        return inventoryList;
-    }  
-    
-    private void addInventory(List<Inventory> inventory, String grade, int categoryCount) {
-        Inventory item = new Inventory();
-        item.gradeTankOxygen = grade;
-        item.quantity = categoryCount;
-        inventory.add(item);
-    }
-
-    @Override
-    public void saveOxygenInventory(OxygenGrade grade, int quantity) {
-       inventory.put(grade, quantity);
-    }
-
-    @Override
-    public void saveOxygenRemaining(OxygenGrade grade, int quantity) {
-        remaining.put(grade, quantity);
-    }
-
-    @Override
-    public int findOxygenRemaining(OxygenGrade grade) {
-        return remaining.get(grade);
+    public EnumMap<OxygenGrade, OxygenInventory> findInventories() {
+        return inventories;
     }
 }
