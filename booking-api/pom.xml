@@ -135,7 +135,7 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>false</skipTests>
+                            <skipTests>true</skipTests>
                             <includes>
                                 <include>**/*FT.java</include>
                             </includes>

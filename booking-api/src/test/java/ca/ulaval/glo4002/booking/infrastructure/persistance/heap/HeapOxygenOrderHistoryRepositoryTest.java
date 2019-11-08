@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class HeapOxygenHistoryRepositoryTest {
+public class HeapOxygenOrderHistoryRepositoryTest {
 
     private static final int SOME_CANDLES_USED_QTY = 2;
     private static final int SOME_OXYGEN_TANK_BOUGH_QTY = 2;

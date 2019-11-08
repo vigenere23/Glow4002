@@ -2,9 +2,9 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import java.time.LocalDate;
 
-public class GradeEOxygen extends Oxygen {
+public class GradeEOxygenOrder extends OxygenOrder {
 
-    public GradeEOxygen(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
+    public GradeEOxygenOrder(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
         super(limitDeliveryDate, oxygenInventory, tankFabricationQuantity, fabricationTimeInDays);
     }
 

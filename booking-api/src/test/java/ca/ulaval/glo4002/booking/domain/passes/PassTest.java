@@ -38,7 +38,7 @@ class PassTest {
 
     private FestivalDates someFestivalDates;
     private TransportReservation transportReservation;
-    private OxygenProducer oxygenProducer;
+    private OxygenReserver oxygenReserver;
     private List<Shuttle> shuttlesEarth = new LinkedList<>();
     private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
     private Price price;
@@ -58,7 +58,7 @@ class PassTest {
         someFestivalDates = new Glow4002Dates();
         price = mock(Price.class);
         transportReservation = mock(TransportReservation.class);
-        oxygenProducer = mock(OxygenProducer.class);
+        oxygenReserver = mock(OxygenReserver.class);
     }
     
     @Test
@@ -105,7 +105,7 @@ class PassTest {
     public void givenSomePass_whenOrderOxygen_thenGetOxygenInventoriesFromRepository() {
         Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
         verify(oxygenInventoryRepository).findInventories();
     }
@@ -114,7 +114,7 @@ class PassTest {
     public void givenSomePass_whenOrderOxygen_thenGetOxygenHistoryFromRepository() {
         Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
         verify(oxygenHistoryRepository).findOxygenHistory();
     }
@@ -123,7 +123,7 @@ class PassTest {
     public void givenSomePass_whenOrderOxygen_thenSaveOxygenInventoriesInRepository() {
         Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
         verify(oxygenInventoryRepository).saveOxygenInventories(someOxygenInventories);
     }
@@ -132,7 +132,7 @@ class PassTest {
     public void givenSomePass_whenOrderOxygen_thenSaveOxygenHistoryInRepository() {
         Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
         verify(oxygenHistoryRepository).saveOxygenHistory(someOxygenHistory);
     }
@@ -173,9 +173,9 @@ class PassTest {
     public void givenNebulaPackagePass_whenOrderOxygen_thenOxygenIsOrdered() {
         Pass pass = createPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
+        verify(oxygenReserver).orderOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
     }
 
     @Test
@@ -192,9 +192,9 @@ class PassTest {
     public void givenNebulaSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
         Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
+        verify(oxygenReserver).orderOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
     }
 
     @Test
@@ -211,9 +211,9 @@ class PassTest {
     public void givenSupergiantPackagePass_whenOrderOxygen_thenOxygenIsOrdered()  {
         Pass pass = createPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
+        verify(oxygenReserver).orderOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
     }
 
     @Test
@@ -230,9 +230,9 @@ class PassTest {
     public void givenSupergiantSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
         Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
+        verify(oxygenReserver).orderOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
     }
 
     @Test
@@ -249,9 +249,9 @@ class PassTest {
     public void givenSupernovaPackagePass_whenOrderOxygen_thenOxygenIsOrdered() {
         Pass pass = createPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
+        verify(oxygenReserver).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
     }
 
     @Test
@@ -268,9 +268,9 @@ class PassTest {
     public void givenSupernovaSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
         Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.orderOxygen(SOME_ORDER_DATE, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
+        verify(oxygenReserver).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
     }
 
     private void mockShuttles() {

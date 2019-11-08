@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.EnumMap;
@@ -9,10 +8,9 @@ import java.util.EnumSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class OxygenProducerTest {
+class OxygenOrderProducerTest {
 
     private static final int TANK_FABRICATION_QUANTITY_GRADE_A = 5;
     private static final int CANDLE_FABRICATION_QUANTITY_GRADE_A = 15;
@@ -27,11 +25,11 @@ class OxygenProducerTest {
     private final static LocalDate FIVE_DAYS_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusDays(5);
 
     private OxygenInventory oxygenInventoryGradeA = new OxygenInventory(OxygenGrade.A, SOME_INVENTORY, SOME_REMAINING_QUANTITY);
-    private GradeAOxygen gradeAOxygen;
+    private GradeAOxygenOrder gradeAOxygen;
     private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<>(OxygenGrade.class);
     private SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = new TreeMap<>();
     private OxygenFactory oxygenFactory;
-    private OxygenProducer oxygenProducer;
+    private OxygenReserver oxygenReserver;
 
     @BeforeEach
     public void setUp() {
@@ -39,12 +37,12 @@ class OxygenProducerTest {
         mockOxygenGradeA();
         mockOxygenFactory();
 
-        oxygenProducer = new OxygenProducer(oxygenFactory);
+        oxygenReserver = new OxygenReserver(oxygenFactory);
     }
 
 //    @Test
 //    public void whenOrderOxygenGradeAQuantityLessThanTankFabricationQuantity_thenTankFabricationQuantityIsAdded() {
-//        oxygenProducer.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
+//        oxygenReserver.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
 //
 //        int expectedInventory = SOME_INVENTORY + TANK_FABRICATION_QUANTITY_GRADE_A;
 //        int inventory = oxygenInventories.get(OxygenGrade.A).getInventory();
@@ -53,7 +51,7 @@ class OxygenProducerTest {
 //
 //    @Test
 //    public void whenOrderOxygenGradeAQuantityLessThanTankFabricationQuantity_thenRemainingQuantityIsAdjusted() {
-//        oxygenProducer.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
+//        oxygenReserver.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
 //
 //        int expectedRemainingQuantity = TANK_FABRICATION_QUANTITY_GRADE_A - QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A + SOME_REMAINING_QUANTITY;
 //        int remainingQuantity = oxygenInventories.get(OxygenGrade.A).getRemainingQuantity();
@@ -62,7 +60,7 @@ class OxygenProducerTest {
 //
 //    @Test
 //    public void whenOrderOxygenGradeAQuantityLessThanTankFabricationQuantity_thenOrderDateHistoryIsAdjusted() {
-//        oxygenProducer.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
+//        oxygenReserver.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
 //
 //        OxygenDateHistory orderDateHistory = oxygenHistory.get(ONE_MONTH_BEFORE_FESTIVAL_DATE);
 //
@@ -71,7 +69,7 @@ class OxygenProducerTest {
 //
 //    @Test
 //    public void whenOrderOxygenGradeAQuantityLessThanTankFabricationQuantity_thenDeliveryrDateHistoryIsAdjusted() {
-//        oxygenProducer.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
+//        oxygenReserver.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A, oxygenInventories, oxygenHistory);
 //
 //        OxygenDateHistory deliveryDateHistory = oxygenHistory.get(DELIVERY_DATE_GRADE_A_ORDER);
 //
@@ -89,7 +87,7 @@ class OxygenProducerTest {
     }
 
     private void mockOxygenGradeA() {
-        gradeAOxygen = mock(GradeAOxygen.class);
+        gradeAOxygen = mock(GradeAOxygenOrder.class);
 
         when(gradeAOxygen.adjustInventory(ONE_MONTH_BEFORE_FESTIVAL_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(true);
         when(gradeAOxygen.adjustInventory(FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(false);

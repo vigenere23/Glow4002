@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OxygenInventoryTest {
+class OxygenOrderInventoryTest {
 
     private final static OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     private final static int SOME_INVENTORY = 2;

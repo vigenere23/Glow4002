@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
 import java.util.EnumMap;
 
-public class HeapOxygenInventoryRepositoryTest {
+public class HeapOxygenOrderInventoryRepositoryTest {
     private static final OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     private static final int SOME_OXYGEN_REMAINING = 2;
     private static final int SOME_OXYGEN_INVENTORY = 3;

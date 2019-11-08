@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.util.*;
 
-public abstract class Oxygen {
+public abstract class OxygenOrder {
 
     protected LocalDate limitDeliveryDate;
     protected int tankFabricationQuantity;
@@ -14,7 +14,7 @@ public abstract class Oxygen {
     protected OxygenProduction oxygenProduction;
     protected OxygenInventory oxygenInventory;
 
-    public Oxygen(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
+    public OxygenOrder(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
         this.limitDeliveryDate = limitDeliveryDate;
         this.remainingQuantity = oxygenInventory.getRemainingQuantity();
         this.oxygenInventory = oxygenInventory;

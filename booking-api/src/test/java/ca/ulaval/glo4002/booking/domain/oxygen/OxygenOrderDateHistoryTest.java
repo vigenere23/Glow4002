@@ -8,7 +8,7 @@ import java.util.EnumMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OxygenDateHistoryTest {
+class OxygenOrderDateHistoryTest {
 
     private static final int SOME_FABRICATION_TIME_IN_DAYS = 4;
     private static final int SOME_FABRICATION_QUANTITY = 7;

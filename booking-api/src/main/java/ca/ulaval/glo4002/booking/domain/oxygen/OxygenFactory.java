@@ -15,14 +15,14 @@ public class OxygenFactory {
         this.limitDeliveryDate = limitDeliveryDate;
     }
 
-    public Oxygen create(OxygenGrade grade, OxygenInventory oxygenInventory) {
+    public OxygenOrder create(OxygenGrade grade, OxygenInventory oxygenInventory) {
         switch (grade) {
             case A:
-                return new GradeAOxygen(limitDeliveryDate, oxygenInventory, TANK_FABRICATION_QUANTITY_GRADE_A, FABRICATION_TIME_IN_DAYS_GRADE_A);
+                return new GradeAOxygenOrder(limitDeliveryDate, oxygenInventory, TANK_FABRICATION_QUANTITY_GRADE_A, FABRICATION_TIME_IN_DAYS_GRADE_A);
             case B:
-                return new GradeBOxygen(limitDeliveryDate, oxygenInventory, TANK_FABRICATION_QUANTITY_GRADE_B, FABRICATION_TIME_IN_DAYS_GRADE_B);
+                return new GradeBOxygenOrder(limitDeliveryDate, oxygenInventory, TANK_FABRICATION_QUANTITY_GRADE_B, FABRICATION_TIME_IN_DAYS_GRADE_B);
             case E:
-                return new GradeEOxygen(limitDeliveryDate, oxygenInventory, TANK_FABRICATION_QUANTITY_GRADE_E, FABRICATION_TIME_IN_DAYS_GRADE_E);
+                return new GradeEOxygenOrder(limitDeliveryDate, oxygenInventory, TANK_FABRICATION_QUANTITY_GRADE_E, FABRICATION_TIME_IN_DAYS_GRADE_E);
             default:
                 throw new IllegalArgumentException(String.format("No oxygen tanks implemented for grade %s.", grade));
         }
