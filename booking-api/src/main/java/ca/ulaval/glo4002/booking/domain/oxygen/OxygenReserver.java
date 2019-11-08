@@ -4,15 +4,15 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.SortedMap;
 
-public class OxygenProducer {
+public class OxygenReserver {
 
     private OxygenFactory oxygenFactory;
 
-    public OxygenProducer(OxygenFactory oxygenFactory) {
+    public OxygenReserver(OxygenFactory oxygenFactory) {
         this.oxygenFactory = oxygenFactory;
     }
 
-    public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, EnumMap<OxygenGrade, OxygenInventory> oxygenInventories, SortedMap<LocalDate, OxygenDateHistory>  history) {
+    public void reserveOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, EnumMap<OxygenGrade, OxygenInventory> oxygenInventories, SortedMap<LocalDate, OxygenDateHistory>  history) {
         OxygenInventory oxygenInventory = oxygenInventories.get(grade);
         Oxygen oxygen = oxygenFactory.create(grade, oxygenInventory);
 
@@ -20,7 +20,7 @@ public class OxygenProducer {
         if (!adjustInventory) {
             int quantityToOrder = requiredQuantity - oxygenInventory.getRemainingQuantity();
             oxygenInventory.setRemainingQuantity(0);
-            orderOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder, oxygenInventories, history);
+            reserveOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder, oxygenInventories, history);
         }
         oxygen.updateOxygenHistory(history, orderDate, requiredQuantity);
     }
