@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OxygenProducerTest {
+class OxygenReserverTest {
 
     private static final int QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY = 4;
     private static final int QUANTITY_LESS_THAN_TWO_GRADE_A_TANK_FABRICATION_QUANTITIES = 6;
@@ -24,19 +24,19 @@ class OxygenProducerTest {
     private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<>(OxygenGrade.class);
     private SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = new TreeMap<>();
     private OxygenFactory oxygenFactory;
-    private OxygenProducer oxygenProducer;
+    private OxygenReserver oxygenReserver;
 
     @BeforeEach
     public void setUp() {
         initializeOxygenInventories();
         oxygenFactory = new OxygenFactory(FESTIVAL_STARTING_DATE);
 
-        oxygenProducer = new OxygenProducer(oxygenFactory);
+        oxygenReserver = new OxygenReserver(oxygenFactory);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanTankFabricationQuantity_thenTankFabricationQuantityIsAdded() {
-        oxygenProducer.orderOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY, oxygenInventories, oxygenHistory);
+        oxygenReserver.reserveOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY, oxygenInventories, oxygenHistory);
 
         int expectedInventory = oxygenInventories.get(OxygenGrade.A).getInventory();
         assertEquals(5, expectedInventory);
