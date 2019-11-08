@@ -58,8 +58,8 @@ public class BookingServer implements Runnable {
 
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenFactory oxygenFactory = new OxygenFactory(festival.getStartDate().minusDays(1));
-        OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory);
+        OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festival.getStartDate().minusDays(1));
+        OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();

@@ -28,7 +28,7 @@ class OxygenOrderTest {
     private final static LocalDate COMPLETION_DATE = LocalDate.of(2050, 7, 7);
     private final static LocalDate TOO_LATE_DATE = SOME_DATE.minusDays(15);
 
-    private class OxygenOrderImplementationTest extends OxygenOrder {
+    private static class OxygenOrderImplementationTest extends OxygenOrder {
 
         public OxygenOrderImplementationTest(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
             super(limitDeliveryDate, oxygenInventory, tankFabricationQuantity, fabricationTimeInDays);
@@ -115,29 +115,19 @@ class OxygenOrderTest {
     }
 
     @Test void whenOrderOnTime_thenCallerIsNotified() {
-        boolean adjustInventory = oxygenOrder.adjustInventory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+        boolean notEnoughTime = oxygenOrder.isNotEnoughTimeToFabricate(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
 
-        assertTrue(adjustInventory);
+        assertFalse(notEnoughTime);
     }
 
     @Test void whenOrderTooLate_thenCallerIsNotified() {
-        boolean adjustInventory = oxygenOrder.adjustInventory(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+        boolean notEnoughTime = oxygenOrder.isNotEnoughTimeToFabricate(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
 
-        assertFalse(adjustInventory);
+        assertTrue(notEnoughTime);
     }
 
-    @Test void whenOrderTooLate_thenInventoryIsNotUpdated() {
-        oxygenOrder.adjustInventory(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
-
-        int inventory = oxygenOrder.getOxygenInventory().getInventory();
-        assertEquals(SOME_INVENTORY, inventory);
-    }
-
-    @Test void whenOrderTooLate_thenRemainingQuantityIsNotUpdated() {
-        oxygenOrder.adjustInventory(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
-
-        int remainingQuantity = oxygenOrder.getOxygenInventory().getRemainingQuantity();
-        assertEquals(SOME_REMAINING_QUANTITY, remainingQuantity);
+    @Test void whenOrderTooLate_thenException() {
+        assertThrows(IllegalArgumentException.class, () -> oxygenOrder.adjustInventory(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY));
     }
 
     private void initializeOrderDateHistory() {

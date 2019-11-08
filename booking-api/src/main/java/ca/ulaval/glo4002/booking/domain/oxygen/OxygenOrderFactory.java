@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import java.time.LocalDate;
 
-public class OxygenFactory {
+public class OxygenOrderFactory {
     private static final int TANK_FABRICATION_QUANTITY_GRADE_A = 5;
     private static final int TANK_FABRICATION_QUANTITY_GRADE_B = 3;
     private static final int TANK_FABRICATION_QUANTITY_GRADE_E = 1;
@@ -11,7 +11,7 @@ public class OxygenFactory {
     private static final int FABRICATION_TIME_IN_DAYS_GRADE_E = 0;
     private LocalDate limitDeliveryDate;
 
-    public OxygenFactory(LocalDate limitDeliveryDate) {
+    public OxygenOrderFactory(LocalDate limitDeliveryDate) {
         this.limitDeliveryDate = limitDeliveryDate;
     }
 

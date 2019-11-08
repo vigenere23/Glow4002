@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import static org.mockito.Mockito.*;
 
-class OxygenOrderProducerTest {
+class OxygenReserverTest {
 
     private static final int TANK_FABRICATION_QUANTITY_GRADE_A = 5;
     private static final int CANDLE_FABRICATION_QUANTITY_GRADE_A = 15;
@@ -28,7 +28,7 @@ class OxygenOrderProducerTest {
     private GradeAOxygenOrder gradeAOxygen;
     private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<>(OxygenGrade.class);
     private SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = new TreeMap<>();
-    private OxygenFactory oxygenFactory;
+    private OxygenOrderFactory oxygenOrderFactory;
     private OxygenReserver oxygenReserver;
 
     @BeforeEach
@@ -37,7 +37,7 @@ class OxygenOrderProducerTest {
         mockOxygenGradeA();
         mockOxygenFactory();
 
-        oxygenReserver = new OxygenReserver(oxygenFactory);
+        oxygenReserver = new OxygenReserver(oxygenOrderFactory);
     }
 
 //    @Test
@@ -89,14 +89,14 @@ class OxygenOrderProducerTest {
     private void mockOxygenGradeA() {
         gradeAOxygen = mock(GradeAOxygenOrder.class);
 
-        when(gradeAOxygen.adjustInventory(ONE_MONTH_BEFORE_FESTIVAL_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(true);
-        when(gradeAOxygen.adjustInventory(FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(false);
+        when(gradeAOxygen.isNotEnoughTimeToFabricate(ONE_MONTH_BEFORE_FESTIVAL_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(false);
+        when(gradeAOxygen.isNotEnoughTimeToFabricate(FIFTEEN_DAYS_BEFORE_FESTIVAL_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(true);
         when(gradeAOxygen.updateOxygenHistory(oxygenHistory, ONE_MONTH_BEFORE_FESTIVAL_DATE, TANK_FABRICATION_QUANTITY_GRADE_A)).thenReturn(oxygenHistory);
     }
 
     private void mockOxygenFactory() {
-        oxygenFactory = mock(OxygenFactory.class);
+        oxygenOrderFactory = mock(OxygenOrderFactory.class);
 
-        when(oxygenFactory.create(OxygenGrade.A, oxygenInventoryGradeA)).thenReturn(gradeAOxygen);
+        when(oxygenOrderFactory.create(OxygenGrade.A, oxygenInventoryGradeA)).thenReturn(gradeAOxygen);
     }
 }

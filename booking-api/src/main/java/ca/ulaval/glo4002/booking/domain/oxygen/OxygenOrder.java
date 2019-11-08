@@ -38,16 +38,20 @@ public abstract class OxygenOrder {
         return history;
     }
 
-    public boolean adjustInventory(LocalDate orderDate, int requirementQuantity) {
-        int quantityOfTanksLacking = getQuantityOfTanksLacking(requirementQuantity);
+    public boolean isNotEnoughTimeToFabricate(LocalDate orderDate, int quantityToFabricate) {
+        return hasToFabricateMore(quantityToFabricate) && !enoughTimeForFabrication(orderDate);
+    }
+
+    public OxygenInventory adjustInventory(LocalDate orderDate, int requiredQuantity) {
+        int quantityOfTanksLacking = getQuantityOfTanksLacking(requiredQuantity);
         int quantityToFabricate = oxygenProduction.getQuantityToFabricate(quantityOfTanksLacking, this.tankFabricationQuantity);
 
-        if (hasToFabricateMore(quantityToFabricate) && !enoughTimeForFabrication(orderDate)) {
-            return false;
+        if (isNotEnoughTimeToFabricate(orderDate, quantityToFabricate)) {
+            throw new IllegalArgumentException("Not enough time to reserve oxygen.");
         }
         oxygenInventory.updateInventory(quantityToFabricate, quantityOfTanksLacking);
 
-        return true;
+        return oxygenInventory;
     }
 
     private int getQuantityOfTanksLacking(int requiredQuantity) {

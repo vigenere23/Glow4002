@@ -54,11 +54,11 @@ class PassTest {
         mockShuttleRepository();
         mockOxygenIventoryRepository();
         mockOxygenHistoryRepository();
+        mockOxygenReserver();
         transportReservation = mock(TransportReservation.class);
         someFestivalDates = new Glow4002Dates();
         price = mock(Price.class);
         transportReservation = mock(TransportReservation.class);
-        oxygenReserver = mock(OxygenReserver.class);
     }
     
     @Test
@@ -302,6 +302,13 @@ class PassTest {
     private void mockTransportReservation(PassNumber passNumber) {
         when(transportReservation.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth)).thenReturn(shuttlesEarth);
         when(transportReservation.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy)).thenReturn(shuttlesUlavalogy);
+    }
+
+    private void mockOxygenReserver() {
+        oxygenReserver = mock(OxygenReserver.class);
+        OxygenStatus someOxygenStatus = new OxygenStatus(someOxygenInventories, someOxygenHistory);
+
+        when(oxygenReserver.orderOxygen(any(), any(), anyInt(), any(), any())).thenReturn(someOxygenStatus);
     }
     
     private Pass createPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {

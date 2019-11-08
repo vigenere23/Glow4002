@@ -85,9 +85,9 @@ public class Pass {
         SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
 
         int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
-        oxygenReserver.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
+        OxygenStatus oxygenStatus = oxygenReserver.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
 
-        oxygenInventoryRepository.saveOxygenInventories(inventories);
-        oxygenHistoryRepository.saveOxygenHistory(history);
+        oxygenInventoryRepository.saveOxygenInventories(oxygenStatus.getOxygenInventories());
+        oxygenHistoryRepository.saveOxygenHistory(oxygenStatus.getHistory());
     }
 }
