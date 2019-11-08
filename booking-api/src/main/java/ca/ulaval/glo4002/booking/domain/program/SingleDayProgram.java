@@ -1,14 +1,21 @@
 package ca.ulaval.glo4002.booking.domain.program;
 
 import java.time.LocalDate;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.api.dtos.program.Activity;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -20,6 +27,8 @@ public class SingleDayProgram {
     private Activity activity;
     private String artistName;
     private LocalDate date;
+    private int groupSize;
+    private OxygenGrade oxygenGrade = OxygenGrade.E;
 
     public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
         this.activity = activity;
@@ -51,8 +60,13 @@ public class SingleDayProgram {
         return glow4002Dates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenProducer oxygenProducer, ArtistRepository artistRepository) {
-        //TODO
+    public void orderOxygen(OxygenProducer oxygenProducer, ArtistRepository artistRepository, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+        ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
+        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
+        SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
+        groupSize = artist.getGroupSize();
+
+        oxygenProducer.orderOxygen(date, oxygenGrade, groupSize, inventories, history);
     }
 
     public void orderShuttle(TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistRepository artistRepository) {
