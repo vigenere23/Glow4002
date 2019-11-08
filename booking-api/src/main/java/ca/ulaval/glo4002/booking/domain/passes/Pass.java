@@ -6,8 +6,10 @@ import ca.ulaval.glo4002.booking.domain.Price;
 
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.*;
-import ca.ulaval.glo4002.booking.domain.transport.*;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
 public class Pass {
@@ -20,9 +22,10 @@ public class Pass {
     private LocalDate endDate;
     private ShuttleCategory shuttleCategory;
     private OxygenGrade oxygenGrade;
-    int oxygenQuantityPerDay;
+    private int oxygenQuantityPerDay;
 
-    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price, LocalDate startDate, LocalDate endDate) {
+    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
+            LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDates(startDate, endDate);
 
         this.passOption = passOption;
@@ -30,7 +33,7 @@ public class Pass {
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
-        
+
         passNumber = new PassNumber();
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
@@ -40,7 +43,7 @@ public class Pass {
     public boolean isOfType(PassOption passOption, PassCategory passCategory) {
         return this.passOption == passOption && this.passCategory == passCategory;
     }
-    
+
     public Price getPrice() {
         return price;
     }
@@ -63,7 +66,7 @@ public class Pass {
 
     public void reserveShuttles(TransportReserver transportReserver) {
         transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber);
-        transportReserver.reserveArrival(shuttleCategory, startDate, passNumber);
+        transportReserver.reserveArrival(shuttleCategory, endDate, passNumber);
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {
