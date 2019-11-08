@@ -11,22 +11,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 class PassTest {
     private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
     private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
     private static final ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
-    private static final OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
-    private static final int SOME_OXYGEN_QUANTITY = 3;
     private static final LocalDate SOME_ORDER_DATE = LocalDate.of(2050, 1, 1);
     private static final LocalDate SOME_START_DATE = LocalDate.of(2050, 7,18);
     private static final LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
@@ -34,28 +28,16 @@ class PassTest {
     private static final LocalDate FESTIVAL_START = LocalDate.of(2050, 7,17);
     private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
-    private static final int NEBULA_OXYGEN_QUANTITY = 3;
-    private static final int SUPERGIANT_OXYGEN_QUANTITY = 3;
-    private static final int SUPERNOVA_OXYGEN_QUANTITY = 5;
-    private static final OxygenGrade NEBULA_OXYGEN_GRADE = OxygenGrade.A;
-    private static final OxygenGrade SUPERGIANT_OXYGEN_GRADE = OxygenGrade.B;
-    private static final OxygenGrade SUPERNOVA_OXYGEN_GRADE = OxygenGrade.E;
 
     private FestivalDates festivalDates;
+    private Price price;
     private TransportReserver transportReserver;
     private OxygenReserver oxygenReserver;
-    private Price price;
-    private OxygenInventoryRepository oxygenInventoryRepository;
-    private OxygenHistoryRepository oxygenHistoryRepository;
-    private EnumMap<OxygenGrade, OxygenInventory> someOxygenInventories = new EnumMap<>(OxygenGrade.class);
-    private SortedMap<LocalDate, OxygenDateHistory> someOxygenHistory = new TreeMap<>();
     
     @BeforeEach
     public void setUp() {
-        mockOxygenIventoryRepository();
-        mockOxygenHistoryRepository();
         festivalDates = new Glow4002Dates();
-        price = mock(Price.class);
+        price = Price.zero();
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
     }
@@ -119,67 +101,69 @@ class PassTest {
     }
 
     @Test
-    public void givenNebulaPackagePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
-
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
-
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
-    }
-
-    @Test
-    public void givenNebulaSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
+    public void givenNebulaSinglePass_whenOrderOxygen_thenThreeGradeAOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY);
+        OxygenGrade expectedGrade = OxygenGrade.A;
+        int expectedQuantity = 3;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenSupergiantPackagePass_whenOrderOxygen_thenOxygenIsOrdered()  {
-        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
-
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
-
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
-    }
-
-    @Test
-    public void givenSupergiantSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
+    public void givenSupergiantSinglePass_whenOrderOxygen_thenThreeGradeBOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY);
+        OxygenGrade expectedGrade = OxygenGrade.B;
+        int expectedQuantity = 3;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenSupernovaPackagePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
-
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
-
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS);
-    }
-
-    @Test
-    public void givenSupernovaSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
+    public void givenSupernovaSinglePass_whenOrderOxygen_thenFiveGradeEOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY);
+        OxygenGrade expectedGrade = OxygenGrade.E;
+        int expectedQuantity = 5;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
-    private void mockOxygenIventoryRepository() {
-        oxygenInventoryRepository = mock(OxygenInventoryRepository.class);
-        when(oxygenInventoryRepository.findAll()).thenReturn(someOxygenInventories);
+    @Test
+    public void givenNebulaPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeAOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+
+        OxygenGrade expectedGrade = OxygenGrade.A;
+        int expectedQuantity = 3 * NUMBER_OF_FESTIVAL_DAYS;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
-    private void mockOxygenHistoryRepository() {
-        oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
-        when(oxygenHistoryRepository.findOxygenHistory()).thenReturn(someOxygenHistory);
+    @Test
+    public void givenSupergiantPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeBOxygenIsOrdered()  {
+        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+
+        OxygenGrade expectedGrade = OxygenGrade.B;
+        int expectedQuantity = 3 * NUMBER_OF_FESTIVAL_DAYS;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+    }
+
+    @Test
+    public void givenSupernovaPackagePass_whenOrderOxygen_thenFiveTimesNumberOfDaysGradeEOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+
+        OxygenGrade expectedGrade = OxygenGrade.E;
+        int expectedQuantity = 5 * NUMBER_OF_FESTIVAL_DAYS;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     private Pass createSimplePass(PassOption passOption, PassCategory passCategory, LocalDate startDate, LocalDate endDate) {
