@@ -42,7 +42,6 @@ public class HeapOxygenInventoryRepositoryTest {
     @Test
     public void whenSetOxygenCategoryInventoryOfGradeA_thenInventoryIsCorrectlyUpdated() {
         OxygenInventory expectedOxygenInventoryGradeB = new OxygenInventory(OxygenGrade.A, SOME_OXYGEN_INVENTORY, SOME_OXYGEN_REMAINING);
-
         oxygenInventoryRepository.save(expectedOxygenInventoryGradeB);
 
         OxygenInventory oxygenInventoryGradeB = oxygenInventoryRepository.findByGrade(OxygenGrade.A);
@@ -52,7 +51,6 @@ public class HeapOxygenInventoryRepositoryTest {
     @Test
     public void whenSetOxygenCategoryInventoryOfGradeB_thenInventoryIsCorrectlyUpdated() {
         OxygenInventory expectedOxygenInventoryGradeA = new OxygenInventory(OxygenGrade.B, SOME_OXYGEN_INVENTORY, SOME_OXYGEN_REMAINING);
-
         oxygenInventoryRepository.save(expectedOxygenInventoryGradeA);
 
         OxygenInventory oxygenInventoryGradeA = oxygenInventoryRepository.findByGrade(OxygenGrade.B);
@@ -62,7 +60,6 @@ public class HeapOxygenInventoryRepositoryTest {
     @Test
     public void whenSetOxygenCategoryInventoryOfGradeE_thenInventoryIsCorrectlyUpdated() {
         OxygenInventory expectedOxygenInventoryGradeE = new OxygenInventory(OxygenGrade.E, SOME_OXYGEN_INVENTORY, SOME_OXYGEN_REMAINING);
-
         oxygenInventoryRepository.save(expectedOxygenInventoryGradeE);
 
         OxygenInventory oxygenInventoryGradeE = oxygenInventoryRepository.findByGrade(OxygenGrade.E);
