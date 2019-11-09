@@ -25,7 +25,7 @@ public class OxygenReserver {
         oxygenHistoryRepository.save(history);
     }
 
-    public void orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, OxygenInventory oxygenInventory, SortedMap<LocalDate, OxygenDateHistory> oxygenHistory) {
+    private void orderOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity, OxygenInventory oxygenInventory, SortedMap<LocalDate, OxygenDateHistory> oxygenHistory) {
         Oxygen oxygen = oxygenFactory.create(grade, oxygenInventory);
         boolean adjustInventory = oxygen.adjustInventory(orderDate, requiredQuantity);
         if (!adjustInventory) {
