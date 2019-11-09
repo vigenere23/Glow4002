@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class GradeEOxygenOrder extends OxygenOrder {
 
-    public GradeEOxygenOrder(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
-        super(limitDeliveryDate, oxygenInventory, tankFabricationQuantity, fabricationTimeInDays);
+    public GradeEOxygenOrder(LocalDate limitDeliveryDate, int tankFabricationQuantity, int fabricationTimeInDays) {
+        super(limitDeliveryDate, tankFabricationQuantity, fabricationTimeInDays);
     }
 
     protected void initializeQuantitiesPerBatch() {

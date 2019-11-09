@@ -6,8 +6,8 @@ public class GradeAOxygenOrder extends OxygenOrder {
 
     private static final int CANDLE_FABRICATION_QUANTITY = 15;
 
-    public GradeAOxygenOrder(LocalDate limitDeliveryDate, OxygenInventory oxygenInventory, int tankFabricationQuantity, int fabricationTimeInDays) {
-        super(limitDeliveryDate, oxygenInventory, tankFabricationQuantity, fabricationTimeInDays);
+    public GradeAOxygenOrder(LocalDate limitDeliveryDate, int tankFabricationQuantity, int fabricationTimeInDays) {
+        super(limitDeliveryDate, tankFabricationQuantity, fabricationTimeInDays);
     }
 
     protected void initializeQuantitiesPerBatch() {

@@ -20,7 +20,7 @@ public class OxygenReserver {
 
         if (quantityToOrder > 0) {
             oxygenInventory.setRemainingQuantity(0);
-            OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade, oxygenInventory);
+            OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade);
 
             return updateOxygenStatus(oxygenOrder, orderDate, grade, quantityToOrder, oxygenInventories, history);
         }
@@ -30,11 +30,11 @@ public class OxygenReserver {
     }
 
     private OxygenStatus updateOxygenStatus(OxygenOrder oxygenOrder, LocalDate orderDate, OxygenGrade grade, int quantityToOrder, EnumMap<OxygenGrade, OxygenInventory> oxygenInventories, SortedMap<LocalDate, OxygenDateHistory>  history) {
-        if (oxygenOrder.isNotEnoughTimeToFabricate(orderDate, quantityToOrder)) {
+        if (!oxygenOrder.enoughTimeToFabricate(orderDate)) {
             orderOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder, oxygenInventories, history);
         }
-        OxygenInventory updatedOxygenInventory = oxygenOrder.adjustInventory(orderDate, quantityToOrder);
-        oxygenInventories.put(grade, updatedOxygenInventory);
+        int updatedOxygenInventory = oxygenOrder.getQuantityToReserve(orderDate, quantityToOrder);
+//        oxygenInventories.put(grade, updatedOxygenInventory);
         SortedMap<LocalDate, OxygenDateHistory> updatedHistory = oxygenOrder.updateOxygenHistory(history, orderDate, quantityToOrder);
 
         return new OxygenStatus(oxygenInventories, updatedHistory);
