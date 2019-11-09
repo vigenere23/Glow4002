@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
 import ca.ulaval.glo4002.booking.domain.program.Program;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
@@ -18,13 +21,16 @@ public class ProgramUseCaseTest {
     private ArtistRepository artistRepository;
     private Program program;
     private ProgramUseCase programUseCase;
+    private OxygenProducer oxygenProducer;
+    private OxygenInventoryRepository oxygenInventoryRepository;
+    private OxygenHistoryRepository oxygenHistoryRepository;
 
     @BeforeEach
     public void setUp() {
         artistRepository = mock(ArtistRepository.class);
         transportReservation = mock(TransportReservation.class);
         shuttleRepository = mock(ShuttleRepository.class);
-        programUseCase = new ProgramUseCase(shuttleRepository, transportReservation, artistRepository);
+        programUseCase = new ProgramUseCase(shuttleRepository, transportReservation, oxygenProducer, artistRepository, oxygenInventoryRepository, oxygenHistoryRepository);
     }
 
     @Test
@@ -33,6 +39,6 @@ public class ProgramUseCaseTest {
 
         programUseCase.provideProgramResources(program);
 
-        verify(program).provideProgramResources(transportReservation, shuttleRepository, artistRepository);
+        verify(program).provideProgramResources(transportReservation, shuttleRepository, oxygenProducer, artistRepository, oxygenInventoryRepository, oxygenHistoryRepository);
     }
 }

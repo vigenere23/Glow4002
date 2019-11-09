@@ -27,7 +27,7 @@ public class SingleDayProgram {
     private Activity activity;
     private String artistName;
     private LocalDate date;
-    private int groupSize;
+    private int oxygenQuantity;
     private OxygenGrade oxygenGrade = OxygenGrade.E;
 
     public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
@@ -64,9 +64,15 @@ public class SingleDayProgram {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
         EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
         SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
-        groupSize = artist.getGroupSize();
+        oxygenQuantity = artist.getGroupSize()*6;
 
-        oxygenProducer.orderOxygen(date, oxygenGrade, groupSize, inventories, history);
+        if (activity == activity.CARDIO) {
+            oxygenQuantity += 15;
+        } else {
+            oxygenQuantity += 10;
+        }
+
+        oxygenProducer.orderOxygen(date, oxygenGrade, oxygenQuantity, inventories, history);
     }
 
     public void orderShuttle(TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistRepository artistRepository) {
