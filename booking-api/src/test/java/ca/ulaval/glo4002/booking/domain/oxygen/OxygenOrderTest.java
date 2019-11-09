@@ -20,10 +20,10 @@ class OxygenOrderTest {
     private static final int QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES = 7;
     private static final HistoryType SOME_ORDER_DATE_HISTORY_TYPE = HistoryType.CANDLES_USED;
     private static final HistoryType SOME_COMPLETION_DATE_HISTORY_TYPE = HistoryType.OXYGEN_TANK_MADE;
-    private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 17);
-    private final static LocalDate SOME_ORDER_DATE = SOME_DATE.minusMonths(1);
+    private final static LocalDate SOME_FESTIVAL_START_DATE = LocalDate.of(2050, 7, 17);
+    private final static LocalDate SOME_ORDER_DATE = SOME_FESTIVAL_START_DATE.minusMonths(1);
     private final static LocalDate COMPLETION_DATE = LocalDate.of(2050, 7, 7);
-    private final static LocalDate TOO_LATE_DATE = SOME_DATE.minusDays(15);
+    private final static LocalDate TOO_LATE_DATE = SOME_FESTIVAL_START_DATE.minusDays(15);
 
     private static class OxygenOrderImplementationTest extends OxygenOrder {
 
@@ -47,7 +47,7 @@ class OxygenOrderTest {
         initializeUpdatedOrderDateHistory();
         initializeCompletionDateHistory();
 
-        oxygenOrder = new OxygenOrderImplementationTest(SOME_DATE, SOME_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_TIME_IN_DAYS);
+        oxygenOrder = new OxygenOrderImplementationTest(SOME_FESTIVAL_START_DATE, SOME_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_TIME_IN_DAYS);
     }
 
     @Test void whenOrderOnTime_thenCallerIsNotified() {
@@ -96,6 +96,23 @@ class OxygenOrderTest {
 
     @Test void whenOrderTooLate_thenException() {
         assertThrows(IllegalArgumentException.class, () -> oxygenOrder.getQuantityToReserve(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY));
+    }
+
+    @Test
+    public void whenUpdateOxygenHistory_thenOrderedDateHistoryIsUpdated() {
+        SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenOrder.updateOxygenHistory(someHistory, SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
+        int actualQuantity = updatedOxygenHistory.get(SOME_ORDER_DATE).getCandlesUsed();
+        int updatedQuantity = SOME_QUANTITY + SOME_FABRICATION_QUANTITY;
+        assertEquals(updatedQuantity, actualQuantity);
+    }
+
+    @Test
+    public void whenUpdateOxygenHistory_thenCompletionDateHistoryIsUpdated() {
+        SortedMap<LocalDate, OxygenDateHistory> updatedOxygenHistory = oxygenOrder.updateOxygenHistory(someHistory, SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
+        int producedQuantity = updatedOxygenHistory.get(COMPLETION_DATE).getOxygenTankMade();
+        assertEquals(SOME_TANK_FABRICATION_QUANTITY, producedQuantity);
     }
 
     private void initializeOrderDateHistory() {
