@@ -6,5 +6,5 @@ import java.util.SortedMap;
 public interface OxygenHistoryRepository {
 
     public SortedMap<LocalDate, OxygenDateHistory> findOxygenHistory();
-    public void saveOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history);
+    public void save(SortedMap<LocalDate, OxygenDateHistory> history);
 }

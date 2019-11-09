@@ -4,6 +4,7 @@ import java.util.EnumMap;
 
 public interface OxygenInventoryRepository {
     
-    public void saveOxygenInventories(EnumMap<OxygenGrade, OxygenInventory> oxygenInventories);
-    public EnumMap<OxygenGrade, OxygenInventory> findInventories();
+    public EnumMap<OxygenGrade, OxygenInventory> findAll();
+    public OxygenInventory findByGrade(OxygenGrade oxygenGrade);
+    public void save(OxygenInventory oxygenInventory);
 }

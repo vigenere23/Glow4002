@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class OxygenOrderProductionTest {
+class OxygenProductionTest {
 
     private static final int SOME_FABRICATION_TIME_IN_DAYS = 4;
     private static final int SOME_TANK_FABRICATION_QUANTITY = 5;
