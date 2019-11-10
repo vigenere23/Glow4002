@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
 
 import java.time.LocalDate;
@@ -8,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 

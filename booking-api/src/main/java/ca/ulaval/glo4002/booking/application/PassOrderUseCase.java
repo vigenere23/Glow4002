@@ -28,7 +28,7 @@ public class PassOrderUseCase {
     }
 
     public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
-        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest);
+        PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates());
         reservePassUtilities(orderDate, passOrder);
         passOrderRepository.save(passOrder);
 

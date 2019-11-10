@@ -15,6 +15,8 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
 import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
+import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
@@ -54,20 +56,22 @@ public class BookingServer implements Runnable {
     }
 
     private ResourceConfig setupResourceConfig() {
-        FestivalDates festival = new Glow4002Dates();
+        FestivalDates festivalDates = new Glow4002Dates();
 
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenFactory oxygenFactory = new OxygenFactory(festival.getStartDate().minusDays(1));
+        OxygenFactory oxygenFactory = new OxygenFactory(festivalDates.getStartDate().minusDays(1));
         OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
         TransportReserver transportReserver = new TransportReserver(shuttleRepository);
-        TransportUseCase transportUseCase = new TransportUseCase(festival, shuttleRepository);
+        TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festival);
+        PassPriceFactory passPriceFactory = new PassPriceFactory();
+        PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();

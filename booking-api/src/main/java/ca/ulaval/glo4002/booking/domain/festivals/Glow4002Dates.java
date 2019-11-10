@@ -1,13 +1,12 @@
 package ca.ulaval.glo4002.booking.domain.festivals;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.helpers.DateConverter;;
 
 public class Glow4002Dates implements FestivalDates {
 
@@ -19,8 +18,8 @@ public class Glow4002Dates implements FestivalDates {
     public Glow4002Dates() {
         startDate = LocalDate.of(2050, 7, 17);
         endDate = LocalDate.of(2050, 7, 24);
-        saleStartDate = OffsetDateTime.of(LocalDate.of(2050, 1, 1), LocalTime.MIDNIGHT, ZoneOffset.UTC);
-        saleEndDate = OffsetDateTime.of(LocalDate.of(2050, 7, 16), LocalTime.MIDNIGHT.minusSeconds(1), ZoneOffset.UTC);
+        saleStartDate = DateConverter.toOffsetDateTimeStartOfDay(LocalDate.of(2050, 1, 1));
+        saleEndDate = DateConverter.toOffsetDateTimeEndOfDay(LocalDate.of(2050, 7, 16));
     }
 
     public LocalDate getStartDate() {
@@ -47,15 +46,15 @@ public class Glow4002Dates implements FestivalDates {
         return !(date.isBefore(startDate) || date.isAfter(endDate));
     }
 
-    public void validateEventDates(LocalDate startDate, LocalDate endDate) {
-        if (!isDuringEventTime(startDate) || !isDuringEventTime(endDate)) {
-            throw new OutOfFestivalDatesException(getStartDate(), getEndDate());
+    public void validateEventDate(LocalDate localDate) {
+        if (!isDuringEventTime(localDate)) {
+            throw new OutOfFestivalDatesException(startDate, endDate);
         }
     }
 
     public void validateOrderDate(OffsetDateTime orderDate) {
         if (!isDuringSaleTime(orderDate)) {
-            throw new OutOfSaleDatesException(getSaleStartDate(), getSaleEndDate());
+            throw new OutOfSaleDatesException(saleStartDate, saleEndDate);
         }
     }
 }
