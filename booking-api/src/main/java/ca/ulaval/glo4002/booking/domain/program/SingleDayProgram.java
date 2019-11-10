@@ -34,20 +34,21 @@ public class SingleDayProgram {
         return artistName;
     }
 
-    public void validateIfAmAndPm() {
-        if(activity == null || artistName.equals(null)) {
-            throw new InvalidProgramException();
-        }
-    }
+    //TODO va changer de place suite à la discussion pour la validation
+    // public void validateIfAmAndPm() {
+    //     if(activity == null || artistName.equals(null)) {
+    //         throw new InvalidProgramException();
+    //     }
+    // }
 
-    public void validateActivityOnlyOnAm() {
-        if(!Activity.contains(activity)) {
-            throw new InvalidProgramException();
-        }
-    }
+    // public void validateActivityOnlyOnAm() {
+    //     if(!Activity.contains(activity)) {
+    //         throw new InvalidProgramException();
+    //     }
+    // }
 
-    public boolean isDuringFestivalDate(FestivalDates glow4002Dates) {
-        return glow4002Dates.isDuringEventTime(date);
+    public boolean isDuringFestivalDate(FestivalDates festivalDates) {
+        return festivalDates.isDuringEventTime(date);
     }
 
     public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository) {

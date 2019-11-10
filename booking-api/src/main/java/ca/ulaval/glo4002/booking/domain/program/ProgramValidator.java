@@ -20,8 +20,9 @@ public class ProgramValidator {
     public void validateProgram(List<SingleDayProgram> program) {
         this.program = program;
         for(SingleDayProgram programForOneDay : this.program) {
-        	programForOneDay.validateIfAmAndPm();
-			programForOneDay.validateActivityOnlyOnAm();
+            //TODO voir SingleDayProgram
+        	// programForOneDay.validateIfAmAndPm();
+			// programForOneDay.validateActivityOnlyOnAm();
 			validateArtistDifferentOnEachDay(programForOneDay);
 			validateEventDates(programForOneDay);
 		}

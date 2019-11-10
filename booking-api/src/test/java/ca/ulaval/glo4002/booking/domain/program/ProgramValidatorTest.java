@@ -16,6 +16,9 @@ import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 
 public class ProgramValidatorTest {
 
+    private final static Activity SOME_ACTIVITY = Activity.CARDIO;
+    private final static String SOME_ARTIST_NAME = "Lady Gamma";
+
     private ProgramValidator programValidator;
     private List<SingleDayProgram> singleDaysProgram = new LinkedList<SingleDayProgram>();
     private FestivalDates glow4002Dates = new Glow4002Dates();
@@ -35,7 +38,7 @@ public class ProgramValidatorTest {
 
     @Test
     public void givenOutOfFestivalDate_whenValidateProgram_thenProgramIsInvalid() {
-        singleDay = new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 12));
+        singleDay = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, LocalDate.of(2050, 07, 12));
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -43,7 +46,7 @@ public class ProgramValidatorTest {
     
     @Test
     public void givenTwoIdenticalDates_whenValidateProgram_thenProgramIsInvalid() {
-        singleDay = new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 18));
+        singleDay = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, LocalDate.of(2050, 07, 18));
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -51,7 +54,7 @@ public class ProgramValidatorTest {
   
     @Test
     public void givenTooLongProgram_whenValidateProgram_thenProgramIsInvalid() {
-        singleDay = new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 18));
+        singleDay = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, LocalDate.of(2050, 07, 18));
         singleDaysProgram.add(singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -59,7 +62,7 @@ public class ProgramValidatorTest {
 
     @Test
     public void givenSameArtistForTwoDays_whenValidateProgram_thenProgramIsInvalid() {
-        singleDay = new SingleDayProgram(Activity.CARDIO, "Coldray", LocalDate.of(2050, 07, 17));
+        singleDay = new SingleDayProgram(SOME_ACTIVITY, "Coldray", LocalDate.of(2050, 07, 17));
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));

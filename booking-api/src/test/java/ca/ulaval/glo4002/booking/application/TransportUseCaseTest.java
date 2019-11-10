@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -30,7 +29,7 @@ class TransportUseCaseTest {
     private TransportUseCase transportUseCase;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpTransportUseCase() {
         mockShuttles();
         mockFestival();
         shuttleRepository = mock(ShuttleRepository.class);
@@ -47,7 +46,7 @@ class TransportUseCaseTest {
 
     @Test
     public void whenGetAllDeparture_thenReturnListOfShuttlesForLocation() {
-        willReturn(shuttlesEarth).given(shuttleRepository).findShuttlesByLocation(Location.EARTH);
+        when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
 
         List<Shuttle> expectedShuttles = transportUseCase.getAllDepartures();
         assertEquals(shuttlesEarth, expectedShuttles);
@@ -62,7 +61,7 @@ class TransportUseCaseTest {
 
     @Test
     public void whenGetAllArrivals_thenReturnListOfShuttlesForLocation() {
-        willReturn(shuttlesUlavalogy).given(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
+        when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
 
         List<Shuttle> expectedShuttles = transportUseCase.getAllArrivals();
         assertEquals(shuttlesUlavalogy, expectedShuttles);
@@ -77,7 +76,7 @@ class TransportUseCaseTest {
 
     @Test
     public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {
-        willReturn(shuttlesEarth).given(shuttleRepository).findShuttlesByDate(Location.EARTH, SOME_DATE);
+        when(shuttleRepository.findShuttlesByDate(Location.EARTH, SOME_DATE)).thenReturn(shuttlesEarth);
 
         List<Shuttle> expectedShuttles = transportUseCase.getShuttlesDepartureByDate(SOME_DATE);
         assertEquals(shuttlesEarth, expectedShuttles);
@@ -99,7 +98,7 @@ class TransportUseCaseTest {
 
     @Test
     public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {
-        willReturn(shuttlesUlavalogy).given(shuttleRepository).findShuttlesByDate(Location.ULAVALOGY, SOME_DATE);
+        when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, SOME_DATE)).thenReturn(shuttlesEarth);
 
         List<Shuttle> expectedShuttles = transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
         assertEquals(shuttlesUlavalogy, expectedShuttles);

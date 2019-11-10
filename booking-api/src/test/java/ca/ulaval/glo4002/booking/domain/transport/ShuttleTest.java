@@ -33,7 +33,7 @@ public class ShuttleTest {
     private ShuttleImplementationTest shuttle;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpShuttle() {
         shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17));
     }
 
