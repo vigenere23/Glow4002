@@ -40,7 +40,7 @@ class PassTest {
     private static final LocalDate SOME_START_DATE = LocalDate.of(2050, 7,18);
     private static final LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
     private static final int NUMBER_OF_FESTIVAL_DAYS = 5;
-    private static final int SOME_PLACES = 2;
+    private static final int SOME_PLACES = 1;
     private static final LocalDate FESTIVAL_START = LocalDate.of(2050, 7,17);
     private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
@@ -62,14 +62,14 @@ class PassTest {
     public void whenReservingShuttles_thenItReservesASingleDeparture() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
-        verify(transportReserver, times(1)).reserveDeparture(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), SOME_PLACES);
+        verify(transportReserver, times(1)).reserveDeparture(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), any(Integer.class));
     }
 
     @Test
     public void whenReservingShuttles_thenItReservesASingleArrival() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
-        verify(transportReserver, times(1)).reserveArrival(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), SOME_PLACES);
+        verify(transportReserver, times(1)).reserveArrival(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), any(Integer.class));
     }
 
     @Test

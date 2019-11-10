@@ -9,36 +9,26 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.program.Program;
+import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCaseTest {
 
-    private TransportReservation transportReservation;
-    private ShuttleRepository shuttleRepository;
+    private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
     private Program program;
     private ProgramUseCase programUseCase;
-    private OxygenProducer oxygenProducer;
-    private OxygenInventoryRepository oxygenInventoryRepository;
-    private OxygenHistoryRepository oxygenHistoryRepository;
+    private OxygenReserver oxygenReserver;
+    private SingleDayProgram singleDayProgram;
 
     @BeforeEach
     public void setUp() {
         artistRepository = mock(ArtistRepository.class);
-        transportReservation = mock(TransportReservation.class);
-        shuttleRepository = mock(ShuttleRepository.class);
-        programUseCase = new ProgramUseCase(shuttleRepository, transportReservation, oxygenProducer, artistRepository, oxygenInventoryRepository, oxygenHistoryRepository);
-    }
-
-    @Test
-    public void givenProgram_provideProgramResources_thenProvideProgramResourcesfromProgramIsCalled() {
-        program = mock(Program.class);
-
-        programUseCase.provideProgramResources(program);
-
-        verify(program).provideProgramResources(transportReservation, shuttleRepository, oxygenProducer, artistRepository, oxygenInventoryRepository, oxygenHistoryRepository);
+        transportReserver = mock(TransportReserver.class);
+        singleDayProgram = mock(SingleDayProgram.class);
+        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository);
     }
 }

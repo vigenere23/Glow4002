@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
+import ca.ulaval.glo4002.booking.domain.program.Activity;
 
 public class SingleDayProgramRequest {
 

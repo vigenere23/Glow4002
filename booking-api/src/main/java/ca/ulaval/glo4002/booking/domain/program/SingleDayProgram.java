@@ -1,25 +1,19 @@
 package ca.ulaval.glo4002.booking.domain.program;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
-import java.util.SortedMap;
 
-import ca.ulaval.glo4002.booking.api.dtos.program.Activity;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class SingleDayProgram {
 
+    private static final int QUANTITY_BY_ARTIST = 6;
     private Activity activity;
     private String artistName;
     private LocalDate date;
@@ -56,19 +50,12 @@ public class SingleDayProgram {
         return glow4002Dates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
-        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findAll();
-        SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
-        oxygenQuantity = artist.getGroupSize()*6;
 
-        if (activity == activity.CARDIO) {
-            oxygenQuantity += 15;
-        } else {
-            oxygenQuantity += 10;
-        }
-
-        //oxygenReserver.orderOxygen(date, oxygenGrade, oxygenQuantity, inventories, history);
+        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity);
+        
+        oxygenReserver.reserveOxygen(date, oxygenGrade, oxygenQuantity);
     }
 
     public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {

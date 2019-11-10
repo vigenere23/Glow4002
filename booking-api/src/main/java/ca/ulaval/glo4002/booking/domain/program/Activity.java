@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.dtos.program;
+package ca.ulaval.glo4002.booking.domain.program;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -27,13 +27,17 @@ public enum Activity {
         return value.get();
     }
 
-    public static boolean contains(Activity am) {
+    public static boolean contains(Activity activity) {
         boolean isAnActivity = false;
-        for(Activity activity : Activity.values()) {
-            if (activity.equals(am)) {
+        for(Activity activityEnum : Activity.values()) {
+            if (activityEnum.equals(activity)) {
                 isAnActivity = true;
             }
         } 
         return isAnActivity; 
+    }
+
+    public static int oxygenForActivity(Activity activity) {
+        return activity == CARDIO ? 15 : 10;
     }
 }
