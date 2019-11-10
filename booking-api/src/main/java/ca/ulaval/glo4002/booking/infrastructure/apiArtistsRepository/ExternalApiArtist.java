@@ -13,16 +13,17 @@ import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
 
-public class ExternalServiceApiArtist implements ApiArtist, Closeable {
+public class ExternalApiArtist implements ApiArtist, Closeable {
 
+    private final String ARTIST_REPOSITORY_URL = "http://localhost:8080/artists";
     private Client client;
 
-    public ExternalServiceApiArtist() {
+    public ExternalApiArtist() {
         client = ClientBuilder.newClient();
     }
 
     public List<ArtistDto> getArtistsDto() {
-        WebTarget webTarget = client.target("http://localhost:8080/artists");
+        WebTarget webTarget = client.target(ARTIST_REPOSITORY_URL);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
         return invocationBuilder.get(new GenericType<List<ArtistDto>>() {
         });

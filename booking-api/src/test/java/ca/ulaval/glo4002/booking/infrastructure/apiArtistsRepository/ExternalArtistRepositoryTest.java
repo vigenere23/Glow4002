@@ -14,22 +14,22 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
 
-public class ApiArtistRepositoryTest {
+public class ExternalArtistRepositoryTest {
 
-    private final String ARTIST_NAME = "ArtistName";
-    private final int POPULARITY_RANK = 5;
-    private final float PRICE = 5000.00f;
+    private final String SOME_ARTIST_NAME = "ArtistName";
+    private final int SOME_POPULARITY_RANK = 5;
+    private final float SOME_PRICE = 5000.00f;
 
     private ApiArtist apiArtist;
-    private ApiArtistRepository apiArtistRepository;
+    private ExternalArtistRepository externalArtistRepository;
     private ArtistRankingInformationMapper artistRankingInformationMapper;
     private List<ArtistDto> artistsDtoCollection;
 
     @BeforeEach
-    public void setUpApiArtistRepositoryTest() {
+    public void setUpExternalArtistRepository() {
         apiArtist = mock(ApiArtist.class);
         artistRankingInformationMapper = new ArtistRankingInformationMapper();
-        apiArtistRepository = new ApiArtistRepository(artistRankingInformationMapper, apiArtist);
+        externalArtistRepository = new ExternalArtistRepository(artistRankingInformationMapper, apiArtist);
         artistsDtoCollection = new ArrayList<ArtistDto>();
     }
 
@@ -37,11 +37,10 @@ public class ApiArtistRepositoryTest {
     public void givenAnyArtistFromApiArtist_whenFindArtistRankingInformation_thenNoInformationIsFound() {
         when(apiArtist.getArtistsDto()).thenReturn(new ArrayList<ArtistDto>());  
           
-        List<ArtistRankingInformation> actualInformation = apiArtistRepository.findArtistRankingInformation();
+        List<ArtistRankingInformation> actualInformation = externalArtistRepository.findArtistRankingInformation();
         
         int expectedInformationCount = 0;
-        int actualInformationCount = actualInformation.size();
-        assertEquals(expectedInformationCount, actualInformationCount);
+        assertEquals(expectedInformationCount, actualInformation.size());
     }
 
     @Test
@@ -50,9 +49,7 @@ public class ApiArtistRepositoryTest {
 
       ArtistRankingInformation firstArtistInformation = findFirstArtistInformation();
 
-      String expectedName = ARTIST_NAME;
-      String actualName = firstArtistInformation.getArtistName();
-      assertEquals(expectedName, actualName);
+      assertEquals(SOME_ARTIST_NAME, firstArtistInformation.getArtistName());
     }
 
     @Test
@@ -61,9 +58,7 @@ public class ApiArtistRepositoryTest {
 
       ArtistRankingInformation firstArtistInformation = findFirstArtistInformation();
 
-      int expectedPopularityRank = POPULARITY_RANK;
-      int actualPopularityRank = firstArtistInformation.getPopularity();
-      assertEquals(expectedPopularityRank, actualPopularityRank);
+      assertEquals(SOME_POPULARITY_RANK, firstArtistInformation.getPopularity());
     }
 
     @Test
@@ -72,9 +67,7 @@ public class ApiArtistRepositoryTest {
 
       ArtistRankingInformation firstArtistInformation = findFirstArtistInformation();
 
-      float expectedPrice = PRICE;
-      float actualPrice = firstArtistInformation.getPrice();
-      assertEquals(expectedPrice, actualPrice);
+      assertEquals(SOME_PRICE,  firstArtistInformation.getPrice());
     }
 
     private void mockOneArtistInformation() {
@@ -83,13 +76,13 @@ public class ApiArtistRepositoryTest {
     }
 
     private ArtistRankingInformation findFirstArtistInformation() {
-        List<ArtistRankingInformation> actualInformation = apiArtistRepository.findArtistRankingInformation();
+        List<ArtistRankingInformation> actualInformation = externalArtistRepository.findArtistRankingInformation();
           ArtistRankingInformation firstArtistInformation= actualInformation.get(0);
         return firstArtistInformation;
     }
 
     private ArtistDto createOneArtistDto() {
-        return new ArtistDto(1, ARTIST_NAME, 20, "MusicStyle", PRICE, POPULARITY_RANK, new ArrayList());
+        return new ArtistDto(1, SOME_ARTIST_NAME, 20, "MusicStyle", SOME_PRICE, SOME_POPULARITY_RANK, new ArrayList());
     }
 
     private void mockArtistDtoFromApiArtist(ArtistDto artistToAddToMock) {       

@@ -111,14 +111,14 @@
                 <version>1.12</version>
                 <executions>
                     <execution>
-                        <id>add-functional-test-sources</id>
+                        <id>add-integrationTest-sources</id>
                         <phase>generate-test-sources</phase>
                         <goals>
                             <goal>add-test-source</goal>
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/functional-test/java</source>
+                                <source>src/integrationTest/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -129,48 +129,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>integration-tests</id>
                         <phase>integration-test</phase>
+                        <id>integrationTest</id>
                         <goals>
                             <goal>test</goal>
                         </goals>
                         <configuration>
                             <skipTests>false</skipTests>
                             <includes>
-                                <include>**/*FT.java</include>
-                            </includes>                          
-                            <excludedGroups>IntegrationTests</excludedGroups>
+                                <include>**/*IT.java</include>
+                            </includes>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>5.5.2</version>
-                    </dependency>
-                  </dependencies>
-                <configuration>
-                    <groups>IntegrationTests</groups>
-                    <excludes>
-                        <exclude>**/*Test.java</exclude>
-                    </excludes>
-                    <skipITs>**/*Test.java</skipITs>
-                </configuration>
-                <executions>
-                  <execution>
-                    <goals>
-                      <goal>integration-test</goal>
-                      <goal>verify</goal>
-                    </goals>
-                  </execution>
-                </executions>
-              </plugin>
         </plugins>
     </build>
 </project>

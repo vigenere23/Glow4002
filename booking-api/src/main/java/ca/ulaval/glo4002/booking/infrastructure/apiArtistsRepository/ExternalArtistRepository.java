@@ -8,12 +8,12 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.Artist
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiArtistRepository implements ArtistRepository {
+public class ExternalArtistRepository implements ArtistRepository {
     
     private ArtistRankingInformationMapper artistRankingInformationMapper;
     private ApiArtist apiArtist;
 
-    public ApiArtistRepository(ArtistRankingInformationMapper artistRankingInformationMapper, ApiArtist apiArtist) {
+    public ExternalArtistRepository(ArtistRankingInformationMapper artistRankingInformationMapper, ApiArtist apiArtist) {
         this.artistRankingInformationMapper = artistRankingInformationMapper;
         this.apiArtist = apiArtist;
     }

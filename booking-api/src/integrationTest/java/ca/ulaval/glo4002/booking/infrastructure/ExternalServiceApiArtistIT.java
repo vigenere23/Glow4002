@@ -10,18 +10,17 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalServiceApiArtist;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
 import ca.ulaval.glo4002.organisation.OrganisationServer;
 
-public class ExternalServiceApiArtistTest {
+public class ExternalServiceApiArtistIT {
 
-    private static ExternalServiceApiArtist apiArtist;
+    private static ExternalApiArtist apiArtist;
     private static Thread organizationServer;
-
+ 
     @BeforeAll
     public static void setUpServer() throws Exception {
         String[] arguments = new String[] { "" };
@@ -37,7 +36,7 @@ public class ExternalServiceApiArtistTest {
 
     @BeforeEach
     public void setUp() {
-        apiArtist = new ExternalServiceApiArtist();
+        apiArtist = new ExternalApiArtist();
     }
 
     @AfterEach
@@ -46,8 +45,7 @@ public class ExternalServiceApiArtistTest {
     }
 
     @Test
-    @Tag("IntegrationTests")
-    public void whenGetArtistDtoFromExternalService_thenSomeArtistAreReturned(){
+    public void whenGetArtistDtoFromExternalService_thenSomeArtistsAreReturned(){
         List<ArtistDto> artistsDto = getArtistDtoCollectionFromApiArtistServer();
 
         int artistDtoCount = artistsDto.size();
@@ -55,7 +53,6 @@ public class ExternalServiceApiArtistTest {
     }
 
     @Test
-    @Tag("IntegrationTests")
     public void whenGetOneArtistDtoFromExternalService_thenArtistMusicStyleIsValid(){
         ArtistDto oneArtistDto = getFirstArtistDto();
 
@@ -63,16 +60,14 @@ public class ExternalServiceApiArtistTest {
     }
 
     @Test
-    @Tag("IntegrationTests")
-    public void whenGetOneArtistDtoFromExternalService_thenArtistAvailabilityContainerIsNotNull(){
+    public void whenGetOneArtistDtoFromExternalService_thenArtistAvailabilityContainerIsValid(){
         ArtistDto oneArtistDto = getFirstArtistDto();
 
         assertTrue(oneArtistDto.availabilities != null, "First artist retrieved does not have any availability container.");
     }
 
     @Test
-    @Tag("IntegrationTests")
-    public void whenGetOneArtistDtoFromExternalService_thenArtistNameIsNotNull(){
+    public void whenGetOneArtistDtoFromExternalService_thenArtistNameIsValid(){
         ArtistDto oneArtistDto = getFirstArtistDto();
 
         assertTrue(oneArtistDto.name != null, "First artist retrieved does not have any name.");
