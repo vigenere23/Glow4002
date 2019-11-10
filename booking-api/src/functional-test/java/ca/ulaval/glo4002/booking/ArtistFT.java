@@ -23,7 +23,7 @@ public class ArtistFT {
         String[] arguments = new String[]{""};
         Thread organizationServer = new Thread(new OrganisationServer(arguments));
         organizationServer.start();
-        TimeUnit.SECONDS.sleep(20);
+        TimeUnit.SECONDS.sleep(30);
     }
 
     @BeforeEach
