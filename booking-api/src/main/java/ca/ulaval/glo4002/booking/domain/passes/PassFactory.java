@@ -9,21 +9,23 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 public class PassFactory {
 
     private FestivalDates festivalDates;
+    private PassPriceFactory passPriceFactory;
 
-    public PassFactory(FestivalDates festivalDates) {
+    public PassFactory(FestivalDates festivalDates, PassPriceFactory passPriceFactory) {
         this.festivalDates = festivalDates;
+        this.passPriceFactory = passPriceFactory;
     }
 
     public Pass create(PassOption passOption, PassCategory passCategory, Optional<LocalDate> eventDate) {
         switch (passOption) {
-            case SINGLE_PASS:
-                validateEventDatePresence(eventDate);
-                return createSinglePass(passCategory, eventDate.get());
-            case PACKAGE:
-                validateEventDateAbsence(eventDate);
-                return createPackagePass(passCategory);
-            default:
-                throw new IllegalArgumentException(String.format("No pass exists for option %s", passOption.toString()));
+        case SINGLE_PASS:
+            validateEventDatePresence(eventDate);
+            return createSinglePass(passCategory, eventDate.get());
+        case PACKAGE:
+            validateEventDateAbsence(eventDate);
+            return createPackagePass(passCategory);
+        default:
+            throw new IllegalArgumentException(String.format("No pass exists for option %s", passOption.toString()));
         }
     }
 
@@ -40,44 +42,12 @@ public class PassFactory {
     }
 
     private Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
-        Price price = Price.zero();
-
-        switch (passCategory) {
-            case NEBULA:
-                price = new Price(50000);
-                break;
-            case SUPERGIANT:
-                price = new Price(100000);
-                break;
-            case SUPERNOVA:
-                price = new Price(150000);
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        String.format("No pass exists for category %s", passCategory.toString()));
-        }
-
+        Price price = passPriceFactory.create(PassOption.SINGLE_PASS, passCategory);
         return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, eventDate, eventDate);
     }
 
     private Pass createPackagePass(PassCategory passCategory) {
-        Price price = Price.zero();
-
-        switch (passCategory) {
-            case NEBULA:
-                price = new Price(250000);
-                break;
-            case SUPERGIANT:
-                price = new Price(500000);
-                break;
-            case SUPERNOVA:
-                price = new Price(700000);
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        String.format("No pass exists for category %s", passCategory.toString()));
-        }
-
+        Price price = passPriceFactory.create(PassOption.PACKAGE, passCategory);
         return new Pass(festivalDates, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
     }
 }

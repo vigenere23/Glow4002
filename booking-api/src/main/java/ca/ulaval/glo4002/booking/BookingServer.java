@@ -16,6 +16,7 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRe
 import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
@@ -68,7 +69,8 @@ public class BookingServer implements Runnable {
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        PassFactory passFactory = new PassFactory(festivalDates);
+        PassPriceFactory passPriceFactory = new PassPriceFactory();
+        PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
 
