@@ -29,8 +29,8 @@ public abstract class Shuttle {
         this.passNumbers.add(passNumber);
     }
     
-    public boolean availableCapacity(int passengers) {
-        return (passNumbers.size() + passengers) > capacity ? true : false; 
+    public boolean hasAvailableCapacity(int passengers) {
+        return (passNumbers.size() + passengers) > capacity ? false : true; 
     }
 
     public boolean hasCorrectDate(LocalDate date) {

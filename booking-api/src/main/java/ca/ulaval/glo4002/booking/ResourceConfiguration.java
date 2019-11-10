@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 public class ResourceConfiguration extends ResourceConfig {
 
@@ -17,7 +17,8 @@ public class ResourceConfiguration extends ResourceConfig {
         TransportUseCase transportUseCase,
         OxygenUseCase oxygenUseCase,
         ArtistRankingUseCase artistRankingUseCase,
-        ProgramUseCase programUseCase
+        ProgramUseCase programUseCase,
+        ProgramValidator programValidator
     ) {
         register(new AbstractBinder() {
             @Override
@@ -27,6 +28,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(oxygenUseCase).to(OxygenUseCase.class);
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
+                bind(programValidator).to(ProgramValidator.class);
             }
         });
     }

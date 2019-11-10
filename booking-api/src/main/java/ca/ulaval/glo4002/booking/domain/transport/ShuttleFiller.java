@@ -31,7 +31,7 @@ public class ShuttleFiller {
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int passengers) {
-        return shuttleToVerify.hasCorrectDate(date) && shuttleToVerify.hasCorrectCategory(shuttleCategory) && !shuttleToVerify.availableCapacity(passengers);
+        return shuttleToVerify.hasCorrectDate(date) && shuttleToVerify.hasCorrectCategory(shuttleCategory) && shuttleToVerify.hasAvailableCapacity(passengers);
     }
 
     private void assignNewPlaces(Shuttle availableShuttle, PassNumber passNumber, int passengers) {

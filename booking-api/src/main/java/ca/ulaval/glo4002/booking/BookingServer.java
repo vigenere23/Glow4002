@@ -88,7 +88,8 @@ public class BookingServer implements Runnable {
             transportUseCase,
             oxygenUseCase,
             artistRankingUseCase,
-            programUseCase
+            programUseCase,
+            programValidator
         ).packages("ca.ulaval.glo4002.booking");
     }
 }

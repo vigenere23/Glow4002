@@ -48,9 +48,9 @@ public class ShuttleTest {
         boolean fullShuttle;
         shuttle.addPassNumber(PASS_NUMBER); 
         
-        fullShuttle = shuttle.availableCapacity(ONE_PLACE);
+        fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
 
-        assertFalse(fullShuttle);
+        assertTrue(fullShuttle);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ShuttleTest {
         shuttle.addPassNumber(PASS_NUMBER);
         shuttle.addPassNumber(PASS_NUMBER);
 
-        assertTrue(shuttle.availableCapacity(ONE_PLACE));
+        assertFalse(shuttle.hasAvailableCapacity(ONE_PLACE));
     }
 }
 

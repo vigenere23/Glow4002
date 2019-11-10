@@ -28,13 +28,13 @@ public class ProgramValidatorTest {
     }
 
     @Test
-    public void whenValidateProgram_thenValidateProgramCreation() {
+    public void whenValidateProgram_thenProgramIsCreated() {
         programValidator.validateProgram(singleDaysProgram);
         assertDoesNotThrow(() -> {});
     }
 
     @Test
-    public void givenOutOfFestivalDate_whenValidateProgram_thenValidateProgramIsInvalid() {
+    public void givenOutOfFestivalDate_whenValidateProgram_thenProgramIsInvalid() {
         singleDay = new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 12));
         singleDaysProgram.set(0 , singleDay);
 
@@ -42,7 +42,7 @@ public class ProgramValidatorTest {
     }
     
     @Test
-    public void givenTwoIdenticalDates_whenValidateProgram_thenValidateProgramIsInvalid() {
+    public void givenTwoIdenticalDates_whenValidateProgram_thenProgramIsInvalid() {
         singleDay = new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 18));
         singleDaysProgram.set(0 , singleDay);
 
@@ -50,7 +50,7 @@ public class ProgramValidatorTest {
     }
   
     @Test
-    public void givenTooLongProgram_whenValidateProgram_thenValidateProgramIsInvalid() {
+    public void givenTooLongProgram_whenValidateProgram_thenProgramIsInvalid() {
         singleDay = new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 18));
         singleDaysProgram.add(singleDay);
 
@@ -58,7 +58,7 @@ public class ProgramValidatorTest {
     }
 
     @Test
-    public void givenSameArtistForTwoDays_whenValidateProgram_thenValidateProgramIsInvalid() {
+    public void givenSameArtistForTwoDays_whenValidateProgram_thenProgramIsInvalid() {
         singleDay = new SingleDayProgram(Activity.CARDIO, "Coldray", LocalDate.of(2050, 07, 17));
         singleDaysProgram.set(0 , singleDay);
 
