@@ -20,10 +20,11 @@ class transportReserverTest {
 
     @BeforeEach
     public void setUp() {
+        ShuttleRepository shuttleRepository = mock(ShuttleRepository.class);
         Shuttle mockedShuttle = mock(SpaceX.class);
         someShuttles.add(mockedShuttle);
 
-        transportReserver = new TransportReserver();
+        transportReserver = new TransportReserver(shuttleRepository);
     }
 
     // TODO (issue #144)

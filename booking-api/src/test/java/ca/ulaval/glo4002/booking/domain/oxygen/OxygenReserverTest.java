@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class OxygenReserverTest {
 
@@ -22,23 +23,28 @@ class OxygenReserverTest {
     private final static LocalDate FIVE_DAYS_BEFORE_FESTIVAL_DATE = FESTIVAL_STARTING_DATE.minusDays(5);
 
     private EnumMap<OxygenGrade, OxygenInventory> oxygenInventories = new EnumMap<>(OxygenGrade.class);
-    private SortedMap<LocalDate, OxygenDateHistory> oxygenHistory = new TreeMap<>();
+    private OxygenInventory oxygenInventory;
     private OxygenFactory oxygenFactory;
+    private OxygenInventoryRepository oxygenInventoryRepository;
+    private OxygenHistoryRepository oxygenHistoryRepository;
     private OxygenReserver oxygenReserver;
 
     @BeforeEach
     public void setUp() {
         initializeOxygenInventories();
         oxygenFactory = new OxygenFactory(FESTIVAL_STARTING_DATE);
-
-        oxygenReserver = new OxygenReserver(oxygenFactory);
+        oxygenInventoryRepository = mock(OxygenInventoryRepository.class);
+        oxygenInventory = new OxygenInventory(OxygenGrade.A, 0, 0);
+        when(oxygenInventoryRepository.findByGrade(any(OxygenGrade.class))).thenReturn(oxygenInventory);
+        oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
+        oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanTankFabricationQuantity_thenTankFabricationQuantityIsAdded() {
-        oxygenReserver.reserveOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY, oxygenInventories, oxygenHistory);
+        oxygenReserver.reserveOxygen(ONE_MONTH_BEFORE_FESTIVAL_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_GRADE_A_TANK_FABRICATION_QUANTITY);
 
-        int expectedInventory = oxygenInventories.get(OxygenGrade.A).getInventory();
+        int expectedInventory = oxygenInventory.getInventory();
         assertEquals(5, expectedInventory);
     }
 

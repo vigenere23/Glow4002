@@ -8,17 +8,23 @@ import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 public class TransportReserver {
 
     private ShuttleFiller shuttleFiller;
+    private ShuttleRepository shuttleRepository;
     
-    public TransportReserver() {
+    public TransportReserver(ShuttleRepository shuttleRepository) {
+        this.shuttleRepository = shuttleRepository;
         shuttleFiller = new ShuttleFiller();
     }
     
-    public List<Shuttle> reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> departureShuttles) {
-        return assignNewPlace(departureShuttles, shuttleCategory, date, passNumber);
+    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
+        List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passNumber);
+        shuttleRepository.saveDeparture(shuttlesToSave);
     }
     
-    public List<Shuttle> reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, List<Shuttle> arrivalShuttles) {
-        return assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber);
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+        List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
+        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber);
+        shuttleRepository.saveArrival(shuttlesToSave);
     }   
 
     private List<Shuttle> assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {

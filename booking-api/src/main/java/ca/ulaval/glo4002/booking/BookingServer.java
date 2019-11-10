@@ -60,17 +60,17 @@ public class BookingServer implements Runnable {
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenFactory oxygenFactory = new OxygenFactory(festivalDates.getStartDate().minusDays(1));
-        OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory);
+        OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        TransportReserver transportReserver = new TransportReserver();
+        TransportReserver transportReserver = new TransportReserver(shuttleRepository);
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassFactory passFactory = new PassFactory(festivalDates);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, shuttleRepository, oxygenReserver, oxygenInventoryRepository, oxygenHistoryRepository);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
 
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);

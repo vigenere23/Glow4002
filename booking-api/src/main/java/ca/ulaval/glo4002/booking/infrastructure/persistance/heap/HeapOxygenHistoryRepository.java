@@ -16,7 +16,7 @@ public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
     }
 
     @Override
-    public void saveOxygenHistory(SortedMap<LocalDate, OxygenDateHistory> history) {
+    public void save(SortedMap<LocalDate, OxygenDateHistory> history) {
         this.history = history;
     }
 

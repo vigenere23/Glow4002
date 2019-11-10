@@ -23,9 +23,7 @@ public class PassFactory {
                 validateEventDateAbsence(eventDate);
                 return createPackagePass(passCategory);
             default:
-                throw new IllegalArgumentException(
-                    String.format("No pass exists for option %s", passOption.toString())
-                );
+                throw new IllegalArgumentException(String.format("No pass exists for option %s", passOption.toString()));
         }
     }
 
@@ -56,8 +54,7 @@ public class PassFactory {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    String.format("No pass exists for category %s", passCategory.toString())
-                );
+                        String.format("No pass exists for category %s", passCategory.toString()));
         }
 
         return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, eventDate, eventDate);
@@ -78,8 +75,7 @@ public class PassFactory {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    String.format("No pass exists for category %s", passCategory.toString())
-                );
+                        String.format("No pass exists for category %s", passCategory.toString()));
         }
 
         return new Pass(festivalDates, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
