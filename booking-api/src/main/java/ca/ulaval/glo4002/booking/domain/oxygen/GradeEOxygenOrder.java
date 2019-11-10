@@ -8,7 +8,7 @@ public class GradeEOxygenOrder extends OxygenOrder {
         super(limitDeliveryDate, tankFabricationQuantity, fabricationTimeInDays);
     }
 
-    protected void initializeQuantitiesPerBatch() {
-        orderDateQuantitiesPerBatch.put(HistoryType.OXYGEN_TANK_BOUGHT, tankFabricationQuantity);
+    protected void initializeQuantitiesRequiredPerBatch() {
+        quantitiesRequiredPerBatchForOrderDate.put(HistoryType.OXYGEN_TANK_BOUGHT, tankFabricationQuantity);
     }
 }

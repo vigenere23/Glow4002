@@ -19,7 +19,8 @@ public class OxygenUseCase {
         return oxygenInventoryRepository.findAll();
     }
 
-    public SortedMap<LocalDate, OxygenDateHistory> getOxygenHistory() {
-        return oxygenHistoryRepository.findOxygenHistory();
+    public SortedMap<LocalDate, OxygenHistoryItem> getOxygenHistory() {
+
+        return oxygenHistoryRepository.findAll();
     }
 }

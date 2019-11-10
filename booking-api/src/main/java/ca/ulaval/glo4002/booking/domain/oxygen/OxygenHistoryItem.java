@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.EnumSet;
 
-public class OxygenDateHistory {
+public class OxygenHistoryItem {
 
     private EnumMap<HistoryType, Integer> oxygenHistory;
     private LocalDate date;
 
-    public OxygenDateHistory(LocalDate date) {
+    public OxygenHistoryItem(LocalDate date) {
         this.date = date;
         initializeOxygenInventory();
     }
@@ -27,11 +27,11 @@ public class OxygenDateHistory {
         oxygenHistory.put(type, currentQuantity + quantity);
     }
 
-    public void updateQuantities(OxygenDateHistory oxygenDateHistory) {
-        if (!oxygenDateHistory.getDate().equals(date)) {
-            throw new IllegalArgumentException("Both OxygenDateHistory don't have the same date.");
+    public void updateQuantities(OxygenHistoryItem oxygenHistoryItem) {
+        if (!oxygenHistoryItem.getDate().equals(date)) {
+            throw new IllegalArgumentException("Both OxygenHistoryItem don't have the same date.");
         }
-        oxygenDateHistory.getOxygenHistory().forEach(this::updateQuantity);
+        oxygenHistoryItem.getOxygenHistory().forEach(this::updateQuantity);
     }
 
     private void initializeOxygenInventory() {
