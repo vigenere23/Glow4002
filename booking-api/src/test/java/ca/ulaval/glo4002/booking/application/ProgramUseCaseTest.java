@@ -10,7 +10,6 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.program.Program;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -19,7 +18,6 @@ public class ProgramUseCaseTest {
 
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
-    private Program program;
     private ProgramUseCase programUseCase;
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDayProgram;

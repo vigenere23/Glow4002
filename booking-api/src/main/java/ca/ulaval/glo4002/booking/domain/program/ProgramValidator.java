@@ -9,18 +9,17 @@ import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
-public class Program {
-    private List<SingleDayProgram> program;
+public class ProgramValidator {
     private FestivalDates glow4002Dates;
+    private List<SingleDayProgram> program; 
 
-    public Program(List<SingleDayProgram> program, FestivalDates glow4002Dates) {
-        this.program = program;
+    public ProgramValidator(FestivalDates glow4002Dates) {
 		this.glow4002Dates = glow4002Dates;
-		validateProgram();
     }
      
-    private void validateProgram() {
-        for(SingleDayProgram programForOneDay : program) {
+    public void validateProgram(List<SingleDayProgram> program) {
+        this.program = program;
+        for(SingleDayProgram programForOneDay : this.program) {
         	programForOneDay.validateIfAmAndPm();
 			programForOneDay.validateActivityOnlyOnAm();
 			validateArtistDifferentOnEachDay(programForOneDay);
@@ -53,9 +52,5 @@ public class Program {
 
     private List<LocalDate> retrieveDates() {
         return program.stream().map(SingleDayProgram::getDate).collect(Collectors.toList());
-    }
-
-    public List<SingleDayProgram> getSingleDayPrograms() {
-        return program;
     }
 }

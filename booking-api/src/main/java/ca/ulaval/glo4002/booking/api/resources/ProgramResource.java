@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import ca.ulaval.glo4002.booking.api.dtoMappers.ProgramMapper;
 import ca.ulaval.glo4002.booking.api.dtos.program.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 @Path("/program")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,18 +21,18 @@ public class ProgramResource {
 
     private ProgramMapper programMapper;
     private ProgramUseCase programUseCase;
-    private FestivalDates glow4002Dates;
+    private ProgramValidator programValidator;
 
     @Inject
-    public ProgramResource(ProgramUseCase programUseCase, FestivalDates glow4002Dates) {
-        this.glow4002Dates = glow4002Dates;
+    public ProgramResource(ProgramUseCase programUseCase, ProgramValidator programValidator) {
         this.programUseCase = programUseCase;
+        this.programValidator = programValidator;
         programMapper = new ProgramMapper();
     }
 
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
-        programUseCase.provideProgramResources(programMapper.fromDto(request, glow4002Dates));
+        programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
         return Response.status(200).contentLocation(new URI("/")).build();
     }
 }

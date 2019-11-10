@@ -14,11 +14,11 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 public class SingleDayProgram {
 
     private static final int QUANTITY_BY_ARTIST = 6;
+    private static final OxygenGrade OXYGEN_GRADE = OxygenGrade.E;
     private Activity activity;
     private String artistName;
     private LocalDate date;
     private int oxygenQuantity;
-    private OxygenGrade oxygenGrade = OxygenGrade.E;
 
     public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
         this.activity = activity;
@@ -53,9 +53,9 @@ public class SingleDayProgram {
     public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
 
-        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity);
+        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity); // ne fonctionne pas il faut avoir 15 oxy de plus par personne par activité à revor Sam
         
-        oxygenReserver.reserveOxygen(date, oxygenGrade, oxygenQuantity);
+        oxygenReserver.reserveOxygen(date, OXYGEN_GRADE, oxygenQuantity);
     }
 
     public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {
