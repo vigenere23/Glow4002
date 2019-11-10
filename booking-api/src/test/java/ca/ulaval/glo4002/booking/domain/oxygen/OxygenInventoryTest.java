@@ -17,7 +17,6 @@ class OxygenInventoryTest {
         oxygenInventory.updateInventory(SOME_QUANTITY_TO_FABRICATE);
 
         int expectedInventory = SOME_INVENTORY + SOME_QUANTITY_TO_FABRICATE;
-        int actualInventory = oxygenInventory.getInventory();
-        assertEquals(expectedInventory, actualInventory);
+        assertEquals(expectedInventory, oxygenInventory.getInventory());
     }
 }

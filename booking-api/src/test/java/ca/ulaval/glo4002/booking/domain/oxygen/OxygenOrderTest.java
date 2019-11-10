@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OxygenOrderTest {
 
-    private static final int SOME_FABRICATION_TIME_IN_DAYS = 20;
-    private static final int SOME_TANK_FABRICATION_QUANTITY = 5;
-    private static final int SOME_FABRICATION_QUANTITY = 3;
-    private static final int QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY = 3;
-    private static final int QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES = 7;
-    private static final HistoryType SOME_ORDER_DATE_HISTORY_TYPE = HistoryType.CANDLES_USED;
-    private static final HistoryType SOME_COMPLETION_DATE_HISTORY_TYPE = HistoryType.OXYGEN_TANK_MADE;
+    private final static int SOME_FABRICATION_TIME_IN_DAYS = 20;
+    private final static int SOME_TANK_FABRICATION_QUANTITY = 5;
+    private final static int SOME_FABRICATION_QUANTITY = 3;
+    private final static int QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY = 3;
+    private final static int QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES = 7;
+    private final static HistoryType SOME_ORDER_DATE_HISTORY_TYPE = HistoryType.CANDLES_USED;
+    private final static HistoryType SOME_COMPLETION_DATE_HISTORY_TYPE = HistoryType.OXYGEN_TANK_MADE;
     private final static LocalDate SOME_FESTIVAL_START_DATE = LocalDate.of(2050, 7, 17);
     private final static LocalDate SOME_ORDER_DATE = SOME_FESTIVAL_START_DATE.minusMonths(1);
     private final static LocalDate COMPLETION_DATE = LocalDate.of(2050, 7, 7);

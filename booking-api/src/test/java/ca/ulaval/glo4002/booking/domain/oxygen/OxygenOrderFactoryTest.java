@@ -14,7 +14,7 @@ class OxygenOrderFactoryTest {
     private OxygenOrderFactory oxygenOrderFactory;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpOxygenOrderFactory() {
         oxygenOrderFactory = new OxygenOrderFactory(SOME_FESTIVAL_STARTING_DATE);
     }
 

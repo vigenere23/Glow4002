@@ -22,7 +22,6 @@ public abstract class OxygenOrder {
 
     public boolean isEnoughTimeToFabricate(LocalDate orderDate) {
         LocalDate fabricationCompletionDate = orderDate.plusDays(fabricationTimeInDays);
-
         return fabricationCompletionDate.isBefore(limitDeliveryDate) || fabricationCompletionDate.equals(limitDeliveryDate);
     }
 
@@ -41,19 +40,18 @@ public abstract class OxygenOrder {
     }
 
     private int getQuantityOfFabricationBatchesRequired(int requiredQuantity) {
-        if (requiredQuantity % tankFabricationQuantity > 0) {
-            return requiredQuantity / tankFabricationQuantity + 1;
-        }
-        return requiredQuantity / tankFabricationQuantity;
+        return requiredQuantity % tankFabricationQuantity > 0 ? requiredQuantity / tankFabricationQuantity + 1 : requiredQuantity / tankFabricationQuantity;
     }
 
     public SortedMap<LocalDate, OxygenHistoryItem> getOxygenOrderHistory(LocalDate orderDate, int requiredQuantity) {
         SortedMap<LocalDate, OxygenHistoryItem> oxygenOrderHistory = new TreeMap<>();
-        if (requiredQuantity >= 0) {
-            LocalDate completionDate = getFabricationCompletionDate(orderDate);
-            oxygenOrderHistory.put(orderDate, getOrderDateHistory(orderDate, requiredQuantity));
-            oxygenOrderHistory.put(completionDate, getCompletionDateHistory(completionDate, requiredQuantity));
-        }
+        return requiredQuantity >= 0 ? updateOxygenOrderHistory(oxygenOrderHistory, orderDate, requiredQuantity) : oxygenOrderHistory;
+    }
+
+    private SortedMap<LocalDate, OxygenHistoryItem> updateOxygenOrderHistory(SortedMap<LocalDate, OxygenHistoryItem> oxygenOrderHistory, LocalDate orderDate, int requiredQuantity) {
+        LocalDate completionDate = getFabricationCompletionDate(orderDate);
+        oxygenOrderHistory.put(orderDate, getOrderDateHistory(orderDate, requiredQuantity));
+        oxygenOrderHistory.put(completionDate, getCompletionDateHistory(completionDate, requiredQuantity));
         return oxygenOrderHistory;
     }
 
@@ -62,17 +60,11 @@ public abstract class OxygenOrder {
     }
 
     private OxygenHistoryItem getOrderDateHistory(LocalDate orderDate, int orderedQuantity) {
-        if (!quantitiesRequiredPerBatchForOrderDate.isEmpty()) {
-            return generateHistoryItem(orderDate, orderedQuantity, quantitiesRequiredPerBatchForOrderDate);
-        }
-        return new OxygenHistoryItem(orderDate);
+        return !quantitiesRequiredPerBatchForOrderDate.isEmpty() ? generateHistoryItem(orderDate, orderedQuantity, quantitiesRequiredPerBatchForOrderDate) : new OxygenHistoryItem(orderDate);
     }
 
     private OxygenHistoryItem getCompletionDateHistory(LocalDate completionDate, int orderedQuantity) {
-        if (!quantitiesRequiredPerBatchForCompletionDate.isEmpty()) {
-            return generateHistoryItem(completionDate, orderedQuantity, quantitiesRequiredPerBatchForCompletionDate);
-        }
-        return new OxygenHistoryItem(completionDate);
+        return !quantitiesRequiredPerBatchForCompletionDate.isEmpty() ? generateHistoryItem(completionDate, orderedQuantity, quantitiesRequiredPerBatchForCompletionDate) : new OxygenHistoryItem(completionDate);
     }
 
     private OxygenHistoryItem generateHistoryItem(LocalDate date, int orderedQuantity, EnumMap<HistoryType, Integer> quantitiesRequiredPerBatch) {

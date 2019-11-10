@@ -90,7 +90,7 @@ class OxygenHistoryItemTest {
     }
 
     @Test
-    public void givenAnotherOxygenDateHistoryWithOtherDate_whenUpdateWithIt_thenException() {
+    public void givenAnotherOxygenDateHistoryWithOtherDate_whenUpdateWithIt_thenExceptionIsThrown() {
         OxygenHistoryItem someOxygenHistoryItem = new OxygenHistoryItem(SOME_OTHER_DATE);
 
         assertThrows(IllegalArgumentException.class, () -> oxygenHistoryItem.updateQuantities(someOxygenHistoryItem));
