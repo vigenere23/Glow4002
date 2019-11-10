@@ -22,7 +22,7 @@ public class PassFactoryTest {
     private static final Optional<LocalDate> EMPTY_EVENT_DATE = Optional.empty();
     
     @BeforeEach
-    public void setUp() {
+    public void setupPassFactory() {
         festivalDates = mock(FestivalDates.class);
         passFactory = new PassFactory(festivalDates);
     }

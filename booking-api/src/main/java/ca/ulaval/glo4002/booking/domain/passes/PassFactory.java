@@ -29,13 +29,13 @@ public class PassFactory {
 
     private void validateEventDatePresence(Optional<LocalDate> eventDate) {
         if (!eventDate.isPresent()) {
-            throw new IllegalArgumentException("An event date is required");
+            throw new IllegalArgumentException("An event date is required for single pass creation");
         }
     }
 
     private void validateEventDateAbsence(Optional<LocalDate> eventDate) {
         if (eventDate.isPresent()) {
-            throw new IllegalArgumentException("No event date must be specified");
+            throw new IllegalArgumentException("No event date must be specified for package pass creation");
         }
     }
 

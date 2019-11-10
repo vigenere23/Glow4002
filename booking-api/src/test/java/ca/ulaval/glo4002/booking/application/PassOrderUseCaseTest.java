@@ -31,8 +31,8 @@ public class PassOrderUseCaseTest {
     private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
     private static final LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
     private static final OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(SOME_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
-    private static final PassOption PASS_OPTION = PassOption.SINGLE_PASS;
-    private static final PassCategory PASS_CATEGORY = PassCategory.NEBULA;
+    private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
+    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
 
     private PassOrderFactory passOrderFactory;
     private TransportReserver transportReserver;
@@ -53,8 +53,8 @@ public class PassOrderUseCaseTest {
 
         mockPassOrder();
         passRequest = mock(PassRequest.class);
-        when(passRequest.getPassOption()).thenReturn(PASS_OPTION);
-        when(passRequest.getPassCategory()).thenReturn(PASS_CATEGORY);
+        when(passRequest.getPassOption()).thenReturn(SOME_PASS_OPTION);
+        when(passRequest.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
         when(passRequest.getEventDates()).thenReturn(Optional.empty());
         when(passOrderFactory.create(
             any(OffsetDateTime.class), any(VendorCode.class), any(PassOption.class), any(PassCategory.class), any())
@@ -67,11 +67,11 @@ public class PassOrderUseCaseTest {
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
-        verify(passOrderFactory).create(SOME_ORDER_DATE, SOME_VENDOR_CODE, PASS_OPTION, PASS_CATEGORY, Optional.empty());
+        verify(passOrderFactory).create(SOME_ORDER_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, Optional.empty());
     }
 
     @Test
-    public void whenOrchestPassCreation_thenSavePassOrderInRepository() {
+    public void whenOrchestPassCreation_thenPassOrderIsSavedInRepository() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
         verify(passOrderRepository).save(passOrder);

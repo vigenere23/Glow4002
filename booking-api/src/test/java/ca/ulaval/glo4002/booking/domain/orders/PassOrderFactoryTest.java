@@ -29,15 +29,15 @@ public class PassOrderFactoryTest {
     private PassFactory passFactory;
     private PassOrderFactory passOrderFactory;
     
-    private static final OffsetDateTime ANY_ORDER_DATE = OffsetDateTime.now();
-    private static final VendorCode VENDOR_CODE = VendorCode.TEAM;
-    private static final PassOption ANY_PASS_OPTION = PassOption.PACKAGE;
-    private static final PassCategory ANY_PASS_CATEGORY = PassCategory.NEBULA;
+    private static final OffsetDateTime SOME_DATE = OffsetDateTime.now();
+    private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    private static final PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
+    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
     private static final Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
     private static final Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
 
     @BeforeEach
-    public void setUp() {
+    public void setupPassOrderFactory() {
         festivalDates = mock(FestivalDates.class);
         passFactory = mock(PassFactory.class);
         passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
@@ -45,26 +45,26 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenOrderDateOutsideFestivalSaleDates_whenCreatingOrder_itThrowsOutOfSaleDateException() {
-        doThrow(new OutOfSaleDatesException(OffsetDateTime.now(), OffsetDateTime.now()))
+        doThrow(new OutOfSaleDatesException(SOME_DATE, SOME_DATE))
             .when(festivalDates).validateOrderDate(any(OffsetDateTime.class));
         Optional<List<LocalDate>> anyEventDates = Optional.empty();
 
         assertThatExceptionOfType(OutOfSaleDatesException.class).isThrownBy(() -> {
-            passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, anyEventDates);
+            passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, anyEventDates);
         });
     }
 
     @Test
     public void givenNoEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
-        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATES_LIST);
-        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATE);
+        passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATES_LIST);
+        verify(passFactory, times(1)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATE);
     }
 
     @Test
     public void givenEmptyListOfEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
-        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, emptyList);
-        verify(passFactory, times(1)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATE);
+        passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
+        verify(passFactory, times(1)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATE);
     }
 
     @Test
@@ -73,14 +73,14 @@ public class PassOrderFactoryTest {
         LocalDate date = LocalDate.now();
         Optional<List<LocalDate>> eventDates = Optional.of(getListOfDates(NUMBER_OF_DATES, date));
 
-        passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, eventDates);
+        passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, eventDates);
         
-        verify(passFactory, times(NUMBER_OF_DATES)).create(ANY_PASS_OPTION, ANY_PASS_CATEGORY, Optional.of(date));
+        verify(passFactory, times(NUMBER_OF_DATES)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, Optional.of(date));
     }
 
     @Test
     public void givenNoEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
-        PassOrder passOrder = passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, NO_EVENT_DATES_LIST);
+        PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATES_LIST);
         int numberOfPasses = passOrder.getPasses().size();
         assertThat(numberOfPasses).isEqualTo(1);
     }
@@ -89,7 +89,7 @@ public class PassOrderFactoryTest {
     public void givenEmptyListOfEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
         
-        PassOrder passOrder = passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, emptyList);
+        PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
         
         int numberOfPasses = passOrder.getPasses().size();
         assertThat(numberOfPasses).isEqualTo(1);
@@ -101,7 +101,7 @@ public class PassOrderFactoryTest {
         LocalDate date = LocalDate.now();
         Optional<List<LocalDate>> eventDates = Optional.of(getListOfDates(NUMBER_OF_DATES, date));
 
-        PassOrder passOrder = passOrderFactory.create(ANY_ORDER_DATE, VENDOR_CODE, ANY_PASS_OPTION, ANY_PASS_CATEGORY, eventDates);
+        PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, eventDates);
 
         int numberOfPasses = passOrder.getPasses().size();
         assertThat(numberOfPasses).isEqualTo(NUMBER_OF_DATES);
