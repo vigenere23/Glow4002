@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
@@ -21,8 +22,9 @@ public class PassOrder {
         this.passes = passes;
         
         orderNumber = new OrderNumber(vendorCode);
-        orderDiscount = new SupergiantSinglePassDiscount();
-        orderDiscount.setNextDiscount(new NebulaSinglePassDiscount());
+        orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
+            new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
+        );
     }
 
     public Price getPrice() {

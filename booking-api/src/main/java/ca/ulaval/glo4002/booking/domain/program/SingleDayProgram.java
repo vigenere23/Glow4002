@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.domain.program;
 
 import java.time.LocalDate;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.api.dtos.program.Activity;
@@ -13,14 +12,11 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class SingleDayProgram {
 
@@ -60,9 +56,9 @@ public class SingleDayProgram {
         return glow4002Dates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenProducer oxygenProducer, ArtistRepository artistRepository, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
-        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
+        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findAll();
         SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
         oxygenQuantity = artist.getGroupSize()*6;
 
@@ -72,26 +68,14 @@ public class SingleDayProgram {
             oxygenQuantity += 10;
         }
 
-        oxygenProducer.orderOxygen(date, oxygenGrade, oxygenQuantity, inventories, history);
+        //oxygenReserver.orderOxygen(date, oxygenGrade, oxygenQuantity, inventories, history);
     }
 
-    public void orderShuttle(TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistRepository artistRepository) {
+    public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
         ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttle(artist.getGroupSize());
-        reserveDepartureShuttles(shuttleCategory, transportReservation, shuttleRepository, artist);
-        reserveArrivalShuttles(shuttleCategory, transportReservation, shuttleRepository,artist);
-    }
-
-    private void reserveDepartureShuttles(ShuttleCategory shuttleCategory, TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistProgramInformation artist) {
-        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveShuttle(shuttleCategory, date, artist.getId() , departureShuttles, artist.getGroupSize());
-        shuttleRepository.saveDeparture(departureShuttles);
-    }
-
-    private void reserveArrivalShuttles(ShuttleCategory shuttleCategory, TransportReservation transportReservation, ShuttleRepository shuttleRepository, ArtistProgramInformation artist) {
-        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveShuttle(shuttleCategory, date, artist.getId() , departureShuttles, artist.getGroupSize());
-        shuttleRepository.saveDeparture(departureShuttles);
+        transportReserver.reserveDeparture(shuttleCategory, date, artist.getId(), artist.getGroupSize());
+        transportReserver.reserveArrival(shuttleCategory, date, artist.getId(), artist.getGroupSize());
     }
 
 }

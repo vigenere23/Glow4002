@@ -1,24 +1,14 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
 public class Pass {
@@ -32,17 +22,19 @@ public class Pass {
     private LocalDate endDate;
     private ShuttleCategory shuttleCategory;
     private OxygenGrade oxygenGrade;
-    int oxygenQuantityPerDay;
+    private int oxygenQuantityPerDay;
 
-    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price, LocalDate startDate, LocalDate endDate) {
+    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
+            LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDates(startDate, endDate);
 
-        this.passNumber = new PassNumber();
         this.passOption = passOption;
         this.passCategory = passCategory;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
+
+        passNumber = new PassNumber();
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
@@ -51,7 +43,7 @@ public class Pass {
     public boolean isOfType(PassOption passOption, PassCategory passCategory) {
         return this.passOption == passOption && this.passCategory == passCategory;
     }
-    
+
     public Price getPrice() {
         return price;
     }
@@ -72,31 +64,13 @@ public class Pass {
         return startDate;
     }
 
-    public void reserveShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
-        reserveDepartureShuttles(transportReservation, shuttleRepository);
-        reserveArrivalShuttles(transportReservation, shuttleRepository);
+    public void reserveShuttles(TransportReserver transportReserver) {
+        transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber, ONE_PLACE);
+        transportReserver.reserveArrival(shuttleCategory, endDate, passNumber, ONE_PLACE);
     }
 
-    private void reserveDepartureShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
-        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        departureShuttles = transportReservation.reserveShuttle(shuttleCategory, startDate, passNumber, departureShuttles, ONE_PLACE);
-        shuttleRepository.saveDeparture(departureShuttles);
-    }
-
-    private void reserveArrivalShuttles(TransportReservation transportReservation, ShuttleRepository shuttleRepository) {
-        List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        arrivalShuttles = transportReservation.reserveShuttle(shuttleCategory, startDate, passNumber, arrivalShuttles, ONE_PLACE);
-        shuttleRepository.saveArrival(arrivalShuttles);
-    }
-
-    public void orderOxygen(LocalDate orderDate, OxygenProducer oxygenProducer, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
-        EnumMap<OxygenGrade, OxygenInventory> inventories = oxygenInventoryRepository.findInventories();
-        SortedMap<LocalDate, OxygenDateHistory> history = oxygenHistoryRepository.findOxygenHistory();
-
+    public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {
         int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
-        oxygenProducer.orderOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays, inventories, history);
-
-        oxygenInventoryRepository.saveOxygenInventories(inventories);
-        oxygenHistoryRepository.saveOxygenHistory(history);
+        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
     }
 }

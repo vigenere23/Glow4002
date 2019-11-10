@@ -17,8 +17,7 @@ public class ResourceConfiguration extends ResourceConfig {
         TransportUseCase transportUseCase,
         OxygenUseCase oxygenUseCase,
         ArtistRankingUseCase artistRankingUseCase,
-        ProgramUseCase programUseCase,
-        FestivalDates festival
+        ProgramUseCase programUseCase
     ) {
         register(new AbstractBinder() {
             @Override
@@ -28,7 +27,6 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(oxygenUseCase).to(OxygenUseCase.class);
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
-                bind(festival).to(FestivalDates.class);
             }
         });
     }

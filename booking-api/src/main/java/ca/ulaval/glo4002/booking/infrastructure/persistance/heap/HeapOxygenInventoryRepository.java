@@ -23,12 +23,17 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     }
 
     @Override
-    public void saveOxygenInventories(EnumMap<OxygenGrade, OxygenInventory> inventories) {
-        this.inventories = inventories;
+    public EnumMap<OxygenGrade, OxygenInventory> findAll() {
+        return inventories;
     }
 
     @Override
-    public EnumMap<OxygenGrade, OxygenInventory> findInventories() {
-        return inventories;
+    public OxygenInventory findByGrade(OxygenGrade oxygenGrade) {
+        return inventories.get(oxygenGrade);
+    }
+
+    @Override
+    public void save(OxygenInventory oxygenInventory) {
+        this.inventories.put(oxygenInventory.getOxygenGrade(), oxygenInventory);
     }
 }

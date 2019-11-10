@@ -5,14 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
 import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
 public class Program {
@@ -60,12 +54,8 @@ public class Program {
     private List<LocalDate> retrieveDates() {
         return program.stream().map(SingleDayProgram::getDate).collect(Collectors.toList());
     }
-    
-    public void provideProgramResources(TransportReservation transportReservation, ShuttleRepository shuttleRepository, OxygenProducer oxygenProducer, ArtistRepository artistRepository,
-     OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
-        for (SingleDayProgram programForOneDay : program) {   
-            programForOneDay.orderOxygen(oxygenProducer, artistRepository, oxygenInventoryRepository, oxygenHistoryRepository);
-            programForOneDay.orderShuttle(transportReservation, shuttleRepository, artistRepository);
-        }
+
+    public List<SingleDayProgram> getSingleDayPrograms() {
+        return program;
     }
 }

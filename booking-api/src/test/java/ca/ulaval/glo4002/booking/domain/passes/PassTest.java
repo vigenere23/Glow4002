@@ -18,19 +18,19 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenProducer;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReservation;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class PassTest {
     private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
@@ -40,289 +40,149 @@ class PassTest {
     private static final LocalDate SOME_START_DATE = LocalDate.of(2050, 7,18);
     private static final LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
     private static final int NUMBER_OF_FESTIVAL_DAYS = 5;
+    private static final int SOME_PLACES = 2;
     private static final LocalDate FESTIVAL_START = LocalDate.of(2050, 7,17);
     private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
-    private static final int NEBULA_OXYGEN_QUANTITY = 3;
-    private static final int SUPERGIANT_OXYGEN_QUANTITY = 3;
-    private static final int SUPERNOVA_OXYGEN_QUANTITY = 5;
-    private static final OxygenGrade NEBULA_OXYGEN_GRADE = OxygenGrade.A;
-    private static final OxygenGrade SUPERGIANT_OXYGEN_GRADE = OxygenGrade.B;
-    private static final OxygenGrade SUPERNOVA_OXYGEN_GRADE = OxygenGrade.E;
-    private static final ShuttleCategory NEBULA_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
-    private static final ShuttleCategory SUPERGIANT_SHUTTLE_CATEGORY = ShuttleCategory.MILLENNIUM_FALCON;
-    private static final ShuttleCategory SUPERNOVA_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
-    private static final int ONE_PLACE = 1;
 
-    private FestivalDates someFestivalDates;
-    private TransportReservation transportReservation;
-    private OxygenProducer oxygenProducer;
-    private List<Shuttle> shuttlesEarth = new LinkedList<>();
-    private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
+    private FestivalDates festivalDates;
     private Price price;
-    private ShuttleRepository shuttleRepository;
-    private OxygenInventoryRepository oxygenInventoryRepository;
-    private OxygenHistoryRepository oxygenHistoryRepository;
-    private EnumMap<OxygenGrade, OxygenInventory> someOxygenInventories = new EnumMap<>(OxygenGrade.class);
-    private SortedMap<LocalDate, OxygenDateHistory> someOxygenHistory = new TreeMap<>();
+    private TransportReserver transportReserver;
+    private OxygenReserver oxygenReserver;
     
     @BeforeEach
     public void setUp() {
-        mockShuttles();
-        mockShuttleRepository();
-        mockOxygenIventoryRepository();
-        mockOxygenHistoryRepository();
-        transportReservation = mock(TransportReservation.class);
-        someFestivalDates = new Glow4002Dates();
-        price = mock(Price.class);
-        transportReservation = mock(TransportReservation.class);
-        oxygenProducer = mock(OxygenProducer.class);
-    }
-    
-    @Test
-    public void givenSomePass_whenReserveShuttles_thenGetDepartureShuttleFromRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
+        festivalDates = new Glow4002Dates();
+        price = Price.zero();
+        transportReserver = mock(TransportReserver.class);
+        oxygenReserver = mock(OxygenReserver.class);
     }
 
     @Test
-    public void givenSomePass_whenReserveShuttles_thenSaveDepartureShuttleInRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-        mockTransportReservation(passNumber);
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(shuttleRepository).saveDeparture(shuttlesEarth);
+    public void whenReservingShuttles_thenItReservesASingleDeparture() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+        pass.reserveShuttles(transportReserver);
+        verify(transportReserver, times(1)).reserveDeparture(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenReserveShuttles_thenGetArrivalShuttleFromRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
+    public void whenReservingShuttles_thenItReservesASingleArrival() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+        pass.reserveShuttles(transportReserver);
+        verify(transportReserver, times(1)).reserveArrival(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenReserveShuttles_thenSaveArrivalShuttleInRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-        mockTransportReservation(passNumber);
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(shuttleRepository).saveArrival(shuttlesUlavalogy);
+    public void whenReservingShuttles_thenDepartureShuttlesAreReservedWithStartDateAndPassNumber() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+        pass.reserveShuttles(transportReserver);
+        verify(transportReserver).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, pass.getPassNumber(), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenOrderOxygen_thenGetOxygenInventoriesFromRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
-
-        verify(oxygenInventoryRepository).findInventories();
+    public void whenReserveShuttles_thenArrivalShuttlesAreReservedWithEndDateAndPassNumber() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+        pass.reserveShuttles(transportReserver);
+        verify(transportReserver).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_END_DATE, pass.getPassNumber(), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenOrderOxygen_thenGetOxygenHistoryFromRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+    public void givenNebulaPass_whenReserveShuttles_thenSpaceXShuttlesAreReserved() {
+        Pass pass = createSimplePass(SOME_PASS_OPTION, PassCategory.NEBULA, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.reserveShuttles(transportReserver);
 
-        verify(oxygenHistoryRepository).findOxygenHistory();
+        verify(transportReserver).reserveDeparture(ShuttleCategory.SPACE_X, SOME_START_DATE, pass.getPassNumber(), SOME_PLACES);
+        verify(transportReserver).reserveArrival(ShuttleCategory.SPACE_X, SOME_END_DATE, pass.getPassNumber(), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenOrderOxygen_thenSaveOxygenInventoriesInRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+    public void givenSupergiantPass_whenReserveShuttles_thenMillenniumFalconShuttlesAreReserved() {
+        Pass pass = createSimplePass(SOME_PASS_OPTION, PassCategory.SUPERGIANT, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.reserveShuttles(transportReserver);
 
-        verify(oxygenInventoryRepository).saveOxygenInventories(someOxygenInventories);
+        verify(transportReserver).reserveDeparture(ShuttleCategory.MILLENNIUM_FALCON, SOME_START_DATE, pass.getPassNumber(), SOME_PLACES);
+        verify(transportReserver).reserveArrival(ShuttleCategory.MILLENNIUM_FALCON, SOME_END_DATE, pass.getPassNumber(), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenOrderOxygen_thenSaveOxygenHistoryInRepository() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
+    public void givenSupernovaPass_whenReserveShuttles_thenEtSpaceshipShuttlesAreReserved() {
+        Pass pass = createSimplePass(SOME_PASS_OPTION, PassCategory.SUPERNOVA, SOME_START_DATE, SOME_END_DATE);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.reserveShuttles(transportReserver);
 
-        verify(oxygenHistoryRepository).saveOxygenHistory(someOxygenHistory);
+        verify(transportReserver).reserveDeparture(ShuttleCategory.ET_SPACESHIP, SOME_START_DATE, pass.getPassNumber(), SOME_PLACES);
+        verify(transportReserver).reserveArrival(ShuttleCategory.ET_SPACESHIP, SOME_END_DATE, pass.getPassNumber(), SOME_PLACES);
     }
 
     @Test
-    public void givenSomePass_whenReserveShuttles_thenDepartureShuttlesAreReserved() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-        mockTransportReservation(passNumber);
+    public void givenNebulaSinglePass_whenOrderOxygen_thenThreeGradeAOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        pass.reserveShuttles(transportReservation, shuttleRepository);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(transportReservation, times(2)).reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth, ONE_PLACE);
+        OxygenGrade expectedGrade = OxygenGrade.A;
+        int expectedQuantity = 3;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenSomePass_whenReserveShuttles_thenArrivalShuttlesAreReserved() {
-        Pass pass = createPass(SOME_PASS_OPTION, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-        mockTransportReservation(passNumber);
+    public void givenSupergiantSinglePass_whenOrderOxygen_thenThreeGradeBOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        pass.reserveShuttles(transportReservation, shuttleRepository);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(transportReservation, times(2)).reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy, ONE_PLACE);
+        OxygenGrade expectedGrade = OxygenGrade.B;
+        int expectedQuantity = 3;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenNebulaPackagePass_whenReserveShuttles_thenSpaceXShuttlesAreReserved() {
-        Pass pass = createPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
-        PassNumber passNumber = pass.getPassNumber();
+    public void givenSupernovaSinglePass_whenOrderOxygen_thenFiveGradeEOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
 
-        pass.reserveShuttles(transportReservation, shuttleRepository);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(transportReservation, times(2)).reserveShuttle(NEBULA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
+        OxygenGrade expectedGrade = OxygenGrade.E;
+        int expectedQuantity = 5;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenNebulaPackagePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createPass(PassOption.PACKAGE, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+    public void givenNebulaPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeAOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
+        OxygenGrade expectedGrade = OxygenGrade.A;
+        int expectedQuantity = 3 * NUMBER_OF_FESTIVAL_DAYS;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenNebulaSinglePass_whenReserveShuttles_thenSpaceXShuttlesAreReserved() {
-        Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-        PassNumber passNumber = pass.getPassNumber();
+    public void givenSupergiantPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeBOxygenIsOrdered()  {
+        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
 
-        pass.reserveShuttles(transportReservation, shuttleRepository);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(transportReservation, times(2)).reserveShuttle(NEBULA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
+        OxygenGrade expectedGrade = OxygenGrade.B;
+        int expectedQuantity = 3 * NUMBER_OF_FESTIVAL_DAYS;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
-    public void givenNebulaSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+    public void givenSupernovaPackagePass_whenOrderOxygen_thenFiveTimesNumberOfDaysGradeEOxygenIsOrdered() {
+        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
 
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, NEBULA_OXYGEN_GRADE, NEBULA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
+        OxygenGrade expectedGrade = OxygenGrade.E;
+        int expectedQuantity = 5 * NUMBER_OF_FESTIVAL_DAYS;
+        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
-    @Test
-    public void givenSupergiantPackagePass_whenReserveShuttles_thenMillenniumFalconShuttlesAreReserved()  {
-        Pass pass = createPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
-        PassNumber passNumber = pass.getPassNumber();
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(transportReservation, times(2)).reserveShuttle(SUPERGIANT_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
-    }
-
-    @Test
-    public void givenSupergiantPackagePass_whenOrderOxygen_thenOxygenIsOrdered()  {
-        Pass pass = createPass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
-
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
-
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
-    }
-
-    @Test
-    public void givenSupergiantSinglePass_whenReserveShuttles_thenMillenniumFalconShuttlesAreReserved() {
-        Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(transportReservation, times(2)).reserveShuttle(SUPERGIANT_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
-    }
-
-    @Test
-    public void givenSupergiantSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
-
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERGIANT_OXYGEN_GRADE, SUPERGIANT_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
-    }
-
-    @Test
-    public void givenSupernovaPackagePass_whenReserveShuttles_thenEtSpaceshipShuttlesAreReserved() {
-        Pass pass = createPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
-        PassNumber passNumber = pass.getPassNumber();
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(transportReservation, times(2)).reserveShuttle(SUPERNOVA_SHUTTLE_CATEGORY, FESTIVAL_START, passNumber, shuttlesEarth, ONE_PLACE);
-    }
-
-    @Test
-    public void givenSupernovaPackagePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createPass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
-
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
-
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY * NUMBER_OF_FESTIVAL_DAYS, someOxygenInventories, someOxygenHistory);
-    }
-
-    @Test
-    public void givenSupernovaSinglePass_whenReserveShuttles_thenEtSpaceshipShuttlesAreReserved() {
-        Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-        PassNumber passNumber = pass.getPassNumber();
-
-        pass.reserveShuttles(transportReservation, shuttleRepository);
-
-        verify(transportReservation, times(2)).reserveShuttle(SUPERNOVA_SHUTTLE_CATEGORY, IN_BETWEEN_FESTIVAL_DATE, passNumber, shuttlesEarth, ONE_PLACE);
-    }
-
-    @Test
-    public void givenSupernovaSinglePass_whenOrderOxygen_thenOxygenIsOrdered() {
-        Pass pass = createPass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
-
-        pass.orderOxygen(SOME_ORDER_DATE, oxygenProducer, oxygenInventoryRepository, oxygenHistoryRepository);
-
-        verify(oxygenProducer).orderOxygen(SOME_ORDER_DATE, SUPERNOVA_OXYGEN_GRADE, SUPERNOVA_OXYGEN_QUANTITY, someOxygenInventories, someOxygenHistory);
-    }
-
-    private void mockShuttles() {
-        Shuttle mockedShuttle = mock(SpaceX.class);
-
-        shuttlesEarth.add(mockedShuttle);
-        shuttlesUlavalogy.add(mockedShuttle);
-    }
-
-    private void mockOxygenIventoryRepository() {
-        oxygenInventoryRepository = mock(OxygenInventoryRepository.class);
-
-        when(oxygenInventoryRepository.findInventories()).thenReturn(someOxygenInventories);
-    }
-
-    private void mockOxygenHistoryRepository() {
-        oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
-
-        when(oxygenHistoryRepository.findOxygenHistory()).thenReturn(someOxygenHistory);
-    }
-
-    private void mockShuttleRepository() {
-        shuttleRepository = mock(HeapShuttleRepository.class);
-
-        when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
-        when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
-    }
-
-    private void mockTransportReservation(PassNumber passNumber) {
-        when(transportReservation.reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesEarth, ONE_PLACE)).thenReturn(shuttlesEarth);
-        when(transportReservation.reserveShuttle(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, passNumber, shuttlesUlavalogy, ONE_PLACE)).thenReturn(shuttlesUlavalogy);
-    }
-    
-    private Pass createPass(PassOption passOption, PassCategory passCategory, LocalDate start, LocalDate end) {
-        return new Pass(someFestivalDates, passOption, passCategory, price, start, end);
+    private Pass createSimplePass(PassOption passOption, PassCategory passCategory, LocalDate startDate, LocalDate endDate) {
+        return new Pass(festivalDates, passOption, passCategory, price, startDate, endDate);
     }
 }
