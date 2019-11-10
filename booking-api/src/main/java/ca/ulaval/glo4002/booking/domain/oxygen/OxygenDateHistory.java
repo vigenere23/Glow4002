@@ -28,7 +28,7 @@ public class OxygenDateHistory {
     }
 
     public void updateQuantities(OxygenDateHistory oxygenDateHistory) {
-        if (oxygenDateHistory.getDate() != date) {
+        if (oxygenDateHistory.getDate().compareTo(date) < 0) {
             throw new IllegalArgumentException("Both OxygenDateHistory don't have the same date.");
         }
         oxygenDateHistory.getOxygenHistory().forEach(this::updateQuantity);
