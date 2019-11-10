@@ -23,15 +23,22 @@ public class ProgramValidator {
             //TODO voir SingleDayProgram
         	// programForOneDay.validateIfAmAndPm();
 			// programForOneDay.validateActivityOnlyOnAm();
-			validateArtistDifferentOnEachDay(programForOneDay);
+            validateArtistDifferentOnEachDay(programForOneDay);
+            validateOnlyArtistOnPm(programForOneDay);
 			validateEventDates(programForOneDay);
 		}
 	}
 
-    private void validateArtistDifferentOnEachDay(SingleDayProgram programForOneDay) {
+	private void validateArtistDifferentOnEachDay(SingleDayProgram programForOneDay) {
 		if(Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) != 1) {
 			throw new InvalidProgramException();
 		}
+    }
+    
+    private void validateOnlyArtistOnPm(SingleDayProgram programForOneDay) {
+        for(String artistName : retrieveArtists()) {
+            Activity.artistIsActivity(artistName);
+        }
 	}
 	
     private List<String> retrieveArtists() {

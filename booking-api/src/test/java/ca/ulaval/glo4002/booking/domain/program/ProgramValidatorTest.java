@@ -68,6 +68,14 @@ public class ProgramValidatorTest {
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
     }
 
+    @Test
+    public void givenActivityStringForPm_whenValidateProgram_thenProgramIsInvalid() {
+        singleDay = new SingleDayProgram(SOME_ACTIVITY, "yoga", LocalDate.of(2050, 07, 17));
+        singleDaysProgram.set(0 , singleDay);
+
+        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
+    }
+
     private void createProgram() {
         singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 17)));
         singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Sun 41", LocalDate.of(2050, 07, 18)));
