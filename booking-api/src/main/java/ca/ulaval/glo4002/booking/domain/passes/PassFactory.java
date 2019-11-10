@@ -18,15 +18,13 @@ public class PassFactory {
     }
 
     public Pass create(PassOption passOption, PassCategory passCategory, LocalDate eventDate) {
-        switch(passOption) {
+        switch (passOption) {
             case SINGLE_PASS:
                 return createSinglePass(passCategory, eventDate);
             case PACKAGE:
                 return createPackagePass(passCategory);
             default:
-                throw new IllegalArgumentException(
-                    String.format("No pass exists for option %s", passOption.toString())
-                );
+                throw new IllegalArgumentException(String.format("No pass exists for option %s", passOption.toString()));
         }
     }
 
@@ -37,7 +35,7 @@ public class PassFactory {
 
         Price price = Price.zero();
 
-        switch(passCategory) {
+        switch (passCategory) {
             case NEBULA:
                 price = new Price(50000);
                 break;
@@ -49,8 +47,7 @@ public class PassFactory {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    String.format("No pass exists for category %s", passCategory.toString())
-                );
+                        String.format("No pass exists for category %s", passCategory.toString()));
         }
 
         return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, eventDate, eventDate);
@@ -59,7 +56,7 @@ public class PassFactory {
     private Pass createPackagePass(PassCategory passCategory) {
         Price price = Price.zero();
 
-        switch(passCategory) {
+        switch (passCategory) {
             case NEBULA:
                 price = new Price(250000);
                 break;
@@ -71,10 +68,10 @@ public class PassFactory {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    String.format("No pass exists for category %s", passCategory.toString())
-                );
+                        String.format("No pass exists for category %s", passCategory.toString()));
         }
 
-        return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
+        return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, festivalDates.getStartDate(),
+                festivalDates.getEndDate());
     }
 }

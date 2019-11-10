@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
@@ -23,12 +25,17 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     }
 
     @Override
-    public void saveOxygenInventories(EnumMap<OxygenGrade, OxygenInventory> inventories) {
-        this.inventories = inventories;
+    public List<OxygenInventory> findAll() {
+        return new ArrayList<>(inventories.values());
     }
 
     @Override
-    public EnumMap<OxygenGrade, OxygenInventory> findInventories() {
-        return inventories;
+    public OxygenInventory findByGrade(OxygenGrade oxygenGrade) {
+        return inventories.get(oxygenGrade);
+    }
+
+    @Override
+    public void save(OxygenInventory oxygenInventory) {
+        this.inventories.put(oxygenInventory.getOxygenGrade(), oxygenInventory);
     }
 }
