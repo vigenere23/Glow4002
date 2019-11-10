@@ -17,6 +17,7 @@ class OxygenDateHistoryTest {
     private static final int SOME_QUANTITY = 2;
     private static final int SOME_OTHER_QUANTITY = 6;
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 6, 22);
+    private final static LocalDate SOME_DATE_DIFFERENT_INSTANCE = LocalDate.of(2050, 6, 22);
     private final static LocalDate SOME_OTHER_DATE = SOME_DATE.plusDays(1);
 
     private OxygenDateHistory oxygenDateHistory;
@@ -72,7 +73,7 @@ class OxygenDateHistoryTest {
     }
 
     private OxygenDateHistory initializeOtherDateHistory() {
-        OxygenDateHistory someOxygenDateHistory = new OxygenDateHistory(SOME_DATE);
+        OxygenDateHistory someOxygenDateHistory = new OxygenDateHistory(SOME_DATE_DIFFERENT_INSTANCE);
         someOxygenDateHistory.updateQuantity(HistoryType.OXYGEN_TANK_BOUGHT, SOME_OXYGEN_TANK_BOUGHT_QTY);
         someOxygenDateHistory.updateQuantity(HistoryType.OXYGEN_TANK_MADE, SOME_OXYGEN_TANK_MADE_QTY);
         someOxygenDateHistory.updateQuantity(HistoryType.WATER_USED, SOME_WATER_USED_QTY);
