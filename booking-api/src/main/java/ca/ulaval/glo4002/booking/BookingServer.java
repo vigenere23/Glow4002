@@ -8,29 +8,23 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
-import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
-import ca.ulaval.glo4002.booking.application.TransportUseCase;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.api.resources.artists.dto.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.application.*;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
-
-import ca.ulaval.glo4002.booking.application.OxygenUseCase;
-import ca.ulaval.glo4002.booking.domain.oxygen.*;
-import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
-import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
+import ca.ulaval.glo4002.booking.domain.oxygen.*;
+import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.*;
+
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
