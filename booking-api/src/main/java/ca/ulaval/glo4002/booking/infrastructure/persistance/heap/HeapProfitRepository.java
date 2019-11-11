@@ -4,28 +4,28 @@ import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 
 public class HeapProfitRepository implements ProfitRepository {
 
-    private float income = 10.00f;
-    private float outcome = 100.00f;
+    private float income = 0f;
+    private float outcome = 0f;
 
     @Override
-    public float getIncome() {
+    public float findIncome() {
         return income;
     }
 
     @Override
-    public float getOutcome() {
+    public float findOutcome() {
         return outcome;
     }
 
     @Override
     public void saveIncome(float income) {
-        this.income += income;
+        this.income = income;
 
     }
 
     @Override
     public void saveOutcome(float outcome) {
-        this.outcome += outcome;
+        this.outcome = outcome;
     }
     
 }

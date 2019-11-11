@@ -18,6 +18,7 @@ import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
@@ -83,7 +84,8 @@ public class BookingServer implements Runnable {
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
         ProfitRepository profitRepository = new HeapProfitRepository();
-        ProfitUseCase profitUseCase = new ProfitUseCase(profitRepository);
+        ProfitCalculator profitCalculator = new ProfitCalculator(profitRepository) ;
+        ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator);
 
         return new ResourceConfiguration(
             passOrderUseCase,

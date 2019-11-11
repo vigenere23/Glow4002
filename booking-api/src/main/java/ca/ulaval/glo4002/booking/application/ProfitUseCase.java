@@ -1,25 +1,25 @@
 package ca.ulaval.glo4002.booking.application;
 
-import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 
 public class ProfitUseCase {
 
-	private ProfitRepository profitRepository;
+	private ProfitCalculator profitCalculator;
 
-	public ProfitUseCase(ProfitRepository profitRepository) {
-		this.profitRepository = profitRepository;
+	public ProfitUseCase(ProfitCalculator profitCalculator) {
+		this.profitCalculator = profitCalculator;
 	}
 
 	public float getIncome() {
-		return profitRepository.getIncome();
+		return profitCalculator.getIncome();
 	}
 
 	public float getOutcome() {
-		return profitRepository.getOutcome();
+		return profitCalculator.getOutcome();
 	}
 
 	public float getProfit() {
-		return 0f;
+		return profitCalculator.getProfit();
 	}
 
 }
