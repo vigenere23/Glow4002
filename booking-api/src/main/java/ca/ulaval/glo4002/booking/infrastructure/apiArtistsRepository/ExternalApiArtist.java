@@ -11,7 +11,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import ca.ulaval.glo4002.booking.api.resources.artists.dto.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
 
 public class ExternalApiArtist implements ApiArtist, Closeable {
 

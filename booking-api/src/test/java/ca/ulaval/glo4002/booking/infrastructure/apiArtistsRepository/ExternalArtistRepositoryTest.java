@@ -10,9 +10,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.api.resources.artists.dto.ArtistDto;
-import ca.ulaval.glo4002.booking.api.resources.artists.dto.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistRankingInformationMapper;
 
 public class ExternalArtistRepositoryTest {
 

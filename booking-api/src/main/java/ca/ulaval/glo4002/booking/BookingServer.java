@@ -8,7 +8,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.api.resources.artists.dto.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.application.*;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
@@ -22,6 +21,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.*;
 
