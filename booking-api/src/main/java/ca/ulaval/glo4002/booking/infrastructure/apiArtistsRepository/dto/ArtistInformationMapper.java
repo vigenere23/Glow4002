@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos;
+package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
