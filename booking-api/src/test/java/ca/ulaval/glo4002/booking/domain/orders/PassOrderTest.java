@@ -47,18 +47,18 @@ public class PassOrderTest {
 
         nebulaSinglePassMock = mock(Pass.class);
         when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
-        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA))
-            .thenReturn(true);
+        when(nebulaSinglePassMock.isOfTypeOption(PassOption.SINGLE_PASS)).thenReturn(true);
+        when(nebulaSinglePassMock.isOfTypeCategory(PassCategory.NEBULA)).thenReturn(true);
 
         supergiantSinglePassMock = mock(Pass.class);
         when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
-        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT))
-            .thenReturn(true);
+        when(supergiantSinglePassMock.isOfTypeOption(PassOption.SINGLE_PASS)).thenReturn(true);
+        when(supergiantSinglePassMock.isOfTypeCategory(PassCategory.SUPERGIANT)).thenReturn(true);
     }
 
     @Test
     public void NoPasses_whenGettingPrice_itShouldBeZero() {
-        PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<Pass>());
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<>());
         Price nullPrice = Price.zero();
         assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
     }

@@ -26,7 +26,8 @@ public class Pass {
 
     public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
             LocalDate startDate, LocalDate endDate) {
-        festivalDates.validateEventDates(startDate, endDate);
+        festivalDates.validateEventDate(startDate);
+        festivalDates.validateEventDate(endDate);
 
         this.passOption = passOption;
         this.passCategory = passCategory;
@@ -40,8 +41,16 @@ public class Pass {
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
     }
 
-    public boolean isOfType(PassOption passOption, PassCategory passCategory) {
-        return this.passOption == passOption && this.passCategory == passCategory;
+    public boolean isOfTypeOption(PassOption passOption) {
+        return this.passOption == passOption;
+    }
+
+    public boolean isOfTypeCategory(PassCategory passCategory) {
+        return this.passCategory == passCategory;
+    }
+
+    public boolean isOfDate(LocalDate eventDate) {
+        return this.startDate.equals(eventDate);
     }
 
     public Price getPrice() {

@@ -24,9 +24,7 @@ public enum Activity {
             .findFirst();
 
         if (!value.isPresent()) {
-            throw new IllegalArgumentException(
-                String.format("No enum value for string %s", text)
-            );
+            throw new InvalidProgramException();
         }
         return value.get();
     }

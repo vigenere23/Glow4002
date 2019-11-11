@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
@@ -9,7 +9,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 public abstract class Shuttle {
     
     protected int capacity;
-    protected List<PassNumber> passNumbers = new LinkedList<PassNumber>();
+    protected List<PassNumber> passNumbers = new ArrayList<>();
     protected LocalDate date;
     protected ShuttleCategory category;
 
@@ -34,7 +34,7 @@ public abstract class Shuttle {
     }
 
     public boolean hasCorrectDate(LocalDate date) {
-        return this.date == date ? true : false;
+        return this.date.equals(date) ? true : false;
     }
 
 	public boolean hasCorrectCategory(ShuttleCategory shuttleCategory) {

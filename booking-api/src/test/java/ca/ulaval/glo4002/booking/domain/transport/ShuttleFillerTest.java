@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class ShuttleFillerTest {
     @BeforeEach
     public void setUpShuttleFiller() {
         firstMockedShuttle = mock(Shuttle.class);
-        shuttles = new LinkedList<Shuttle>();
+        shuttles = new ArrayList<>();
         shuttleFiller = new ShuttleFiller();
     }
 

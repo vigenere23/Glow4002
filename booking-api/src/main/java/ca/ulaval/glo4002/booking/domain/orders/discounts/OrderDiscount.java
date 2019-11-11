@@ -23,7 +23,7 @@ public abstract class OrderDiscount {
     protected long getQuantityOfMatchingPasses(List<Pass> passes, PassOption passOption, PassCategory passCategory) {
         return passes
             .stream()
-            .filter(pass -> pass.isOfType(passOption, passCategory))
+            .filter(pass -> pass.isOfTypeOption(passOption) && pass.isOfTypeCategory(passCategory))
             .count();
     }
 
