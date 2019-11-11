@@ -18,7 +18,7 @@ public class ShuttleMapperTest {
     private ShuttleMapper shuttleMapper; 
 
     @BeforeEach
-    public void setUp() {
+    public void setUpMapper() {
         shuttleMapper = new ShuttleMapper();
         shuttles = new LinkedList<Shuttle>();
     }

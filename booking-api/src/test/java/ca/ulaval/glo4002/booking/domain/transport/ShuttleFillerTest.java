@@ -27,7 +27,7 @@ class ShuttleFillerTest {
     private Shuttle firstMockedShuttle; 
 
     @BeforeEach
-    public void setUp() {
+    public void setUpShuttleFiller() {
         firstMockedShuttle = mock(Shuttle.class);
         shuttles = new LinkedList<Shuttle>();
         shuttleFiller = new ShuttleFiller();

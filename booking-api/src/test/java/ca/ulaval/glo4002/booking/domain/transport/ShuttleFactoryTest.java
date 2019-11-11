@@ -13,7 +13,7 @@ class ShuttleFactoryTest {
    private final static LocalDate DATE = LocalDate.of(2050, 7, 19);
     
     @BeforeEach
-    public void setUp() {
+    public void setUpShuttleFactory() {
         shuttleFactory = new ShuttleFactory();
     }
     
