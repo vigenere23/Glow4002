@@ -26,6 +26,7 @@ public class SingleDayProgramRequest {
             this.activity = Activity.fromString(activity);
         }
         catch (Exception exception) {
+            System.out.println("cac");
             throw new InvalidFormatException();
         }
     }

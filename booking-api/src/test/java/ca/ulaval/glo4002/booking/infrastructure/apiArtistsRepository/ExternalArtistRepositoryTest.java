@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
 
 public class ExternalArtistRepositoryTest {
 
@@ -22,14 +22,14 @@ public class ExternalArtistRepositoryTest {
 
     private ApiArtist apiArtist;
     private ExternalArtistRepository externalArtistRepository;
-    private ArtistRankingInformationMapper artistRankingInformationMapper;
+    private ArtistInformationMapper artistInformationMapper;
     private List<ArtistDto> artistsDtoCollection;
 
     @BeforeEach
     public void setUpExternalArtistRepository() {
         apiArtist = mock(ApiArtist.class);
-        artistRankingInformationMapper = new ArtistRankingInformationMapper();
-        externalArtistRepository = new ExternalArtistRepository(artistRankingInformationMapper, apiArtist);
+        artistInformationMapper = new ArtistInformationMapper();
+        externalArtistRepository = new ExternalArtistRepository(artistInformationMapper, apiArtist);
         artistsDtoCollection = new ArrayList<>();
     }
 
