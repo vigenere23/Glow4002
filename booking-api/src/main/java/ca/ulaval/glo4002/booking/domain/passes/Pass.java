@@ -26,7 +26,8 @@ public class Pass {
 
     public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
             LocalDate startDate, LocalDate endDate) {
-        festivalDates.validateEventDates(startDate, endDate);
+        festivalDates.validateEventDate(startDate);
+        festivalDates.validateEventDate(endDate);
 
         this.passOption = passOption;
         this.passCategory = passCategory;
