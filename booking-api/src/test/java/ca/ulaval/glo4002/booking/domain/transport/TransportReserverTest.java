@@ -41,7 +41,7 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void givenShuttleCategoryPassNumbeDateAndPassengers_whenReserveDeparture_thenGetShuttlesList() {
+    public void whenReserveDeparture_thenGetShuttlesList() {
         transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, DATE, PASS_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
     }
@@ -55,7 +55,7 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void givenShuttleCategoryPassNumberDateAndPassengers_whenReserveArrival_thenCallMethodGetShuttles() {        
+    public void whenReserveArrival_thenCallMethodGetShuttles() {        
         transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, DATE, PASS_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
     }

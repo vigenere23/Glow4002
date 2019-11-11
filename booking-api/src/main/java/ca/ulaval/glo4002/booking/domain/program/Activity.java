@@ -11,6 +11,8 @@ public enum Activity {
     CARDIO("cardio");
 
     private final String text;
+    private static final int OXY_CARDIO = 15;
+    private static final int OXY_YOGA = 10; 
 
     private Activity(String text) {
         this.text = text;
@@ -40,7 +42,7 @@ public enum Activity {
     }
 
     public static int oxygenForActivity(Activity activity) {
-        return activity == CARDIO ? 15 : 10;
+        return activity == CARDIO ? OXY_CARDIO : OXY_YOGA;
     }
 
     public static void artistIsActivity(String artistName) {

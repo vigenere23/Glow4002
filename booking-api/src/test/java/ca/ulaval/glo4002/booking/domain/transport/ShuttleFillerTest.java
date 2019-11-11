@@ -82,7 +82,7 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleList_whenFillSomePlacesShuttle_thenAddFivePassNumberToShuttleNotFull() {
+    public void givenShuttleList_whenFillSomePlacesShuttle_thenAddSeveralPassNumberToShuttleNotFull() {
         when(firstMockedShuttle.hasAvailableCapacity(SOME_PLACES)).thenReturn(true);
         when(firstMockedShuttle.hasCorrectCategory(ShuttleCategory.MILLENNIUM_FALCON)).thenReturn(true);
         when(firstMockedShuttle.hasCorrectDate(DATE)).thenReturn(true);

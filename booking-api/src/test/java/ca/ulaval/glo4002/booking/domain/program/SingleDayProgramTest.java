@@ -61,7 +61,7 @@ public class SingleDayProgramTest {
     }
 
     @Test
-    public void whenIsDuringFestivalDate_thenFestivalVaidatesDate() {
+    public void whenIsDuringFestivalDate_thenFestivalValidatesDate() {
         singleDayProgram.isDuringFestivalDate(festivalDates);
         verify(festivalDates).isDuringEventTime(any(LocalDate.class));
     }
@@ -76,7 +76,7 @@ public class SingleDayProgramTest {
     }
 
     @Test
-    public void givenInvalidDate_whenIsDuringFestivalDate_thenIndicateThatDateIsNotInFestival() {
+    public void givenInvalidDate_whenIsDuringFestivalDate_thenIndicatesThatDateIsNotInFestival() {
         when(festivalDates.isDuringEventTime(SOME_DATE)).thenReturn(false);
 
         boolean validDate = singleDayProgram.isDuringFestivalDate(festivalDates);
