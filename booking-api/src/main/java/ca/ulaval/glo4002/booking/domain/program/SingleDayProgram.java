@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.program;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
@@ -8,7 +9,10 @@ import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.transport.Location;
+import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class SingleDayProgram {
@@ -19,6 +23,8 @@ public class SingleDayProgram {
     private String artistName;
     private LocalDate date;
     private int oxygenQuantity;
+    private int participantNumber;
+    private List<Shuttle> singleDayShuttles;
 
     public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
         this.activity = activity;
@@ -50,11 +56,15 @@ public class SingleDayProgram {
         return glow4002Dates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository) {
+    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository, ShuttleRepository shuttleRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
+        singleDayShuttles = shuttleRepository.findShuttlesByDate(Location.EARTH, date);
 
-        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity); // ne fonctionne pas il faut avoir 15 oxy de plus par personne par activité à revor Sam
+        for (Shuttle shuttle : singleDayShuttles) {
+           participantNumber += shuttle.getPassNumbers().size();
+        }
         
+        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity)*participantNumber;
         oxygenReserver.reserveOxygen(date, OXYGEN_GRADE, oxygenQuantity);
     }
 

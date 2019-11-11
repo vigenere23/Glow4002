@@ -79,7 +79,7 @@ public class BookingServer implements Runnable {
         ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository);
+        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, shuttleRepository);
         ProgramValidator programValidator = new ProgramValidator(festival);
 
 
