@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.booking.domain.artists;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +49,9 @@ public class DecreasingPriceOrderedArtistsTest {
     }
 
     private void addArtist(ArtistRankingInformation artist, float price, int popularity, String name) {
-        willReturn(price).given(artist).getPrice();
-        willReturn(popularity).given(artist).getPopularity();
-        willReturn(name).given(artist).getArtistName();
+        when(artist.getPrice()).thenReturn(price);
+        when(artist.getPopularity()).thenReturn(popularity);
+        when(artist.getArtistName()).thenReturn(name);
         artistsToOrder.add(artist);
     }
 }
