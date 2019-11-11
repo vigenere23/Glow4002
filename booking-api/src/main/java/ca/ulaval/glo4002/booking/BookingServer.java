@@ -25,6 +25,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -34,6 +35,7 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistR
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 
 
@@ -86,10 +88,11 @@ public class BookingServer implements Runnable {
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+        PassRepository passRepository = new HeapPassRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         externalApiArtist = new ExternalApiArtist();
         ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
