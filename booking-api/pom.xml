@@ -135,7 +135,7 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>true</skipTests>
+                            <skipTests>false</skipTests>
                             <includes>
                                 <include>**/*IT.java</include>
                             </includes>
