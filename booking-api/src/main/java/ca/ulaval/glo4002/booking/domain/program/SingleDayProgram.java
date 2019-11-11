@@ -9,10 +9,8 @@ import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class SingleDayProgram {
@@ -22,9 +20,8 @@ public class SingleDayProgram {
     private Activity activity;
     private String artistName;
     private LocalDate date;
+    private LocalDate programPostingDate = LocalDate.of(2050, 07, 12);
     private int oxygenQuantity;
-    private int participantNumber;
-    private List<Shuttle> singleDayShuttles;
 
     public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
         this.activity = activity;
@@ -41,32 +38,27 @@ public class SingleDayProgram {
     }
 
     //TODO va changer de place suite à la discussion pour la validation
-    // public void validateIfAmAndPm() {
-    //     if(activity == null || artistName.equals(null)) {
-    //         throw new InvalidProgramException();
-    //     }
-    // }
+    public void validateIfAmAndPm() {
+        if(activity == null || artistName.equals(null)) {
+            throw new InvalidProgramException();
+        }
+    }
 
-    // public void validateActivityOnlyOnAm() {
-    //     if(!Activity.contains(activity)) {
-    //         throw new InvalidProgramException();
-    //     }
-    // }
+    public void validateActivityOnlyOnAm() {
+        if(!Activity.contains(activity)) {
+            throw new InvalidProgramException();
+        }
+    }
 
     public boolean isDuringFestivalDate(FestivalDates festivalDates) {
         return festivalDates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository, ShuttleRepository shuttleRepository) {
+    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
-        singleDayShuttles = shuttleRepository.findShuttlesByDate(Location.EARTH, date);
-
-        for (Shuttle shuttle : singleDayShuttles) {
-           participantNumber += shuttle.getPassNumbers().size();
-        }
         
-        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity)*participantNumber;
-        oxygenReserver.reserveOxygen(date, OXYGEN_GRADE, oxygenQuantity);
+        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity);
+        oxygenReserver.reserveOxygen(programPostingDate, OXYGEN_GRADE, oxygenQuantity);
     }
 
     public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {

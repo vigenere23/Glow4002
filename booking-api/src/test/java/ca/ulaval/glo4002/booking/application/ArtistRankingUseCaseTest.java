@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.application;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +33,9 @@ public class ArtistRankingUseCaseTest {
         artistRankingFactory = mock(ArtistRankingFactory.class);
         decreasingPriceOrderedArtists = mock(DecreasingPriceOrderedArtists.class);
         artistRankingUseCase = new ArtistRankingUseCase(artistRepository, artistRankingFactory);
-    
-        willReturn(artistsToOrder).given(artistRepository).findArtistRankingInformation();
-        willReturn(decreasingPriceOrderedArtists).given(artistRankingFactory).createArtistRanking(SOME_RANKING_TYPE);
+        
+        when(artistRepository.findArtistRankingInformation()).thenReturn(artistsToOrder);
+        when(artistRankingFactory.createArtistRanking(SOME_RANKING_TYPE)).thenReturn(decreasingPriceOrderedArtists);
     }
 
     @Test

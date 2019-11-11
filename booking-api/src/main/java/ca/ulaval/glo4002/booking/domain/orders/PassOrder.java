@@ -15,7 +15,7 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 public class PassOrder {
 
     private OrderNumber orderNumber;
-    private List<Pass> passes = new ArrayList<Pass>();
+    private List<Pass> passes = new ArrayList<>();
     private OrderDiscount orderDiscount;
 
     public PassOrder(VendorCode vendorCode, List<Pass> passes) {

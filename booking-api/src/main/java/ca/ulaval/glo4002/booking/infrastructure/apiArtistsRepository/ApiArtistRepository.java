@@ -13,8 +13,8 @@ import javax.ws.rs.core.MediaType;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistDto;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
 
 public class ApiArtistRepository implements ArtistRepository {
     private ArtistInformationMapper artistInformationMapper;

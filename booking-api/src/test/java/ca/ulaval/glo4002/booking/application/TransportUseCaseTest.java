@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,8 +22,8 @@ class TransportUseCaseTest {
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);
     private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 7, 10);
 
-    private List<Shuttle> shuttlesEarth = new LinkedList<>();
-    private List<Shuttle> shuttlesUlavalogy = new LinkedList<>();
+    private List<Shuttle> shuttlesEarth = new ArrayList<>();
+    private List<Shuttle> shuttlesUlavalogy = new ArrayList<>();
     private FestivalDates festival;
     private ShuttleRepository shuttleRepository;
     private TransportUseCase transportUseCase;
@@ -98,7 +98,7 @@ class TransportUseCaseTest {
 
     @Test
     public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {
-        when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, SOME_DATE)).thenReturn(shuttlesEarth);
+        when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, SOME_DATE)).thenReturn(shuttlesUlavalogy);
 
         List<Shuttle> expectedShuttles = transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
         assertEquals(shuttlesUlavalogy, expectedShuttles);

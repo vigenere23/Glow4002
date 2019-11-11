@@ -12,14 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCaseTest {
 
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
-    private ShuttleRepository shuttleRepository;
     private ProgramUseCase programUseCase;
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDay;
@@ -28,10 +26,9 @@ public class ProgramUseCaseTest {
     public void setUpProgramUseCase() {
         singleDay = mock(SingleDayProgram.class);
         artistRepository = mock(ArtistRepository.class);
-        shuttleRepository = mock(ShuttleRepository.class);
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
-        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, shuttleRepository);
+        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository);
     }
 
     @Test

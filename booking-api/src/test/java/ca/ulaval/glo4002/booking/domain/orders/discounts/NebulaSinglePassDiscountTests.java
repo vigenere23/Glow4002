@@ -27,7 +27,7 @@ public class NebulaSinglePassDiscountTests {
     @BeforeEach
     public void setUp() {
         nebulaSinglePassDiscount = new NebulaSinglePassDiscount();
-        passes = new ArrayList<Pass>();
+        passes = new ArrayList<>();
     }
     
     @Test
