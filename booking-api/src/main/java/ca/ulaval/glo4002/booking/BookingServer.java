@@ -23,6 +23,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.passes.PassCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
@@ -93,12 +94,15 @@ public class BookingServer implements Runnable {
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         externalApiArtist = new ExternalApiArtist();
         ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository);
+
+        PassCounter passCounter = new PassCounter();
+        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, passCounter);
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
 

@@ -51,10 +51,10 @@ public class SingleDayProgram {
         return festivalDates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository) {
+    public void orderOxygen(OxygenReserver oxygenReserver, ArtistRepository artistRepository, int numberOfFestivalAttendees) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
 
-        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity); // ne fonctionne pas il faut avoir 15 oxy de plus par personne par activité à revor Sam
+        oxygenQuantity = artist.getGroupSize() * QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity) * numberOfFestivalAttendees;
         
         oxygenReserver.reserveOxygen(date, OXYGEN_GRADE, oxygenQuantity);
     }
