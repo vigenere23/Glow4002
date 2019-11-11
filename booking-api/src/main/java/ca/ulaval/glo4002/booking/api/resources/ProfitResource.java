@@ -7,24 +7,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.api.dtos.profit.ProfitResponse;
-import ca.ulaval.glo4002.booking.domain.profit.ProfitService;
+import ca.ulaval.glo4002.booking.application.ProfitUseCase;
 
 @Path("/report/profits")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProfitResource {
     
-    private ProfitService profitService;
+    private ProfitUseCase profitUseCase;
     
     @Inject
-    public ProfitResource(ProfitService profitService) {
-        this.profitService = profitService;
+    public ProfitResource(ProfitUseCase profitUseCase) {
+        this.profitUseCase = profitUseCase;
     }
 
     @GET
     public ProfitResponse profit() {
-        float income = profitService.getIncome();
-        float outcome = profitService.getOutcome();
-        float profit = income - outcome;
+        float income = profitUseCase.getIncome();
+        float outcome = profitUseCase.getOutcome();
+        float profit = profitUseCase.getProfit();
 
         return new ProfitResponse(income, outcome, profit);
     }

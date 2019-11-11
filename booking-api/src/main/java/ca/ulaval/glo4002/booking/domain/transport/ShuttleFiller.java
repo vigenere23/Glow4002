@@ -7,7 +7,11 @@ import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
 public class ShuttleFiller {
     
-    private ShuttleFactory shuttleFactory = new ShuttleFactory();
+    private ShuttleFactory shuttleFactory;
+
+    public ShuttleFiller() {
+        shuttleFactory = new ShuttleFactory();
+    }
     
     public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date);
@@ -20,14 +24,10 @@ public class ShuttleFiller {
 
     private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date) {
         Shuttle availableShuttle = shuttlesToFill.stream()
-            .filter(shuttle -> {
-                if (shuttleIsAvailable(shuttle, shuttleCategory, date)) {
-                    return true;
-                }
-                return false;
-            }).findAny()
+            .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date))
+            .findAny()
             .orElse(shuttleFactory.createShuttle(shuttleCategory, date));
-        return availableShuttle;                      
+        return availableShuttle;            
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date) {

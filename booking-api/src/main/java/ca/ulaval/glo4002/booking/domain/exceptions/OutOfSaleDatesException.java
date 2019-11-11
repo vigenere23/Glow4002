@@ -2,16 +2,16 @@ package ca.ulaval.glo4002.booking.domain.exceptions;
 
 import java.time.OffsetDateTime;
 
-import ca.ulaval.glo4002.booking.helpers.DateHelper;
+import ca.ulaval.glo4002.booking.helpers.DateFormatter;
 
-public class OutOfSaleDatesException extends Exception {
+public class OutOfSaleDatesException extends RuntimeException {
     
     public OutOfSaleDatesException(OffsetDateTime festivalSaleStart, OffsetDateTime festivalSaleEnd) {
         super(
             String.format(
                 "order date should be between %s and %s",
-                festivalSaleStart.format(DateHelper.dateFormatter),
-                festivalSaleEnd.format(DateHelper.dateFormatter)
+                festivalSaleStart.format(DateFormatter.outputFormatter),
+                festivalSaleEnd.format(DateFormatter.outputFormatter)
             )
         );
     }

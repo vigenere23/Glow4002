@@ -2,41 +2,76 @@ package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
 
-import org.joda.money.Money;
+import ca.ulaval.glo4002.booking.domain.Price;
 
-public abstract class Pass {
+import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
-    protected PassNumber passNumber;
-    protected Money price;
-    protected LocalDate startDate;
-    protected LocalDate endDate;
+public class Pass {
 
-    protected Pass(LocalDate startDate, LocalDate endDate) {
-        this.passNumber = new PassNumber();
+    private PassNumber passNumber;
+    private Price price;
+    private PassOption passOption;
+    private PassCategory passCategory;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private ShuttleCategory shuttleCategory;
+    private OxygenGrade oxygenGrade;
+    private int oxygenQuantityPerDay;
+
+    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
+            LocalDate startDate, LocalDate endDate) {
+        festivalDates.validateEventDate(startDate);
+        festivalDates.validateEventDate(endDate);
+
+        this.passOption = passOption;
+        this.passCategory = passCategory;
+        this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
+
+        passNumber = new PassNumber();
+        shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
+        oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
+        oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
     }
 
-    public Money getPrice() {
+    public boolean isOfType(PassOption passOption, PassCategory passCategory) {
+        return this.passOption == passOption && this.passCategory == passCategory;
+    }
+
+    public Price getPrice() {
         return price;
     }
 
-    public void setPassNumber(PassNumber id) {
-        this.passNumber = id;
-    }
-    
     public PassNumber getPassNumber() {
         return passNumber;
+    }
+
+    public PassOption getPassOption() {
+        return passOption;
+    }
+
+    public PassCategory getPassCategory() {
+        return passCategory;
     }
 
     public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public void reserveShuttles(TransportReserver transportReserver) {
+        transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber);
+        transportReserver.reserveArrival(shuttleCategory, endDate, passNumber);
     }
 
-    public abstract PassOption getPassOption();
-    public abstract PassCategory getPassCategory();
+    public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {
+        int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
+        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
+    }
 }

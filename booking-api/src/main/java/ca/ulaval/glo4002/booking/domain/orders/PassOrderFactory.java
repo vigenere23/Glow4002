@@ -4,57 +4,46 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.api.dtos.orders.PassRequest;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.domain.passes.factories.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
+import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassOrderFactory {
 
     private PassFactory passFactory;
-    private Glow4002 festival;
+    private FestivalDates festivalDates;
 
-    public PassOrderFactory(Glow4002 festival) {
-        this.festival = festival;
-        
-        passFactory = new PassFactory(festival);
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory) {
+        this.festivalDates = festivalDates;
+        this.passFactory = passFactory;
     }
 
-    public PassOrder create(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) throws OutOfFestivalDatesException, OutOfSaleDatesException {
-        validateOrderDate(orderDate);
-
-        List<Pass> passes = createPasses(passRequest);
-        PassOrder passOrder = new PassOrder(vendorCode, passes);
-        return passOrder;
+    public PassOrder create(
+        OffsetDateTime orderDate,
+        VendorCode vendorCode,
+        PassOption passOption,
+        PassCategory passCategory,
+        Optional<List<LocalDate>> eventDates
+    ) {
+        festivalDates.validateOrderDate(orderDate);
+        List<Pass> passes = createPasses(passOption, passCategory, eventDates);
+        return new PassOrder(vendorCode, passes);
     }
 
-    private List<Pass> createPasses(PassRequest passRequest) throws OutOfFestivalDatesException {
-        validatePassRequest(passRequest);
-
+    private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {
         List<Pass> passes = new ArrayList<>();
 
-        if (passRequest.eventDates == null || passRequest.eventDates.isEmpty()) {
-            passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, null));
-        } else {
-            for (LocalDate eventDate : passRequest.eventDates) {
-                passes.add(passFactory.create(passRequest.passOption, passRequest.passCategory, eventDate));
+        if (eventDates.isPresent() && !eventDates.get().isEmpty()) {
+            for (LocalDate eventDate : eventDates.get()) {
+                passes.add(passFactory.create(passOption, passCategory, Optional.of(eventDate)));
             }
+        } else {
+            passes.add(passFactory.create(passOption, passCategory, Optional.empty()));
         }
         return passes;
-    }
-
-    private void validateOrderDate(OffsetDateTime orderDate) throws OutOfSaleDatesException {
-        if (!festival.isDuringSaleTime(orderDate)) {
-            throw new OutOfSaleDatesException(festival.getSaleStartDate(), festival.getSaleEndDate());
-        }
-    }
-
-    private void validatePassRequest(PassRequest passRequest) {
-        if (passRequest == null) {
-            throw new IllegalArgumentException("Passes cannot be null");
-        }
     }
 }
