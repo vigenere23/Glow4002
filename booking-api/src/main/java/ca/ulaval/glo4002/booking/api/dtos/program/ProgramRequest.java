@@ -18,6 +18,8 @@ public class ProgramRequest {
             this.program = program;
         }
         catch (Exception exception) {
+            System.out.println("cac");
+
             throw new InvalidFormatException();
         }
     }

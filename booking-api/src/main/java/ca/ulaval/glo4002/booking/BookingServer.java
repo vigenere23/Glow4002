@@ -23,17 +23,20 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.passes.PassCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 
 
@@ -86,16 +89,20 @@ public class BookingServer implements Runnable {
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+        PassRepository passRepository = new HeapPassRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
-        ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+
+        ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
         externalApiArtist = new ExternalApiArtist();
-        ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
+        ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository);
+
+        PassCounter passCounter = new PassCounter();
+        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, passCounter);
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
 
