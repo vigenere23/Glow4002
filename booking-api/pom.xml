@@ -44,6 +44,23 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jersey.test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <version>2.27</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+            <version>2.27</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
         </dependency>
@@ -111,14 +128,14 @@
                 <version>1.12</version>
                 <executions>
                     <execution>
-                        <id>add-functional-test-sources</id>
+                        <id>add-integration-test-sources</id>
                         <phase>generate-test-sources</phase>
                         <goals>
                             <goal>add-test-source</goal>
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/functional-test/java</source>
+                                <source>src/integration-test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -135,9 +152,9 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>false</skipTests>
+                            <skipTests>true</skipTests>
                             <includes>
-                                <include>**/*FT.java</include>
+                                <include>**/*IT.java</include>
                             </includes>
                         </configuration>
                     </execution>
