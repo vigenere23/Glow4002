@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
+import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 
 public class ProgramRequest {
 
@@ -13,14 +13,12 @@ public class ProgramRequest {
 
     @JsonCreator
     public ProgramRequest(
-        @JsonProperty(value = "program", required = true) List<SingleDayProgramRequest> program) throws InvalidFormatException {
+        @JsonProperty(value = "program", required = true) List<SingleDayProgramRequest> program) {
         try {
             this.program = program;
         }
         catch (Exception exception) {
-            System.out.println("cac");
-
-            throw new InvalidFormatException();
+            throw new InvalidProgramException();
         }
     }
 }
