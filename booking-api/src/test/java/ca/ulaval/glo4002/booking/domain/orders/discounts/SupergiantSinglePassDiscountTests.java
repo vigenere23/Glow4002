@@ -27,7 +27,7 @@ public class SupergiantSinglePassDiscountTests {
 	@BeforeEach
 	public void setUp() {
 		supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
-		passes = new ArrayList<Pass>();
+		passes = new ArrayList<>();
 	}
 	
 	@Test

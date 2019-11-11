@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,8 +15,8 @@ public class HeapShuttleRepository implements ShuttleRepository {
     private List<Shuttle> arrivalShuttles;
 
     public HeapShuttleRepository() {
-        departureShuttles = new LinkedList<Shuttle>();
-        arrivalShuttles = new LinkedList<Shuttle>();
+        departureShuttles = new ArrayList<>();
+        arrivalShuttles = new ArrayList<>();
     }
 
     @Override

@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ class HeapShuttleRepositoryTest {
     @BeforeEach
     public void setUp() {
         shuttleRepository = new HeapShuttleRepository();
-        shuttles = new LinkedList<Shuttle>();
+        shuttles = new ArrayList<>();
     }
     
     @Test
@@ -42,7 +42,7 @@ class HeapShuttleRepositoryTest {
         Shuttle secondShuttle = new SpaceX(LocalDate.of(2050, 7, 20));
         shuttles.add(firstShuttle);
         shuttles.add(secondShuttle);
-        List<Shuttle> shuttlesByDate = new LinkedList<Shuttle>();
+        List<Shuttle> shuttlesByDate = new ArrayList<>();
         shuttlesByDate.add(firstShuttle);
         shuttleRepository.saveDeparture(shuttles);
 

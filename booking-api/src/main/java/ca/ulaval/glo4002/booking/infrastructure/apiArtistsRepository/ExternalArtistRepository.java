@@ -19,7 +19,7 @@ public class ExternalArtistRepository implements ArtistRepository {
     }
 
     public List<ArtistRankingInformation> findArtistRankingInformation() {
-        List<ArtistRankingInformation> artistRankingInformations = new ArrayList<ArtistRankingInformation>();
+        List<ArtistRankingInformation> artistRankingInformations = new ArrayList<>();
         List<ArtistDto> artistDtos = apiArtist.getArtistsDto();
         artistDtos.forEach(artistDto -> artistRankingInformations.add(artistRankingInformationMapper.fromDto(artistDto)));
         return artistRankingInformations;

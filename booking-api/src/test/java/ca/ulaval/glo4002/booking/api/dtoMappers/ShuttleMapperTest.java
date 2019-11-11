@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.api.dtoMappers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ public class ShuttleMapperTest {
     @BeforeEach
     public void setUp() {
         shuttleMapper = new ShuttleMapper();
-        shuttles = new LinkedList<Shuttle>();
+        shuttles = new ArrayList<>();
     }
 
     @Test

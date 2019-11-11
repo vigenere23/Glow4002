@@ -30,7 +30,7 @@ public class ExternalArtistRepositoryTest {
         apiArtist = mock(ApiArtist.class);
         artistRankingInformationMapper = new ArtistRankingInformationMapper();
         externalArtistRepository = new ExternalArtistRepository(artistRankingInformationMapper, apiArtist);
-        artistsDtoCollection = new ArrayList<ArtistDto>();
+        artistsDtoCollection = new ArrayList<>();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ExternalArtistRepositoryTest {
     }
 
     private ArtistDto createOneArtistDto() {
-        return new ArtistDto(1, SOME_ARTIST_NAME, 20, "MusicStyle", SOME_PRICE, SOME_POPULARITY_RANK, new ArrayList());
+        return new ArtistDto(1, SOME_ARTIST_NAME, 20, "MusicStyle", SOME_PRICE, SOME_POPULARITY_RANK, new ArrayList<>());
     }
 
     private void mockArtistDtoFromApiArtist(ArtistDto artistToAddToMock) {       

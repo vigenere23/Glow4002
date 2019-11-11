@@ -8,7 +8,7 @@ import java.util.List;
 public class OxygenInventoryMapper {
 
     public List<OxygenInventoryDto> toDto(List<OxygenInventory> oxygenInventories) {
-        ArrayList<OxygenInventoryDto> inventoryDto = new ArrayList<OxygenInventoryDto>();
+        ArrayList<OxygenInventoryDto> inventoryDto = new ArrayList<>();
         for (OxygenInventory oxygenInventory: oxygenInventories) {
             OxygenInventoryDto oxygenInventoryDto = new OxygenInventoryDto();
             oxygenInventoryDto.gradeTankOxygen = oxygenInventory.getOxygenGrade().toString();
