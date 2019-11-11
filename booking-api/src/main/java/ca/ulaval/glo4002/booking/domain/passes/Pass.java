@@ -50,7 +50,7 @@ public class Pass {
     }
 
     public boolean isOfDate(LocalDate eventDate) {
-        return this.startDate == eventDate;
+        return this.startDate.equals(eventDate);
     }
 
     public Price getPrice() {

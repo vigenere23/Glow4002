@@ -34,7 +34,7 @@ public abstract class Shuttle {
     }
 
     public boolean hasCorrectDate(LocalDate date) {
-        return this.date == date ? true : false;
+        return this.date.equals(date) ? true : false;
     }
 
 	public boolean hasCorrectCategory(ShuttleCategory shuttleCategory) {
