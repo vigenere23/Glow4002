@@ -13,23 +13,70 @@ public class PriceTest {
     private static final BigDecimal POSITIVE_AMOUNT_WITH_DECIMALS_2 = BigDecimal.valueOf(5.23654);
 
     @Test
-    public void givenDecimalAmount_whenGettingAmount_itShouldReturnSameDecimalAmount() {
+    public void givenNormalAmount_whenGettingAmount_itShouldReturnSameAmount() {
+        BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
+        Price price = new Price(decimalAmount);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenLongDecimalAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
         Price price = new Price(decimalAmount);
         assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
-    public void givenNegativeAmount_whenGettingAmount_itShouldReturnSameNegativeAmount() {
+    public void givenNegativeAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
         Price price = new Price(decimalAmount);
         assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
-    public void givenLargeAmount_whenGettingAmount_itShouldReturnSameLargeAmount() {
+    public void givenLargeAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
         Price price = new Price(decimalAmount);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleNormalAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalAmount = 165.85;
+
+        Price price = new Price(doubleDecimalAmount);
+
+        BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleLongDecimalAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalAmount = 0.230654065406540;
+        
+        Price price = new Price(doubleDecimalAmount);
+        
+        BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleNegativeAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalAmount = -97.253156;
+
+        Price price = new Price(doubleDecimalAmount);
+        
+        BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleLargeAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalValue = 564654065;
+
+        Price price = new Price(doubleDecimalValue);
+
+        BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
         assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
@@ -41,7 +88,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenDecimalAmountBelowHalfUnit_whenGettingRoundedAmount_itFloorsTheAmount() {
+    public void givenDecimalAmountBelowHalfUnit_whenGettingRoundedAmount_itReturnsTheFlooredAmount() {
         Price price = new Price(0.004);
 
         double roundedAmount = price.getRoundedAmount(2);
@@ -51,7 +98,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenDecimalAmountAtHalfUnit_whenGettingRoundedAmount_itCeilsTheAmount() {
+    public void givenDecimalAmountAtHalfUnit_whenGettingRoundedAmount_itReturnsTheCeiledAmount() {
         Price price = new Price(0.005);
 
         double roundedAmount = price.getRoundedAmount(2);
@@ -61,7 +108,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenTwoPositivePrices_whenAdditioning_itReturnsTheAdditionedAmounts() {
+    public void givenTwoPositivePrices_whenAdditioning_itReturnsNewInstanceWithAdditionedAmounts() {
         Price price1 = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
         Price price2 = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_2);
 
@@ -73,7 +120,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenTwoPositivePrices_whenSubstracting_itReturnsTheSubstractedAmounts() {
+    public void givenTwoPositivePrices_whenSubstracting_itReturnsNewInstanceWithSubstractedAmounts() {
         Price price1 = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
         Price price2 = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_2);
 
@@ -85,7 +132,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenAPositivePrice_whenMultiplying_itReturnsTheMultipliedAmount() {
+    public void givenAPositivePrice_whenMultiplyingByDouble_itReturnsNewInstanceWithMultipliedAmount() {
         double multiplicator = 0.176;
         Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
 
@@ -97,7 +144,19 @@ public class PriceTest {
     }
 
     @Test
-    public void givenAPositivePrice_whenDividingByScalar_itReturnsTheDividedAmount() {
+    public void givenAPositivePrice_whenMultiplyingByInteger_itReturnsNewInstanceWithMultipliedAmount() {
+        double multiplicator = 3;
+        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
+
+        Price multipliedPrice = price.multipliedBy(multiplicator);
+        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1
+            .multiply(BigDecimal.valueOf(multiplicator));
+
+        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);
+    }
+
+    @Test
+    public void givenAPositivePrice_whenDividingByScalar_itReturnsNewInstanceWithDividedAmount() {
         double divisor = 5.25;
         Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
 
