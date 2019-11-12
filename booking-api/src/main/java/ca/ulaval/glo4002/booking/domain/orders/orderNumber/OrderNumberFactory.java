@@ -1,6 +1,8 @@
-package ca.ulaval.glo4002.booking.domain.orders;
+package ca.ulaval.glo4002.booking.domain.orders.orderNumber;
 
 import java.util.concurrent.atomic.AtomicLong;
+
+import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 
 public class OrderNumberFactory {
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.orders;
+package ca.ulaval.glo4002.booking.domain.orders.orderNumber;
 
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 

@@ -19,7 +19,7 @@ import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMa
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
-import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 
 @Path("/orders")

@@ -1,6 +1,8 @@
-package ca.ulaval.glo4002.booking.domain.orders;
+package ca.ulaval.glo4002.booking.domain.orders.orderNumber;
 
 import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
