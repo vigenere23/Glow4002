@@ -32,6 +32,6 @@ public class ProgramResource {
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
         programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
-        return Response.status(200).contentLocation(new URI("/")).build();
+        return Response.status(200).build();
     }
 }
