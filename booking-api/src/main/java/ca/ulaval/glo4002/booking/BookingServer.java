@@ -55,7 +55,7 @@ public class BookingServer implements Runnable {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-          
+
             server.destroy();
         }
     }
@@ -65,8 +65,8 @@ public class BookingServer implements Runnable {
 
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenFactory oxygenFactory = new OxygenFactory(festivalDates.getStartDate().minusDays(1));
-        OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+        OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
+        OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();

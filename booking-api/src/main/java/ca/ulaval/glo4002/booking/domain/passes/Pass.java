@@ -71,7 +71,12 @@ public class Pass {
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {
+        int requiredQuantity = calculateRequiredQuantity();
+        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, requiredQuantity);
+    }
+
+    private int calculateRequiredQuantity() {
         int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
-        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * numberOfDays);
+        return oxygenQuantityPerDay * numberOfDays;
     }
 }
