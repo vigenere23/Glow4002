@@ -32,8 +32,9 @@ public class OxygenReserver {
         if (quantityToOrder > 0) {
             oxygenInventory.setRemainingQuantity(0);
             OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade);
+            OxygenStatus oxygenStatus = getNewOxygenStatus(orderDate, grade, quantityToOrder, oxygenInventory, oxygenOrder);
             addOxygenOrderCostToOutcome(oxygenOrder);
-            return getNewOxygenStatus(orderDate, grade, quantityToOrder, oxygenInventory, oxygenOrder);
+            return oxygenStatus;
         }
 
         oxygenInventory.setRemainingQuantity(quantityRemaining - requiredQuantity);
@@ -41,6 +42,7 @@ public class OxygenReserver {
     }
 
     private void addOxygenOrderCostToOutcome(OxygenOrder oxygenOrder) {
+        System.out.println(oxygenOrder.getOrderCost().getRoundedAmount(2));
         profitCalculator.saveOutcome(oxygenOrder.getOrderCost());
     }
 

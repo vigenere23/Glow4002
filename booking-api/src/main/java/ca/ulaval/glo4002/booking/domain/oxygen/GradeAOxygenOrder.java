@@ -21,6 +21,6 @@ public class GradeAOxygenOrder extends OxygenOrder {
 
     @Override
     Price getOrderCost() {
-        return COST_PER_CANDLE.multipliedBy(quantityOfBatches);
+        return COST_PER_CANDLE.multipliedBy(quantityOfBatches * CANDLE_FABRICATION_QUANTITY);
     }
 }

@@ -21,6 +21,6 @@ public class GradeBOxygenOrder extends OxygenOrder {
 
     @Override
     Price getOrderCost() {
-        return COST_PER_WATER_LITRE.multipliedBy(quantityOfBatches);
+        return COST_PER_WATER_LITRE.multipliedBy(quantityOfBatches * WATER_FABRICATION_QUANTITY_IN_LITRE);
     }
 }
