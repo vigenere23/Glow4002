@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -130,5 +131,12 @@ public class ProgramFunctionalTest extends JerseyTest {
         Response response = postProgram(invalidProgram);
 
         assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus(), "Http Response should be 400 ");
+    }
+
+    @Test
+    public void givenValidProgramPosted_thenReturnsResponseWithCorrectLocationHeader() {
+        Response response = postProgram(invalidProgram);
+
+        assertEquals("application/json", response.getHeaderString(HttpHeaders.CONTENT_TYPE));
     }
 }
