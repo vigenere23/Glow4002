@@ -93,7 +93,7 @@ public class BookingServer implements Runnable {
         PassPriceFactory passPriceFactory = new PassPriceFactory();
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, profitCalculator);
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         externalApiArtist = new ExternalApiArtist();
         ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
