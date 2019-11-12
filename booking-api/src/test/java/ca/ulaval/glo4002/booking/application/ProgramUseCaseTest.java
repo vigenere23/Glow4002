@@ -2,13 +2,16 @@ package ca.ulaval.glo4002.booking.application;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.PassCounter;
@@ -18,33 +21,55 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCaseTest {
 
+    private static final LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
+    private static final String SOME_ARTIST_NAME = "Sun 41";
+
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
     private ProgramUseCase programUseCase;
+    private List<SingleDayProgram> program = new ArrayList<>();
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
     private PassCounter passCounter;
+    private ArtistProgramInformation artistInformation;
 
     @BeforeEach
     public void setUpProgramUseCase() {
         singleDay = mock(SingleDayProgram.class);
+        artistInformation = mock(ArtistProgramInformation.class);
         artistRepository = mock(ArtistRepository.class);
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
         passCounter = mock(PassCounter.class);
 
+        when(singleDay.getDate()).thenReturn(SOME_DATE);
+        when(singleDay.getArtist()).thenReturn(SOME_ARTIST_NAME);
+        when(artistRepository.getArtistByName(SOME_ARTIST_NAME)).thenReturn(artistInformation);
+
         programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, passCounter);
+        program.add(singleDay);
     }
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
-        List<SingleDayProgram> program = new ArrayList<>();
-        program.add(singleDay);
-
         programUseCase.provideProgramResources(program);
 
         verify(singleDay).orderShuttle(transportReserver, artistRepository);
+    }
+
+    @Test
+    public void givenProgram_whenProvideProgramResources_thenOrderOxygen() {
+        programUseCase.provideProgramResources(program);
+
+        verify(singleDay).orderOxygen(oxygenReserver, artistRepository, passCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
+    }
+
+    @Test
+    public void givenProgram_whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
+        programUseCase.provideProgramResources(program);
+
+        verify(passCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
     }
 }
