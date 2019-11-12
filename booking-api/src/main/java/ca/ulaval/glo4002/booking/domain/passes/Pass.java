@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.helpers.DateCalculator;

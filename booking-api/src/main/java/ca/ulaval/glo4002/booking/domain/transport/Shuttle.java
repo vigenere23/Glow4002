@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 
 public abstract class Shuttle {
     

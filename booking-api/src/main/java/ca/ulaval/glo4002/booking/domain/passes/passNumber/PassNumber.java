@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.passes;
+package ca.ulaval.glo4002.booking.domain.passes.passNumber;
 
 public class PassNumber {
 

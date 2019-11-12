@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 
 public class ShuttleMapper {

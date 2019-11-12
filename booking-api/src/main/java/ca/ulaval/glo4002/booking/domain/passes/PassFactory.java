@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 
 public class PassFactory {
 

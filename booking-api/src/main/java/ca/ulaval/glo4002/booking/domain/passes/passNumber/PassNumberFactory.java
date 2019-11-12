@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.passes;
+package ca.ulaval.glo4002.booking.domain.passes.passNumber;
 
 import java.util.concurrent.atomic.AtomicLong;
 
