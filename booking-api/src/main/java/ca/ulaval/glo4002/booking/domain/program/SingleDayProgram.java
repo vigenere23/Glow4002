@@ -34,19 +34,6 @@ public class SingleDayProgram {
         return artistName;
     }
 
-    //TODO va changer de place suite à la discussion pour la validation
-    public void validateIfAmAndPm() {
-        if(activity == null || artistName.equals(null)) {
-            throw new InvalidProgramException();
-        }
-    }
-
-    public void validateActivityOnlyOnAm() {
-        if(!Activity.contains(activity)) {
-            throw new InvalidProgramException();
-        }
-    }
-
     public boolean isDuringFestivalDate(FestivalDates festivalDates) {
         return festivalDates.isDuringEventTime(date);
     }
@@ -58,11 +45,9 @@ public class SingleDayProgram {
     }
 
     public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {
-        
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
         ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttle(artist.getGroupSize());
         transportReserver.reserveDeparture(shuttleCategory, date, artist.getId(), artist.getGroupSize());
         transportReserver.reserveArrival(shuttleCategory, date, artist.getId(), artist.getGroupSize());
     }
-
 }

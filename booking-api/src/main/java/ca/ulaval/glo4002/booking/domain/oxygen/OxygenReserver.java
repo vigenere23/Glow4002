@@ -31,9 +31,7 @@ public class OxygenReserver {
         if (!adjustInventory) {
             int quantityToOrder = requiredQuantity - oxygenInventory.getRemainingQuantity();
             oxygenInventory.setRemainingQuantity(0);
-            
             reserveOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder);
-            
         }
         oxygen.updateOxygenHistory(oxygenHistory, orderDate, requiredQuantity);
     }
