@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,28 +25,28 @@ public class NebulaSinglePassDiscountTests {
     private List<Pass> passes;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpNebulaSinglePassDiscount() {
         nebulaSinglePassDiscount = new NebulaSinglePassDiscount();
         passes = new ArrayList<>();
     }
     
     @Test
     public void givenTwoNebulaPasses_thenThereIsNoDiscount() {
-        initPasses(2);
-        assertThat(getPriceAfterDiscount()).isEqualTo(PRICE_WITHOUT_DISCOUNT);
+        initializePassesWithMockPass(2);
+        assertEquals(PRICE_WITHOUT_DISCOUNT, getPriceAfterDiscount());
     }
 
     @Test
     public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
-        initPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+        initializePassesWithMockPass(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT);
-        assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
+        assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());
     }
     
-    private void initPasses(int numberOfPasses) {
+    private void initializePassesWithMockPass(int numberOfPasses) {
         Pass pass = mock(Pass.class);
-        when(pass.isOfTypeOption(PassOption.SINGLE_PASS)).thenReturn(true);
-        when(pass.isOfTypeCategory(PassCategory.NEBULA)).thenReturn(true);
+        when(pass.isOfOption(PassOption.SINGLE_PASS)).thenReturn(true);
+        when(pass.isOfCategory(PassCategory.NEBULA)).thenReturn(true);
 
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(pass);

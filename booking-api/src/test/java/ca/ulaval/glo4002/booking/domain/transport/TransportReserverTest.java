@@ -17,7 +17,7 @@ import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
-class TransportRequesterTest {
+class TransportReserverTest {
 
     private final static PassNumber SOME_PASS_NUMBER = mock(PassNumber.class);
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);
@@ -39,7 +39,7 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void givenShuttleCategoryPassNumbeDateAndPassengers_whenReserveDeparture_thenGetShuttlesList() {
+    public void whenReserveDeparture_thenGetShuttlesListIsCalled() {
         transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASS_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
     }
@@ -53,7 +53,7 @@ class TransportRequesterTest {
     }
     
     @Test
-    public void givenShuttleCategoryPassNumberDateAndPassengers_whenReserveArrival_thenCallMethodGetShuttles() {        
+    public void whenReserveArrival_thenGetShuttlesListIsCalled() {        
         transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASS_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
     }

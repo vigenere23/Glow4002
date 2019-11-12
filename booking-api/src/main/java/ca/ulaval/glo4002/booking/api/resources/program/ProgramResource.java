@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources;
+package ca.ulaval.glo4002.booking.api.resources.program;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,8 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.dtos.program.ProgramRequest;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.ProgramMapper;
+import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
@@ -33,6 +32,6 @@ public class ProgramResource {
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
         programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
-        return Response.status(200).contentLocation(new URI("/")).build();
+        return Response.status(200).build();
     }
 }

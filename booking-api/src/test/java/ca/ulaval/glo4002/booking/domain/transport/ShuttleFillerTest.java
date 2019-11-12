@@ -34,9 +34,9 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleList_whenDoesNotContainCategory_thenShuttleCategoryIsCorrectlyCreated() {
-        when(firstMockedShuttle.hasCorrectCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectDate(DATE)).thenReturn(true);
+    public void givenShuttleList_whenDoesNotContainCategory_thenShuttleOfNewCategoryIsAddedToList() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
 
@@ -46,9 +46,9 @@ class ShuttleFillerTest {
     }
     
     @Test
-    public void givenShuttleListAndDate_whenFillOnePlaceShuttle_thenCreateNewShuttleIfShuttleForDateIsAbsent() {
-        when(firstMockedShuttle.hasCorrectCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectDate(DATE)).thenReturn(false);
+    public void givenShuttleListAndDate_whenFillOnePlaceShuttle_thenAddNewShuttleToShuttlesIfAbsentForThatDate() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
 
@@ -58,9 +58,9 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleListAndFullShuttle_whenFillOnePlaceShuttle_thenCreateNewShuttleIfShuttleForDateIsFull() {
-        when(firstMockedShuttle.hasCorrectCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectDate(DATE)).thenReturn(true);
+    public void givenShuttleListAndFullShuttle_whenFillOnePlaceShuttle_thenAddNewShuttletoShuttlesIfShuttleForDateIsFull() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
         shuttles.add(firstMockedShuttle);
         
@@ -72,8 +72,8 @@ class ShuttleFillerTest {
     @Test
     public void givenShuttleList_whenFillOnePlaceShuttle_thenAddPassNumberToShuttleNotFull() {
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectCategory(ShuttleCategory.ET_SPACESHIP)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectDate(DATE)).thenReturn(true);
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.ET_SPACESHIP)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
 
         shuttleFiller.fillShuttle(shuttles, ShuttleCategory.ET_SPACESHIP, PASS_NUMBER, DATE, ONE_PLACE);
@@ -82,10 +82,10 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleList_whenFillSomePlacesShuttle_thenAddFivePassNumberToShuttleNotFull() {
+    public void givenShuttleList_whenFillSomePlacesShuttle_thenAddSeveralPassNumberToShuttleNotFull() {
         when(firstMockedShuttle.hasAvailableCapacity(SOME_PLACES)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectCategory(ShuttleCategory.MILLENNIUM_FALCON)).thenReturn(true);
-        when(firstMockedShuttle.hasCorrectDate(DATE)).thenReturn(true);
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.MILLENNIUM_FALCON)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
 
         shuttleFiller.fillShuttle(shuttles, ShuttleCategory.MILLENNIUM_FALCON, PASS_NUMBER, DATE, SOME_PLACES);

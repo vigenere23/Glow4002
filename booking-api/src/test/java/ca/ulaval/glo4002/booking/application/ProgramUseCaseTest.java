@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.PassCounter;
+import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -31,45 +31,53 @@ public class ProgramUseCaseTest {
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
-    private PassCounter passCounter;
-    private ArtistProgramInformation artistInformation;
+    private ArtistProgramInformation artistProgramInformation;
+    private FestivalAttendeesCounter festivalAttendeesCounter;
 
     @BeforeEach
     public void setUpProgramUseCase() {
         singleDay = mock(SingleDayProgram.class);
-        artistInformation = mock(ArtistProgramInformation.class);
+        artistProgramInformation = mock(ArtistProgramInformation.class);
         artistRepository = mock(ArtistRepository.class);
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
-        passCounter = mock(PassCounter.class);
+        festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
 
         when(singleDay.getDate()).thenReturn(SOME_DATE);
         when(singleDay.getArtist()).thenReturn(SOME_ARTIST_NAME);
-        when(artistRepository.getArtistByName(SOME_ARTIST_NAME)).thenReturn(artistInformation);
 
-        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, passCounter);
         program.add(singleDay);
+        mockArtistForProgram();
+
+        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter);
     }
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(program);
 
-        verify(singleDay).orderShuttle(transportReserver, artistRepository);
+        verify(singleDay).orderShuttle(transportReserver, artistRepository.getArtistsForProgram());
     }
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(program);
 
-        verify(singleDay).orderOxygen(oxygenReserver, artistRepository, passCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
+        verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), festivalAttendeesCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
     }
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
         programUseCase.provideProgramResources(program);
 
-        verify(passCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
+        verify(festivalAttendeesCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
+    }
+
+    private void mockArtistForProgram() {
+        List<ArtistProgramInformation> artistsForProgram = new ArrayList<>();
+        artistsForProgram.add(artistProgramInformation);
+
+        when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);
     }
 }

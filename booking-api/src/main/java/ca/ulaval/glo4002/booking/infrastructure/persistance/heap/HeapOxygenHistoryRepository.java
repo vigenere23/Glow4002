@@ -4,24 +4,29 @@ import java.time.LocalDate;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenDateHistory;
 
 public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
 
-    private SortedMap<LocalDate, OxygenDateHistory> history;
+    private SortedMap<LocalDate, OxygenHistoryItem> history;
 
     public HeapOxygenHistoryRepository() {
         history = new TreeMap<>();
     }
 
     @Override
-    public void save(SortedMap<LocalDate, OxygenDateHistory> history) {
-        this.history = history;
+    public void save(OxygenHistoryItem historyItem) {
+        history.put(historyItem.getDate(), historyItem);
     }
 
     @Override
-    public SortedMap<LocalDate, OxygenDateHistory> findOxygenHistory() {
+    public OxygenHistoryItem findOxygenHistoryOfDate(LocalDate date) {
+        return history.containsKey(date) ? history.get(date) : new OxygenHistoryItem(date);
+    }
+
+    @Override
+    public SortedMap<LocalDate, OxygenHistoryItem> findAll() {
         return history;
     }
 }

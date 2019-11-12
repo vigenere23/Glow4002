@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.dtos.program;
+package ca.ulaval.glo4002.booking.api.resources.program;
 
 import java.util.List;
 
