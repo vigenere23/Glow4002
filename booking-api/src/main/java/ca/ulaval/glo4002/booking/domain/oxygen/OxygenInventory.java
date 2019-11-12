@@ -16,8 +16,7 @@ public class OxygenInventory {
         return oxygenGrade;
     }
 
-    public void updateInventory(int quantityToFabricate, int requiredQuantity) {
-        remainingQuantity = quantityToFabricate - requiredQuantity;
+    public void updateInventory(int quantityToFabricate) {
         inventory += quantityToFabricate;
     }
 

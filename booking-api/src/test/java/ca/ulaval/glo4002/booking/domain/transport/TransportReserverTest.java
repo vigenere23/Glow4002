@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
-class transportReserverTest {
+class TransportReserverTest {
 
     private final static ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
     private final static PassNumber SOME_PASS_NUMBER = mock(PassNumber.class);
