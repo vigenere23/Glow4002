@@ -1,14 +1,13 @@
 package ca.ulaval.glo4002.booking.domain.orders;
 
-import java.util.concurrent.atomic.AtomicLong;
+import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 
 public class OrderNumber {
 
     private String value;
-    private static final AtomicLong incrementor = new AtomicLong(0); 
 
-    public OrderNumber(VendorCode vendorCode) {
-        value = String.format("%s-%d", vendorCode.toString(), incrementor.getAndIncrement());
+    public OrderNumber(VendorCode vendorCode, long number) {
+        value = String.format("%s-%d", vendorCode.toString(), number);
     }
 
     private OrderNumber(String value) {
@@ -19,11 +18,16 @@ public class OrderNumber {
         return new OrderNumber(value);
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (!(other instanceof OrderNumber)) return false;
+
+        OrderNumber otherOrderNumber = (OrderNumber) other;
+        return value == otherOrderNumber.value;
     }
 
-    public boolean equals(OrderNumber other) {
-        return value.equals(other.value);
+    public String getValue() {
+        return value;
     }
 }

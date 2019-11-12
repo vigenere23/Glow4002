@@ -26,6 +26,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 public class PassOrderFactoryTest {
 
     private FestivalDates festivalDates;
+    private OrderNumberFactory orderNumberFactory;
     private PassFactory passFactory;
     private PassOrderFactory passOrderFactory;
     
@@ -39,8 +40,9 @@ public class PassOrderFactoryTest {
     @BeforeEach
     public void setupPassOrderFactory() {
         festivalDates = mock(FestivalDates.class);
+        orderNumberFactory = mock(OrderNumberFactory.class);
         passFactory = mock(PassFactory.class);
-        passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
+        passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory);
     }
 
     @Test

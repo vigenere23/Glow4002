@@ -18,10 +18,10 @@ public class PassOrder {
     private List<Pass> passes = new ArrayList<>();
     private OrderDiscount orderDiscount;
 
-    public PassOrder(VendorCode vendorCode, List<Pass> passes) {
+    public PassOrder(OrderNumber orderNumber, List<Pass> passes) {
         this.passes = passes;
+        this.orderNumber = orderNumber;
         
-        orderNumber = new OrderNumber(vendorCode);
         orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );

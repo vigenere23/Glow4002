@@ -17,6 +17,7 @@ import java.util.List;
 public class HeapPassOrderRepositoryTest {
 
     private static final OrderNumber INVALID_ORDER_NUMBER = mock(OrderNumber.class);
+    private static final OrderNumber VALID_ORDER_NUMBER = new OrderNumber(VendorCode.TEAM, 0);
 
     private HeapPassOrderRepository passOrderRepository;
     private PassOrder passOrder;
@@ -26,7 +27,7 @@ public class HeapPassOrderRepositoryTest {
         List<Pass> passes = Arrays.asList(mock(Pass.class));
 
         passOrderRepository = new HeapPassOrderRepository();
-        passOrder = new PassOrder(VendorCode.TEAM, passes);
+        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes);
     }
 
     @Test
