@@ -28,6 +28,7 @@ public class ProgramUseCaseTest {
     private PassRepository passRepository;
     private ArtistProgramInformation artistProgramInformation;
     private FestivalAttendeesCounter festivalAttendeesCounter;
+    private List<ArtistProgramInformation> artistsForProgram;
 
     @BeforeEach
     public void setUpProgramUseCase() {
@@ -38,6 +39,7 @@ public class ProgramUseCaseTest {
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
         festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
+
 
         mockArtistForProgram();
 
@@ -51,11 +53,11 @@ public class ProgramUseCaseTest {
 
         programUseCase.provideProgramResources(program);
 
-        verify(singleDay).orderShuttle(transportReserver, artistRepository.getArtistsForProgram());
+        verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
     }
 
     private void mockArtistForProgram() {
-        List<ArtistProgramInformation> artistsForProgram = new ArrayList<>();
+        artistsForProgram = new ArrayList<>();
         artistsForProgram.add(artistProgramInformation);
 
         when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);

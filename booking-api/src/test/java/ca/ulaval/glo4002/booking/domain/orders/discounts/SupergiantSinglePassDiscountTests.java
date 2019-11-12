@@ -25,7 +25,7 @@ public class SupergiantSinglePassDiscountTests {
     private List<Pass> passes;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpSuperGriantSinglePassDiscount() {
         supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
         passes = new ArrayList<>();
     }
@@ -45,8 +45,7 @@ public class SupergiantSinglePassDiscountTests {
     
     private void initPasses(int numberOfPasses) {
         Pass pass = mock(Pass.class);
-        when(pass.isOfOption(PassOption.SINGLE_PASS)).thenReturn(true);
-        when(pass.isOfCategory(PassCategory.SUPERGIANT)).thenReturn(true);
+        when(pass.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
         
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(pass);
