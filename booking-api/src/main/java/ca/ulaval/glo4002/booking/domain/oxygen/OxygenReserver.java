@@ -42,7 +42,6 @@ public class OxygenReserver {
     }
 
     private void addOxygenOrderCostToOutcome(OxygenOrder oxygenOrder) {
-        System.out.println(oxygenOrder.getOrderCost().getRoundedAmount(2));
         profitCalculator.saveOutcome(oxygenOrder.getOrderCost());
     }
 
