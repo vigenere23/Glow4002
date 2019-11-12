@@ -10,9 +10,9 @@ import javax.ws.rs.ext.Provider;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
-import ca.ulaval.glo4002.booking.api.resources.ProgramResource;
 import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorDto;
 import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorResponseBuilder;
+import ca.ulaval.glo4002.booking.api.resources.program.ProgramResource;
 
 @Provider
 @Priority(2)
