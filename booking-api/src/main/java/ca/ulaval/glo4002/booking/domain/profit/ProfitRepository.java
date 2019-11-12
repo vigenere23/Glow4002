@@ -1,9 +1,11 @@
 package ca.ulaval.glo4002.booking.domain.profit;
 
+import ca.ulaval.glo4002.booking.domain.Price;
+
 public interface ProfitRepository {
     
-    public float findIncome();
-    public float findOutcome();
-    public void saveIncome(float income);
-    public void saveOutcome(float outcome);
+    public Price findIncome();
+    public Price findOutcome();
+    public void saveIncome(Price income);
+    public void saveOutcome(Price outcome);
 }

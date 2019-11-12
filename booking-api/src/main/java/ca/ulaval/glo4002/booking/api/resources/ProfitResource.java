@@ -22,9 +22,9 @@ public class ProfitResource {
 
     @GET
     public ProfitResponse profit() {
-        float income = profitUseCase.getIncome();
-        float outcome = profitUseCase.getOutcome();
-        float profit = profitUseCase.getProfit();
+        double income = profitUseCase.getIncome();
+        double outcome = profitUseCase.getOutcome();
+        double profit = profitUseCase.getProfit();
 
         return new ProfitResponse(income, outcome, profit);
     }

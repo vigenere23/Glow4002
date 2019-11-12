@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 
 public class ShuttleFiller {
     
     private ShuttleFactory shuttleFactory;
+    private ProfitCalculator profitCalculator;
 
-    public ShuttleFiller() {
+    public ShuttleFiller(ProfitCalculator profitCalculator) {
+        this.profitCalculator = profitCalculator;
         shuttleFactory = new ShuttleFactory();
     }
     
@@ -18,6 +21,7 @@ public class ShuttleFiller {
         availableShuttle.addPassNumber(passNumber);
         if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
+            addShuttleCostToOutcome(availableShuttle);
         }
         return shuttlesToFill;
     }
@@ -32,5 +36,9 @@ public class ShuttleFiller {
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date) {
         return date.equals(shuttleToVerify.getDate()) && shuttleCategory.equals(shuttleToVerify.getCategory()) && !shuttleToVerify.isFull();
-    } 
+    }
+    
+    private void addShuttleCostToOutcome(Shuttle shuttle) {
+        profitCalculator.saveOutcome(shuttle.getPrice());
+    }
 }

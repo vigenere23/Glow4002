@@ -24,6 +24,7 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
@@ -73,14 +74,19 @@ public class BookingServer implements Runnable {
     private ResourceConfig setupResourceConfig() {
         FestivalDates festivalDates = new Glow4002Dates();
 
+        ProfitRepository profitRepository = new HeapProfitRepository();
+        ProfitCalculator profitCalculator = new ProfitCalculator(profitRepository) ;
+        ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator);
+
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenFactory oxygenFactory = new OxygenFactory(festivalDates.getStartDate().minusDays(1));
         OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
+        ShuttleFiller shuttleFiller = new ShuttleFiller(profitCalculator); 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        TransportReserver transportReserver = new TransportReserver(shuttleRepository);
+        TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
@@ -93,10 +99,6 @@ public class BookingServer implements Runnable {
         ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-
-        ProfitRepository profitRepository = new HeapProfitRepository();
-        ProfitCalculator profitCalculator = new ProfitCalculator(profitRepository) ;
-        ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator);
 
         return new ResourceConfiguration(
             passOrderUseCase,

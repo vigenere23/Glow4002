@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 
 class ShuttleFillerTest {
     
@@ -21,13 +22,15 @@ class ShuttleFillerTest {
 
     private ShuttleFiller shuttleFiller;
     private List<Shuttle> shuttles;
-    private Shuttle firstMockedShuttle; 
+    private Shuttle firstMockedShuttle;
+    private ProfitCalculator profitCalculator;
 
     @BeforeEach
     public void setUp() {
         firstMockedShuttle = mock(Shuttle.class);
         shuttles = new ArrayList<>();
-        shuttleFiller = new ShuttleFiller();
+        profitCalculator = mock(ProfitCalculator.class);
+        shuttleFiller = new ShuttleFiller(profitCalculator);
     }
 
     @Test

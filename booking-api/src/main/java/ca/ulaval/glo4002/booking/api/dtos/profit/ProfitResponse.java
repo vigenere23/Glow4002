@@ -3,12 +3,12 @@ package ca.ulaval.glo4002.booking.api.dtos.profit;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ProfitResponse {
-    public final float in;
-    public final float out;
-    public final float profit;
+    public final double in;
+    public final double out;
+    public final double profit;
      
     @JsonCreator
-    public ProfitResponse(float income, float outcome, float profit) {
+    public ProfitResponse(double income, double outcome, double profit) {
         this.in = income;
         this.out = outcome;
         this.profit = profit;

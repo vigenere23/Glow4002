@@ -17,6 +17,7 @@ class transportReserverTest {
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);
     private List<Shuttle> someShuttles = new ArrayList<>();
     private TransportReserver transportReserver;
+    private ShuttleFiller shuttleFiller;
 
     @BeforeEach
     public void setUp() {
@@ -24,7 +25,8 @@ class transportReserverTest {
         Shuttle mockedShuttle = mock(SpaceX.class);
         someShuttles.add(mockedShuttle);
 
-        transportReserver = new TransportReserver(shuttleRepository);
+        shuttleFiller = mock(ShuttleFiller.class);
+        transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     }
 
     // TODO (issue #144)

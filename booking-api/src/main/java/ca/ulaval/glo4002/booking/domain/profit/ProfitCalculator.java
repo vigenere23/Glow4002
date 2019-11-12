@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.profit;
 
+import ca.ulaval.glo4002.booking.domain.Price;
+
 public class ProfitCalculator {
 
     private ProfitRepository profitRepository;
@@ -8,23 +10,23 @@ public class ProfitCalculator {
         this.profitRepository = profitRepository;
     }
 
-    public float getIncome() {
+    public Price getIncome() {
 		return profitRepository.findIncome();
 	}
 
-	public float getOutcome() {
+	public Price getOutcome() {
 		return profitRepository.findOutcome();
 	}
 
-	public float getProfit() {
-		return getIncome() - getOutcome();
+	public Price getProfit() {
+		return getIncome().minus(getOutcome());
     }
     
-    public void saveIncome(float income) {
-        profitRepository.saveIncome(getIncome() + income);
+    public void saveIncome(Price income) {
+        profitRepository.saveIncome(getIncome().plus(income));
     }
 
-    public void saveOutcome(float outcome) {
-        profitRepository.saveOutcome(getOutcome() + outcome);
+    public void saveOutcome(Price outcome) {
+        profitRepository.saveOutcome(getOutcome().plus(outcome));
     }
 }

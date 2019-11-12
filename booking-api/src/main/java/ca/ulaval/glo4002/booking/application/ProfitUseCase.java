@@ -4,22 +4,24 @@ import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 
 public class ProfitUseCase {
 
+    private static final int NUMBER_OF_DECIMAL = 2;
+
 	private ProfitCalculator profitCalculator;
 
 	public ProfitUseCase(ProfitCalculator profitCalculator) {
 		this.profitCalculator = profitCalculator;
 	}
 
-	public float getIncome() {
-		return profitCalculator.getIncome();
+	public double getIncome() {
+		return profitCalculator.getIncome().getRoundedAmount(NUMBER_OF_DECIMAL);
 	}
 
-	public float getOutcome() {
-		return profitCalculator.getOutcome();
+	public double getOutcome() {
+		return profitCalculator.getOutcome().getRoundedAmount(NUMBER_OF_DECIMAL);
 	}
 
-	public float getProfit() {
-		return profitCalculator.getProfit();
+	public double getProfit() {
+		return profitCalculator.getProfit().getRoundedAmount(NUMBER_OF_DECIMAL);
 	}
 
 }

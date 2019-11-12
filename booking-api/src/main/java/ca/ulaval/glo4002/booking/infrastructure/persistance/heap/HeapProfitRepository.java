@@ -1,30 +1,31 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 
 public class HeapProfitRepository implements ProfitRepository {
 
-    private float income = 0f;
-    private float outcome = 0f;
+    private Price income = new Price(0);
+    private Price outcome = new Price(0);
 
     @Override
-    public float findIncome() {
+    public Price findIncome() {
         return income;
     }
 
     @Override
-    public float findOutcome() {
+    public Price findOutcome() {
         return outcome;
     }
 
     @Override
-    public void saveIncome(float income) {
+    public void saveIncome(Price income) {
         this.income = income;
 
     }
 
     @Override
-    public void saveOutcome(float outcome) {
+    public void saveOutcome(Price outcome) {
         this.outcome = outcome;
     }
     
