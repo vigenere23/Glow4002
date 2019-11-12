@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OxygenOrderTest {
 
+    private final static Price SOME_COST = new Price(500);
     private final static int SOME_FABRICATION_TIME_IN_DAYS = 20;
     private final static int SOME_TANK_FABRICATION_QUANTITY = 5;
     private final static int SOME_FABRICATION_QUANTITY = 3;
@@ -31,6 +33,11 @@ class OxygenOrderTest {
         protected void initializeQuantitiesRequiredPerBatch() {
             quantitiesRequiredPerBatchForOrderDate.put(SOME_ORDER_DATE_HISTORY_TYPE, SOME_FABRICATION_QUANTITY);
             quantitiesRequiredPerBatchForCompletionDate.put(SOME_COMPLETION_DATE_HISTORY_TYPE, tankFabricationQuantity);
+        }
+
+        @Override
+        Price getOrderCost() {
+            return SOME_COST;
         }
     }
 
@@ -62,24 +69,30 @@ class OxygenOrderTest {
     }
 
     @Test
-    public void whenOrderOxygenLessThanTankFabricationQuantity_thenOrderDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+    public void givenOxygenLessThanTankFabricationQuantityOrdered_whenGetOxygenHistory_thenOrderDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int actualQuantity =  history.get(SOME_ORDER_DATE).getCandlesUsed();
         assertEquals(SOME_FABRICATION_QUANTITY, actualQuantity);
     }
 
     @Test
-    public void whenOrderOxygenLessThanTankFabricationQuantity_thenCompletionDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+    public void givenOxygenLessThanTankFabricationQuantityOrdered_whenGetOxygenHistory_thenCompletionDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int actualQuantity =  history.get(COMPLETION_DATE).getOxygenTankMade();
         assertEquals(SOME_TANK_FABRICATION_QUANTITY, actualQuantity);
     }
 
     @Test
-    public void whenOrderOxygenMoreThanTankFabricationQuantity_thenOrderDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+    public void givenOxygenMoreThanTankFabricationQuantityOrdered_whenOxygenHistory_thenOrderDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int expectedQuantity = SOME_FABRICATION_QUANTITY * 2;
         int actualQuantity =  history.get(SOME_ORDER_DATE).getCandlesUsed();
@@ -87,8 +100,10 @@ class OxygenOrderTest {
     }
 
     @Test
-    public void whenOrderOxygenMoreThanTankFabricationQuantity_thenCompletionDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+    public void givenOxygenMoreThanTankFabricationQuantityOrdered_whenOxygenHistory_thenCompletionDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int expectedQuantity = SOME_TANK_FABRICATION_QUANTITY * 2;
         int actualQuantity =  history.get(COMPLETION_DATE).getOxygenTankMade();

@@ -41,7 +41,7 @@ public class OxygenReserver {
         }
 
         updateOxygenInventory(oxygenInventory, oxygenOrder, orderDate, quantityToOrder);
-        SortedMap<LocalDate, OxygenHistoryItem> oxygenHistory = getOxygenHistory(oxygenOrder, orderDate, quantityToOrder);
+        SortedMap<LocalDate, OxygenHistoryItem> oxygenHistory = getOxygenHistory(oxygenOrder, orderDate);
 
         return new OxygenStatus(oxygenInventory, oxygenHistory);
     }
@@ -62,8 +62,8 @@ public class OxygenReserver {
         oxygenInventory.updateInventory(quantityToReserve);
     }
 
-    private SortedMap<LocalDate, OxygenHistoryItem> getOxygenHistory(OxygenOrder oxygenOrder, LocalDate orderDate, int quantityToOrder) {
-        SortedMap<LocalDate, OxygenHistoryItem> orderHistory = oxygenOrder.getOxygenOrderHistory(orderDate, quantityToOrder);
+    private SortedMap<LocalDate, OxygenHistoryItem> getOxygenHistory(OxygenOrder oxygenOrder, LocalDate orderDate) {
+        SortedMap<LocalDate, OxygenHistoryItem> orderHistory = oxygenOrder.getOxygenOrderHistory(orderDate);
         updateOrderHistoryWithCurrentHistory(orderHistory);
 
         return orderHistory;
