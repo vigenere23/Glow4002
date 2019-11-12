@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 
 public class ArtistInformationMapper {
     public ArtistRankingInformation rankingFromDto(ArtistDto artistDto) {
@@ -9,6 +10,6 @@ public class ArtistInformationMapper {
     }
 
     public ArtistProgramInformation programFromDto(ArtistDto artistDto) {
-        return new ArtistProgramInformation(artistDto.id, artistDto.nbPeople);
+        return new ArtistProgramInformation(PassNumber.of(artistDto.id), artistDto.nbPeople);
     }
 }

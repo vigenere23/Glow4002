@@ -41,15 +41,15 @@ public class Pass {
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
     }
 
-    public boolean isOfTypeOption(PassOption passOption) {
+    public boolean isOfOption(PassOption passOption) {
         return this.passOption == passOption;
     }
 
-    public boolean isOfTypeCategory(PassCategory passCategory) {
+    public boolean isOfCategory(PassCategory passCategory) {
         return this.passCategory == passCategory;
     }
 
-    public boolean isOfDate(LocalDate eventDate) {
+    public boolean hasSameDateAs(LocalDate eventDate) {
         return this.startDate.equals(eventDate);
     }
 

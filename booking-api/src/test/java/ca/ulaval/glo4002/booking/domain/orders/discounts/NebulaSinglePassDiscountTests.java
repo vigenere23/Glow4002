@@ -45,8 +45,8 @@ public class NebulaSinglePassDiscountTests {
     
     private void initPasses(int numberOfPasses) {
         Pass pass = mock(Pass.class);
-        when(pass.isOfTypeOption(PassOption.SINGLE_PASS)).thenReturn(true);
-        when(pass.isOfTypeCategory(PassCategory.NEBULA)).thenReturn(true);
+        when(pass.isOfOption(PassOption.SINGLE_PASS)).thenReturn(true);
+        when(pass.isOfCategory(PassCategory.NEBULA)).thenReturn(true);
 
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(pass);

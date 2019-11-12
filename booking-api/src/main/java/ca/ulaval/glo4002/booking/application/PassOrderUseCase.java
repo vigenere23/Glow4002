@@ -32,17 +32,14 @@ public class PassOrderUseCase {
 
     public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates());
-        reservePassUtilities(orderDate, passOrder);
         passOrderRepository.save(passOrder);
 
-        return passOrder;
-    }
-
-    private void reservePassUtilities(OffsetDateTime orderDate, PassOrder passOrder) {
         for (Pass pass : passOrder.getPasses()) {
             passRepository.save(pass);
             pass.reserveShuttles(transportReserver);
             pass.reserveOxygen(orderDate.toLocalDate(), oxygenReserver);
         }
+
+        return passOrder;
     }
 }

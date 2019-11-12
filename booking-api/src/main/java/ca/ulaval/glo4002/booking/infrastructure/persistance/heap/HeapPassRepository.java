@@ -21,6 +21,8 @@ public class HeapPassRepository implements PassRepository {
 
     @Override
     public void save(Pass pass) {
-        passes.add(pass);
+        if (!passes.contains(pass) && pass != null) {
+            passes.add(pass);
+        }
     }
 }

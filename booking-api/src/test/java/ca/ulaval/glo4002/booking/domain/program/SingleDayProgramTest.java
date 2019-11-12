@@ -45,19 +45,10 @@ public class SingleDayProgramTest {
         singleDayProgram = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, SOME_DATE);
     }
 
-    private void mockDependency() {
-        artistRepository = mock(ArtistRepository.class);
-        oxygenReserver = mock(OxygenReserver.class);
-        transportReserver = mock(TransportReserver.class);
-        festivalDates = mock(Glow4002Dates.class);
-        passNumber = mock(PassNumber.class);
-        artistProgramInformation = mock(ArtistProgramInformation.class);
-    }
-
     private void mockArtistProgramInformation() {
         when(artistRepository.getArtistByName(SOME_ARTIST_NAME)).thenReturn(artistProgramInformation);
         when(artistProgramInformation.getGroupSize()).thenReturn(SOME_PASSENGERS);
-        when(artistProgramInformation.getId()).thenReturn(passNumber);
+        when(artistProgramInformation.getPassNumber()).thenReturn(passNumber);
     }
 
     @Test
@@ -94,5 +85,14 @@ public class SingleDayProgramTest {
     public void whenOrderShuttles_thenTransportReserverOrderArrivalShuttle() {
         singleDayProgram.orderShuttle(transportReserver, artistRepository);
         verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, passNumber, SOME_PASSENGERS);
+    }
+
+    private void mockDependency() {
+        artistRepository = mock(ArtistRepository.class);
+        oxygenReserver = mock(OxygenReserver.class);
+        transportReserver = mock(TransportReserver.class);
+        festivalDates = mock(Glow4002Dates.class);
+        passNumber = mock(PassNumber.class);
+        artistProgramInformation = mock(ArtistProgramInformation.class);
     }
 }

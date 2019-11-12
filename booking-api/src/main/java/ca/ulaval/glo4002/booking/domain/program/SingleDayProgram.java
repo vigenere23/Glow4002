@@ -46,7 +46,7 @@ public class SingleDayProgram {
     public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
         ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttle(artist.getGroupSize());
-        transportReserver.reserveDeparture(shuttleCategory, date, artist.getId(), artist.getGroupSize());
-        transportReserver.reserveArrival(shuttleCategory, date, artist.getId(), artist.getGroupSize());
+        transportReserver.reserveDeparture(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
+        transportReserver.reserveArrival(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
     }
 }
