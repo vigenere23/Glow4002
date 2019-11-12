@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.application;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
@@ -24,16 +26,20 @@ public class ProgramUseCaseTest {
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
+    private ArtistProgramInformation artistProgramInformation;
     private FestivalAttendeesCounter festivalAttendeesCounter;
 
     @BeforeEach
     public void setUpProgramUseCase() {
         singleDay = mock(SingleDayProgram.class);
+        artistProgramInformation = mock(ArtistProgramInformation.class);
         artistRepository = mock(ArtistRepository.class);
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
         festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
+
+        mockArtistForProgram();
 
         programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter);
     }
@@ -45,7 +51,14 @@ public class ProgramUseCaseTest {
 
         programUseCase.provideProgramResources(program);
 
-        verify(singleDay).orderShuttle(transportReserver, artistRepository);
+        verify(singleDay).orderShuttle(transportReserver, artistRepository.getArtistsForProgram());
+    }
+
+    private void mockArtistForProgram() {
+        List<ArtistProgramInformation> artistsForProgram = new ArrayList<>();
+        artistsForProgram.add(artistProgramInformation);
+
+        when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);
     }
 
     //TODO add oxy test

@@ -23,13 +23,17 @@ public class ExternalArtistRepository implements ArtistRepository {
     public List<ArtistRankingInformation> findArtistRankingInformation() {
         List<ArtistRankingInformation> artistRankingInformations = new ArrayList<>();
         List<ArtistDto> artistDtos = apiArtist.getArtistsDto();
-        artistDtos
-                .forEach(artistDto -> artistRankingInformations.add(artistInformationMapper.rankingFromDto(artistDto)));
+        artistDtos.forEach(artistDto -> artistRankingInformations
+                    .add(artistInformationMapper.rankingFromDto(artistDto)));
         return artistRankingInformations;
     }
 
     @Override
-    public ArtistProgramInformation getArtistByName(String artistName) {
-        return artistInformationMapper.programFromDto(apiArtist.getArtistDto(artistName));
+    public List<ArtistProgramInformation> getArtistsForProgram() {
+        List<ArtistProgramInformation> artistProgramInformations = new ArrayList<>();
+        List<ArtistDto> artistDtos = apiArtist.getArtistsDto();
+        artistDtos.forEach(artistDto -> artistProgramInformations
+                    .add(artistInformationMapper.programFromDto(artistDto)));
+        return artistProgramInformations;  
     }
 }

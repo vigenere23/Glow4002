@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.application;
 import java.time.LocalDate;
 import java.util.List;
 
+import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
@@ -27,9 +28,10 @@ public class ProgramUseCase {
     }
 
     public void provideProgramResources(List<SingleDayProgram> program) {
+        List<ArtistProgramInformation> artistsForProgram = artistRepository.getArtistsForProgram();
         for (SingleDayProgram singleDayProgram : program) {
-            singleDayProgram.orderShuttle(transportReserver, artistRepository);
-            singleDayProgram.orderOxygen(oxygenReserver, artistRepository, countFestivalAttendeesForOneDay(singleDayProgram.getDate()));
+            singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
+            singleDayProgram.orderOxygen(oxygenReserver, artistsForProgram, countFestivalAttendeesForOneDay(singleDayProgram.getDate()));
         }
     }
 

@@ -10,6 +10,6 @@ public class ArtistInformationMapper {
     }
 
     public ArtistProgramInformation programFromDto(ArtistDto artistDto) {
-        return new ArtistProgramInformation(PassNumber.of(artistDto.id), artistDto.nbPeople);
+        return new ArtistProgramInformation(artistDto.name, PassNumber.of(artistDto.id), artistDto.nbPeople);
     }
 }
