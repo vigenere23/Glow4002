@@ -17,7 +17,7 @@ import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
-class TransportRequesterTest {
+class TransportReserverTest {
 
     private final static PassNumber SOME_PASS_NUMBER = mock(PassNumber.class);
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);

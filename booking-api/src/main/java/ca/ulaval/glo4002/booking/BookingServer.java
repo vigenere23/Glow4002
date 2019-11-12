@@ -19,9 +19,9 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -68,7 +68,7 @@ public class BookingServer implements Runnable {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-          
+
             server.destroy();
         }
     }
@@ -78,8 +78,8 @@ public class BookingServer implements Runnable {
 
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenFactory oxygenFactory = new OxygenFactory(festivalDates.getStartDate().minusDays(1));
-        OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+        OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
+        OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
