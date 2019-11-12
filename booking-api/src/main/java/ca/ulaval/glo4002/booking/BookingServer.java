@@ -19,6 +19,7 @@ import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
+import ca.ulaval.glo4002.booking.domain.passes.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -75,12 +76,15 @@ public class BookingServer implements Runnable {
         TransportReserver transportReserver = new TransportReserver(shuttleRepository);
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
-        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
+        PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
+        PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
+        
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-        PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
+        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory);
         PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
+
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         externalApiArtist = new ExternalApiArtist();
         ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);

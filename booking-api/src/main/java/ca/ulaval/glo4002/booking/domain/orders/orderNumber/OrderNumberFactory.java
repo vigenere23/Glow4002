@@ -6,13 +6,13 @@ import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 
 public class OrderNumberFactory {
 
-    private AtomicLong incrementor;
+    private AtomicLong numberGenerator;
 
-    public OrderNumberFactory(AtomicLong incrementor) {
-        this.incrementor = incrementor;
+    public OrderNumberFactory(AtomicLong numberGenerator) {
+        this.numberGenerator = numberGenerator;
     }
 
     public OrderNumber create(VendorCode vendorCode) {
-        return new OrderNumber(vendorCode, incrementor.getAndIncrement());
+        return new OrderNumber(vendorCode, numberGenerator.getAndIncrement());
     }
 }

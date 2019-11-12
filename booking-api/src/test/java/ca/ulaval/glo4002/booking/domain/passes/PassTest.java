@@ -30,6 +30,7 @@ class PassTest {
     private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
 
     private FestivalDates festivalDates;
+    private PassNumber passNumber;
     private Price price;
     private TransportReserver transportReserver;
     private OxygenReserver oxygenReserver;
@@ -37,6 +38,7 @@ class PassTest {
     @BeforeEach
     public void setUp() {
         festivalDates = new Glow4002Dates();
+        passNumber = new PassNumber(0);
         price = Price.zero();
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
@@ -167,6 +169,6 @@ class PassTest {
     }
 
     private Pass createSimplePass(PassOption passOption, PassCategory passCategory, LocalDate startDate, LocalDate endDate) {
-        return new Pass(festivalDates, passOption, passCategory, price, startDate, endDate);
+        return new Pass(festivalDates, passNumber, passOption, passCategory, price, startDate, endDate);
     }
 }

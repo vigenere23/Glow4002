@@ -17,6 +17,7 @@ public class PassFactoryTest {
 
     private PassFactory passFactory;
     private FestivalDates festivalDates;
+    private PassNumberFactory passNumberFactory;
     private PassPriceFactory passPriceFactory;
     
     private static final Optional<LocalDate> VALID_EVENT_DATE = Optional.of(LocalDate.now());
@@ -27,8 +28,9 @@ public class PassFactoryTest {
     @BeforeEach
     public void setupPassFactory() {
         festivalDates = mock(FestivalDates.class);
+        passNumberFactory = mock(PassNumberFactory.class);
         passPriceFactory = mock(PassPriceFactory.class);
-        passFactory = new PassFactory(festivalDates, passPriceFactory);
+        passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     }
 
     @Test

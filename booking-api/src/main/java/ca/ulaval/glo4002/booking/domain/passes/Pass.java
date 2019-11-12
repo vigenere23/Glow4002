@@ -24,18 +24,18 @@ public class Pass {
     private OxygenGrade oxygenGrade;
     private int oxygenQuantityPerDay;
 
-    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
+    public Pass(FestivalDates festivalDates, PassNumber passNumber, PassOption passOption, PassCategory passCategory, Price price,
             LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDate(startDate);
         festivalDates.validateEventDate(endDate);
 
+        this.passNumber = passNumber;
         this.passOption = passOption;
         this.passCategory = passCategory;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
 
-        passNumber = new PassNumber();
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
