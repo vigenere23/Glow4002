@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -80,5 +81,5 @@ public abstract class OxygenOrder {
         return oxygenHistoryItem;
     }
 
-    abstract Price getOrderCost();
+    abstract void saveOutcome(OutcomeSaver outcomeSaver);
 }

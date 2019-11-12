@@ -22,10 +22,6 @@ public class ProfitResource {
 
     @GET
     public ProfitResponse profit() {
-        double income = profitUseCase.getIncome();
-        double outcome = profitUseCase.getOutcome();
-        double profit = profitUseCase.getProfit();
-
-        return new ProfitResponse(income, outcome, profit);
+        return new ProfitResponse(profitUseCase.getIncome(), profitUseCase.getOutcome(), profitUseCase.getProfit());
     }
 }

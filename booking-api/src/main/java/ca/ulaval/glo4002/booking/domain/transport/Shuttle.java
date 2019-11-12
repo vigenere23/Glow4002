@@ -6,6 +6,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public abstract class Shuttle {
     
@@ -26,10 +27,6 @@ public abstract class Shuttle {
     public ShuttleCategory getCategory() {
         return category;
     }
-
-    public Price getPrice() {
-        return price;
-    }
         
     public void addPassNumber(PassNumber passNumber) {
         this.passNumbers.add(passNumber);
@@ -38,4 +35,8 @@ public abstract class Shuttle {
     public boolean isFull() {
         return passNumbers.size() == capacity ? true : false; 
     }
+
+	public void saveOutcome(OutcomeSaver outcomeSaver) {
+        outcomeSaver.saveOutcome(price);
+	}
 }

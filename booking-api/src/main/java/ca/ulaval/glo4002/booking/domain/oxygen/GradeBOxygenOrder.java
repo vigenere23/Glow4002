@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 import java.time.LocalDate;
 
@@ -20,7 +21,11 @@ public class GradeBOxygenOrder extends OxygenOrder {
     }
 
     @Override
-    Price getOrderCost() {
+    protected void saveOutcome(OutcomeSaver outcomeSaver) {
+        outcomeSaver.saveOutcome(calculateOrderCost());
+    }
+
+    private Price calculateOrderCost() {
         return COST_PER_WATER_LITRE.multipliedBy(quantityOfBatches * WATER_FABRICATION_QUANTITY_IN_LITRE);
     }
 }

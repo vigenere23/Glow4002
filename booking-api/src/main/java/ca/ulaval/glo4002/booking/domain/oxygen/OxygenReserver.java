@@ -3,20 +3,20 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.util.SortedMap;
 
-import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenReserver {
 
     private OxygenOrderFactory oxygenOrderFactory;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
 
-    public OxygenReserver(OxygenOrderFactory oxygenOrderFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository, ProfitCalculator profitCalculator) {
+    public OxygenReserver(OxygenOrderFactory oxygenOrderFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository, OutcomeSaver outcomeSaver) {
         this.oxygenOrderFactory = oxygenOrderFactory;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
         this.oxygenHistoryRepository = oxygenHistoryRepository;
-        this.profitCalculator = profitCalculator;
+        this.outcomeSaver = outcomeSaver;
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity) {
@@ -42,7 +42,7 @@ public class OxygenReserver {
     }
 
     private void addOxygenOrderCostToOutcome(OxygenOrder oxygenOrder) {
-        profitCalculator.saveOutcome(oxygenOrder.getOrderCost());
+        oxygenOrder.saveOutcome(outcomeSaver);
     }
 
     private OxygenStatus getNewOxygenStatus(LocalDate orderDate, OxygenGrade grade, int quantityToOrder, OxygenInventory oxygenInventory, OxygenOrder oxygenOrder) {

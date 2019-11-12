@@ -4,15 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
-import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleFiller {
     
     private ShuttleFactory shuttleFactory;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
 
-    public ShuttleFiller(ProfitCalculator profitCalculator) {
-        this.profitCalculator = profitCalculator;
+    public ShuttleFiller(OutcomeSaver outcomeSaver) {
+        this.outcomeSaver = outcomeSaver;
         shuttleFactory = new ShuttleFactory();
     }
     
@@ -39,6 +39,6 @@ public class ShuttleFiller {
     }
     
     private void addShuttleCostToOutcome(Shuttle shuttle) {
-        profitCalculator.saveOutcome(shuttle.getPrice());
+        shuttle.saveOutcome(outcomeSaver);
     }
 }

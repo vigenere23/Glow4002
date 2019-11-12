@@ -18,8 +18,11 @@ import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitSaver;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
@@ -75,16 +78,18 @@ public class BookingServer implements Runnable {
         FestivalDates festivalDates = new Glow4002Dates();
 
         ProfitRepository profitRepository = new HeapProfitRepository();
-        ProfitCalculator profitCalculator = new ProfitCalculator(profitRepository) ;
-        ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator);
+        ProfitCalculator profitCalculator = new ProfitCalculator();
+        IncomeSaver incomeSaver = new ProfitSaver(profitRepository);
+        OutcomeSaver outcomeSaver = new ProfitSaver(profitRepository);
+        ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator, profitRepository);
 
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
-        OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, profitCalculator);
+        OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
-        ShuttleFiller shuttleFiller = new ShuttleFiller(profitCalculator); 
+        ShuttleFiller shuttleFiller = new ShuttleFiller(outcomeSaver); 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
         TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
