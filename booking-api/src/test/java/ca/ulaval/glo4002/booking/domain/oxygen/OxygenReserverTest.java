@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
+
 import java.time.LocalDate;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -34,6 +36,7 @@ class OxygenReserverTest {
     private OxygenOrder oxygenOrderGradeB;
     private OxygenOrder oxygenOrderGradeE;
     private OxygenReserver oxygenReserver;
+    private ProfitCalculator profitCalculator;
 
     @BeforeEach
     public void setUp() {
@@ -43,7 +46,8 @@ class OxygenReserverTest {
         initializeOxygenInventories();
         mockOxygenInventoryRepository();
         mockOxygenHistoryRepository();
-        oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+        profitCalculator = mock(ProfitCalculator.class);
+        oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, profitCalculator);
     }
 
     @Test

@@ -3,16 +3,20 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.util.SortedMap;
 
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
+
 public class OxygenReserver {
 
     private OxygenOrderFactory oxygenOrderFactory;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
+    private ProfitCalculator profitCalculator;
 
-    public OxygenReserver(OxygenOrderFactory oxygenOrderFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+    public OxygenReserver(OxygenOrderFactory oxygenOrderFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository, ProfitCalculator profitCalculator) {
         this.oxygenOrderFactory = oxygenOrderFactory;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
         this.oxygenHistoryRepository = oxygenHistoryRepository;
+        this.profitCalculator = profitCalculator;
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity) {
@@ -27,15 +31,20 @@ public class OxygenReserver {
 
         if (quantityToOrder > 0) {
             oxygenInventory.setRemainingQuantity(0);
-            return getNewOxygenStatus(orderDate, grade, quantityToOrder, oxygenInventory);
+            OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade);
+            addOxygenOrderCostToOutcome(oxygenOrder);
+            return getNewOxygenStatus(orderDate, grade, quantityToOrder, oxygenInventory, oxygenOrder);
         }
 
         oxygenInventory.setRemainingQuantity(quantityRemaining - requiredQuantity);
         return new OxygenStatus(oxygenInventory);
     }
 
-    private OxygenStatus getNewOxygenStatus(LocalDate orderDate, OxygenGrade grade, int quantityToOrder, OxygenInventory oxygenInventory) {
-        OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade);
+    private void addOxygenOrderCostToOutcome(OxygenOrder oxygenOrder) {
+        profitCalculator.saveOutcome(oxygenOrder.getOrderCost());
+    }
+
+    private OxygenStatus getNewOxygenStatus(LocalDate orderDate, OxygenGrade grade, int quantityToOrder, OxygenInventory oxygenInventory, OxygenOrder oxygenOrder) {
         if (!oxygenOrder.isEnoughTimeToFabricate(orderDate)) {
             reserveOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder);
         }
