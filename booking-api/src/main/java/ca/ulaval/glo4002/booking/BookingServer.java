@@ -39,8 +39,6 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRe
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 
-
-
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
     private ExternalApiArtist externalApiArtist;
@@ -104,7 +102,6 @@ public class BookingServer implements Runnable {
         PassCounter passCounter = new PassCounter();
         ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, passCounter);
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
-
 
         return new ResourceConfiguration(
             passOrderUseCase,
