@@ -25,4 +25,18 @@ public class OrderNumberTest {
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
         assertThat(orderNumber.getValue()).isEqualTo(stringOrderNumber);
     }
+
+    @Test
+    public void givenTwoCreatedOrderNumbersWithDifferentArguments_whenComparingEquality_itReturnsFalse() {
+        OrderNumber orderNumber1 = new OrderNumber(VendorCode.TEAM, 1);
+        OrderNumber orderNumber2 = new OrderNumber(VendorCode.TEAM, 2);
+        assertThat(orderNumber1).isNotEqualTo(orderNumber2);
+    }
+
+    @Test
+    public void givenTwoCreatedOrderNumbersWithSameArguments_whenComparingEquality_itReturnsTrue() {
+        OrderNumber orderNumber1 = new OrderNumber(VendorCode.TEAM, 1);
+        OrderNumber orderNumber2 = new OrderNumber(VendorCode.TEAM, 1);
+        assertThat(orderNumber1).isEqualTo(orderNumber2);
+    }
 }

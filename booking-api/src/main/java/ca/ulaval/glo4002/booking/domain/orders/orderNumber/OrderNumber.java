@@ -24,7 +24,7 @@ public class OrderNumber {
         if (!(other instanceof OrderNumber)) return false;
 
         OrderNumber otherOrderNumber = (OrderNumber) other;
-        return value == otherOrderNumber.value;
+        return value.equals(otherOrderNumber.value);
     }
 
     public String getValue() {
