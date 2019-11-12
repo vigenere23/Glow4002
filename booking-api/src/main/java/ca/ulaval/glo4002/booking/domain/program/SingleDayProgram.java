@@ -12,9 +12,9 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class SingleDayProgram {
 
-    private static final int OXYGEN_QUANTITY_BY_ARTIST = 6;
-    private static final OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
-    private static final LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
+    protected static final int OXYGEN_QUANTITY_BY_ARTIST = 6;
+    protected static final OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
+    protected static final LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
     private Activity activity;
     private String artistName;
     private LocalDate date;
@@ -45,7 +45,7 @@ public class SingleDayProgram {
 
     public void orderShuttle(TransportReserver transportReserver, ArtistRepository artistRepository) {
         ArtistProgramInformation artist = artistRepository.getArtistByName(artistName);
-        ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttle(artist.getGroupSize());
+        ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttleCategory(artist.getGroupSize());
         transportReserver.reserveDeparture(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
         transportReserver.reserveArrival(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
     }

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.PassCounter;
+import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -24,7 +24,7 @@ public class ProgramUseCaseTest {
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
-    private PassCounter passCounter;
+    private FestivalAttendeesCounter festivalAttendeesCounter;
 
     @BeforeEach
     public void setUpProgramUseCase() {
@@ -33,9 +33,9 @@ public class ProgramUseCaseTest {
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
-        passCounter = mock(PassCounter.class);
+        festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
 
-        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, passCounter);
+        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter);
     }
 
     @Test
@@ -47,4 +47,6 @@ public class ProgramUseCaseTest {
 
         verify(singleDay).orderShuttle(transportReserver, artistRepository);
     }
+
+    //TODO add oxy test
 }

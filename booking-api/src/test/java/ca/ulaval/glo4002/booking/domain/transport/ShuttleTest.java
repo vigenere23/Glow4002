@@ -44,7 +44,7 @@ public class ShuttleTest {
     }
     
     @Test
-    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleIsNotFulled() {
+    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleHasAvailablePlaceLeft() {
         boolean nonFullShuttle;
         shuttle.addPassNumber(PASS_NUMBER); 
         
@@ -54,11 +54,14 @@ public class ShuttleTest {
     }
 
     @Test
-    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleIsFulled() {
+    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleHasNoAvailablePlaceLeft() {
+        boolean fullShuttle;
         shuttle.addPassNumber(PASS_NUMBER);
         shuttle.addPassNumber(PASS_NUMBER);
 
-        assertFalse(shuttle.hasAvailableCapacity(ONE_PLACE));
+        fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+
+        assertFalse(fullShuttle);
     }
 }
 

@@ -17,10 +17,10 @@ public class ProgramMapper {
     }
 
     private List<SingleDayProgram> fromSingleDayDto(ProgramRequest programRequest) {
-        List<SingleDayProgram> singleDaysProgram = new ArrayList<>();
+        List<SingleDayProgram> program = new ArrayList<>();
         for(SingleDayProgramRequest singleDayProgram : programRequest.program) {
-            singleDaysProgram.add(new SingleDayProgram(singleDayProgram.activity, singleDayProgram.artist, singleDayProgram.eventDate));
+            program.add(new SingleDayProgram(singleDayProgram.activity, singleDayProgram.artist, singleDayProgram.eventDate));
         }
-        return singleDaysProgram;
+        return program;
     }
 }

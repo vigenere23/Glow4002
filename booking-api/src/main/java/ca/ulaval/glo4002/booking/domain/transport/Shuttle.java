@@ -30,14 +30,14 @@ public abstract class Shuttle {
     }
     
     public boolean hasAvailableCapacity(int passengers) {
-        return passNumbers.size() + passengers > capacity; 
+        return passNumbers.size() + passengers <= capacity; 
     }
 
-    public boolean hasCorrectDate(LocalDate date) {
+    public boolean hasDate(LocalDate date) {
         return this.date.equals(date);
     }
 
-	public boolean hasCorrectCategory(ShuttleCategory shuttleCategory) {
+	public boolean hasCategory(ShuttleCategory shuttleCategory) {
 		return this.category == shuttleCategory;
 	}
 }

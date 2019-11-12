@@ -43,9 +43,11 @@ public enum Activity {
         return activity == CARDIO ? OXY_CARDIO : OXY_YOGA;
     }
 
-    public static void artistIsActivity(String artistName) {
+    public static boolean artistIsActivity(String artistName) {
+        boolean isAnActivity = false;
         if(artistName.equals("yoga") || artistName.equals("cardio")) {
-            throw new InvalidProgramException();
+            isAnActivity = true;
         }
+        return isAnActivity;
     }
 }

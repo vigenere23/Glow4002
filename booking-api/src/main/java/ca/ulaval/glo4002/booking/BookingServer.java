@@ -23,7 +23,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.PassCounter;
+import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
@@ -99,8 +99,8 @@ public class BookingServer implements Runnable {
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
-        PassCounter passCounter = new PassCounter();
-        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, passCounter);
+        FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
+        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
         return new ResourceConfiguration(

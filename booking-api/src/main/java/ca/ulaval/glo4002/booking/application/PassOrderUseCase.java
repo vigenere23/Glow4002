@@ -39,7 +39,6 @@ public class PassOrderUseCase {
             pass.reserveShuttles(transportReserver);
             pass.reserveOxygen(orderDate.toLocalDate(), oxygenReserver);
         }
-
         return passOrder;
     }
 }

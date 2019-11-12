@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,14 +33,14 @@ public class SupergiantSinglePassDiscountTests {
     @Test
     public void givenTwoSupergiantPasses_thenThereIsNoDiscount() {
         initPasses(2);
-        assertThat(getPriceAfterDiscount()).isEqualTo(PRICE_WITHOUT_DISCOUNT);
+        assertEquals(PRICE_WITHOUT_DISCOUNT, getPriceAfterDiscount());
     }
 
     @Test
     public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
         initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
-        assertThat(getPriceAfterDiscount()).isEqualTo(expectedPriceAfterDiscount);
+        assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());
     }
     
     private void initPasses(int numberOfPasses) {

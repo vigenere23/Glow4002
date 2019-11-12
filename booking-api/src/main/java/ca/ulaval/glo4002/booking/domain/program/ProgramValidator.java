@@ -19,36 +19,47 @@ public class ProgramValidator {
      
     public void validateProgram(List<SingleDayProgram> program) {
         this.program = program;
-        for(SingleDayProgram programForOneDay : this.program) {
-            validateArtistDifferentOnEachDay(programForOneDay);
-            validateOnlyArtistOnPm(programForOneDay);
-            validateEventDates(programForOneDay);
+        boolean artistsAreDifferent;
+        boolean artistOnPMOnly;
+        boolean validDates;
+        for (SingleDayProgram programForOneDay : this.program) {
+            artistsAreDifferent = artistDifferentOnEachDay(programForOneDay);
+            artistOnPMOnly = onlyArtistOnPm(programForOneDay);
+            validDates = validEventDates(programForOneDay);
+
+            if (!artistOnPMOnly || !artistsAreDifferent || !validDates) {
+                throw new InvalidProgramException();
+            }
         }
     }
 
-    private void validateArtistDifferentOnEachDay(SingleDayProgram programForOneDay) {
-        if(Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) != 1) {
-            throw new InvalidProgramException();
-        }
+    private boolean artistDifferentOnEachDay(SingleDayProgram programForOneDay) {
+        return Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) == 1;
     }
     
-    private void validateOnlyArtistOnPm(SingleDayProgram programForOneDay) {
+    private boolean onlyArtistOnPm(SingleDayProgram programForOneDay) {
+        boolean isAnNotActivity = true;
         for(String artistName : retrieveArtists()) {
-            Activity.artistIsActivity(artistName);
+            if (Activity.artistIsActivity(artistName)) {
+                isAnNotActivity = false;
+            }
         }
+        return isAnNotActivity;
     }
     
     private List<String> retrieveArtists() {
         return program.stream().map(SingleDayProgram::getArtist).collect(Collectors.toList());
     }
     
-    private void validateEventDates(SingleDayProgram programForOneDay) {
+    private boolean validEventDates(SingleDayProgram programForOneDay) {
+        boolean validDates = true;
         if(!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
-            throw new InvalidProgramException();
+            validDates = false;
         }
         if (retrieveDates().size() != DateCalculator.daysBetween(glow4002Dates.getStartDate(), glow4002Dates.getEndDate())) {
-            throw new InvalidProgramException();
+            validDates = false;
         }
+        return validDates;
     }
 
     private boolean dateIsUnique(SingleDayProgram programForOneDay) {

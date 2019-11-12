@@ -30,9 +30,6 @@ public class ExternalArtistRepository implements ArtistRepository {
 
     @Override
     public ArtistProgramInformation getArtistByName(String artistName) {
-        List<ArtistDto> artistDtos = apiArtist.getArtistsDto();
-        return artistInformationMapper.programFromDto(artistDtos.stream()
-                                        .filter(artist -> artistName.equals(artist.name))
-                                        .findAny().orElse(null));
+        return artistInformationMapper.programFromDto(apiArtist.getArtistDto(artistName));
     }
 }
