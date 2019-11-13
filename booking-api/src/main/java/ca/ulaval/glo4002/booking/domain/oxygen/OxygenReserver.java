@@ -3,16 +3,20 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.util.SortedMap;
 
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+
 public class OxygenReserver {
 
     private OxygenOrderFactory oxygenOrderFactory;
     private OxygenInventoryRepository oxygenInventoryRepository;
     private OxygenHistoryRepository oxygenHistoryRepository;
+    private OutcomeSaver outcomeSaver;
 
-    public OxygenReserver(OxygenOrderFactory oxygenOrderFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository) {
+    public OxygenReserver(OxygenOrderFactory oxygenOrderFactory, OxygenInventoryRepository oxygenInventoryRepository, OxygenHistoryRepository oxygenHistoryRepository, OutcomeSaver outcomeSaver) {
         this.oxygenOrderFactory = oxygenOrderFactory;
         this.oxygenInventoryRepository = oxygenInventoryRepository;
         this.oxygenHistoryRepository = oxygenHistoryRepository;
+        this.outcomeSaver = outcomeSaver;
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenGrade grade, int requiredQuantity) {
@@ -27,21 +31,27 @@ public class OxygenReserver {
 
         if (quantityToOrder > 0) {
             oxygenInventory.setRemainingQuantity(0);
-            return getNewOxygenStatus(orderDate, grade, quantityToOrder, oxygenInventory);
+            OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade);
+            OxygenStatus oxygenStatus = getNewOxygenStatus(orderDate, grade, quantityToOrder, oxygenInventory, oxygenOrder);
+            addOxygenOrderCostToOutcome(oxygenOrder);
+            return oxygenStatus;
         }
 
         oxygenInventory.setRemainingQuantity(quantityRemaining - requiredQuantity);
         return new OxygenStatus(oxygenInventory);
     }
 
-    private OxygenStatus getNewOxygenStatus(LocalDate orderDate, OxygenGrade grade, int quantityToOrder, OxygenInventory oxygenInventory) {
-        OxygenOrder oxygenOrder = oxygenOrderFactory.create(grade);
+    private void addOxygenOrderCostToOutcome(OxygenOrder oxygenOrder) {
+        oxygenOrder.saveOutcome(outcomeSaver);
+    }
+
+    private OxygenStatus getNewOxygenStatus(LocalDate orderDate, OxygenGrade grade, int quantityToOrder, OxygenInventory oxygenInventory, OxygenOrder oxygenOrder) {
         if (!oxygenOrder.isEnoughTimeToFabricate(orderDate)) {
             reserveOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder);
         }
 
         updateOxygenInventory(oxygenInventory, oxygenOrder, orderDate, quantityToOrder);
-        SortedMap<LocalDate, OxygenHistoryItem> oxygenHistory = getOxygenHistory(oxygenOrder, orderDate, quantityToOrder);
+        SortedMap<LocalDate, OxygenHistoryItem> oxygenHistory = getOxygenHistory(oxygenOrder, orderDate);
 
         return new OxygenStatus(oxygenInventory, oxygenHistory);
     }
@@ -62,8 +72,8 @@ public class OxygenReserver {
         oxygenInventory.updateInventory(quantityToReserve);
     }
 
-    private SortedMap<LocalDate, OxygenHistoryItem> getOxygenHistory(OxygenOrder oxygenOrder, LocalDate orderDate, int quantityToOrder) {
-        SortedMap<LocalDate, OxygenHistoryItem> orderHistory = oxygenOrder.getOxygenOrderHistory(orderDate, quantityToOrder);
+    private SortedMap<LocalDate, OxygenHistoryItem> getOxygenHistory(OxygenOrder oxygenOrder, LocalDate orderDate) {
+        SortedMap<LocalDate, OxygenHistoryItem> orderHistory = oxygenOrder.getOxygenOrderHistory(orderDate);
         updateOrderHistoryWithCurrentHistory(orderHistory);
 
         return orderHistory;

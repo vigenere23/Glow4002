@@ -34,7 +34,14 @@ import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitSaver;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
@@ -44,8 +51,10 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHisto
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.ProfitUseCase;
 
 public class ProgramFunctionalTest extends JerseyTest {
 
@@ -55,23 +64,30 @@ public class ProgramFunctionalTest extends JerseyTest {
 
     FestivalDates festivalDates = new Glow4002Dates();
 
+    ProfitRepository profitRepository = new HeapProfitRepository();
+    ProfitCalculator profitCalculator = new ProfitCalculator();
+    IncomeSaver incomeSaver = new ProfitSaver(profitRepository);
+    OutcomeSaver outcomeSaver = new ProfitSaver(profitRepository);
+    ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator, profitRepository);
+
     OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
     OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-    OxygenOrderFactory oxygenFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
-    OxygenReserver oxygenReserver = new OxygenReserver(oxygenFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+    OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
+    OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
     OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
+    ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
+    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory); 
     ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-    TransportReserver transportReserver = new TransportReserver(shuttleRepository);
+    TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
     PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
     PassRepository passRepository = new HeapPassRepository();
     PassPriceFactory passPriceFactory = new PassPriceFactory();
     PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
+    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
     PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
-
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
     ExternalApiArtist externalApiArtist = new ExternalApiArtist();
     ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
@@ -79,7 +95,7 @@ public class ProgramFunctionalTest extends JerseyTest {
     ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
     FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
+    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
     @BeforeEach

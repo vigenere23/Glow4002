@@ -11,15 +11,18 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrder {
 
     private OrderNumber orderNumber;
     private List<Pass> passes = new ArrayList<>();
     private OrderDiscount orderDiscount;
+    private IncomeSaver incomeSaver;
 
-    public PassOrder(VendorCode vendorCode, List<Pass> passes) {
+    public PassOrder(VendorCode vendorCode, List<Pass> passes, IncomeSaver incomeSaver) {
         this.passes = passes;
+        this.incomeSaver = incomeSaver;
         
         orderNumber = new OrderNumber(vendorCode);
         orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
@@ -30,6 +33,10 @@ public class PassOrder {
     public Price getPrice() {
         return calculateTotalPrice();
     }
+
+    public void saveIncome() {
+        incomeSaver.saveIncome(calculateTotalPrice());
+	}
 
     private Price calculateTotalPrice() {
         Price priceBeforeDiscounts = Price.sum(getPrices());

@@ -30,8 +30,8 @@ public class Price {
         return price.getAmount();
     }
 
-    public double getRoundedAmount(int numberOfDecimals) {
-        return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount().doubleValue();
+    public float getRoundedAmount(int numberOfDecimals) {
+        return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount().floatValue();
     }
 
     @Override
