@@ -137,26 +137,38 @@ public class PriceTest {
     }
 
     @Test
-    public void givenAPositivePrice_whenMultiplying_itReturnsTheMultipliedAmount() {
-        float multiplicator = 0.176f;
-        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
+    public void givenAPositivePrice_whenMultiplyingByDouble_itReturnsNewInstanceWithMultipliedAmount() {
+        double multiplicator = 0.176;	
+        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);	
 
-        Price multipliedPrice = price.multipliedBy(multiplicator);
-        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1
-            .multiply(BigDecimal.valueOf(multiplicator));
+        Price multipliedPrice = price.multipliedBy(multiplicator);	
+        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1	
+            .multiply(BigDecimal.valueOf(multiplicator));	
 
-        assertEquals(expectedMultipliedPrice, multipliedPrice.getAmount());
+        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);	
+    }
+
+    @Test
+    public void givenAPositivePrice_whenMultiplyingByInteger_itReturnsTheMultipliedAmount() {
+        double multiplicator = 3;	
+        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);	
+
+        Price multipliedPrice = price.multipliedBy(multiplicator);	
+        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1	
+            .multiply(BigDecimal.valueOf(multiplicator));	
+
+        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);	
     }
 
     @Test
     public void givenAPositivePrice_whenDividingByScalar_itReturnsTheDividedAmount() {
-        float divisor = 5.25f;
+        double divisor = 5.25;
         Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
 
         Price dividedPrice = price.dividedBy(divisor);
         BigDecimal expectedDividedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1
             .divide(BigDecimal.valueOf(divisor), RoundingMode.HALF_UP);
 
-        assertEquals(expectedDividedPrice, dividedPrice.getAmount());
+        assertThat(dividedPrice.getAmount()).isEqualTo(expectedDividedPrice);    
     }
 }
