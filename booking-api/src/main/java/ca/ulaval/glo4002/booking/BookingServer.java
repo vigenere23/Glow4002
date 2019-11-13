@@ -155,6 +155,6 @@ public class BookingServer implements Runnable {
 
     private ProgramUseCase createProgramUseCase() {
         FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-        return new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
+        return new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     }
 }

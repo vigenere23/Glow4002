@@ -95,7 +95,7 @@ public class ProgramFunctionalTest extends JerseyTest {
     ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
     FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
+    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
     @BeforeEach
