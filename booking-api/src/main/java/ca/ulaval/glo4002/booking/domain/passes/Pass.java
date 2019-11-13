@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking.domain.passes;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
@@ -15,6 +14,7 @@ import ca.ulaval.glo4002.booking.helpers.DateCalculator;
 
 public class Pass {
 
+    private static final int ONE_PLACE = 1;
     private PassNumber passNumber;
     private Price price;
     private PassOption passOption;
@@ -51,6 +51,10 @@ public class Pass {
         return this.passOption == passOption && this.passCategory == passCategory;
     }
 
+    public boolean hasSameDateAs(LocalDate eventDate) {
+        return this.startDate.equals(eventDate);
+    }
+
     public Price getPrice() {
         return price;
     }
@@ -72,8 +76,8 @@ public class Pass {
     }
 
     public void reserveShuttles(TransportReserver transportReserver) {
-        transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber);
-        transportReserver.reserveArrival(shuttleCategory, endDate, passNumber);
+        transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber, ONE_PLACE);
+        transportReserver.reserveArrival(shuttleCategory, endDate, passNumber, ONE_PLACE);
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {

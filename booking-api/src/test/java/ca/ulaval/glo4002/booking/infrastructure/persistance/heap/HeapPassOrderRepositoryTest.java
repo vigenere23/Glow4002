@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -21,13 +22,15 @@ public class HeapPassOrderRepositoryTest {
 
     private HeapPassOrderRepository passOrderRepository;
     private PassOrder passOrder;
+    private IncomeSaver incomeSaver;
 
     @BeforeEach
     public void setUp() {
         List<Pass> passes = Arrays.asList(mock(Pass.class));
+        incomeSaver = mock(IncomeSaver.class);
 
         passOrderRepository = new HeapPassOrderRepository();
-        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes);
+        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes, incomeSaver);
     }
 
     @Test

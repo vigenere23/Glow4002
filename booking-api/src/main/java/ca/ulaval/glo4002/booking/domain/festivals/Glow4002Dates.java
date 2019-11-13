@@ -12,12 +12,14 @@ public class Glow4002Dates implements FestivalDates {
 
     private final LocalDate startDate;
     private final LocalDate endDate;
+    private final LocalDate programRevealDate;
     private final OffsetDateTime saleStartDate;
     private final OffsetDateTime saleEndDate;
 
     public Glow4002Dates() {
         startDate = LocalDate.of(2050, 7, 17);
         endDate = LocalDate.of(2050, 7, 24);
+        programRevealDate = LocalDate.of(2050, 07, 12);
         saleStartDate = DateConverter.toOffsetDateTimeStartOfDay(LocalDate.of(2050, 1, 1));
         saleEndDate = DateConverter.toOffsetDateTimeEndOfDay(LocalDate.of(2050, 7, 16));
     }
@@ -29,6 +31,14 @@ public class Glow4002Dates implements FestivalDates {
     public LocalDate getEndDate() {
         return endDate;
     }
+
+    public LocalDate getProgramRevealDate() {
+        return programRevealDate;
+    }
+
+    public LocalDate getOxygenLimitDeliveryDate() {
+        return startDate.minusDays(1);
+     }
 
     public OffsetDateTime getSaleStartDate() {
         return saleStartDate;

@@ -19,6 +19,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 
@@ -41,6 +42,7 @@ public class PassOrderUseCaseTest {
     private PassOrder passOrder;
     private PassRequest passRequest;
     private PassOrderRepository passOrderRepository;
+    private PassRepository passRepository;
     private PassOrderUseCase passOrderUseCase;
 
     @BeforeEach
@@ -50,6 +52,7 @@ public class PassOrderUseCaseTest {
         passOrderRepository = mock(HeapPassOrderRepository.class);
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
+        passRepository = mock(PassRepository.class);
 
         mockPassOrder();
         passRequest = mock(PassRequest.class);
@@ -60,7 +63,7 @@ public class PassOrderUseCaseTest {
             any(OffsetDateTime.class), any(VendorCode.class), any(PassOption.class), any(PassCategory.class), any())
         ).thenReturn(passOrder);
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
     }
 
     @Test
@@ -75,6 +78,13 @@ public class PassOrderUseCaseTest {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
 
         verify(passOrderRepository).save(passOrder);
+    }
+
+    @Test
+    public void whenOrchestPassCreation_thenPassIsSavedInRepository() {
+        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+
+        verify(passRepository).save(pass);
     }
 
     @Test

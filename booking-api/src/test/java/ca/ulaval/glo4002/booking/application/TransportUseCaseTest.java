@@ -29,7 +29,7 @@ class TransportUseCaseTest {
     private TransportUseCase transportUseCase;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpTransportUseCase() {
         mockShuttles();
         mockFestival();
         shuttleRepository = mock(ShuttleRepository.class);
