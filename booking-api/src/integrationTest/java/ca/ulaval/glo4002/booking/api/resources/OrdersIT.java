@@ -68,7 +68,6 @@ public class OrdersIT extends MockedBookingServer {
     @Test
     public void whenInvalidOrderDateInvalid_thenBadRequest() {
         Response response = postSinglePassOrder(SOME_INVALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
-
         assertEquals(HTTP_BAD_REQUEST, response.getStatus());
     }
 
@@ -84,7 +83,6 @@ public class OrdersIT extends MockedBookingServer {
     @Test
     public void whenInvalidEventDateInvalid_thenBadRequest() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someInvalidEventDates);
-
         assertEquals(HTTP_BAD_REQUEST, response.getStatus());
     }
 
@@ -100,7 +98,6 @@ public class OrdersIT extends MockedBookingServer {
     @Test
     public void whenInvaliRequest_thenBadRequest() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates);
-
         assertEquals(HTTP_BAD_REQUEST, response.getStatus());
     }
 
@@ -134,7 +131,6 @@ public class OrdersIT extends MockedBookingServer {
     @Test
     public void whenOrderSinglePass_thenSuccessfulResponseCode() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
-
         assertEquals(HTTP_VALID_REQUEST, response.getStatus());
     }
 
@@ -225,7 +221,6 @@ public class OrdersIT extends MockedBookingServer {
         assertEquals(expectedPrice, response.orderPrice);
     }
 
-
     @Test
     public void whenOrderMoreThanFiveSupergiantSinglePass_thenAnswerHasRightPrice() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SUPERGIANT_PASS_CATEGORY, fiveValidEventDates);
@@ -269,7 +264,6 @@ public class OrdersIT extends MockedBookingServer {
     @Test
     public void whenOrderPackagePass_thenSuccessfulResponseCode() {
         Response response = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
-
         assertEquals(HTTP_VALID_REQUEST, response.getStatus());
     }
 
