@@ -8,7 +8,7 @@ public class FestivalAttendeesCounter {
     public int countFestivalAttendeesForOneDay(List<Pass> passes, LocalDate eventDate) {
         int numberOfFestivalAttendees = 0;
         for (Pass pass : passes) {
-            if (pass.isOfOption(PassOption.PACKAGE) || pass.hasSameDateAs(eventDate)) {
+            if (pass.getPassOption() == PassOption.PACKAGE || pass.hasSameDateAs(eventDate)) {
                 numberOfFestivalAttendees++;
             }
         }

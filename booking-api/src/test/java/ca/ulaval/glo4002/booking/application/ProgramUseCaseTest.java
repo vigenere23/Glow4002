@@ -33,6 +33,7 @@ public class ProgramUseCaseTest {
     private PassRepository passRepository;
     private ArtistProgramInformation artistProgramInformation;
     private FestivalAttendeesCounter festivalAttendeesCounter;
+    private List<ArtistProgramInformation> artistsForProgram;
 
     @BeforeEach
     public void setUpProgramUseCase() {
@@ -57,7 +58,7 @@ public class ProgramUseCaseTest {
     public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(program);
 
-        verify(singleDay).orderShuttle(transportReserver, artistRepository.getArtistsForProgram());
+        verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
     }
 
     @Test
@@ -75,7 +76,7 @@ public class ProgramUseCaseTest {
     }
 
     private void mockArtistForProgram() {
-        List<ArtistProgramInformation> artistsForProgram = new ArrayList<>();
+        artistsForProgram = new ArrayList<>();
         artistsForProgram.add(artistProgramInformation);
 
         when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);
