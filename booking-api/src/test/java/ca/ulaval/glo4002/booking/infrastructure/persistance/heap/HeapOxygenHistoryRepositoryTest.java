@@ -3,10 +3,11 @@ package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-import java.util.SortedMap;
+import java.util.Map;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ public class HeapOxygenHistoryRepositoryTest {
 
     @Test
     public void HistoryIsInitialized() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenHistoryRepository.findAll();
+        Map<LocalDate, OxygenHistoryItem> history = oxygenHistoryRepository.findAll();
 
         assertEquals(0, history.size());
     }

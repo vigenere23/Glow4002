@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -26,7 +27,7 @@ public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
     }
 
     @Override
-    public SortedMap<LocalDate, OxygenHistoryItem> findAll() {
+    public Map<LocalDate, OxygenHistoryItem> findAll() {
         return history;
     }
 }

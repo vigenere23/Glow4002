@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.SortedMap;
+import java.util.Map;
 
 public class OxygenUseCase {
     private final OxygenHistoryRepository oxygenHistoryRepository;
@@ -19,7 +19,7 @@ public class OxygenUseCase {
         return oxygenInventoryRepository.findAll();
     }
 
-    public SortedMap<LocalDate, OxygenHistoryItem> getOxygenHistory() {
+    public Map<LocalDate, OxygenHistoryItem> getOxygenHistory() {
 
         return oxygenHistoryRepository.findAll();
     }

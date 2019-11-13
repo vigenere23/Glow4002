@@ -41,11 +41,10 @@ public class OrdersResource {
     @Path("/{id}")
     public Response getById(@PathParam("id") String stringOrderNumber) {
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
-        Optional<PassOrder> passOrder = passOrderUseCase.getOrder(orderNumber);
-        if (!passOrder.isPresent()) {
-            throw new NotFoundException("order", orderNumber.getValue());
-        }
-        return Response.ok().entity(passOrderResponseMapper.getPassOrderResponse(passOrder.get())).build();
+        PassOrder passOrder = passOrderUseCase.getOrder(orderNumber)
+            .orElseThrow(() -> new NotFoundException("order", orderNumber.getValue()));
+
+        return Response.ok().entity(passOrderResponseMapper.getPassOrderResponse(passOrder)).build();
     }
 
     @POST
