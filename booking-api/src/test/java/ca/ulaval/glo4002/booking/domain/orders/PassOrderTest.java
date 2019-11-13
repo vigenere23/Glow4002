@@ -72,6 +72,16 @@ public class PassOrderTest {
     }
 
     @Test
+    public void whenSaveIncome_itShouldCallMethodSaveIncomeFromIncomeSaver() {
+        initNebulaPasses(1);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes, incomeSaver);
+
+        passOrder.saveIncome();
+        
+        verify(incomeSaver).saveIncome(NEBULA_SINGLE_PASS_PRICE);
+    }
+
+    @Test
     public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
         PassOrder passOrder = new PassOrder(VENDOR_CODE, passes, incomeSaver);
