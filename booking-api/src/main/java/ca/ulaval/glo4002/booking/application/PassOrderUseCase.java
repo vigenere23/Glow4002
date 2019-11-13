@@ -32,7 +32,7 @@ public class PassOrderUseCase {
 
     public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates());
-        addOrderPassIncome(passOrder);
+        // addOrderPassIncome(passOrder);
         reservePassUtilities(orderDate, passOrder);
         passOrderRepository.save(passOrder);
 
@@ -46,7 +46,7 @@ public class PassOrderUseCase {
         }
     }
 
-    private void addOrderPassIncome(PassOrder passOrder) {
-        profitCalculator.saveIncome(passOrder.getPrice());
-    }
+    // private void addOrderPassIncome(PassOrder passOrder) {
+    //     profitCalculator.saveIncome(passOrder.getPrice());
+    // }
 }
