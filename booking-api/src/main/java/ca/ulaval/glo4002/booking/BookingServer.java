@@ -57,8 +57,6 @@ public class BookingServer implements Runnable {
     private PassRepository passRepository;
     private IncomeSaver incomeSaver;
     private OutcomeSaver outcomeSaver;
-    private ShuttleFiller shuttleFiller;
-    private ShuttleFactory shuttleFactory;
 
     public static void main(String[] args) {
         new BookingServer().run();
@@ -93,20 +91,20 @@ public class BookingServer implements Runnable {
     private ResourceConfig setupResourceConfig() {
         Glow4002Dates festivalDates = new Glow4002Dates();
         
+        ProfitUseCase profitUseCase = createProfitUseCase();        
         OxygenUseCase oxygenUseCase = createOxygenUseCase(festivalDates);
         TransportUseCase transportUseCase = createTransportUseCase(festivalDates);
         PassOrderUseCase passOrderUseCase = createPassOrderUseCase(festivalDates);
         ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();  
         ProgramUseCase programUseCase = createProgramUseCase();  
-        ProfitUseCase profitUseCase = createProfitUseCase();
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
         return new ResourceConfiguration(
+            profitUseCase,
             passOrderUseCase,
             transportUseCase,
             oxygenUseCase,
             artistRankingUseCase,
-            profitUseCase,
             programUseCase,
             programValidator
         ).packages("ca.ulaval.glo4002.booking");
@@ -130,8 +128,8 @@ public class BookingServer implements Runnable {
 
     private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        shuttleFactory = new ShuttleFactory(outcomeSaver);
-        shuttleFiller = new ShuttleFiller(shuttleFactory);
+        ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
+        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory);
         transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
         return new TransportUseCase(festivalDates, shuttleRepository);
     }

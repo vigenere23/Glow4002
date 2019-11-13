@@ -14,11 +14,11 @@ import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 public class ResourceConfiguration extends ResourceConfig {
 
     public ResourceConfiguration(
+            ProfitUseCase profitUseCase,
             PassOrderUseCase passOrderUseCase,
             TransportUseCase transportUseCase,
             OxygenUseCase oxygenUseCase,
             ArtistRankingUseCase artistRankingUseCase,
-            ProfitUseCase profitUseCase,
             ProgramUseCase programUseCase,
             ProgramValidator programValidator
     ) {
