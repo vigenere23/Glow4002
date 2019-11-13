@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -27,8 +28,12 @@ public class SingleDayProgramTest {
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
     private final static String SOME_ARTIST_NAME = "Sun 41";
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 22);
+    private static final OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
+    private static final LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
     private final static ShuttleCategory SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
     private final static int SOME_PASSENGERS = 1;
+    private final static int SOME_ATTENDEES = 4;
+    private final static int SOME_OXYGEN_QUANTITY = 66;
     List<ArtistProgramInformation> artistsForProgram;
     
     private PassNumber passNumber;
@@ -80,6 +85,12 @@ public class SingleDayProgramTest {
     public void whenOrderShuttles_thenTransportReserverOrderArrivalShuttle() {
         singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
         verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, passNumber, SOME_PASSENGERS);
+    }
+
+    @Test
+    public void whenOrderOxygen_thenOxygenReserverOrderOxygen() {
+        singleDayProgram.orderOxygen(oxygenReserver, artistsForProgram, SOME_ATTENDEES);
+        verify(oxygenReserver).reserveOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, SOME_OXYGEN_QUANTITY);
     }
 
     private void mockDependency() {

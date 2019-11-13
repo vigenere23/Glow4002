@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,13 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCaseTest {
 
+    private static final LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
+    private static final String SOME_ARTIST_NAME = "Sun 41";
+
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
     private ProgramUseCase programUseCase;
+    private List<SingleDayProgram> program = new ArrayList<>();
     private OxygenReserver oxygenReserver;
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
@@ -40,7 +45,10 @@ public class ProgramUseCaseTest {
         passRepository = mock(PassRepository.class);
         festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
 
+        when(singleDay.getDate()).thenReturn(SOME_DATE);
+        when(singleDay.getArtist()).thenReturn(SOME_ARTIST_NAME);
 
+        program.add(singleDay);
         mockArtistForProgram();
 
         programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter);
@@ -48,12 +56,23 @@ public class ProgramUseCaseTest {
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
-        List<SingleDayProgram> program = new ArrayList<>();
-        program.add(singleDay);
-
         programUseCase.provideProgramResources(program);
 
         verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
+    }
+
+    @Test
+    public void givenProgram_whenProvideProgramResources_thenOrderOxygen() {
+        programUseCase.provideProgramResources(program);
+
+        verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), festivalAttendeesCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
+    }
+
+    @Test
+    public void givenProgram_whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
+        programUseCase.provideProgramResources(program);
+
+        verify(festivalAttendeesCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
     }
 
     private void mockArtistForProgram() {
@@ -62,6 +81,4 @@ public class ProgramUseCaseTest {
 
         when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);
     }
-
-    //TODO add oxy test
 }
