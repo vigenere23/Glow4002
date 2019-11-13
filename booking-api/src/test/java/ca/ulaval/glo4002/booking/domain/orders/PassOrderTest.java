@@ -63,14 +63,14 @@ public class PassOrderTest {
     }
 
     @Test
-    public void givenOnePass_whenGettingPrice_itShouldBeThePassPrice() {
+    public void givenOneNebulaPass_whenGettingPrice_itShouldBeTheNebulaPassPrice() {
         initNebulaPasses(1);
         PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
         assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
     }
 
     @Test
-    public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
+    public void givenTwoNebulaPasses_whenGettingPrice_itShouldBeDoubleTheNebulaPassPrice() {
         initNebulaPasses(2);
         PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
 

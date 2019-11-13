@@ -37,7 +37,7 @@ public class SupergiantSinglePassDiscountTest {
     }
 
     @Test
-    public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
+    public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsFourTimesThePassDiscount() {
         initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
         assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());
