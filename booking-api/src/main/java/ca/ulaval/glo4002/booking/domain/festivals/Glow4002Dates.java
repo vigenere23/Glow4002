@@ -36,6 +36,10 @@ public class Glow4002Dates implements FestivalDates {
         return programRevealDate;
     }
 
+    public LocalDate getOxygenLimitDeliveryDate() {
+        return startDate.minusDays(1);
+     }
+
     public OffsetDateTime getSaleStartDate() {
         return saleStartDate;
     }
