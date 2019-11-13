@@ -1,14 +1,14 @@
-package ca.ulaval.glo4002.booking.api.resources;
+package ca.ulaval.glo4002.booking.api.resources.passOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.orders.PackagePassOrder;
-import ca.ulaval.glo4002.booking.api.resources.orders.SinglePassOrder;
+import ca.ulaval.glo4002.booking.api.resources.MockedBookingServer;
+import ca.ulaval.glo4002.booking.api.resources.passOrder.orders.PackagePassOrder;
+import ca.ulaval.glo4002.booking.api.resources.passOrder.orders.SinglePassOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class OrdersIT extends MockedBookingServer {
+public class OrdersResourceIT extends MockedBookingServer {
+
     private static final String LOCAL_HOST = "http://localhost:8181";
     private static final String ORDERS_FULL_URL = LOCAL_HOST + ORDERS_URL + "/";
     private static final int HTTP_VALID_REQUEST = 201;
@@ -57,12 +58,6 @@ public class OrdersIT extends MockedBookingServer {
         generateEventDates(threeValidEventDates, 3);
         generateEventDates(fourValidEventDates, 4);
         generateEventDates(fiveValidEventDates, 5);
-    }
-
-    @Override
-    protected Application configure() {
-        MockedBookingServer mockedBookingServer = new MockedBookingServer();
-        return mockedBookingServer.configure();
     }
 
     @Test
