@@ -58,7 +58,7 @@ public class PassOrderTest {
 
     @Test
     public void NoPasses_whenGettingPrice_itShouldBeZero() {
-        PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<Pass>());
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, new ArrayList<>());
         Price nullPrice = Price.zero();
         assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
     }

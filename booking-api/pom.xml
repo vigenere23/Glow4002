@@ -128,14 +128,14 @@
                 <version>1.12</version>
                 <executions>
                     <execution>
-                        <id>add-integration-test-sources</id>
+                        <id>add-integrationTest-sources</id>
                         <phase>generate-test-sources</phase>
                         <goals>
                             <goal>add-test-source</goal>
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/integration-test/java</source>
+                                <source>src/integrationTest/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -146,13 +146,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>integration-tests</id>
                         <phase>integration-test</phase>
+                        <id>integrationTest</id>
                         <goals>
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>true</skipTests>
+                            <skipTests>false</skipTests>
                             <includes>
                                 <include>**/*IT.java</include>
                             </includes>

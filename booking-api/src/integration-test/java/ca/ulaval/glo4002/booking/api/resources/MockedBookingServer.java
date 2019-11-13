@@ -1,7 +1,11 @@
 package ca.ulaval.glo4002.booking.api.resources;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 
+import ca.ulaval.glo4002.booking.api.resources.oxygen.ReportOxygenResources;
+import ca.ulaval.glo4002.booking.api.resources.passOrder.OrdersResource;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
@@ -12,8 +16,10 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ApiArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtos.ArtistRankingInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistRankingInformationMapper;
+import com.google.gson.Gson;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -29,8 +35,15 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHisto
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
+import org.glassfish.jersey.test.JerseyTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
-public class MockedBookingServer {
+import java.util.List;
+
+public class MockedBookingServer extends JerseyTest {
+    protected static final String ORDERS_URL = "/orders";
+
     FestivalDates festivalDates = new Glow4002Dates();
 
     OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
@@ -48,9 +61,9 @@ public class MockedBookingServer {
     PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
     PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
     PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
-
     ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
-    ArtistRepository artistsRepository = new ApiArtistRepository(artistRankingInformationMapper);
+    ExternalApiArtist externalApiArtist = new ExternalApiArtist();
+    ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
     ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
     ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
@@ -59,8 +72,20 @@ public class MockedBookingServer {
         System.setProperty("jersey.config.test.container.port", "8181");
     }
 
-    public Application configure() {
+    @BeforeEach
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+    }
 
+    @AfterEach
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    @Override
+    protected Application configure() {
         ResourceConfig resourceConfig = new ResourceConfig(ReportOxygenResources.class, OrdersResource.class).packages("ca.ulaval.glo4002.booking");
         resourceConfig.register(new AbstractBinder() {
             @Override
@@ -72,5 +97,20 @@ public class MockedBookingServer {
             }
         });
         return resourceConfig;
+    }
+
+    protected Response postSinglePassOrder(String orderDate, String passCategory, List<String> eventDates) {
+        return postPassOrderWithEventDates(orderDate, passCategory, eventDates, "singlePass");
+    }
+
+    protected Response postPackagePassOrder(String orderDate, String passCategory) {
+        return target(ORDERS_URL).request().post(Entity.json("{\"orderDate\":\"" + orderDate + "\",\"vendorCode\":\"TEAM\",\"passes\":"+
+                "{\"passCategory\":\"" + passCategory + "\",\"passOption\":\"package\"}}"));
+    }
+
+    protected Response postPassOrderWithEventDates(String orderDate, String passCategory, List<String> eventDates, String passOption) {
+        String jsonEventDates = new Gson().toJson(eventDates);
+        return target(ORDERS_URL).request().post(Entity.json("{\"orderDate\":\"" + orderDate + "\",\"vendorCode\":\"TEAM\",\"passes\":"+
+                "{\"passCategory\":\"" + passCategory + "\",\"passOption\":\"" + passOption + "\",\"eventDates\":" + jsonEventDates + "}}"));
     }
 }
