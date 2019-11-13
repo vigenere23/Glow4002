@@ -50,6 +50,8 @@ import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 public class ProgramFunctionalTest extends JerseyTest {
 
     private static final String PROGRAM_URL = "/program";
+    private String validProgram = "{\"program\": [{   \"eventDate\": \"2050-07-17\",   \"am\": \"yoga\",   \"pm\": \"Kid Rocket\"},{   \"eventDate\": \"2050-07-18\",   \"am\": \"yoga\",   \"pm\": \"Freddie Mercury\"},{   \"eventDate\": \"2050-07-19\",   \"am\": \"cardio\",   \"pm\": \"Kelvin Harris\"},{   \"eventDate\": \"2050-07-20\",   \"am\": \"cardio\",   \"pm\": \"Lady Gamma\"},{   \"eventDate\": \"2050-07-21\",   \"am\": \"yoga\",   \"pm\": \"30 Seconds to Mars\"},{   \"eventDate\": \"2050-07-22\",   \"am\": \"yoga\",   \"pm\": \"Coldray\"},{   \"eventDate\": \"2050-07-23\",   \"am\": \"cardio\",   \"pm\": \"Suns N’ Roses\"},{   \"eventDate\": \"2050-07-24\",   \"am\": \"yoga\",   \"pm\": \"Eclipse Presley\"}]}";
+    private String invalidProgram = "{\"program\": [{}]}";
 
     FestivalDates festivalDates = new Glow4002Dates();
 
@@ -80,8 +82,6 @@ public class ProgramFunctionalTest extends JerseyTest {
     ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
-    String validProgram = "{\"program\": [{   \"eventDate\": \"2050-07-17\",   \"am\": \"yoga\",   \"pm\": \"Kid Rocket\"},{   \"eventDate\": \"2050-07-18\",   \"am\": \"yoga\",   \"pm\": \"Freddie Mercury\"},{   \"eventDate\": \"2050-07-19\",   \"am\": \"cardio\",   \"pm\": \"Kelvin Harris\"},{   \"eventDate\": \"2050-07-20\",   \"am\": \"cardio\",   \"pm\": \"Lady Gamma\"},{   \"eventDate\": \"2050-07-21\",   \"am\": \"yoga\",   \"pm\": \"30 Seconds to Mars\"},{   \"eventDate\": \"2050-07-22\",   \"am\": \"yoga\",   \"pm\": \"Coldray\"},{   \"eventDate\": \"2050-07-23\",   \"am\": \"cardio\",   \"pm\": \"Suns N’ Roses\"},{   \"eventDate\": \"2050-07-24\",   \"am\": \"yoga\",   \"pm\": \"Eclipse Presley\"}]}";
-    String invalidProgram = "{\"program\": [{}]}";
     @BeforeEach
     @Override
     public void setUp() throws Exception {
@@ -113,28 +113,23 @@ public class ProgramFunctionalTest extends JerseyTest {
         return resourceConfig;
     }
 
-    private Response postProgram(String program) {
-        Response response = target(PROGRAM_URL).request().post(Entity.json(program));
-        return response;
-    }
+    // @Test
+    // public void givenValidProgramPosted_thenReturnsCorrectStatusCode() {
+    //     Response response = target(PROGRAM_URL).request().post(Entity.json(validProgram));
 
-    @Test
-    public void givenValidProgramPosted_thenReturnsCorrectStatusCode() {
-        Response response = postProgram(validProgram);
-
-        assertEquals(Status.OK.getStatusCode(), response.getStatus(), "Http Response should be 200 ");
-    }
+    //     assertEquals(Status.OK.getStatusCode(), response.getStatus(), "Http Response should be 200 ");
+    // }
 
     @Test
     public void giveninvalidProgramPosted_thenReturnsCorrectStatusCode() {
-        Response response = postProgram(invalidProgram);
+        Response response = target(PROGRAM_URL).request().post(Entity.json(invalidProgram));
 
         assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus(), "Http Response should be 400 ");
     }
 
     @Test
     public void givenValidProgramPosted_thenReturnsResponseWithCorrectLocationHeader() {
-        Response response = postProgram(invalidProgram);
+        Response response = target(PROGRAM_URL).request().post(Entity.json(invalidProgram));
 
         assertEquals("application/json", response.getHeaderString(HttpHeaders.CONTENT_TYPE));
     }
