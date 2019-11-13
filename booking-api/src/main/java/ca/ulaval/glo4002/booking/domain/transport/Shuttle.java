@@ -29,7 +29,15 @@ public abstract class Shuttle {
         this.passNumbers.add(passNumber);
     }
     
-    public boolean isFull() {
-        return passNumbers.size() == capacity ? true : false; 
+    public boolean hasAvailableCapacity(int passengers) {
+        return passNumbers.size() + passengers <= capacity; 
     }
+
+    public boolean hasDate(LocalDate date) {
+        return this.date.equals(date);
+    }
+
+	public boolean hasCategory(ShuttleCategory shuttleCategory) {
+		return this.category == shuttleCategory;
+	}
 }

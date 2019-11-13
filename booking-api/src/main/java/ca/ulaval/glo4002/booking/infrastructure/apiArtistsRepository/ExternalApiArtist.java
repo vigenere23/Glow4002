@@ -30,7 +30,15 @@ public class ExternalApiArtist implements ApiArtist, Closeable {
     }
 
     @Override
+    public ArtistDto getArtistDto(String artistName) {
+        List<ArtistDto> artistDtos = getArtistsDto();
+        return artistDtos.stream().filter(artist -> artistName.equals(artist.name))
+                         .findAny().orElse(null);
+    }
+
+    @Override
     public void close() throws IOException {
         client.close();
     }
+
 }

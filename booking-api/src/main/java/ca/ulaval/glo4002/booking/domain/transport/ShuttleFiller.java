@@ -13,24 +13,29 @@ public class ShuttleFiller {
         shuttleFactory = new ShuttleFactory();
     }
     
-    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date) {
-        Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date);
-        availableShuttle.addPassNumber(passNumber);
+    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date, int numberOfPassengers) {
+        Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
+        assignNewPlaces(availableShuttle, passNumber, numberOfPassengers);
         if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
         }
         return shuttlesToFill;
     }
 
-    private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date) {
-        Shuttle availableShuttle = shuttlesToFill.stream()
-            .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date))
+    private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
+        return shuttlesToFill.stream()
+            .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date, numberOfPassengers))
             .findAny()
-            .orElse(shuttleFactory.createShuttle(shuttleCategory, date));
-        return availableShuttle;            
+            .orElse(shuttleFactory.createShuttle(shuttleCategory, date));          
     }
 
-    private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date) {
-        return date.equals(shuttleToVerify.getDate()) && shuttleCategory.equals(shuttleToVerify.getCategory()) && !shuttleToVerify.isFull();
-    } 
+    private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
+        return shuttleToVerify.hasDate(date) && shuttleToVerify.hasCategory(shuttleCategory) && shuttleToVerify.hasAvailableCapacity(numberOfPassengers);
+    }
+
+    private void assignNewPlaces(Shuttle availableShuttle, PassNumber passNumber, int numberOfPassengers) {
+        for (int place = 0; place < numberOfPassengers; place++) {
+            availableShuttle.addPassNumber(passNumber);
+        }
+    }
 }

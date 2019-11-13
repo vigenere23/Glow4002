@@ -15,19 +15,19 @@ public class TransportReserver {
         shuttleFiller = new ShuttleFiller();
     }
     
-    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int numberOfPassengers) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passNumber);
+        List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passNumber, numberOfPassengers);
         shuttleRepository.saveDeparture(shuttlesToSave);
     }
     
-    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int numberOfPassengers) {
         List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber);
+        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passNumber, numberOfPassengers);
         shuttleRepository.saveArrival(shuttlesToSave);
     }   
 
-    private List<Shuttle> assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber) {
-        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date);
+    private List<Shuttle> assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int numberOfPassengers) {
+        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passNumber, date, numberOfPassengers);
     }
 }

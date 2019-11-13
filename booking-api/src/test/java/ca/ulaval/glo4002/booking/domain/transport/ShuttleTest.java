@@ -28,11 +28,12 @@ public class ShuttleTest {
         }
     }    
 
+    private final static int ONE_PLACE = 1;
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
     private ShuttleImplementationTest shuttle;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpShuttle() {
         shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17));
     }
 
@@ -43,21 +44,24 @@ public class ShuttleTest {
     }
     
     @Test
-    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleIsNotFulled() {
-        boolean fullShuttle;
+    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleHasAvailablePlaceLeft() {
+        boolean nonFullShuttle;
         shuttle.addPassNumber(PASS_NUMBER); 
         
-        fullShuttle = shuttle.isFull();
+        nonFullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
 
-        assertFalse(fullShuttle);
+        assertTrue(nonFullShuttle);
     }
 
     @Test
-    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleIsFulled() {
+    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleHasNoAvailablePlaceLeft() {
+        boolean fullShuttle;
         shuttle.addPassNumber(PASS_NUMBER);
         shuttle.addPassNumber(PASS_NUMBER);
 
-        assertTrue(shuttle.isFull());
+        fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+
+        assertFalse(fullShuttle);
     }
 }
 

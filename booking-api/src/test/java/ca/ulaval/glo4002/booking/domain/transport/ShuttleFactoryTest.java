@@ -14,7 +14,7 @@ class ShuttleFactoryTest {
    private ShuttleFactory shuttleFactory;
     
     @BeforeEach
-    public void setUp() {
+    public void setUpShuttleFactory() {
         shuttleFactory = new ShuttleFactory();
     }
     
