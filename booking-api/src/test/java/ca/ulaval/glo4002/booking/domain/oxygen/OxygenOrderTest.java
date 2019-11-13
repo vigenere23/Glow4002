@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.SortedMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class OxygenOrderTest {
 
@@ -44,9 +46,11 @@ class OxygenOrderTest {
     }
 
     private OxygenOrder oxygenOrder;
+    private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setUpOxygenOrder() {
+        outcomeSaver = mock(OutcomeSaver.class);
         oxygenOrder = new OxygenOrderImplementationTest(SOME_FESTIVAL_START_DATE, SOME_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_TIME_IN_DAYS);
     }
 
@@ -112,13 +116,22 @@ class OxygenOrderTest {
         assertEquals(expectedQuantity, actualQuantity);
     }
 
-    @Test void whenOrderTooLate_thenThereIsNotEnoughTimeToFabricate() {
+    @Test 
+    void whenOrderTooLate_thenThereIsNotEnoughTimeToFabricate() {
         boolean isEnoughTime = oxygenOrder.isEnoughTimeToFabricate(TOO_LATE_DATE);
 
         assertFalse(isEnoughTime);
     }
 
-    @Test void whenOrderTooLate_thenExceptionIsThrown() {
+    @Test 
+    void whenOrderTooLate_thenExceptionIsThrown() {
         assertThrows(IllegalArgumentException.class, () -> oxygenOrder.getQuantityToReserve(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY));
     }
+
+    @Test
+    void whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverIsCalled() {
+        oxygenOrder.saveOutcome(outcomeSaver);
+        verify(outcomeSaver).saveOutcome(SOME_COST);
+    }
+
 }
