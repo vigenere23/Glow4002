@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class HeapOxygenHistoryRepositoryTest {
 
-    private final LocalDate SOME_DATE = LocalDate.of(2050, 2, 17);
-    private static final int SOME_CANDLES_USED_QTY = 2;
-    private static final int SOME_OXYGEN_TANK_BOUGH_QTY = 2;
-    private static final int SOME_OXYGEN_TANK_MADE_USED_QTY = 2;
-    private static final int SOME_WATER_USED_QTY = 2;
+    private final static LocalDate SOME_DATE = LocalDate.of(2050, 2, 17);
+    private final static int SOME_CANDLES_USED_QTY = 2;
+    private final static int SOME_OXYGEN_TANK_BOUGH_QTY = 2;
+    private final static int SOME_OXYGEN_TANK_MADE_USED_QTY = 2;
+    private final static int SOME_WATER_USED_QTY = 2;
 
     private HeapOxygenHistoryRepository oxygenHistoryRepository;
 

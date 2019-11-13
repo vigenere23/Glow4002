@@ -22,8 +22,6 @@ public class ProgramValidatorTest {
     private final static LocalDate DUPLICATE_FESTIVAL_DATE = LocalDate.of(2050, 07, 18);
     private final static LocalDate FESTIVAL_DATE = LocalDate.of(2050, 07, 17);
 
-
-
     private ProgramValidator programValidator;
     private List<SingleDayProgram> singleDaysProgram = new LinkedList<SingleDayProgram>();
     private FestivalDates glow4002Dates = new Glow4002Dates();

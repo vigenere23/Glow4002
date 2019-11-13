@@ -19,8 +19,8 @@ class ShuttleFillerTest {
     
     private final static LocalDate DATE = LocalDate.of(2050, 7, 22);
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
-    private static final int ONE_PLACE = 1;
-    private static final int SOME_PLACES = 5;
+    private final static int ONE_PLACE = 1;
+    private final static int SOME_PLACES = 5;
 
     private ShuttleFiller shuttleFiller;
     private List<Shuttle> shuttles;

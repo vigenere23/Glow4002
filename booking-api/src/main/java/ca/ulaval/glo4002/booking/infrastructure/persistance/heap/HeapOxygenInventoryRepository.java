@@ -17,13 +17,6 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
         inventories = initializeInventories();
     }
 
-    private EnumMap<OxygenGrade, OxygenInventory> initializeInventories() {
-        EnumMap<OxygenGrade, OxygenInventory> collection = new EnumMap<>(OxygenGrade.class);
-        EnumSet.allOf(OxygenGrade.class)
-            .forEach(grade -> collection.put(grade, new OxygenInventory(grade, 0, 0)));
-        return collection;
-    }
-
     @Override
     public List<OxygenInventory> findAll() {
         return new ArrayList<>(inventories.values());
@@ -38,4 +31,12 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
     public void save(OxygenInventory oxygenInventory) {
         this.inventories.put(oxygenInventory.getOxygenGrade(), oxygenInventory);
     }
+
+    private EnumMap<OxygenGrade, OxygenInventory> initializeInventories() {
+        EnumMap<OxygenGrade, OxygenInventory> collection = new EnumMap<>(OxygenGrade.class);
+        EnumSet.allOf(OxygenGrade.class)
+            .forEach(grade -> collection.put(grade, new OxygenInventory(grade, 0, 0)));
+        return collection;
+    }
+
 }

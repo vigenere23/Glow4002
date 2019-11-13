@@ -30,14 +30,14 @@ public class SingleDayProgramTest {
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
     private final static String SOME_ARTIST_NAME = "Sun 41";
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 22);
-    private static final OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
-    private static final LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
+    private final static OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
+    private final static LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
     private final static ShuttleCategory SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
     private final static int SOME_PASSENGERS = 1;
     private final static int SOME_ATTENDEES = 4;
     private final static int SOME_OXYGEN_QUANTITY = 66;
-    List<ArtistProgramInformation> artistsForProgram;
     
+    private List<ArtistProgramInformation> artistsForProgram;   
     private PassNumber passNumber;
     private OxygenReserver oxygenReserver;
     private TransportReserver transportReserver;
