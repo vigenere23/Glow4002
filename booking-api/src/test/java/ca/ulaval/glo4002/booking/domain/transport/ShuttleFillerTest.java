@@ -25,73 +25,96 @@ class ShuttleFillerTest {
     private ShuttleFiller shuttleFiller;
     private List<Shuttle> shuttles;
     private Shuttle firstMockedShuttle;
+    private Shuttle secondMockedShuttle;
     private ShuttleFactory shuttleFactory;
 
     @BeforeEach
     public void setUpShuttleFiller() {
-        firstMockedShuttle = mock(Shuttle.class);
-        shuttleFactory = mock(ShuttleFactory.class);
-        shuttles = new ArrayList<>();
+        mockShuttles();
+        mockShuttleFactory();
         shuttleFiller = new ShuttleFiller(shuttleFactory);
     }
 
-    // @Test
-    // public void givenShuttleList_whenDoesNotContainCategory_thenShuttleOfNewCategoryIsAddedToList() {
-    //     when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
-    //     when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
-    //     when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
-    //     shuttles.add(firstMockedShuttle);
+    @Test
+    public void givenShuttleList_whenDoesNotContainCategory_thenShuttleOfNewCategoryIsAddedToList() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
+        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
+        shuttles.add(firstMockedShuttle);
 
-    //     shuttleFiller.fillShuttle(shuttles, ShuttleCategory.ET_SPACESHIP, PASS_NUMBER, DATE, ONE_PLACE);
+        shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, ONE_PLACE);
         
-    // //     assertEquals(2, shuttles.size());
-    // }
+        assertEquals(2, shuttles.size());
+    }
     
-    // @Test
-    // public void givenShuttleListAndDate_whenFillOnePlaceShuttle_thenAddNewShuttleToShuttlesIfAbsentForThatDate() {
-    //     when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
-    //     when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
-    //     when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
-    //     shuttles.add(firstMockedShuttle);
+    @Test
+    public void givenShuttleListAndDate_whenFillOnePlaceShuttle_thenAddNewShuttleToShuttlesIfAbsentForThatDate() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
+        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
+        shuttles.add(firstMockedShuttle);
 
-    //     shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, ONE_PLACE);
+        shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, ONE_PLACE);
         
-    // //     assertEquals(2, shuttles.size());
-    // }
+        assertEquals(2, shuttles.size());
+    }
 
-    // @Test
-    // public void givenShuttleListAndFullShuttle_whenFillOnePlaceShuttle_thenAddNewShuttletoShuttlesIfShuttleForDateIsFull() {
-    //     when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
-    //     when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
-    //     when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
-    //     shuttles.add(firstMockedShuttle);
+    @Test
+    public void givenShuttleListAndFullShuttle_whenFillOnePlaceShuttle_thenAddNewShuttletoShuttlesIfShuttleForDateIsFull() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
+        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
+        shuttles.add(firstMockedShuttle);
         
-    //     shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, ONE_PLACE);
+        shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, ONE_PLACE);
         
-    // //     assertEquals(2, shuttles.size());
-    // }
+        assertEquals(2, shuttles.size());
+    }
+
+    @Test
+    public void givenShuttleListWithoutAnyShuttleToFill_whenFillOnePlaceShuttle_SaveOutcomeFromShuttleIsCalled() {
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
+        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
+        shuttles.add(firstMockedShuttle);
+        
+        shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, SOME_PLACES);
+        
+        verify(secondMockedShuttle).saveOutcome();
+    }
     
-    // @Test
-    // public void givenShuttleList_whenFillOnePlaceShuttle_thenAddPassNumberToShuttleNotFull() {
-    //     when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
-    //     when(firstMockedShuttle.hasCategory(ShuttleCategory.ET_SPACESHIP)).thenReturn(true);
-    //     when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
-    //     shuttles.add(firstMockedShuttle);
+    @Test
+    public void givenShuttleList_whenFillOnePlaceShuttle_thenAddPassNumberToShuttleNotFull() {
+        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.ET_SPACESHIP)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
+        shuttles.add(firstMockedShuttle);
 
-    //     shuttleFiller.fillShuttle(shuttles, ShuttleCategory.ET_SPACESHIP, PASS_NUMBER, DATE, ONE_PLACE);
+        shuttleFiller.fillShuttle(shuttles, ShuttleCategory.ET_SPACESHIP, PASS_NUMBER, DATE, ONE_PLACE);
 
-    //     verify(firstMockedShuttle).addPassNumber(PASS_NUMBER);
-    // }
+        verify(firstMockedShuttle).addPassNumber(PASS_NUMBER);
+    }
 
-    // @Test
-    // public void givenShuttleList_whenFillSomePlacesShuttle_thenAddSeveralPassNumberToShuttleNotFull() {
-    //     when(firstMockedShuttle.hasAvailableCapacity(SOME_PLACES)).thenReturn(true);
-    //     when(firstMockedShuttle.hasCategory(ShuttleCategory.MILLENNIUM_FALCON)).thenReturn(true);
-    //     when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
-    //     shuttles.add(firstMockedShuttle);
+    @Test
+    public void givenShuttleList_whenFillSomePlacesShuttle_thenAddSeveralPassNumberToShuttleNotFull() {
+        when(firstMockedShuttle.hasAvailableCapacity(SOME_PLACES)).thenReturn(true);
+        when(firstMockedShuttle.hasCategory(ShuttleCategory.MILLENNIUM_FALCON)).thenReturn(true);
+        when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
+        shuttles.add(firstMockedShuttle);
 
-    //     shuttleFiller.fillShuttle(shuttles, ShuttleCategory.MILLENNIUM_FALCON, PASS_NUMBER, DATE, SOME_PLACES);
+        shuttleFiller.fillShuttle(shuttles, ShuttleCategory.MILLENNIUM_FALCON, PASS_NUMBER, DATE, SOME_PLACES);
 
-    //     verify(firstMockedShuttle, times(SOME_PLACES)).addPassNumber(PASS_NUMBER);
-    // }
+        verify(firstMockedShuttle, times(SOME_PLACES)).addPassNumber(PASS_NUMBER);
+    }
+
+    private void mockShuttles() {
+        firstMockedShuttle = mock(Shuttle.class);
+        secondMockedShuttle = mock(Shuttle.class);
+        shuttles = new ArrayList<>();
+    }
+
+    private void mockShuttleFactory() {
+        shuttleFactory = mock(ShuttleFactory.class);
+        when(shuttleFactory.createShuttle(ShuttleCategory.SPACE_X, DATE)).thenReturn(secondMockedShuttle);
+    }
 }

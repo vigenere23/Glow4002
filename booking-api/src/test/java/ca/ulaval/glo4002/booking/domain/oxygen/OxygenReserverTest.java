@@ -80,6 +80,13 @@ class OxygenReserverTest {
     }
 
     @Test
+    public void whenOrderOxygenQuantityMoreThanRemainingQuantity_thenSaveOutcomeFromOxygenReserverIsCalled() {
+        oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
+
+        verify(oxygenOrderGradeA).saveOutcome(outcomeSaver);
+    }
+
+    @Test
     public void whenOrderOxygenQuantityMoreThanRemainingQuantity_thenOxygenHistoryIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
