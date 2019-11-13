@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -25,7 +26,6 @@ import ca.ulaval.glo4002.booking.domain.profit.ProfitSaver;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
@@ -37,13 +37,16 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepos
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
@@ -135,11 +138,14 @@ public class BookingServer implements Runnable {
     }
 
     private PassOrderUseCase createPassOrderUseCase(FestivalDates festivalDates) {
-        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         passRepository = new HeapPassRepository();
+        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
-        PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
+        PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
+        PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
+        OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
+        
         return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
     }
 

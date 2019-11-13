@@ -5,14 +5,18 @@ import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 
 public class PassFactory {
 
     private FestivalDates festivalDates;
+    private PassNumberFactory passNumberFactory;
     private PassPriceFactory passPriceFactory;
 
-    public PassFactory(FestivalDates festivalDates, PassPriceFactory passPriceFactory) {
+    public PassFactory(FestivalDates festivalDates, PassNumberFactory passNumberFactory, PassPriceFactory passPriceFactory) {
         this.festivalDates = festivalDates;
+        this.passNumberFactory = passNumberFactory;
         this.passPriceFactory = passPriceFactory;
     }
 
@@ -42,12 +46,14 @@ public class PassFactory {
     }
 
     private Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
+        PassNumber passNumber = passNumberFactory.create();
         Price price = passPriceFactory.create(PassOption.SINGLE_PASS, passCategory);
-        return new Pass(festivalDates, PassOption.SINGLE_PASS, passCategory, price, eventDate, eventDate);
+        return new Pass(festivalDates, passNumber, PassOption.SINGLE_PASS, passCategory, price, eventDate);
     }
 
     private Pass createPackagePass(PassCategory passCategory) {
+        PassNumber passNumber = passNumberFactory.create();
         Price price = passPriceFactory.create(PassOption.PACKAGE, passCategory);
-        return new Pass(festivalDates, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
+        return new Pass(festivalDates, passNumber, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
     }
 }

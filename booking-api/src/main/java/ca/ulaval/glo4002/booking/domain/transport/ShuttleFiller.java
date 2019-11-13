@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 
 public class ShuttleFiller {
     

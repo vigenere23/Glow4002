@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.api.resources.passOrder.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.*;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
