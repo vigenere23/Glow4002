@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.dtos.profit;
+package ca.ulaval.glo4002.booking.api.resources.profit.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
