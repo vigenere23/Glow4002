@@ -14,12 +14,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
@@ -42,6 +44,8 @@ public class SingleDayProgramTest {
     private SingleDayProgram singleDayProgram;
     private FestivalDates festivalDates;
     private ArtistProgramInformation artistProgramInformation;
+    private OutcomeSaver outcomeSaver;
+    private Price price;
     
     @BeforeEach
     public void setUpSingleDayProgram() {
@@ -93,12 +97,20 @@ public class SingleDayProgramTest {
         verify(oxygenReserver).reserveOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, SOME_OXYGEN_QUANTITY);
     }
 
+    @Test
+    public void whenSaveOutcome_thenOutcomeAddedToOutcomeInRepository() {
+        singleDayProgram.saveOutcome(outcomeSaver, artistsForProgram);
+        verify(outcomeSaver).saveOutcome(price);
+    }
+
     private void mockDependency() {
         oxygenReserver = mock(OxygenReserver.class);
         transportReserver = mock(TransportReserver.class);
         festivalDates = mock(Glow4002Dates.class);
         passNumber = mock(PassNumber.class);
         artistProgramInformation = mock(ArtistProgramInformation.class);
+        outcomeSaver = mock(OutcomeSaver.class);
+        price = mock(Price.class);
     }
 
     private void mockArtistProgramInformation() {
@@ -107,5 +119,6 @@ public class SingleDayProgramTest {
         when(artistProgramInformation.getArtistName()).thenReturn(SOME_ARTIST_NAME);
         when(artistProgramInformation.getGroupSize()).thenReturn(SOME_PASSENGERS);
         when(artistProgramInformation.getPassNumber()).thenReturn(passNumber);
+        when(artistProgramInformation.getPrice()).thenReturn(price);
     }
 }
