@@ -29,13 +29,13 @@ public class OrderNumberFactoryTest {
 
     @Test
     public void givenMultipleCreation_whenCreating_thenTheNumberIsIncrementedByNumberOfCreations() {
-        int NUMBER_OF_CREATIONS = 10;
-        OrderNumber orderNumber = null;
-        for (int i = 0; i <= NUMBER_OF_CREATIONS; i++) {
-            orderNumber = orderNumberFactory.create(SOME_VENDOR_CODE);
+        int numberOfCreations = 10;
+        OrderNumber lastOrderNumber = null;
+        for (int i = 0; i <= numberOfCreations; i++) {
+            lastOrderNumber = orderNumberFactory.create(SOME_VENDOR_CODE);
         }
 
-        String expectedValue = SOME_VENDOR_CODE.toString() + "-" + String.valueOf(NUMBER_OF_CREATIONS);
-        assertThat(orderNumber.getValue()).isEqualTo(expectedValue);
+        String expectedValue = SOME_VENDOR_CODE.toString() + "-" + String.valueOf(numberOfCreations);
+        assertThat(lastOrderNumber.getValue()).isEqualTo(expectedValue);
     }
 }

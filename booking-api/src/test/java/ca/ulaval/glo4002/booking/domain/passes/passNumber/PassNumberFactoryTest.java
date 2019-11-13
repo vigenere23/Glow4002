@@ -24,12 +24,12 @@ public class PassNumberFactoryTest {
 
     @Test
     public void givenMultipleCreation_whenCreating_thenTheNumberIsIncrementedByNumberOfCreations() {
-        int NUMBER_OF_CREATIONS = 10;
+        int numberOfCreations = 10;
         PassNumber passNumber = null;
-        for (int i = 0; i <= NUMBER_OF_CREATIONS; i++) {
+        for (int i = 0; i <= numberOfCreations; i++) {
             passNumber = passNumberFactory.create();
         }
 
-        assertThat(passNumber.getValue()).isEqualTo(NUMBER_OF_CREATIONS);
+        assertThat(passNumber.getValue()).isEqualTo(numberOfCreations);
     }
 }

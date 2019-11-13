@@ -43,7 +43,7 @@ public class PassOrderTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    public void setUpPasses() {
         passes = new ArrayList<>();
 
         nebulaSinglePassMock = mock(Pass.class);
@@ -58,7 +58,7 @@ public class PassOrderTest {
     }
 
     @Test
-    public void NoPasses_whenGettingPrice_itShouldBeZero() {
+    public void givenNoPasses_whenGettingPrice_itShouldBeZero() {
         PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, new ArrayList<>());
         Price nullPrice = Price.zero();
         assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
