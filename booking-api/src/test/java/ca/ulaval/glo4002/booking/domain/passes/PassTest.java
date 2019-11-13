@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.domain.passes;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
 
 import java.time.LocalDate;
 
@@ -16,8 +17,6 @@ import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-
-import static org.mockito.Matchers.any;
 
 class PassTest {
     private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;

@@ -21,7 +21,7 @@ public class HeapOxygenInventoryRepository implements OxygenInventoryRepository 
         EnumMap<OxygenGrade, OxygenInventory> collection = new EnumMap<>(OxygenGrade.class);
         EnumSet.allOf(OxygenGrade.class)
             .forEach(grade -> collection.put(grade, new OxygenInventory(grade, 0, 0)));
-            return collection;
+        return collection;
     }
 
     @Override

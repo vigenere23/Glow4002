@@ -15,44 +15,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SupergiantSinglePassDiscountTests {
+public class NebulaSinglePassDiscountTest {
 
-    private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
+    private static final int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
     private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
-    private static final Price DISCOUNT_PER_PASS = new Price(10000);
+    private static final double PERCENTAGE_DISCOUNT = 0.1;
 
-    private SupergiantSinglePassDiscount supergiantSinglePassDiscount;
+    private NebulaSinglePassDiscount nebulaSinglePassDiscount;
     private List<Pass> passes;
 
     @BeforeEach
-    public void setUpSuperGriantSinglePassDiscount() {
-        supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
+    public void setUpNebulaSinglePassDiscount() {
+        nebulaSinglePassDiscount = new NebulaSinglePassDiscount();
         passes = new ArrayList<>();
     }
     
     @Test
-    public void givenTwoSupergiantPasses_thenThereIsNoDiscount() {
-        initPasses(2);
+    public void givenTwoNebulaPasses_thenThereIsNoDiscount() {
+        initializePassesWithMockPass(2);
         assertEquals(PRICE_WITHOUT_DISCOUNT, getPriceAfterDiscount());
     }
 
     @Test
-    public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
-        initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
-        Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
+    public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
+        initializePassesWithMockPass(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+        Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT);
         assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());
     }
     
-    private void initPasses(int numberOfPasses) {
+    private void initializePassesWithMockPass(int numberOfPasses) {
         Pass pass = mock(Pass.class);
-        when(pass.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
-        
+        when(pass.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
+
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(pass);
         }
     }
 
     private Price getPriceAfterDiscount() {
-        return supergiantSinglePassDiscount.getPriceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
+        return nebulaSinglePassDiscount.getPriceAfterDiscounts(passes, PRICE_WITHOUT_DISCOUNT);
     }
 }

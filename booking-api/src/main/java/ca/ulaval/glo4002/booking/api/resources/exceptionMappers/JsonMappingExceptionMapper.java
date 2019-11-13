@@ -30,6 +30,6 @@ public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingEx
             return new ClientErrorResponseBuilder(clientErrorDto).build();
         }
 
-        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();
+        return new ClientErrorResponseBuilder(new InvalidFormatException(exception, "A mapping exception occured.")).build();
     }
 }

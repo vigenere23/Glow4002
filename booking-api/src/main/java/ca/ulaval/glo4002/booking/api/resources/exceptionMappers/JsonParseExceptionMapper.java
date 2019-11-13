@@ -16,6 +16,6 @@ public class JsonParseExceptionMapper implements ExceptionMapper<JsonParseExcept
 
     @Override
     public Response toResponse(JsonParseException exception) {
-        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();        
+        return new ClientErrorResponseBuilder(new InvalidFormatException(exception, "A parsing exception occured.")).build();        
     }
 }

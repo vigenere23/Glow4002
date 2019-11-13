@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.helpers.DateCalculator;
+import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
 
 public class Pass {
 

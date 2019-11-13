@@ -7,12 +7,11 @@ import javax.ws.rs.ext.Provider;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorResponseBuilder;
 
-
 @Provider
 public class NumberFormatExceptionMapper implements ExceptionMapper<NumberFormatException> {
 
     @Override
     public Response toResponse(NumberFormatException exception) {
-        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();
+        return new ClientErrorResponseBuilder(new InvalidFormatException(exception, "A number format exception occured.")).build();
     }
 }

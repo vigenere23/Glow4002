@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.helpers;
+package ca.ulaval.glo4002.booking.domain.dateUtil;
 
 import java.time.format.DateTimeFormatter;
 

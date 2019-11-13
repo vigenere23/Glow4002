@@ -26,7 +26,6 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRe
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 public class PassOrderUseCaseTest {
 
     private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;

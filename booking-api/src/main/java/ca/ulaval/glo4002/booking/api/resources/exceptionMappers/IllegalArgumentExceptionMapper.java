@@ -12,6 +12,6 @@ public class IllegalArgumentExceptionMapper implements ExceptionMapper<IllegalAr
 
     @Override
     public Response toResponse(IllegalArgumentException exception) {
-        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();
+        return new ClientErrorResponseBuilder(new InvalidFormatException(exception, "An illegal argument exception occured.")).build();
     }
 }
