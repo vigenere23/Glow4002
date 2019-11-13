@@ -9,8 +9,8 @@ public class ShuttleFiller {
     
     private ShuttleFactory shuttleFactory;
 
-    public ShuttleFiller() {
-        shuttleFactory = new ShuttleFactory();
+    public ShuttleFiller(ShuttleFactory shuttleFactory) {
+        this.shuttleFactory = shuttleFactory;
     }
     
     public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date, int numberOfPassengers) {
@@ -18,6 +18,7 @@ public class ShuttleFiller {
         assignNewPlaces(availableShuttle, passNumber, numberOfPassengers);
         if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
+            addShuttleCostToOutcome(availableShuttle);
         }
         return shuttlesToFill;
     }
@@ -27,6 +28,10 @@ public class ShuttleFiller {
             .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date, numberOfPassengers))
             .findAny()
             .orElse(shuttleFactory.createShuttle(shuttleCategory, date));          
+    }
+
+    private void addShuttleCostToOutcome(Shuttle shuttle) {
+        shuttle.saveOutcome();
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {

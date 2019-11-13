@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
+import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,9 +10,12 @@ import java.time.LocalDate;
 import java.util.SortedMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class OxygenOrderTest {
 
+    private final static Price SOME_COST = new Price(500);
     private final static int SOME_FABRICATION_TIME_IN_DAYS = 20;
     private final static int SOME_TANK_FABRICATION_QUANTITY = 5;
     private final static int SOME_FABRICATION_QUANTITY = 3;
@@ -32,12 +38,19 @@ class OxygenOrderTest {
             quantitiesRequiredPerBatchForOrderDate.put(SOME_ORDER_DATE_HISTORY_TYPE, SOME_FABRICATION_QUANTITY);
             quantitiesRequiredPerBatchForCompletionDate.put(SOME_COMPLETION_DATE_HISTORY_TYPE, tankFabricationQuantity);
         }
+
+        @Override
+        protected void saveOutcome(OutcomeSaver outcomeSaver) {
+            outcomeSaver.saveOutcome(SOME_COST);
+        }
     }
 
     private OxygenOrder oxygenOrder;
+    private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setUpOxygenOrder() {
+        outcomeSaver = mock(OutcomeSaver.class);
         oxygenOrder = new OxygenOrderImplementationTest(SOME_FESTIVAL_START_DATE, SOME_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_TIME_IN_DAYS);
     }
 
@@ -62,24 +75,30 @@ class OxygenOrderTest {
     }
 
     @Test
-    public void whenOrderOxygenLessThanTankFabricationQuantity_thenOrderDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+    public void givenOxygenLessThanTankFabricationQuantityOrdered_whenGetOxygenHistory_thenOrderDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int actualQuantity =  history.get(SOME_ORDER_DATE).getCandlesUsed();
         assertEquals(SOME_FABRICATION_QUANTITY, actualQuantity);
     }
 
     @Test
-    public void whenOrderOxygenLessThanTankFabricationQuantity_thenCompletionDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+    public void givenOxygenLessThanTankFabricationQuantityOrdered_whenGetOxygenHistory_thenCompletionDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int actualQuantity =  history.get(COMPLETION_DATE).getOxygenTankMade();
         assertEquals(SOME_TANK_FABRICATION_QUANTITY, actualQuantity);
     }
 
     @Test
-    public void whenOrderOxygenMoreThanTankFabricationQuantity_thenOrderDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+    public void givenOxygenMoreThanTankFabricationQuantityOrdered_whenOxygenHistory_thenOrderDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int expectedQuantity = SOME_FABRICATION_QUANTITY * 2;
         int actualQuantity =  history.get(SOME_ORDER_DATE).getCandlesUsed();
@@ -87,21 +106,32 @@ class OxygenOrderTest {
     }
 
     @Test
-    public void whenOrderOxygenMoreThanTankFabricationQuantity_thenCompletionDateHistoryIsUpdated() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+    public void givenOxygenMoreThanTankFabricationQuantityOrdered_whenOxygenHistory_thenCompletionDateHistoryIsUpdated() {
+        oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
+
+        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenOrder.getOxygenOrderHistory(SOME_ORDER_DATE);
 
         int expectedQuantity = SOME_TANK_FABRICATION_QUANTITY * 2;
         int actualQuantity =  history.get(COMPLETION_DATE).getOxygenTankMade();
         assertEquals(expectedQuantity, actualQuantity);
     }
 
-    @Test void whenOrderTooLate_thenThereIsNotEnoughTimeToFabricate() {
+    @Test 
+    void whenOrderTooLate_thenThereIsNotEnoughTimeToFabricate() {
         boolean isEnoughTime = oxygenOrder.isEnoughTimeToFabricate(TOO_LATE_DATE);
 
         assertFalse(isEnoughTime);
     }
 
-    @Test void whenOrderTooLate_thenExceptionIsThrown() {
+    @Test 
+    void whenOrderTooLate_thenExceptionIsThrown() {
         assertThrows(IllegalArgumentException.class, () -> oxygenOrder.getQuantityToReserve(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY));
     }
+
+    @Test
+    void whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverIsCalled() {
+        oxygenOrder.saveOutcome(outcomeSaver);
+        verify(outcomeSaver).saveOutcome(SOME_COST);
+    }
+
 }

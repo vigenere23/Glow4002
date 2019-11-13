@@ -10,9 +10,9 @@ public class TransportReserver {
     private ShuttleFiller shuttleFiller;
     private ShuttleRepository shuttleRepository;
     
-    public TransportReserver(ShuttleRepository shuttleRepository) {
+    public TransportReserver(ShuttleRepository shuttleRepository, ShuttleFiller shuttleFiller) {
         this.shuttleRepository = shuttleRepository;
-        shuttleFiller = new ShuttleFiller();
+        this.shuttleFiller = shuttleFiller;
     }
     
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassNumber passNumber, int numberOfPassengers) {

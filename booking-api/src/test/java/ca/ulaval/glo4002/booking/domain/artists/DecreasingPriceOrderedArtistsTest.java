@@ -43,9 +43,9 @@ public class DecreasingPriceOrderedArtistsTest {
     }
 
     private void fillArtistsToOrderWithSamePrice() {
-        addArtist(mock(ArtistRankingInformation.class), 5000f, 2, "mostExpensiveLessPopularArtist");
+        addArtist(mock(ArtistRankingInformation.class), 5000f, 2, "mostExpensiveMostPopularArtist");
         addArtist(mock(ArtistRankingInformation.class), 3000f, 3, "lessExpensiveArtist");
-        addArtist(mock(ArtistRankingInformation.class), 5000f, 1, "mostExpensiveMostPopularArtist");
+        addArtist(mock(ArtistRankingInformation.class), 5000f, 1, "mostExpensiveLessPopularArtist");
     }
 
     private void addArtist(ArtistRankingInformation artist, float price, int popularity, String name) {

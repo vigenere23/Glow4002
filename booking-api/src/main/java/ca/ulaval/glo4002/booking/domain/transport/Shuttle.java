@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public abstract class Shuttle {
     
@@ -12,6 +14,8 @@ public abstract class Shuttle {
     protected List<PassNumber> passNumbers = new ArrayList<>();
     protected LocalDate date;
     protected ShuttleCategory category;
+    protected Price price;
+    protected OutcomeSaver outcomeSaver;
 
     public List<PassNumber> getPassNumbers() {
         return passNumbers;
@@ -33,6 +37,10 @@ public abstract class Shuttle {
         return passNumbers.size() + passengers <= capacity; 
     }
 
+	public void saveOutcome() {
+        outcomeSaver.saveOutcome(price);
+    }
+    
     public boolean hasDate(LocalDate date) {
         return this.date.equals(date);
     }
