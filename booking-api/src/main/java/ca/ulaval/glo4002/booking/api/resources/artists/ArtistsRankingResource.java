@@ -37,9 +37,15 @@ public class ArtistsRankingResource {
             return new ClientErrorResponseBuilder(
                 new ClientErrorDto("Bad request.", "Invalid query parameter.")).build();
         }
+        ArtistRankingResponse response = sortArtist(orderBy);
+        
+        return Response.status(200).entity(response).build();
+    }
+
+    private ArtistRankingResponse sortArtist(String orderBy) {
         List<String> artistsRanked = artistRankingUseCase.orderBy(ranking.get(orderBy));
         ArtistRankingResponse response = new ArtistRankingResponse();
         response.artists = artistsRanked;
-        return Response.status(200).entity(response).build();
+        return response;
     }
 }

@@ -18,7 +18,7 @@ import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
-class PassTest {
+public class PassTest {
     private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
     private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
     private static final ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;

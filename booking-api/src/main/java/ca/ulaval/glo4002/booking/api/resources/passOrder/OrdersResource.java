@@ -19,8 +19,9 @@ import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponse;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
-import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
+import ca.ulaval.glo4002.booking.api.resources.responseUtil.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 
 @Path("/orders")
@@ -28,10 +29,12 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 public class OrdersResource {
 
     private PassOrderUseCase passOrderUseCase;
+    private final PassOrderResponseMapper passOrderResponseMapper;
 
     @Inject
     public OrdersResource(PassOrderUseCase passOrderUseCase) {
         this.passOrderUseCase = passOrderUseCase;
+        passOrderResponseMapper = new PassOrderResponseMapper();
     }
 
     @GET
@@ -42,8 +45,7 @@ public class OrdersResource {
         if (!passOrder.isPresent()) {
             throw new NotFoundException("order", orderNumber.getValue());
         }
-        PassOrderResponse response = new PassOrderResponseMapper().getPassOrderResponse(passOrder.get());
-        return Response.ok(response).build();
+        return Response.ok().entity(passOrderResponseMapper.getPassOrderResponse(passOrder.get())).build();
     }
 
     @POST

@@ -144,7 +144,8 @@ public class BookingServer implements Runnable {
         PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
         PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
+		  OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, orderDiscountFactory, incomeSaver);
         
         return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
     }

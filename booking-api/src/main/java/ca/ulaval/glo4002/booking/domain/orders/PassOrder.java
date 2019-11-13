@@ -21,31 +21,24 @@ public class PassOrder {
     private OrderDiscount orderDiscount;
     private IncomeSaver incomeSaver;
 
-    public PassOrder(OrderNumber orderNumber, List<Pass> passes, IncomeSaver incomeSaver) {
-        this.orderNumber = orderNumber;
+    public PassOrder(OrderNumber orderNumber, List<Pass> passes, OrderDiscount orderDiscount, IncomeSaver incomeSaver) {
         this.passes = passes;
         this.incomeSaver = incomeSaver;
-        
-        orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
-            new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
-        );
+        this.orderDiscount = orderDiscount;
+        this.orderNumber = orderNumber;
     }
 
     public Price getPrice() {
-        return calculateTotalPrice();
-    }
-
-    public void saveIncome() {
-        incomeSaver.saveIncome(calculateTotalPrice());
-	}
-
-    private Price calculateTotalPrice() {
         Price priceBeforeDiscounts = Price.sum(getPrices());
 
         return orderDiscount.getPriceAfterDiscounts(
             Collections.unmodifiableList(passes), priceBeforeDiscounts
         );
     }
+
+    public void saveIncome() {
+        incomeSaver.saveIncome(calculateTotalPrice());
+	}
 
     private Stream<Price> getPrices() {
         return passes.stream().map(Pass::getPrice);

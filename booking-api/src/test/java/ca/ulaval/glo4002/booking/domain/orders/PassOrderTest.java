@@ -11,7 +11,10 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
@@ -29,9 +32,83 @@ public class PassOrderTest {
     private Pass nebulaSinglePassMock;
     private Pass supergiantSinglePassMock;
     private IncomeSaver incomeSaver;
-
+    private OrderDiscount orderDiscount;
+    private OrderNumber orderNumber;
     private List<Pass> passes;
 
+    @BeforeEach
+    public void setUpPassOrder() {
+        passes = new ArrayList<>();
+        incomeSaver = mock(IncomeSaver.class);
+        orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
+            new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
+        );
+
+        orderNumber = new OrderNumber(VENDOR_CODE);
+
+        nebulaSinglePassMock = mock(Pass.class);
+        when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
+        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
+
+        supergiantSinglePassMock = mock(Pass.class);
+        when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
+        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
+    }
+
+    @Test
+    public void NoPasses_whenGettingPrice_itShouldBeZero() {
+        PassOrder passOrder = new PassOrder(orderNumber, new ArrayList<>(), orderDiscount);
+        Price nullPrice = Price.zero();
+        assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
+    }
+
+    @Test
+    public void givenOnePass_whenGettingPrice_itShouldBeThePassPrice() {
+        initNebulaPasses(1);
+        PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
+        assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
+    }
+
+    @Test
+    public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
+        initNebulaPasses(2);
+        PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
+
+        Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
+        assertThat(passOrder.getPrice()).isEqualTo(twoTimesNebulaSinglePassPrice);
+    }
+
+    @Test
+    public void givenOverThreeNebulaSinglePasses_whenGettingPrice_itShouldHaveTenPercentDiscount() {
+        initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+        PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
+
+        Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
+        Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
+
+        assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
+    }
+
+    @Test
+    public void givenAtLeastFiveSupergiantSinglePasses_whenGettingPrice_itShouldHaveDiscountOnEachPass() {
+        initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
+        PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
+
+        Price priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
+
+        assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
+    }
+
+    @Test
+    public void whenSaveIncome_itShouldCallMethodSaveIncomeFromIncomeSaver() {
+        initNebulaPasses(1);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes, incomeSaver);
+
+        passOrder.saveIncome();
+        
+        verify(incomeSaver).saveIncome(NEBULA_SINGLE_PASS_PRICE);
+    }
+	
     private void initNebulaPasses(int numberOfPasses) {
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(nebulaSinglePassMock);
@@ -85,7 +162,7 @@ public class PassOrderTest {
     @Test
     public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes, incomeSaver);
 
         Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
         assertEquals(twoTimesNebulaSinglePassPrice, passOrder.getPrice());
@@ -94,7 +171,7 @@ public class PassOrderTest {
     @Test
     public void givenOverThreeNebulaSinglePasses_whenGettingPrice_itShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(VENDOR_CODE, passes, incomeSaver);
 
         Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
