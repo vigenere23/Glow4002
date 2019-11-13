@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
@@ -13,7 +14,14 @@ public class PriceTest {
     private static final BigDecimal POSITIVE_AMOUNT_WITH_DECIMALS_2 = BigDecimal.valueOf(5.23654);
 
     @Test
-    public void givenDecimalAmount_whenGettingAmount_itShouldReturnSameDecimalAmount() {
+    public void givenNormalAmount_whenGettingAmount_itShouldReturnSameAmount() {
+        BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
+        Price price = new Price(decimalAmount);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenLongDecimalAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
         Price price = new Price(decimalAmount);
 
@@ -21,7 +29,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenNegativeAmount_whenGettingAmount_itShouldReturnSameNegativeAmount() {
+    public void givenNegativeAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
         Price price = new Price(decimalAmount);
 
@@ -29,11 +37,51 @@ public class PriceTest {
     }
 
     @Test
-    public void givenLargeAmount_whenGettingAmount_itShouldReturnSameLargeAmount() {
+    public void givenLargeAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
         Price price = new Price(decimalAmount);
 
         assertEquals(decimalAmount, price.getAmount());
+    }
+
+    @Test
+    public void givenDoubleNormalAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalAmount = 165.85;
+
+        Price price = new Price(doubleDecimalAmount);
+
+        BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleLongDecimalAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalAmount = 0.230654065406540;
+        
+        Price price = new Price(doubleDecimalAmount);
+        
+        BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleNegativeAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalAmount = -97.253156;
+
+        Price price = new Price(doubleDecimalAmount);
+        
+        BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+    }
+
+    @Test
+    public void givenDoubleLargeAmount_whenGettingAmount_itShouldReturnBigDecimalEquivalentAmount() {
+        double doubleDecimalValue = 564654065;
+
+        Price price = new Price(doubleDecimalValue);
+
+        BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -45,7 +93,7 @@ public class PriceTest {
     }
 
     @Test
-    public void givenDecimalAmountBelowHalfUnit_whenGettingRoundedAmount_itFloorsTheAmount() {
+    public void givenDecimalAmountBelowHalfUnit_whenGettingRoundedAmount_itReturnsTheFlooredAmount() {
         Price price = new Price(0.004);
 
         float roundedAmount = price.getRoundedAmount(2);
@@ -55,10 +103,8 @@ public class PriceTest {
     }
 
     @Test
-    public void givenDecimalAmountAtHalfUnit_whenGettingRoundedAmount_itCeilsTheAmount() {
+    public void givenDecimalAmountAtHalfUnit_whenGettingRoundedAmount_itReturnsTheCeiledAmount() {
         Price price = new Price(0.005);
-
-        System.out.println(price.getAmount());
 
         float roundedAmount = price.getRoundedAmount(2);
         float expectedRoundedAmount = 0.01f;
