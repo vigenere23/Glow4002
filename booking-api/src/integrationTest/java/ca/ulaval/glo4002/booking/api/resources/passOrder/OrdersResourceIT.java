@@ -1,14 +1,11 @@
 package ca.ulaval.glo4002.booking.api.resources.passOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.MockedBookingServer;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.orders.PackagePassOrder;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.orders.SinglePassOrder;
+import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class OrdersResourceIT extends MockedBookingServer {
+public class OrdersResourceIT extends JerseyTestBookingServer {
 
     private static final String LOCAL_HOST = "http://localhost:8181";
     private static final String ORDERS_FULL_URL = LOCAL_HOST + ORDERS_URL + "/";
-    private static final int HTTP_VALID_REQUEST = 201;
-    private static final int HTTP_BAD_REQUEST = 400;
+    private static final int HTTP_VALID_REQUEST = Response.Status.CREATED.getStatusCode();
+    private static final int HTTP_BAD_REQUEST = Response.Status.BAD_REQUEST.getStatusCode();
     private static final String SOME_PASS_CATEGORY = "supergiant";
     private static final String SUPERGIANT_PASS_CATEGORY = "supergiant";
     private static final String SUPERNOVA_PASS_CATEGORY = "supernova";
@@ -67,7 +64,7 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenInvalidOrderDateInvalid_thenRightError() {
+    public void whenInvalidOrderDate_thenInvalidOrderDateError() {
         Response response = postSinglePassOrder(SOME_INVALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
         String errorResponse = response.readEntity(String.class);
 
@@ -76,13 +73,13 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenInvalidEventDateInvalid_thenBadRequest() {
+    public void whenInvalidEventDate_thenBadRequest() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someInvalidEventDates);
         assertEquals(HTTP_BAD_REQUEST, response.getStatus());
     }
 
     @Test
-    public void whenInvalidEventDate_thenRightError() {
+    public void whenInvalidEventDate_thenInvalidEventDateError() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someInvalidEventDates);
         String errorResponse = response.readEntity(String.class);
 
@@ -97,7 +94,7 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenInvalidPassCategory_thenRightError() {
+    public void whenInvalidPassCategory_thenInvalidFormatError() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates);
         String errorResponse = response.readEntity(String.class);
 
@@ -106,7 +103,7 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenInvalidPassOption_thenRightError() {
+    public void whenInvalidPassOption_thenInvalidFormatError() {
         Response response = postPassOrderWithEventDates(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates, SOME_INVALID_PASS_OPTION);
         String errorResponse = response.readEntity(String.class);
 
@@ -119,7 +116,6 @@ public class OrdersResourceIT extends MockedBookingServer {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
 
         String locationHeader = response.getHeaders().get("Location").get(0).toString();
-
         assertTrue(locationHeader.startsWith(ORDERS_FULL_URL));
     }
 
@@ -130,7 +126,38 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenOrderSinglePass_thenAnswerHasRightNumberOfFields() {
+    public void whenOrderSinglePass_thenResponseHasExpectedDefinition() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        assertEquals(2, response.size());
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenResponseHasExpectedPassFormat() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        assertTrue(response.get("passes") instanceof List);
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenResponseHasExpectedSinglePassFormat() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        assertTrue(passes.get(0) instanceof Map);
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenResponseHasExpectedPassDefinition() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
@@ -138,13 +165,11 @@ public class OrdersResourceIT extends MockedBookingServer {
 
         List passes = (List) response.get("passes");
         Map somePass = (Map) passes.get(0);
-
-        assertEquals(2, response.size());
         assertEquals(4, somePass.size());
     }
 
     @Test
-    public void whenOrderSinglePass_thenAnswerHasRightNumberOfPasses() {
+    public void whenOrderSinglePass_thenResponseHasRightNumberOfPasses() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
@@ -156,7 +181,18 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenOrderSinglePass_thenAnswerHasRightFields() {
+    public void whenOrderSinglePass_thenResponseHasRightFields() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        assertTrue(response.containsKey("orderPrice"));
+        assertTrue(response.containsKey("passes"));
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenResponseHasRightPassFields() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
@@ -164,8 +200,6 @@ public class OrdersResourceIT extends MockedBookingServer {
 
         List passes = (List) response.get("passes");
         Map somePass = (Map) passes.get(0);
-
-        assertTrue(response.containsKey("orderPrice"));
         assertTrue(somePass.containsKey("passCategory"));
         assertTrue(somePass.containsKey("passNumber"));
         assertTrue(somePass.containsKey("passOption"));
@@ -173,74 +207,112 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenOrderSinglePass_thenAnswerHasRightFormat() {
+    public void whenOrderSinglePass_thenResponseHasRightPassNumberFormat() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
-        assertNotNull(response);
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertTrue(somePass.get("passNumber") instanceof Long);
     }
 
     @Test
-    public void whenOrderNebulaSinglePass_thenAnswerHasRightPrice() {
+    public void whenOrderSinglePass_thenResponseHasRightPassCategory() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertEquals(SOME_PASS_CATEGORY, somePass.get("passCategory"));
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenResponseHasRightPassOption() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertEquals(SINGLE_PASS_OPTION, somePass.get("passOption"));
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenResponseHasRightEventDateFormat() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertTrue(somePass.get("eventDate") instanceof String);
+    }
+
+    @Test
+    public void whenOrderNebulaSinglePass_thenResponseHasRightPrice() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY, threeValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
         float expectedPrice = threeValidEventDates.size() * NEBULA_SINGLE_PASS_COST;
-        assertEquals(expectedPrice, response.orderPrice);
+        assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
 
     @Test
-    public void whenOrderMoreThanThreeNebulaSinglePass_thenAnswerHasRightPrice() {
+    public void whenOrderMoreThanThreeNebulaSinglePass_thenResponseHasRightPrice() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY, fourValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
         float expectedPrice = fourValidEventDates.size() * NEBULA_SINGLE_PASS_COST_DISCOUNT;
-        assertEquals(expectedPrice, response.orderPrice);
+        assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
     @Test
-    public void whenOrderSupergiantSinglePass_thenAnswerHasRightPrice() {
+    public void whenOrderSupergiantSinglePass_thenResponseHasRightPrice() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SUPERGIANT_PASS_CATEGORY, someValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
         float expectedPrice = someValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST;
-        assertEquals(expectedPrice, response.orderPrice);
+        assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
     @Test
-    public void whenOrderMoreThanFiveSupergiantSinglePass_thenAnswerHasRightPrice() {
+    public void whenOrderMoreThanFiveSupergiantSinglePass_thenResponseHasRightPrice() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SUPERGIANT_PASS_CATEGORY, fiveValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
         float expectedPrice = fiveValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST_DISCOUNT;
-        assertEquals(expectedPrice, response.orderPrice);
+        assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
     @Test
-    public void whenOrderSupernovaSinglePass_thenAnswerHasRightPrice() {
+    public void whenOrderSupernovaSinglePass_thenResponseHasRightPrice() {
         Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SUPERNOVA_PASS_CATEGORY, someValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
         float expectedPrice = someValidEventDates.size() * SUPERNOVA_SINGLE_PASS_COST;
-        assertEquals(expectedPrice, response.orderPrice);
+        assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
     @Test
-    public void whenOrderPackagePassWithEventDates_thenRightError() {
-        Response response = postPassOrderWithEventDates(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates, "package");
+    public void whenOrderPackagePassWithEventDates_thenInvalidFormatError() {
+        Response response = postPassOrderWithEventDates(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates, PACKAGE_PASS_OPTION);
         String errorResponse = response.readEntity(String.class);
 
         String expectedResponse = getErrorResponse(INVALID_REQUEST_ERROR, INVALID_REQUEST_MESSAGE);
@@ -263,7 +335,38 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenOrderPackagePass_thenAnswerHasRightNumberOfFields() {
+    public void whenOrderPackagePass_thenResponseHasExpectedDefinition() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        assertEquals(2, response.size());
+    }
+
+    @Test
+    public void whenOrderPackagePass_thenResponseHasExpectedPassFormat() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        assertTrue(response.get("passes") instanceof List);
+    }
+
+    @Test
+    public void whenOrderPackagePass_thenResponseHasExpectedSinglePassFormat() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        assertTrue(passes.get(0) instanceof Map);
+    }
+
+    @Test
+    public void whenOrderPackagePass_thenResponseHasExpectedPassDefinition() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
 
@@ -272,12 +375,47 @@ public class OrdersResourceIT extends MockedBookingServer {
         List passes = (List) response.get("passes");
         Map somePass = (Map) passes.get(0);
 
-        assertEquals(2, response.size());
         assertEquals(3, somePass.size());
     }
 
     @Test
-    public void whenOrderPackagePass_thenAnswerHasRightFields() {
+    public void whenOrderPackagePass_thenResponseHasRightPassNumberFormat() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertTrue(somePass.get("passNumber") instanceof Long);
+    }
+
+    @Test
+    public void whenOrderPackagePass_thenResponseHasRightPassCategory() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertEquals(SOME_PASS_CATEGORY, somePass.get("passCategory"));
+    }
+
+    @Test
+    public void whenOrderPackagePass_thenResponseHasRightPassOption() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        Map somePass = (Map) passes.get(0);
+        assertEquals(PACKAGE_PASS_OPTION, somePass.get("passOption"));
+    }
+
+    @Test
+    public void whenOrderPackagePass_thenResponseHasRightFields() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
 
@@ -293,7 +431,7 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenOrderPackageePass_thenAnswerHasRightNumberOfPasses() {
+    public void whenOrderPackagePass_thenResponseHasRightNumberOfPasses() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
 
@@ -304,43 +442,33 @@ public class OrdersResourceIT extends MockedBookingServer {
     }
 
     @Test
-    public void whenOrderPackagePass_thenAnswerHasRightFormat() {
-        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
-        String orderNumber = getPassNumber(postResponse);
-
-        PackagePassOrder response = getPackagePassOrderResponse(orderNumber);
-
-        assertNotNull(response);
-    }
-
-    @Test
-    public void whenOrderNebulaPackagePass_thenAnswerHasRightPrice() {
+    public void whenOrderNebulaPackagePass_thenResponseHasRightPrice() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
-        assertEquals(NEBULA_PACKAGE_PASS_COST, response.orderPrice);
+        assertEquals(NEBULA_PACKAGE_PASS_COST, response.get("orderPrice"));
     }
 
     @Test
-    public void whenOrderSupergiantPackagePass_thenAnswerHasRightPrice() {
+    public void whenOrderSupergiantPackagePass_thenResponseHasRightPrice() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SUPERGIANT_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
-        assertEquals(SUPERGIANT_PACKAGE_PASS_COST, response.orderPrice);
+        assertEquals(SUPERGIANT_PACKAGE_PASS_COST, response.get("orderPrice"));
     }
 
     @Test
-    public void whenOrderSupernovaPackagePass_thenAnswerHasRightPrice() {
+    public void whenOrderSupernovaPackagePass_thenResponseHasRightPrice() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SUPERNOVA_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
 
-        SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
+        Map response = getMapPostResponse(orderNumber);
 
-        assertEquals(SUPERNOVA_PACKAGE_PASS_COST, response.orderPrice);
+        assertEquals(SUPERNOVA_PACKAGE_PASS_COST, response.get("orderPrice"));
     }
 
     private void initializeValidEventDates() {
@@ -371,13 +499,5 @@ public class OrdersResourceIT extends MockedBookingServer {
 
     private Map getMapPostResponse(String orderNumber) {
         return target(ORDERS_URL + "/" + orderNumber).request().get(Map.class);
-    }
-
-    private SinglePassOrder getSinglePassOrderResponse(String orderNumber) {
-        return target(ORDERS_URL + "/" + orderNumber).request().get(SinglePassOrder.class);
-    }
-
-    private PackagePassOrder getPackagePassOrderResponse(String orderNumber) {
-        return target(ORDERS_URL + "/" + orderNumber).request().get(PackagePassOrder.class);
     }
 }

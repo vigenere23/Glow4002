@@ -38,8 +38,10 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
 
-public class MockedBookingServer extends JerseyTest {
+public class JerseyTestBookingServer extends JerseyTest {
     protected static final String ORDERS_URL = "/orders";
+    protected static final String SINGLE_PASS_OPTION = "singlePass";
+    protected static final String PACKAGE_PASS_OPTION = "package";
 
     FestivalDates festivalDates = new Glow4002Dates();
 
@@ -105,7 +107,7 @@ public class MockedBookingServer extends JerseyTest {
     }
 
     protected Response postSinglePassOrder(String orderDate, String passCategory, List<String> eventDates) {
-        return postPassOrderWithEventDates(orderDate, passCategory, eventDates, "singlePass");
+        return postPassOrderWithEventDates(orderDate, passCategory, eventDates, SINGLE_PASS_OPTION);
     }
 
     protected Response postPackagePassOrder(String orderDate, String passCategory) {
