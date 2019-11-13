@@ -19,7 +19,6 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
-import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 
@@ -43,7 +42,6 @@ public class PassOrderUseCaseTest {
     private PassRequest passRequest;
     private PassOrderRepository passOrderRepository;
     private PassOrderUseCase passOrderUseCase;
-    private ProfitCalculator profitCalculator;
 
     @BeforeEach
     public void setUp() {
@@ -52,7 +50,6 @@ public class PassOrderUseCaseTest {
         passOrderRepository = mock(HeapPassOrderRepository.class);
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
-        profitCalculator = mock(ProfitCalculator.class);
 
         mockPassOrder();
         passRequest = mock(PassRequest.class);
@@ -63,7 +60,7 @@ public class PassOrderUseCaseTest {
             any(OffsetDateTime.class), any(VendorCode.class), any(PassOption.class), any(PassCategory.class), any())
         ).thenReturn(passOrder);
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, profitCalculator);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
     }
 
     @Test
