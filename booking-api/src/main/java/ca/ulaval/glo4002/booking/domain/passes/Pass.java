@@ -25,8 +25,8 @@ public class Pass {
     private OxygenGrade oxygenGrade;
     private int oxygenQuantityPerDay;
 
-    public Pass(FestivalDates festivalDates, PassNumber passNumber, PassOption passOption, PassCategory passCategory, Price price,
-            LocalDate startDate, LocalDate endDate) {
+    public Pass(FestivalDates festivalDates, PassNumber passNumber, PassOption passOption, PassCategory passCategory,
+            Price price, LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDate(startDate);
         festivalDates.validateEventDate(endDate);
 
@@ -40,6 +40,11 @@ public class Pass {
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
+    }
+
+    public Pass(FestivalDates festivalDates, PassNumber passNumber, PassOption passOption, PassCategory passCategory,
+            Price price, LocalDate eventDate) {
+        this(festivalDates, passNumber, passOption, passCategory, price, eventDate, eventDate);
     }
 
     public boolean isOfType(PassOption passOption, PassCategory passCategory) {

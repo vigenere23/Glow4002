@@ -48,7 +48,7 @@ public class PassFactory {
     private Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
         PassNumber passNumber = passNumberFactory.create();
         Price price = passPriceFactory.create(PassOption.SINGLE_PASS, passCategory);
-        return new Pass(festivalDates, passNumber, PassOption.SINGLE_PASS, passCategory, price, eventDate, eventDate);
+        return new Pass(festivalDates, passNumber, PassOption.SINGLE_PASS, passCategory, price, eventDate);
     }
 
     private Pass createPackagePass(PassCategory passCategory) {
