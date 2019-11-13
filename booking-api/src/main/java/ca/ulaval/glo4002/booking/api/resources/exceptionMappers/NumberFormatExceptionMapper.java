@@ -12,6 +12,6 @@ public class NumberFormatExceptionMapper implements ExceptionMapper<NumberFormat
 
     @Override
     public Response toResponse(NumberFormatException exception) {
-        return new ClientErrorResponseBuilder(new InvalidFormatException(exception, "A number format exception occured.")).build();
+        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();
     }
 }

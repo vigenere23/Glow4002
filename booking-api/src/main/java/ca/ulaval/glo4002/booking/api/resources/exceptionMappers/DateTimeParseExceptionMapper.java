@@ -14,6 +14,6 @@ public class DateTimeParseExceptionMapper implements ExceptionMapper<DateTimePar
 
     @Override
     public Response toResponse(DateTimeParseException exception) {
-        return new ClientErrorResponseBuilder(new InvalidFormatException(exception, "A date/time parsing exception occured." )).build();
+        return new ClientErrorResponseBuilder(new InvalidFormatException()).build();
     }
 }
