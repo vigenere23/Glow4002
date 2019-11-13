@@ -27,6 +27,7 @@ public class OrdersIT extends MockedBookingServer {
     private static final String SUPERNOVA_PASS_CATEGORY = "supernova";
     private static final String NEBULA_PASS_CATEGORY = "nebula";
     private static final String SOME_INVALID_PASS_CATEGORY = "somethingWrong";
+    private static final String SOME_INVALID_PASS_OPTION = "somethingElseWrong";
     private static final String SOME_VALID_ORDER_DATE = "2050-05-21T15:23:20.142Z";
     private static final String SOME_INVALID_ORDER_DATE = "2050-07-17T15:23:20.142Z";
     private static final String INVALID_ORDER_DATE_ERROR = "INVALID_ORDER_DATE";
@@ -45,13 +46,17 @@ public class OrdersIT extends MockedBookingServer {
     private static float SUPERGIANT_SINGLE_PASS_COST_DISCOUNT = 90000;
     private List<String> someValidEventDates = new ArrayList<>();
     private List<String> someInvalidEventDates = new ArrayList<>();
-    private List<String> moreThanFiveEventDates = new ArrayList<>();
+    private List<String> threeValidEventDates = new ArrayList<>();
+    private List<String> fourValidEventDates = new ArrayList<>();
+    private List<String> fiveValidEventDates = new ArrayList<>();
 
     @BeforeEach
     public void setUpEventDates() {
         initializeValidEventDates();
         initializeInvalidEventDates();
-        initializeMoreThanFiveValidEventDates();
+        generateEventDates(threeValidEventDates, 3);
+        generateEventDates(fourValidEventDates, 4);
+        generateEventDates(fiveValidEventDates, 5);
     }
 
     @Override
@@ -109,6 +114,15 @@ public class OrdersIT extends MockedBookingServer {
     }
 
     @Test
+    public void whenInvalidPassOption_thenRightError() {
+        Response response = postPassOrderWithEventDates(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates, SOME_INVALID_PASS_OPTION);
+        String errorResponse = response.readEntity(String.class);
+
+        String expectedResponse = getErrorResponse(INVALID_REQUEST_ERROR, INVALID_REQUEST_MESSAGE);
+        assertEquals(expectedResponse, errorResponse);
+    }
+
+    @Test
     public void whenOrderSinglePass_thenRightLocationHeader() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
 
@@ -136,6 +150,18 @@ public class OrdersIT extends MockedBookingServer {
 
         assertEquals(2, response.size());
         assertEquals(4, somePass.size());
+    }
+
+    @Test
+    public void whenOrderSinglePass_thenAnswerHasRightNumberOfPasses() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someValidEventDates);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        int expectedNumberOfPasses = someValidEventDates.size();
+        assertEquals(expectedNumberOfPasses, passes.size());
     }
 
     @Test
@@ -167,24 +193,24 @@ public class OrdersIT extends MockedBookingServer {
 
     @Test
     public void whenOrderNebulaSinglePass_thenAnswerHasRightPrice() {
-        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY, someValidEventDates);
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY, threeValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
         SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
 
-        float expectedPrice = someValidEventDates.size() * NEBULA_SINGLE_PASS_COST;
+        float expectedPrice = threeValidEventDates.size() * NEBULA_SINGLE_PASS_COST;
         assertEquals(expectedPrice, response.orderPrice);
     }
 
 
     @Test
     public void whenOrderMoreThanThreeNebulaSinglePass_thenAnswerHasRightPrice() {
-        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY, moreThanFiveEventDates);
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, NEBULA_PASS_CATEGORY, fourValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
         SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
 
-        float expectedPrice = moreThanFiveEventDates.size() * NEBULA_SINGLE_PASS_COST_DISCOUNT;
+        float expectedPrice = fourValidEventDates.size() * NEBULA_SINGLE_PASS_COST_DISCOUNT;
         assertEquals(expectedPrice, response.orderPrice);
     }
 
@@ -201,13 +227,13 @@ public class OrdersIT extends MockedBookingServer {
 
 
     @Test
-    public void whenOrderMoreThanThreeSupergiantSinglePass_thenAnswerHasRightPrice() {
-        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SUPERGIANT_PASS_CATEGORY, moreThanFiveEventDates);
+    public void whenOrderMoreThanFiveSupergiantSinglePass_thenAnswerHasRightPrice() {
+        Response postResponse = postSinglePassOrder(SOME_VALID_ORDER_DATE, SUPERGIANT_PASS_CATEGORY, fiveValidEventDates);
         String orderNumber = getPassNumber(postResponse);
 
         SinglePassOrder response = getSinglePassOrderResponse(orderNumber);
 
-        float expectedPrice = moreThanFiveEventDates.size() * SUPERGIANT_SINGLE_PASS_COST_DISCOUNT;
+        float expectedPrice = fiveValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST_DISCOUNT;
         assertEquals(expectedPrice, response.orderPrice);
     }
 
@@ -278,6 +304,17 @@ public class OrdersIT extends MockedBookingServer {
     }
 
     @Test
+    public void whenOrderPackageePass_thenAnswerHasRightNumberOfPasses() {
+        Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
+        String orderNumber = getPassNumber(postResponse);
+
+        Map response = getMapPostResponse(orderNumber);
+
+        List passes = (List) response.get("passes");
+        assertEquals(1, passes.size());
+    }
+
+    @Test
     public void whenOrderPackagePass_thenAnswerHasRightFormat() {
         Response postResponse = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
         String orderNumber = getPassNumber(postResponse);
@@ -327,10 +364,10 @@ public class OrdersIT extends MockedBookingServer {
         someInvalidEventDates.add("2020-07-18");
     }
 
-    private void initializeMoreThanFiveValidEventDates() {
+    private void generateEventDates(List<String> eventDates, int quantity) {
         String someValidDate = "2050-07-19";
-        for (int i = 0; i < 6; i++) {
-            moreThanFiveEventDates.add(someValidDate);
+        for (int i = 0; i < quantity; i++) {
+            eventDates.add(someValidDate);
         }
     }
 
