@@ -60,21 +60,24 @@ public class ProgramUseCaseTest {
     @Test
     public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(program);
-
         verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
+    }
+
+    @Test
+    public void givenProgram_whenProvideProgramResources_thenSaveOutcome() {
+        programUseCase.provideProgramResources(program);
+        verify(singleDay).saveOutcome(outcomeSaver, artistsForProgram);
     }
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(program);
-
         verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), festivalAttendeesCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
     }
 
     @Test
     public void givenProgram_whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
         programUseCase.provideProgramResources(program);
-
         verify(festivalAttendeesCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
     }
 
