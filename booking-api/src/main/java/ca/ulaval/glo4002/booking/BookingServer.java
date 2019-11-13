@@ -27,6 +27,7 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -89,7 +90,8 @@ public class BookingServer implements Runnable {
         OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
         OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
-        ShuttleFiller shuttleFiller = new ShuttleFiller(outcomeSaver); 
+        ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
+        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory); 
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
         TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
@@ -97,8 +99,8 @@ public class BookingServer implements Runnable {
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, profitCalculator);
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
         ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
         externalApiArtist = new ExternalApiArtist();
         ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);

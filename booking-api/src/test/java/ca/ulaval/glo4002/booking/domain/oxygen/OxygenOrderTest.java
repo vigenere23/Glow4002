@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
 import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,8 +38,8 @@ class OxygenOrderTest {
         }
 
         @Override
-        Price getOrderCost() {
-            return SOME_COST;
+        protected void saveOutcome(OutcomeSaver outcomeSaver) {
+            outcomeSaver.saveOutcome(SOME_COST);
         }
     }
 

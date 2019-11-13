@@ -22,13 +22,10 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrderFactoryTest {
 
-    private FestivalDates festivalDates;
-    private PassFactory passFactory;
-    private PassOrderFactory passOrderFactory;
-    
     private static final OffsetDateTime SOME_DATE = OffsetDateTime.now();
     private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
     private static final PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
@@ -36,11 +33,17 @@ public class PassOrderFactoryTest {
     private static final Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
     private static final Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
 
+    private FestivalDates festivalDates;
+    private PassFactory passFactory;
+    private PassOrderFactory passOrderFactory;
+    private IncomeSaver incomeSaver;
+
     @BeforeEach
     public void setupPassOrderFactory() {
         festivalDates = mock(FestivalDates.class);
         passFactory = mock(PassFactory.class);
-        passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
+        incomeSaver = mock(IncomeSaver.class);
+        passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
     }
 
     @Test
