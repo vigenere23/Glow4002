@@ -139,11 +139,11 @@ public class BookingServer implements Runnable {
 
     private PassOrderUseCase createPassOrderUseCase(FestivalDates festivalDates) {
         passRepository = new HeapPassRepository();
+        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
         PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
         PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
         
         return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
