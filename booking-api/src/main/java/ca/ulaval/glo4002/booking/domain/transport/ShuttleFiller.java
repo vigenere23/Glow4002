@@ -33,6 +33,7 @@ public class ShuttleFiller {
     private void addShuttleCostToOutcome(Shuttle shuttle) {
         shuttle.saveOutcome();
     }
+
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
         return shuttleToVerify.hasDate(date) && shuttleToVerify.hasCategory(shuttleCategory) && shuttleToVerify.hasAvailableCapacity(numberOfPassengers);
     }
