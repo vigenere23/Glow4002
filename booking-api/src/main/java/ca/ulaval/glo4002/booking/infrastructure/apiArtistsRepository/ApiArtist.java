@@ -8,4 +8,5 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistD
 public interface ApiArtist {
 
     List<ArtistDto> getArtistsDto();
+    ArtistDto getArtistDto(String artistName);
 }

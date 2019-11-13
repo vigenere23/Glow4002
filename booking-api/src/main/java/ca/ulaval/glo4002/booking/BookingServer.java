@@ -23,9 +23,9 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitSaver;
+import ca.ulaval.glo4002.booking.application.ProgramUseCase;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
@@ -37,9 +37,17 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRe
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistRankingInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
-
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
+import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
@@ -97,22 +105,29 @@ public class BookingServer implements Runnable {
         TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
         PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+        PassRepository passRepository = new HeapPassRepository();
         PassPriceFactory passPriceFactory = new PassPriceFactory();
         PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver);
-        ArtistRankingInformationMapper artistRankingInformationMapper = new ArtistRankingInformationMapper();
+        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+        ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
         externalApiArtist = new ExternalApiArtist();
-        ArtistRepository artistsRepository = new ExternalArtistRepository(artistRankingInformationMapper, externalApiArtist);
+        ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
+
+        FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
+        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
+        ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
         return new ResourceConfiguration(
             passOrderUseCase,
             transportUseCase,
             oxygenUseCase,
             artistRankingUseCase,
-            profitUseCase
+            profitUseCase,
+            programUseCase,
+            programValidator
         ).packages("ca.ulaval.glo4002.booking");
     }
 }

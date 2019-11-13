@@ -18,7 +18,7 @@ class ShuttleFactoryTest {
     private OutcomeSaver outcomeSaver;
     
     @BeforeEach
-    public void setUp() {
+    public void setUpShuttleFactory() {
         outcomeSaver = mock(OutcomeSaver.class);
         shuttleFactory = new ShuttleFactory(outcomeSaver);
     }

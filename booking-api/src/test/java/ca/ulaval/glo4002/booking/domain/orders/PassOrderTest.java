@@ -44,19 +44,17 @@ public class PassOrderTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    public void setUpPassOrder() {
         passes = new ArrayList<>();
         incomeSaver = mock(IncomeSaver.class);
 
         nebulaSinglePassMock = mock(Pass.class);
         when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
-        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA))
-            .thenReturn(true);
+        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
 
         supergiantSinglePassMock = mock(Pass.class);
         when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
-        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT))
-            .thenReturn(true);
+        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
     }
 
     @Test
