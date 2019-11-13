@@ -25,11 +25,11 @@ class PassTest {
     private static final LocalDate SOME_ORDER_DATE = LocalDate.of(2050, 01, 01);
     private static final LocalDate SOME_START_DATE = LocalDate.of(2050, 07, 18);
     private static final LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
-    private static final int NUMBER_OF_FESTIVAL_DAYS = 5;
+    private static final int A_NUMBER_OF_FESTIVAL_DAYS = 5;
     private static final int ONE_PLACE = 1;
-    private static final LocalDate FESTIVAL_START = LocalDate.of(2050, 07, 17);
-    private static final LocalDate FESTIVAL_END = FESTIVAL_START.plusDays(NUMBER_OF_FESTIVAL_DAYS - 1);
-    private static final LocalDate IN_BETWEEN_FESTIVAL_DATE = FESTIVAL_START.plusDays(1);
+    private static final LocalDate A_FESTIVAL_START = LocalDate.of(2050, 07, 17);
+    private static final LocalDate A_FESTIVAL_END = A_FESTIVAL_START.plusDays(A_NUMBER_OF_FESTIVAL_DAYS - 1);
+    private static final LocalDate BETWEEN_A_FESTIVAL_DATE = A_FESTIVAL_START.plusDays(1);
 
     private FestivalDates festivalDates;
     private Price price;
@@ -104,7 +104,7 @@ class PassTest {
 
     @Test
     public void givenNebulaSinglePass_whenOrderOxygen_thenThreeGradeAOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, BETWEEN_A_FESTIVAL_DATE, BETWEEN_A_FESTIVAL_DATE);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
@@ -115,7 +115,7 @@ class PassTest {
 
     @Test
     public void givenSupergiantSinglePass_whenOrderOxygen_thenThreeGradeBOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, BETWEEN_A_FESTIVAL_DATE, BETWEEN_A_FESTIVAL_DATE);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
@@ -126,7 +126,7 @@ class PassTest {
 
     @Test
     public void givenSupernovaSinglePass_whenOrderOxygen_thenFiveGradeEOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, IN_BETWEEN_FESTIVAL_DATE, IN_BETWEEN_FESTIVAL_DATE);
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, BETWEEN_A_FESTIVAL_DATE, BETWEEN_A_FESTIVAL_DATE);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
@@ -137,34 +137,34 @@ class PassTest {
 
     @Test
     public void givenNebulaPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeAOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, FESTIVAL_START, FESTIVAL_END);
+        Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, A_FESTIVAL_START, A_FESTIVAL_END);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
         OxygenGrade expectedGrade = OxygenGrade.A;
-        int expectedQuantity = 3 * NUMBER_OF_FESTIVAL_DAYS;
+        int expectedQuantity = 3 * A_NUMBER_OF_FESTIVAL_DAYS;
         verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenSupergiantPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeBOxygenIsOrdered()  {
-        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERGIANT, FESTIVAL_START, FESTIVAL_END);
+        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERGIANT, A_FESTIVAL_START, A_FESTIVAL_END);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
         OxygenGrade expectedGrade = OxygenGrade.B;
-        int expectedQuantity = 3 * NUMBER_OF_FESTIVAL_DAYS;
+        int expectedQuantity = 3 * A_NUMBER_OF_FESTIVAL_DAYS;
         verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenSupernovaPackagePass_whenOrderOxygen_thenFiveTimesNumberOfDaysGradeEOxygenIsOrdered() {
-        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERNOVA, FESTIVAL_START, FESTIVAL_END);
+        Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERNOVA, A_FESTIVAL_START, A_FESTIVAL_END);
 
         pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
 
         OxygenGrade expectedGrade = OxygenGrade.E;
-        int expectedQuantity = 5 * NUMBER_OF_FESTIVAL_DAYS;
+        int expectedQuantity = 5 * A_NUMBER_OF_FESTIVAL_DAYS;
         verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
