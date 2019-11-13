@@ -17,7 +17,10 @@ import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.profit.*;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
@@ -45,21 +48,28 @@ public class JerseyTestBookingServer extends JerseyTest {
 
     FestivalDates festivalDates = new Glow4002Dates();
 
+    ProfitRepository profitRepository = new HeapProfitRepository();
+    ProfitCalculator profitCalculator = new ProfitCalculator();
+    IncomeSaver incomeSaver = new ProfitSaver(profitRepository);
+    OutcomeSaver outcomeSaver = new ProfitSaver(profitRepository);
+
     OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
     OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
     OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
-    OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+    OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
     OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
     ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-    TransportReserver transportReserver = new TransportReserver(shuttleRepository);
+    ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
+    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory);
+    TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
     PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
     PassRepository passRepository = new HeapPassRepository();
     PassPriceFactory passPriceFactory = new PassPriceFactory();
     PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
+    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
     PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
 
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
@@ -68,8 +78,10 @@ public class JerseyTestBookingServer extends JerseyTest {
     ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
     ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
+    ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator, profitRepository);
+
     FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
+    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
     static
@@ -99,6 +111,7 @@ public class JerseyTestBookingServer extends JerseyTest {
                 bind(transportUseCase).to(TransportUseCase.class);
                 bind(oxygenUseCase).to(OxygenUseCase.class);
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
+                bind(profitUseCase).to(ProfitUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
             }
