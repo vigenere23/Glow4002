@@ -16,20 +16,20 @@ public class ProfitUseCase {
         this.profitRepository = profitRepository;
     }
 
-    public double getIncome() {
+    public float getIncome() {
         return calculateRoundedAmount(profitRepository.findIncome());
     }
 
-    public double getOutcome() {
+    public float getOutcome() {
         return calculateRoundedAmount(profitRepository.findOutcome());
     }
 
-    public double getProfit() {
+    public float getProfit() {
         Price calculatedProfit = profitCalculator.getProfit(profitRepository.findIncome(), profitRepository.findOutcome());
         return calculateRoundedAmount(calculatedProfit);
     }
 
-    private double calculateRoundedAmount(Price price) {
+    private float calculateRoundedAmount(Price price) {
         return price.getRoundedAmount(NUMBER_OF_DECIMAL);
     }
 }
