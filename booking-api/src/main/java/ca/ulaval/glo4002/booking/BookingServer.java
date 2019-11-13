@@ -42,6 +42,10 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepo
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
     private ExternalApiArtist externalApiArtist;
+    private OxygenReserver oxygenReserver;
+    private TransportReserver transportReserver;
+    private ArtistRepository artistsRepository;
+    private PassRepository passRepository;
 
     public static void main(String[] args) {
         new BookingServer().run();
@@ -74,33 +78,13 @@ public class BookingServer implements Runnable {
     }
 
     private ResourceConfig setupResourceConfig() {
-        FestivalDates festivalDates = new Glow4002Dates();
+        Glow4002Dates festivalDates = new Glow4002Dates();
 
-        OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
-        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
-        OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
-        OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
-
-        ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        TransportReserver transportReserver = new TransportReserver(shuttleRepository);
-        TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
-
-        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        PassRepository passRepository = new HeapPassRepository();
-        PassPriceFactory passPriceFactory = new PassPriceFactory();
-        PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
-        PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
-
-        ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
-        externalApiArtist = new ExternalApiArtist();
-        ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
-        ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
-        ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-
-        FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-        ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
+        OxygenUseCase oxygenUseCase = createOxygenUseCase(festivalDates);
+        TransportUseCase transportUseCase = createTransportUseCase(festivalDates);
+        PassOrderUseCase passOrderUseCase = createPassOrderUseCase(festivalDates);
+        ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();  
+        ProgramUseCase programUseCase = createProgramUseCase();              
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
         return new ResourceConfiguration(
@@ -111,5 +95,41 @@ public class BookingServer implements Runnable {
             programUseCase,
             programValidator
         ).packages("ca.ulaval.glo4002.booking");
+    }
+
+    private OxygenUseCase createOxygenUseCase(Glow4002Dates festivalDates) {
+        OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
+        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
+        OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getOxygenLimitDeliveryDate());
+        oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+        return new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
+    }
+
+    private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
+        ShuttleRepository shuttleRepository = new HeapShuttleRepository();
+        transportReserver = new TransportReserver(shuttleRepository);
+        return new TransportUseCase(festivalDates, shuttleRepository);
+    }
+
+    private PassOrderUseCase createPassOrderUseCase(FestivalDates festivalDates) {
+        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+        passRepository = new HeapPassRepository();
+        PassPriceFactory passPriceFactory = new PassPriceFactory();
+        PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
+        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+    }
+
+    private ArtistRankingUseCase createArtistRankingUseCase() {
+        ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
+        externalApiArtist = new ExternalApiArtist();
+        artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
+        ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
+        return new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
+    }
+
+    private ProgramUseCase createProgramUseCase() {
+        FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
+        return new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter);
     }
 }
