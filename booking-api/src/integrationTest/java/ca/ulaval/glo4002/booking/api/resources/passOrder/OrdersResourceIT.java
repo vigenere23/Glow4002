@@ -334,7 +334,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     public void whenOrderPackagePass_thenRightLocationHeader() {
         Response response = postPackagePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY);
 
-        String locationHeader = response.getHeaders().get("Location").get(0).toString();
+        String locationHeader = response.getLocation().toString();
 
         assertTrue(locationHeader.startsWith(ORDERS_FULL_URL));
     }
@@ -509,7 +509,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     }
 
     private String getPassNumber(Response response) {
-        String locationHeader = response.getHeaders().get("Location").get(0).toString();
+        String locationHeader = response.getLocation().toString();
         return locationHeader.replace(ORDERS_FULL_URL, "");
     }
 
