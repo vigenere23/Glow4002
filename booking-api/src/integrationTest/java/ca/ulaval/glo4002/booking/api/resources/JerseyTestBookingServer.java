@@ -11,12 +11,14 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.profit.*;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
@@ -40,6 +42,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class JerseyTestBookingServer extends JerseyTest {
     protected static final String ORDERS_URL = "/orders";
@@ -68,8 +71,10 @@ public class JerseyTestBookingServer extends JerseyTest {
     PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
     PassRepository passRepository = new HeapPassRepository();
     PassPriceFactory passPriceFactory = new PassPriceFactory();
-    PassFactory passFactory = new PassFactory(festivalDates, passPriceFactory);
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, incomeSaver);
+    PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
+    PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
+    OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
+    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
     PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
 
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
