@@ -1,4 +1,4 @@
 {
-    "completed": ["ACP", "TRANS", "OXY"],
+    "completed": ["ACP", "TRANS", "OXY", "MOD", "CLASS", "DEV", "CALC"],
     "started": []
 }
