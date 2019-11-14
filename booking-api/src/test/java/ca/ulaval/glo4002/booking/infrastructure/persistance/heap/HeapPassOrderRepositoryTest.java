@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -18,6 +18,7 @@ import java.util.List;
 public class HeapPassOrderRepositoryTest {
 
     private static final OrderNumber INVALID_ORDER_NUMBER = mock(OrderNumber.class);
+    private static final OrderNumber VALID_ORDER_NUMBER = new OrderNumber(VendorCode.TEAM, 0);
 
     private HeapPassOrderRepository passOrderRepository;
     private PassOrder passOrder;
@@ -29,7 +30,7 @@ public class HeapPassOrderRepositoryTest {
         incomeSaver = mock(IncomeSaver.class);
 
         passOrderRepository = new HeapPassOrderRepository();
-        passOrder = new PassOrder(VendorCode.TEAM, passes, incomeSaver);
+        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes, incomeSaver);
     }
 
     @Test

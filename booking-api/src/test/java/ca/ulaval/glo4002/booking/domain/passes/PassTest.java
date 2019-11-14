@@ -13,6 +13,7 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
@@ -32,6 +33,7 @@ class PassTest {
     private static final LocalDate BETWEEN_A_FESTIVAL_DATE = A_FESTIVAL_START.plusDays(1);
 
     private FestivalDates festivalDates;
+    private PassNumber passNumber;
     private Price price;
     private TransportReserver transportReserver;
     private OxygenReserver oxygenReserver;
@@ -39,6 +41,7 @@ class PassTest {
     @BeforeEach
     public void setUp() {
         festivalDates = new Glow4002Dates();
+        passNumber = new PassNumber(0);
         price = Price.zero();
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
@@ -169,6 +172,6 @@ class PassTest {
     }
 
     private Pass createSimplePass(PassOption passOption, PassCategory passCategory, LocalDate startDate, LocalDate endDate) {
-        return new Pass(festivalDates, passOption, passCategory, price, startDate, endDate);
+        return new Pass(festivalDates, passNumber, passOption, passCategory, price, startDate, endDate);
     }
 }

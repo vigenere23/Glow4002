@@ -10,6 +10,7 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscoun
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
@@ -20,11 +21,11 @@ public class PassOrder {
     private OrderDiscount orderDiscount;
     private IncomeSaver incomeSaver;
 
-    public PassOrder(VendorCode vendorCode, List<Pass> passes, IncomeSaver incomeSaver) {
+    public PassOrder(OrderNumber orderNumber, List<Pass> passes, IncomeSaver incomeSaver) {
+        this.orderNumber = orderNumber;
         this.passes = passes;
         this.incomeSaver = incomeSaver;
         
-        orderNumber = new OrderNumber(vendorCode);
         orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );

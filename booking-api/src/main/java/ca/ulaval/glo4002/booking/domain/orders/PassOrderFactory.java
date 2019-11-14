@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -15,12 +17,14 @@ import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrderFactory {
 
-    private PassFactory passFactory;
     private FestivalDates festivalDates;
+    private OrderNumberFactory orderNumberFactory;
+    private PassFactory passFactory;
     private IncomeSaver incomeSaver;
 
-    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, IncomeSaver incomeSaver) {
+    public PassOrderFactory(FestivalDates festivalDates, OrderNumberFactory orderNumberFactory, PassFactory passFactory, IncomeSaver incomeSaver) {
         this.festivalDates = festivalDates;
+        this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;
         this.incomeSaver = incomeSaver;
     }
@@ -34,7 +38,8 @@ public class PassOrderFactory {
     ) {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
-        return new PassOrder(vendorCode, passes, incomeSaver);
+        OrderNumber orderNumber = orderNumberFactory.create(vendorCode);
+        return new PassOrder(orderNumber, passes, incomeSaver);
     }
 
     private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {
