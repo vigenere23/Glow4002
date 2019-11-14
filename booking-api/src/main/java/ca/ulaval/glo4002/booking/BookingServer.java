@@ -132,8 +132,8 @@ public class BookingServer implements Runnable {
 
     private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
-        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory);
+        ShuttleFactory shuttleFactory = new ShuttleFactory();
+        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
         transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
         return new TransportUseCase(festivalDates, shuttleRepository);
     }
@@ -146,9 +146,9 @@ public class BookingServer implements Runnable {
         PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
 		OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, incomeSaver, orderNumberFactory);
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
         
-        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
     }
 
     private ArtistRankingUseCase createArtistRankingUseCase() {

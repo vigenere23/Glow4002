@@ -22,33 +22,32 @@ public class ShuttleTest {
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
 	
     private ShuttleImplementationTest shuttle;
-    private OutcomeSaver outcomeSaver;
     private Price price;
+    private OutcomeSaver outcomeSaver;
 
     private class ShuttleImplementationTest extends Shuttle {
 
-        public ShuttleImplementationTest(LocalDate date, OutcomeSaver outcomeSaver, Price price) {
+        public ShuttleImplementationTest(LocalDate date, Price price) {
             this.date = date;
             this.price = price;
-            this.outcomeSaver= outcomeSaver;
             capacity = 2;
             category = ShuttleCategory.SPACE_X;
         }
 
         public List<PassNumber> getPassNumbers() {
                 return passNumbers;
-        }
-
-        public void saveOutcome() {
+        }  
+        
+        public void saveOutcome(OutcomeSaver outcomeSaver) {
             outcomeSaver.saveOutcome(price);
-        }    
+        }
     }    
 
     @BeforeEach
     public void setUp() {
-        outcomeSaver = mock(OutcomeSaver.class);
         price = new Price(100);
-        shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17), outcomeSaver, price);
+        outcomeSaver = mock(OutcomeSaver.class);
+        shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17), price);
     }
 
     @Test
@@ -78,9 +77,9 @@ public class ShuttleTest {
         assertFalse(fullShuttle);
     }
 
-    @Test
-    public void whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverIsCalled() {
-        shuttle.saveOutcome();
+    public void givenOutcomeSaver_whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverWithShuttlePriceIsCalled() {
+        shuttle.saveOutcome(outcomeSaver);
+
         verify(outcomeSaver).saveOutcome(price);
     }
 }

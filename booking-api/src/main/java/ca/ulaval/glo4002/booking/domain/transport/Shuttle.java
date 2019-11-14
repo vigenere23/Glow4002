@@ -15,7 +15,6 @@ public abstract class Shuttle {
     protected LocalDate date;
     protected ShuttleCategory category;
     protected Price price;
-    protected OutcomeSaver outcomeSaver;
 
     public List<PassNumber> getPassNumbers() {
         return passNumbers;
@@ -28,6 +27,10 @@ public abstract class Shuttle {
     public ShuttleCategory getCategory() {
         return category;
     }
+
+    public void saveOutcome(OutcomeSaver outcomeSaver) {
+        outcomeSaver.saveOutcome(price);
+    }
         
     public void addPassNumber(PassNumber passNumber) {
         this.passNumbers.add(passNumber);
@@ -35,10 +38,6 @@ public abstract class Shuttle {
     
     public boolean hasAvailableCapacity(int passengers) {
         return passNumbers.size() + passengers <= capacity; 
-    }
-
-	public void saveOutcome() {
-        outcomeSaver.saveOutcome(price);
     }
     
     public boolean hasDate(LocalDate date) {
