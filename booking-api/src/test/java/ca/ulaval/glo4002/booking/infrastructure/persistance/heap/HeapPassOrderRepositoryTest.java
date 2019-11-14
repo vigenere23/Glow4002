@@ -21,8 +21,8 @@ import java.util.Optional;
 
 public class HeapPassOrderRepositoryTest {
 
-    private static final OrderNumber INVALID_ORDER_NUMBER = mock(OrderNumber.class);
-    private static final OrderNumber VALID_ORDER_NUMBER = new OrderNumber(VendorCode.TEAM, 0);
+    private final static OrderNumber INVALID_ORDER_NUMBER = mock(OrderNumber.class);
+    private final static OrderNumber VALID_ORDER_NUMBER = new OrderNumber(VendorCode.TEAM, 0);
 
     private HeapPassOrderRepository passOrderRepository;
     private PassOrder passOrder;
@@ -44,10 +44,12 @@ public class HeapPassOrderRepositoryTest {
     }
 
     @Test
-    public void givenSavingAOrder_whenFindTheOrderByOrderNumber_itReturnsTheSameOrder() throws Exception {
+    public void givenSavingAOrder_whenFindTheOrderByOrderNumber_itReturnsTheSameOrder() {
         passOrderRepository.save(passOrder);
+
         OrderNumber orderNumber = OrderNumber.of(passOrder.getOrderNumber().getValue());
         PassOrder savedPassOrder = passOrderRepository.findByOrderNumber(orderNumber).get();
+
         assertEquals(passOrder, savedPassOrder);
     }
 }
