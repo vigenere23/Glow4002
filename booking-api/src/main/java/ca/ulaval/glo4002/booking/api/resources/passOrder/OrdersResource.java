@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponse;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
@@ -30,9 +29,9 @@ public class OrdersResource {
     private final PassOrderResponseMapper passOrderResponseMapper;
 
     @Inject
-    public OrdersResource(PassOrderUseCase passOrderUseCase) {
+    public OrdersResource(PassOrderUseCase passOrderUseCase, PassOrderResponseMapper passOrderResponseMapper) {
         this.passOrderUseCase = passOrderUseCase;
-        passOrderResponseMapper = new PassOrderResponseMapper();
+        this.passOrderResponseMapper = passOrderResponseMapper;
     }
 
     @GET

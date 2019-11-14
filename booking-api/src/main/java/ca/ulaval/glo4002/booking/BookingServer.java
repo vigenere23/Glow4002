@@ -9,6 +9,11 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
+import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
+import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
@@ -103,6 +108,12 @@ public class BookingServer implements Runnable {
         ProgramUseCase programUseCase = createProgramUseCase();  
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
+        OxygenInventoryMapper oxygenInventoryMapper = new OxygenInventoryMapper();
+        OxygenHistoryMapper oxygenHistoryMapper = new OxygenHistoryMapper();
+        PassOrderResponseMapper passOrderResponseMapper = new PassOrderResponseMapper();
+        ProgramMapper programMapper = new ProgramMapper();
+        ShuttleMapper shuttleMapper = new ShuttleMapper();
+
         return new ResourceConfiguration(
             profitUseCase,
             passOrderUseCase,
@@ -110,7 +121,12 @@ public class BookingServer implements Runnable {
             oxygenUseCase,
             artistRankingUseCase,
             programUseCase,
-            programValidator
+            programValidator,
+            oxygenInventoryMapper,
+            oxygenHistoryMapper,
+            passOrderResponseMapper,
+            programMapper,
+            shuttleMapper
         ).packages("ca.ulaval.glo4002.booking");
     }
 

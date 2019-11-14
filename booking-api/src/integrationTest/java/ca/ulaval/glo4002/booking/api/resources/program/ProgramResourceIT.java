@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
+import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
@@ -99,6 +100,7 @@ public class ProgramResourceIT extends JerseyTest {
     FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
     ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
+    ProgramMapper programMapper = new ProgramMapper();
 
     @BeforeEach
     @Override
@@ -126,6 +128,7 @@ public class ProgramResourceIT extends JerseyTest {
                 bind(oxygenUseCase).to(OxygenUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
+                bind(programMapper).to(ProgramMapper.class);
             }
         });
         return resourceConfig;
