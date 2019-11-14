@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
-import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleTest {
 
@@ -22,33 +21,26 @@ public class ShuttleTest {
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
 	
     private ShuttleImplementationTest shuttle;
-    private OutcomeSaver outcomeSaver;
     private Price price;
 
     private class ShuttleImplementationTest extends Shuttle {
 
-        public ShuttleImplementationTest(LocalDate date, OutcomeSaver outcomeSaver, Price price) {
+        public ShuttleImplementationTest(LocalDate date, Price price) {
             this.date = date;
             this.price = price;
-            this.outcomeSaver= outcomeSaver;
             capacity = 2;
             category = ShuttleCategory.SPACE_X;
         }
 
         public List<PassNumber> getPassNumbers() {
                 return passNumbers;
-        }
-
-        public void saveOutcome() {
-            outcomeSaver.saveOutcome(price);
-        }    
+        }   
     }    
 
     @BeforeEach
     public void setUp() {
-        outcomeSaver = mock(OutcomeSaver.class);
         price = new Price(100);
-        shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17), outcomeSaver, price);
+        shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17), price);
     }
 
     @Test
@@ -76,12 +68,6 @@ public class ShuttleTest {
         fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
 
         assertFalse(fullShuttle);
-    }
-
-    @Test
-    public void whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverIsCalled() {
-        shuttle.saveOutcome();
-        verify(outcomeSaver).saveOutcome(price);
     }
 }
 
