@@ -13,13 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleTest {
 
     private final static int ONE_PLACE = 1;
-    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
+    private final static PassengerNumber PASSENGER_NUMBER = mock(PassengerNumber.class);
 	
     private ShuttleImplementationTest shuttle;
     private Price price;
@@ -34,8 +33,8 @@ public class ShuttleTest {
             category = ShuttleCategory.SPACE_X;
         }
 
-        public List<PassNumber> getPassNumbers() {
-                return passNumbers;
+        public List<PassengerNumber> getPassengerNumbers() {
+                return passengerNumbers;
         }  
         
         public void saveOutcome(OutcomeSaver outcomeSaver) {
@@ -52,23 +51,27 @@ public class ShuttleTest {
 
     @Test
     public void givenPassNumber_whenAddNewPassNumber_thenAPassNumberIsInShuttle() {
-        shuttle.addPassNumber(PASS_NUMBER);
-        assertEquals(PASS_NUMBER, shuttle.getPassNumbers().get(0));
+        shuttle.addPassenger(PASSENGER_NUMBER);
+        assertEquals(PASSENGER_NUMBER, shuttle.getPassengerNumbers().get(0));
     }
     
     @Test
     public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleHasAvailablePlaceLeft() {
-        shuttle.addPassNumber(PASS_NUMBER);
-        boolean nonFullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+        boolean nonFullShuttle;
+        shuttle.addPassenger(PASSENGER_NUMBER); 
+        
+        nonFullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+
         assertTrue(nonFullShuttle);
     }
 
     @Test
     public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleHasNoAvailablePlaceLeft() {
-        shuttle.addPassNumber(PASS_NUMBER);
-        shuttle.addPassNumber(PASS_NUMBER);
+        boolean fullShuttle;
+        shuttle.addPassenger(PASSENGER_NUMBER);
+        shuttle.addPassenger(PASSENGER_NUMBER);
 
-        boolean fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+        fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
 
         assertFalse(fullShuttle);
     }
@@ -79,4 +82,3 @@ public class ShuttleTest {
         verify(outcomeSaver).saveOutcome(price);
     }
 }
-

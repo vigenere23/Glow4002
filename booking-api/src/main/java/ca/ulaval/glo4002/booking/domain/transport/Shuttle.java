@@ -5,19 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public abstract class Shuttle {
     
     protected int capacity;
-    protected List<PassNumber> passNumbers = new ArrayList<>();
+    protected List<PassengerNumber> passengerNumbers = new ArrayList<>();
     protected LocalDate date;
     protected ShuttleCategory category;
     protected Price price;
 
-    public List<PassNumber> getPassNumbers() {
-        return passNumbers;
+    public List<PassengerNumber> getPassengerNumbers() {
+        return passengerNumbers;
     }
     
     public LocalDate getDate() {
@@ -32,12 +31,12 @@ public abstract class Shuttle {
         outcomeSaver.saveOutcome(price);
     }
         
-    public void addPassNumber(PassNumber passNumber) {
-        this.passNumbers.add(passNumber);
+    public void addPassenger(PassengerNumber passengerNumber) {
+        this.passengerNumbers.add(passengerNumber);
     }
     
-    public boolean hasAvailableCapacity(int passengers) {
-        return passNumbers.size() + passengers <= capacity; 
+    public boolean hasAvailableCapacity(int numberOfPassengers) {
+        return passengerNumbers.size() + numberOfPassengers <= capacity; 
     }
     
     public boolean hasDate(LocalDate date) {
