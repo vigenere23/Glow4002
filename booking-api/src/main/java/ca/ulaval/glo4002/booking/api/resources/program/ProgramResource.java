@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.api.resources.program;
 
-import java.net.URISyntaxException;
-
 import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
