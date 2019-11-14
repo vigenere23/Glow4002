@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,7 +33,7 @@ public class HeapPassRepositoryTest {
     @Test
     public void givenNoPasses_whenFindingByAttendedDate_itShouldReturnNoResult() {
         List<Pass> passes = passRepository.findAttendingAtDate(SOME_DATE);
-        assertEquals(passes.size(), 0);
+        assertEquals(0, passes.size());
     }
 
     @Test
@@ -43,7 +43,17 @@ public class HeapPassRepositoryTest {
 
         List<Pass> passes = passRepository.findAttendingAtDate(SOME_DATE);
 
-        assertEquals(passes.size(), numberOfPasses);
+        assertEquals(numberOfPasses, passes.size());
+    }
+
+    @Test
+    public void givenOnlyPassesNotOfDate_whenFindingByAttendedDateWithThatDate_itShouldReturnNoResult() {
+        int numberOfPassesNotOfDate = 10;
+        addPasses(numberOfPassesNotOfDate, false);
+
+        List<Pass> passes = passRepository.findAttendingAtDate(SOME_DATE);
+
+        assertEquals(0, passes.size());
     }
 
     @Test
@@ -55,7 +65,7 @@ public class HeapPassRepositoryTest {
 
         List<Pass> passes = passRepository.findAttendingAtDate(SOME_DATE);
 
-        assertEquals(passes.size(), numberOfPassesOfDate);
+        assertEquals(numberOfPassesOfDate, passes.size());
     }
 
     private void addPasses(int numberOfPasses, boolean isAttendingAtDate) {
