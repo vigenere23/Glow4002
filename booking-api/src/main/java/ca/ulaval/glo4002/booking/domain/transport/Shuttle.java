@@ -10,13 +10,13 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 public abstract class Shuttle {
     
     protected int capacity;
-    protected List<PassengerNumber> passengers = new ArrayList<>();
+    protected List<PassengerNumber> passengerNumbers = new ArrayList<>();
     protected LocalDate date;
     protected ShuttleCategory category;
     protected Price price;
 
-    public List<PassengerNumber> getPassengers() {
-        return passengers;
+    public List<PassengerNumber> getPassengerNumbers() {
+        return passengerNumbers;
     }
     
     public LocalDate getDate() {
@@ -32,11 +32,11 @@ public abstract class Shuttle {
     }
         
     public void addPassenger(PassengerNumber passengerNumber) {
-        this.passengers.add(passengerNumber);
+        this.passengerNumbers.add(passengerNumber);
     }
     
     public boolean hasAvailableCapacity(int numberOfPassengers) {
-        return passengers.size() + numberOfPassengers <= capacity; 
+        return passengerNumbers.size() + numberOfPassengers <= capacity; 
     }
     
     public boolean hasDate(LocalDate date) {

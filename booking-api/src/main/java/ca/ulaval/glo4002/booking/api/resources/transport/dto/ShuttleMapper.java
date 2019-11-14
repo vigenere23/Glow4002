@@ -14,7 +14,7 @@ public class ShuttleMapper {
         for (Shuttle shuttle: shuttles) {        
             ShuttleDto shuttleDto = new ShuttleDto();
             shuttleDto.date = shuttle.getDate().toString();
-            shuttleDto.passengers = shuttle.getPassengers().stream().map(PassengerNumber::getValue).collect(Collectors.toList());
+            shuttleDto.passengers = shuttle.getPassengerNumbers().stream().map(PassengerNumber::getValue).collect(Collectors.toList());
             shuttleDto.shuttleName = shuttle.getCategory().toString();
             shuttlesDto.add(shuttleDto);
         }

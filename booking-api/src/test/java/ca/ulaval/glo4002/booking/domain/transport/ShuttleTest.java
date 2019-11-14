@@ -33,8 +33,8 @@ public class ShuttleTest {
             category = ShuttleCategory.SPACE_X;
         }
 
-        public List<PassengerNumber> getPassengers() {
-                return passengers;
+        public List<PassengerNumber> getPassengerNumbers() {
+                return passengerNumbers;
         }  
         
         public void saveOutcome(OutcomeSaver outcomeSaver) {
@@ -52,7 +52,7 @@ public class ShuttleTest {
     @Test
     public void givenPassNumber_whenAddNewPassNumber_thenAPassNumberIsInShuttle() {
         shuttle.addPassenger(PASSENGER_NUMBER);
-        assertEquals(PASSENGER_NUMBER, shuttle.getPassengers().get(0));
+        assertEquals(PASSENGER_NUMBER, shuttle.getPassengerNumbers().get(0));
     }
     
     @Test
