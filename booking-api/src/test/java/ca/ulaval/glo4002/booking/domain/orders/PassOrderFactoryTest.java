@@ -24,7 +24,6 @@ import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
-import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrderFactoryTest {
 
@@ -39,16 +38,14 @@ public class PassOrderFactoryTest {
     private OrderNumberFactory orderNumberFactory;
     private PassFactory passFactory;
     private PassOrderFactory passOrderFactory;
-    private IncomeSaver incomeSaver;
 
     @BeforeEach
     public void setupPassOrderFactory() {
         festivalDates = mock(FestivalDates.class);
         orderNumberFactory = mock(OrderNumberFactory.class);
         passFactory = mock(PassFactory.class);
-		incomeSaver = mock(IncomeSaver.class);
         OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
-        passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, incomeSaver, orderNumberFactory);
+        passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, orderNumberFactory);
     }
 
     @Test
