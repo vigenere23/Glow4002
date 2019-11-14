@@ -19,7 +19,7 @@ public class ShuttleMapperTest {
     private ShuttleMapper shuttleMapper;
 
     @BeforeEach
-    public void setUpMapper() {
+    public void setUpShuttleMapper() {
         shuttleMapper = new ShuttleMapper();
         shuttles = new ArrayList<>();
     }
