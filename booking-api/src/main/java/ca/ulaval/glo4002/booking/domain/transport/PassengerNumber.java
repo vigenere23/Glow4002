@@ -11,7 +11,7 @@ public class PassengerNumber {
     }
 
     public PassengerNumber(PassNumber passNumber) {
-        this.value = passNumber.getValue();
+        this(passNumber.getValue());
     }
 
     public long getValue() {

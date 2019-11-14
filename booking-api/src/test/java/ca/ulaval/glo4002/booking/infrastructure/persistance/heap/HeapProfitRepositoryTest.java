@@ -19,18 +19,14 @@ class HeapProfitRepositoryTest {
     @Test
     public void givenIncome_whenSaveIncome_thenReplacesIncome() {
         Price income = new Price(100);
-
         heapProfitRepository.saveIncome(income);
-
         assertEquals(income, heapProfitRepository.findIncome());
     }
 
     @Test
     public void givenOutcome_whenSaveOutcome_thenReplacesOutcome() {
         Price outcome = new Price(100);
-
         heapProfitRepository.saveOutcome(outcome);
-
         assertEquals(outcome, heapProfitRepository.findOutcome());
     }
 }

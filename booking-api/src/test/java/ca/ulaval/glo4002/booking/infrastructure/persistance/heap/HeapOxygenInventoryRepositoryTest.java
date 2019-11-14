@@ -8,35 +8,16 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
-import java.util.List;
-
 public class HeapOxygenInventoryRepositoryTest {
-    private static final int SOME_OXYGEN_REMAINING = 2;
-    private static final int SOME_OXYGEN_INVENTORY = 3;
+
+    private final static int SOME_OXYGEN_REMAINING = 2;
+    private final static int SOME_OXYGEN_INVENTORY = 3;
 
     private HeapOxygenInventoryRepository oxygenInventoryRepository;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpOxygenInventory() {
         oxygenInventoryRepository = new HeapOxygenInventoryRepository();
-    }
-
-    @Test
-    public void inventoriesAreInitialized() {
-        List<OxygenInventory> initialOxygenInventories = oxygenInventoryRepository.findAll();
-
-        for (OxygenInventory oxygenInventory : initialOxygenInventories) {
-            assertEquals(0, oxygenInventory.getInventory());
-        }
-    }
-
-    @Test
-    public void remainingQuantitiesAreInitialized() {
-        List<OxygenInventory> initialOxygenInventories = oxygenInventoryRepository.findAll();
-
-        for (OxygenInventory oxygenInventory : initialOxygenInventories) {
-            assertEquals(0, oxygenInventory.getRemainingQuantity());
-        }
     }
 
     @Test

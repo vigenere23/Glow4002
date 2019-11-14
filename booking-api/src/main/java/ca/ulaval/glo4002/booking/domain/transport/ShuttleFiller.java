@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleFiller {
@@ -16,9 +15,9 @@ public class ShuttleFiller {
         this.outcomeSaver = outcomeSaver;
     }
     
-    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date, int numberOfPassengers) {
+    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, LocalDate date, int numberOfPassengers) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
-        assignNewPlaces(availableShuttle, passNumber, numberOfPassengers);
+        assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);
         if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
             addShuttleCostToOutcome(availableShuttle);
@@ -41,9 +40,9 @@ public class ShuttleFiller {
         return shuttleToVerify.hasDate(date) && shuttleToVerify.hasCategory(shuttleCategory) && shuttleToVerify.hasAvailableCapacity(numberOfPassengers);
     }
 
-    private void assignNewPlaces(Shuttle availableShuttle, PassNumber passNumber, int numberOfPassengers) {
+    private void assignNewPlaces(Shuttle availableShuttle, PassengerNumber passengerNumber, int numberOfPassengers) {
         for (int place = 0; place < numberOfPassengers; place++) {
-            availableShuttle.addPassNumber(passNumber);
+            availableShuttle.addPassenger(passengerNumber);
         }
     }
 }
