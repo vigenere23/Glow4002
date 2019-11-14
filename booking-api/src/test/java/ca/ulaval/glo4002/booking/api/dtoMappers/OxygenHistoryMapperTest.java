@@ -27,31 +27,18 @@ public class OxygenHistoryMapperTest {
 
     private EnumMap<HistoryType, Integer> SOME_HISTORY;
     private SortedMap<LocalDate, OxygenHistoryItem> history;
-    private OxygenHistoryMapper historyMapper;
-
+    private OxygenHistoryItem historyItem;
+    private OxygenHistoryMapper historyMapper = new OxygenHistoryMapper();
+    
     @BeforeEach
-    public void setUpMapper() {
-        OxygenHistoryItem historyItem = mock(OxygenHistoryItem.class);
-        SOME_HISTORY = new EnumMap<HistoryType, Integer>(HistoryType.class);
-        SOME_HISTORY.put(HistoryType.OXYGEN_TANK_BOUGHT, SOME_NUMBER_OF_TANKS_BOUGHT);
-        SOME_HISTORY.put(HistoryType.OXYGEN_TANK_MADE, SOME_NUMBER_OF_TANKS_MADE);
-        SOME_HISTORY.put(HistoryType.WATER_USED, SOME_QUANTITY_OF_WATER_USED);
-        SOME_HISTORY.put(HistoryType.CANDLES_USED, SOME_NUMBER_OF_CANDLES);
-
-        when(historyItem.getCandlesUsed()).thenReturn(SOME_NUMBER_OF_CANDLES);
-        when(historyItem.getDate()).thenReturn(SOME_DATE);
-        when(historyItem.getOxygenTankBought()).thenReturn(SOME_NUMBER_OF_TANKS_BOUGHT);
-        when(historyItem.getOxygenTankMade()).thenReturn(SOME_NUMBER_OF_TANKS_MADE);
-        when(historyItem.getWaterUsed()).thenReturn(SOME_QUANTITY_OF_WATER_USED);
-        when(historyItem.getOxygenHistory()).thenReturn(SOME_HISTORY);
-
-        historyMapper = new OxygenHistoryMapper();
-        history = new TreeMap<>();
-        history.put(SOME_DATE, historyItem);
+    public void setUpOxygenHistoryMapper() {
+        mockOxygenHistoryItem();
+        createHistoryTypeMap();
+        createHistoryMap();
     }
 
     @Test
-    public void givenShuttleList_whenGetShuttlesDto_thenReturnEquivalentShuttlesDto() {
+    public void whenMappingHistoryToDto_thenReturnEquivalentHistoryDto() {
         OxygenHistoryDto historyDto = historyMapper.toDto(history).get(0);
         
         assertEquals(SOME_NUMBER_OF_CANDLES, historyDto.qtyCandlesUsed);
@@ -59,5 +46,29 @@ public class OxygenHistoryMapperTest {
         assertEquals(SOME_NUMBER_OF_TANKS_BOUGHT, historyDto.qtyOxygenTankBought);
         assertEquals(SOME_NUMBER_OF_TANKS_MADE, historyDto.qtyOxygenTankMade);
         assertEquals(SOME_QUANTITY_OF_WATER_USED, historyDto.qtyWaterUsed);
+    }
+
+    private void mockOxygenHistoryItem() {
+        historyItem = mock(OxygenHistoryItem.class);
+
+        when(historyItem.getCandlesUsed()).thenReturn(SOME_NUMBER_OF_CANDLES);
+        when(historyItem.getDate()).thenReturn(SOME_DATE);
+        when(historyItem.getOxygenTankBought()).thenReturn(SOME_NUMBER_OF_TANKS_BOUGHT);
+        when(historyItem.getOxygenTankMade()).thenReturn(SOME_NUMBER_OF_TANKS_MADE);
+        when(historyItem.getWaterUsed()).thenReturn(SOME_QUANTITY_OF_WATER_USED);
+        when(historyItem.getOxygenHistory()).thenReturn(SOME_HISTORY);
+    }
+
+    private void createHistoryMap() {
+        history = new TreeMap<>();
+        history.put(SOME_DATE, historyItem);
+    }
+
+    private void createHistoryTypeMap() {
+        SOME_HISTORY = new EnumMap<HistoryType, Integer>(HistoryType.class);
+        SOME_HISTORY.put(HistoryType.OXYGEN_TANK_BOUGHT, SOME_NUMBER_OF_TANKS_BOUGHT);
+        SOME_HISTORY.put(HistoryType.OXYGEN_TANK_MADE, SOME_NUMBER_OF_TANKS_MADE);
+        SOME_HISTORY.put(HistoryType.WATER_USED, SOME_QUANTITY_OF_WATER_USED);
+        SOME_HISTORY.put(HistoryType.CANDLES_USED, SOME_NUMBER_OF_CANDLES);
     }
 }

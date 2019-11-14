@@ -21,24 +21,28 @@ public class OxygenInventoryMapperTest {
     private final static OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     
     private List<OxygenInventory> inventory = new ArrayList<>();
-    private OxygenInventoryMapper inventoryMapper;
+    private OxygenInventory inventoryItem;
+    private OxygenInventoryMapper inventoryMapper = new OxygenInventoryMapper();
 
     @BeforeEach
-    public void setUpMapper() {
-        OxygenInventory inventoryItem = mock(OxygenInventory.class);
-
-        when(inventoryItem.getInventory()).thenReturn(SOME_INVENTORY_NUMBER);
-        when(inventoryItem.getOxygenGrade()).thenReturn(SOME_OXYGEN_GRADE);
-
-        inventoryMapper = new OxygenInventoryMapper();
+    public void setUpOxygenInventoryMapper() {
+        mockInventoryItem();
+ 
         inventory.add(inventoryItem);
     }
 
     @Test
-    public void givenShuttleList_whenGetShuttlesDto_thenReturnEquivalentShuttlesDto() {
+    public void whenMappingInventoryToDto_thenReturnEquivalentInventoryDto() {
         OxygenInventoryDto inventoryDto = inventoryMapper.toDto(inventory).get(0);
 
         assertEquals(SOME_INVENTORY_NUMBER, inventoryDto.quantity);
         assertEquals(SOME_OXYGEN_GRADE.toString(), inventoryDto.gradeTankOxygen);
+    }
+
+    private void mockInventoryItem() {
+        inventoryItem = mock(OxygenInventory.class);
+
+        when(inventoryItem.getInventory()).thenReturn(SOME_INVENTORY_NUMBER);
+        when(inventoryItem.getOxygenGrade()).thenReturn(SOME_OXYGEN_GRADE);
     }
 }

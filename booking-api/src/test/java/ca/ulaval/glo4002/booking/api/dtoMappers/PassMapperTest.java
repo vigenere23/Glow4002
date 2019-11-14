@@ -23,27 +23,18 @@ public class PassMapperTest {
     private final static PassNumber SOME_PASS_NUMBER = new PassNumber();
     private final static PassNumber OTHER_PASS_NUMBER = new PassNumber();
     
-    private PassMapper passMapper;
+    private PassMapper passMapper = new PassMapper();
     private Pass packagePass;
     private Pass singlePass;
 
     @BeforeEach
-    public void setUpMapper() {
-        packagePass = mock(Pass.class);
-        singlePass = mock(Pass.class);
-
-        when(packagePass.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
-        when(singlePass.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
-        when(packagePass.getPassOption()).thenReturn(SOME_PASS_OPTION);
-        when(singlePass.getPassOption()).thenReturn(OTHER_PASS_OPTION);
-        when(packagePass.getPassNumber()).thenReturn(SOME_PASS_NUMBER);
-        when(singlePass.getPassNumber()).thenReturn(OTHER_PASS_NUMBER);
-
-        passMapper = new PassMapper();
+    public void setUpPassMapper() {
+        mockSinglePass();
+        mockPackagePass();
     }
 
     @Test
-    public void givenSinglePass_whenMappingToDTO_thenReturnsDTOWithCorrectAttributes() {
+    public void whenMappingSinglePassToDto_thenReturnEquivalentSinglePassDto() {
         PassDto passDto = passMapper.toDto(singlePass);
 
         assertEquals(passDto.passCategory, SOME_PASS_CATEGORY.toString());
@@ -53,12 +44,26 @@ public class PassMapperTest {
     }
 
     @Test
-    public void givenPackagePass_whenMappingToDTO_thenReturnsDTOWithCorrectAttributes() {
+    public void whenMappingPackagePassToDto_thenReturnEquivalentPassDto() {
         PassDto passDto = passMapper.toDto(packagePass);
 
         assertEquals(passDto.passCategory, SOME_PASS_CATEGORY.toString());
         assertEquals(passDto.passOption, SOME_PASS_OPTION.toString());
         assertEquals(passDto.passNumber, SOME_PASS_NUMBER.getValue());
         assertEquals(passDto.getClass(), PassDto.class);
+    }
+
+    private void mockSinglePass() {
+        singlePass = mock(Pass.class);
+        when(singlePass.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
+        when(singlePass.getPassOption()).thenReturn(OTHER_PASS_OPTION);
+        when(singlePass.getPassNumber()).thenReturn(OTHER_PASS_NUMBER);
+    }
+
+    private void mockPackagePass() {
+        packagePass = mock(Pass.class);
+        when(packagePass.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
+        when(packagePass.getPassOption()).thenReturn(SOME_PASS_OPTION);
+        when(packagePass.getPassNumber()).thenReturn(SOME_PASS_NUMBER);
     }
 }

@@ -30,7 +30,7 @@ public class ProgramMapperTest {
     private SingleDayProgramRequest singleDayProgramRequest;
 
     @BeforeEach
-    public void setupMapper() {
+    public void setupProgramMapper() {
         programValidator = mock(ProgramValidator.class);
 
         singleDayProgramRequest = new SingleDayProgramRequest(SOME_ACTIVITY, SOME_ARTIST, SOME_DATE);
@@ -40,7 +40,7 @@ public class ProgramMapperTest {
     }
 
     @Test
-    public void givenValidRequest_whenMappingFromDto_thenReturnsCorrectProgram() {
+    public void whenMappingFromRequestDto_thenReturnEquivalentProgram() {
         List<SingleDayProgram> program = programMapper.fromDto(programRequest, programValidator);
 
         assertEquals(SOME_ARTIST, program.get(0).getArtist());
