@@ -77,7 +77,7 @@ public class ProgramResourceIT extends JerseyTest {
     OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
     ShuttleFactory shuttleFactory = new ShuttleFactory();
-    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver); 
+    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
     ShuttleRepository shuttleRepository = new HeapShuttleRepository();
     TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
