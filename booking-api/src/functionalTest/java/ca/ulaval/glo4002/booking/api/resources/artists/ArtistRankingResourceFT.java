@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources;
+package ca.ulaval.glo4002.booking.api.resources.artists;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -17,14 +17,12 @@ import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import ca.ulaval.glo4002.booking.api.resources.artists.ArtistRankingResponse;
-import ca.ulaval.glo4002.booking.api.resources.artists.ArtistsRankingResource;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 
-public class ArtistRankingResourceTest extends JerseyTest {
+public class ArtistRankingResourceFT extends JerseyTest {
 
     private static final String ARTIST_RANKING_URL = "/program/artists";
     private static final String QUERY_PARAM = "orderBy";
@@ -61,7 +59,6 @@ public class ArtistRankingResourceTest extends JerseyTest {
             @Override
             protected void configure() {
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
-      
             }
         });
         return resourceConfig;
@@ -125,17 +122,14 @@ public class ArtistRankingResourceTest extends JerseyTest {
     @Test
     public void givenOneArtist_whenSortWithInvalidParameter_thenAResponseIsReturnedWithWithBadRequestResponseStatus() {
         Response response = getSortedArtistFromServer("");
-
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-
 
     private ArtistRankingResponse mockOneLowPopularityArtistFromExternalRepository() {
         ArtistRankingInformation information = addArtistToListInformation("notPopularArtistName", someLowArtistPopularity, someLowArtistPrice);
         List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
         informationCollection.add(information);
-        ArtistRankingResponse expectedBody = buildExpectedResponse(informationCollection);
-        return expectedBody;
+        return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse mockOneHightAndOneLowPopularityArtistFromExternalRepository() {
@@ -144,8 +138,7 @@ public class ArtistRankingResourceTest extends JerseyTest {
         List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
         informationCollection.add(notPopularArtistInformation);
         informationCollection.add(popularArtistInformation);
-        ArtistRankingResponse expectedBody = buildExpectedResponse(informationCollection);
-        return expectedBody;
+        return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse mockOneExpensiveAndOneCheapCostArtistFromExternalRepository() {
@@ -154,8 +147,7 @@ public class ArtistRankingResourceTest extends JerseyTest {
         List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
         informationCollection.add(hightCostArtist);
         informationCollection.add(lowCostArtist);
-        ArtistRankingResponse expectedBody = buildExpectedResponse(informationCollection);
-        return expectedBody;
+        return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse mockTwortistWithSamePriceFromExternalRepository() {
@@ -164,8 +156,7 @@ public class ArtistRankingResourceTest extends JerseyTest {
         List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
         informationCollection.add(popularArtistInformation);
         informationCollection.add(notPopularArtistInformation);
-        ArtistRankingResponse expectedBody = buildExpectedResponse(informationCollection);
-        return expectedBody;
+        return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse buildExpectedResponse(List<ArtistRankingInformation> information) {
@@ -187,7 +178,6 @@ public class ArtistRankingResourceTest extends JerseyTest {
         ArtistRankingInformation rankingInformation = new ArtistRankingInformation(artistName, popularity, price);
         artistRankingInformation.add(rankingInformation);
         return rankingInformation;
-
     }
 
     private void createResources() {  
