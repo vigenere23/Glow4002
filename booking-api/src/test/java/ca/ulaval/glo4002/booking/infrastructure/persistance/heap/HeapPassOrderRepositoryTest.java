@@ -9,11 +9,12 @@ import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class HeapPassOrderRepositoryTest {
 
@@ -35,7 +36,7 @@ public class HeapPassOrderRepositoryTest {
 
     @Test
     public void whenFindWithNonExistantOrderNumber_itReturnsAnEmptyOptional() {
-        assertThat(passOrderRepository.findByOrderNumber(INVALID_ORDER_NUMBER)).isNotPresent();
+        assertEquals(Optional.empty(), passOrderRepository.findByOrderNumber(INVALID_ORDER_NUMBER));
     }
 
     @Test
@@ -43,6 +44,6 @@ public class HeapPassOrderRepositoryTest {
         passOrderRepository.save(passOrder);
         OrderNumber orderNumber = OrderNumber.of(passOrder.getOrderNumber().getValue());
         PassOrder savedPassOrder = passOrderRepository.findByOrderNumber(orderNumber).get();
-        assertThat(savedPassOrder).isEqualTo(passOrder);
+        assertEquals(passOrder, savedPassOrder);
     }
 }

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -36,30 +36,26 @@ public class PassFactoryTest {
 
     @Test
     public void givenNoEventDate_whenCreatingASinglePass_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            passFactory.create(PassOption.SINGLE_PASS, PassCategory.NEBULA, Optional.empty());
-        });
+        assertThrows(IllegalArgumentException.class, () -> passFactory.create(PassOption.SINGLE_PASS, PassCategory.NEBULA, Optional.empty()));
     }
 
     @Test
     public void givenAValidEventDate_whenCreatingAPackagePass_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            passFactory.create(PassOption.PACKAGE, PassCategory.NEBULA, VALID_EVENT_DATE);
-        });
+        assertThrows(IllegalArgumentException.class, () -> passFactory.create(PassOption.PACKAGE, PassCategory.NEBULA, VALID_EVENT_DATE));
     }
 
     @Test
     public void whenCreatingASinglePass_itReturnsASinglePass() {
         PassCategory anyPassCategory = PassCategory.NEBULA;
         Pass pass = passFactory.create(PassOption.SINGLE_PASS, anyPassCategory, VALID_EVENT_DATE);
-        assertThat(pass.getPassOption()).isEqualTo(PassOption.SINGLE_PASS);
+        assertEquals(PassOption.SINGLE_PASS, pass.getPassOption());
     }
 
     @Test
     public void whenCreatingAPackagePass_itReturnsAPackagePass() {
         PassCategory anyPassCategory = PassCategory.NEBULA;
         Pass pass = passFactory.create(PassOption.PACKAGE, anyPassCategory, EMPTY_EVENT_DATE);
-        assertThat(pass.getPassOption()).isEqualTo(PassOption.PACKAGE);
+        assertEquals(PassOption.PACKAGE, pass.getPassOption());
     }
 
     @Test

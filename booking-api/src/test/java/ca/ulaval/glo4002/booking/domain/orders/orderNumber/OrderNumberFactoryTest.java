@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OrderNumberFactoryTest {
 
@@ -24,7 +24,7 @@ public class OrderNumberFactoryTest {
     public void givenOnFirstUse_whenCreating_thenTheNumberIsZero() {
         OrderNumber orderNumber = orderNumberFactory.create(SOME_VENDOR_CODE);
         String expectedValue = SOME_VENDOR_CODE.toString() + "-0";
-        assertThat(orderNumber.getValue()).isEqualTo(expectedValue);
+        assertEquals(expectedValue, orderNumber.getValue());
     }
 
     @Test
@@ -36,6 +36,6 @@ public class OrderNumberFactoryTest {
         }
 
         String expectedValue = SOME_VENDOR_CODE.toString() + "-" + String.valueOf(numberOfCreations);
-        assertThat(lastOrderNumber.getValue()).isEqualTo(expectedValue);
+        assertEquals(expectedValue, lastOrderNumber.getValue());
     }
 }
