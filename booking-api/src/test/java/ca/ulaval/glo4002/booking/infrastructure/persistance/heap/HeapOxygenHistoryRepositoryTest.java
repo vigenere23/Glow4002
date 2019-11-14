@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
@@ -25,12 +24,6 @@ public class HeapOxygenHistoryRepositoryTest {
     public void setUpOxygenHistoryRepository() {
         initializeOxygenHistoryItem();
         oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-    }
-
-    @Test
-    public void HistoryIsInitialized() {
-        Map<LocalDate, OxygenHistoryItem> history = oxygenHistoryRepository.findAll();
-        assertEquals(0, history.size());
     }
 
     @Test
