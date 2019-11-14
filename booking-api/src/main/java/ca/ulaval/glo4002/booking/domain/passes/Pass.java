@@ -56,10 +56,6 @@ public class Pass implements Passenger {
         return this.passOption == passOption && this.passCategory == passCategory;
     }
 
-    public boolean hasSameDateAs(LocalDate eventDate) {
-        return this.startDate.equals(eventDate);
-    }
-
     public boolean isAttendingAtDate(LocalDate eventDate) {
         return DateComparator.dateIsInclusivelyBetween(eventDate, startDate, endDate);
     }
