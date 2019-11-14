@@ -33,12 +33,12 @@ public class SingleDayProgramTest {
     private final static OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
     private final static LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 7, 12);
     private final static ShuttleCategory SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
+    private final static PassengerNumber SOME_PASSENGER_NUMBER = new PassengerNumber(0);
     private final static int SOME_PASSENGERS = 1;
     private final static int SOME_ATTENDEES = 4;
     private final static int SOME_OXYGEN_QUANTITY = 66;
     
     private List<ArtistProgramInformation> artistsForProgram;   
-    private PassengerNumber passengerNumber;
     private OxygenReserver oxygenReserver;
     private TransportReserver transportReserver;
     private SingleDayProgram singleDayProgram;
@@ -78,13 +78,13 @@ public class SingleDayProgramTest {
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderDepartureShuttle() {
         singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
-        verify(transportReserver).reserveDeparture(SHUTTLE_CATEGORY, SOME_DATE, artistProgramInformation, SOME_PASSENGERS);
+        verify(transportReserver).reserveDeparture(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
     }
 
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderArrivalShuttle() {
         singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
-        verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, artistProgramInformation, SOME_PASSENGERS);
+        verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
     }
 
     @Test
@@ -103,7 +103,6 @@ public class SingleDayProgramTest {
         oxygenReserver = mock(OxygenReserver.class);
         transportReserver = mock(TransportReserver.class);
         festivalDates = mock(Glow4002Dates.class);
-        passengerNumber = mock(PassengerNumber.class);
         artistProgramInformation = mock(ArtistProgramInformation.class);
         outcomeSaver = mock(OutcomeSaver.class);
         price = mock(Price.class);
@@ -114,7 +113,7 @@ public class SingleDayProgramTest {
         artistsForProgram.add(artistProgramInformation);
         when(artistProgramInformation.getArtistName()).thenReturn(SOME_ARTIST_NAME);
         when(artistProgramInformation.getGroupSize()).thenReturn(SOME_PASSENGERS);
-        when(artistProgramInformation.getPassengerNumber()).thenReturn(passengerNumber);
+        when(artistProgramInformation.getPassengerNumber()).thenReturn(SOME_PASSENGER_NUMBER);
         when(artistProgramInformation.getPrice()).thenReturn(price);
     }
 }

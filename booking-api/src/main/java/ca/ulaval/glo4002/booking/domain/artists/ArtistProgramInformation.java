@@ -1,10 +1,9 @@
 package ca.ulaval.glo4002.booking.domain.artists;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.transport.Passenger;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
-public class ArtistProgramInformation implements Passenger {
+public class ArtistProgramInformation {
     private String artistName;
     private PassengerNumber passengerNumber;
     private int groupSize;

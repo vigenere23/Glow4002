@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
 public class PassFactory {
 
@@ -47,13 +48,15 @@ public class PassFactory {
 
     private Pass createSinglePass(PassCategory passCategory, LocalDate eventDate) {
         PassNumber passNumber = passNumberFactory.create();
+        PassengerNumber passengerNumber = new PassengerNumber(passNumber);
         Price price = passPriceFactory.create(PassOption.SINGLE_PASS, passCategory);
-        return new Pass(festivalDates, passNumber, PassOption.SINGLE_PASS, passCategory, price, eventDate);
+        return new Pass(festivalDates, passNumber, passengerNumber, PassOption.SINGLE_PASS, passCategory, price, eventDate);
     }
 
     private Pass createPackagePass(PassCategory passCategory) {
         PassNumber passNumber = passNumberFactory.create();
+        PassengerNumber passengerNumber = new PassengerNumber(passNumber);
         Price price = passPriceFactory.create(PassOption.PACKAGE, passCategory);
-        return new Pass(festivalDates, passNumber, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
+        return new Pass(festivalDates, passNumber, passengerNumber, PassOption.PACKAGE, passCategory, price, festivalDates.getStartDate(), festivalDates.getEndDate());
     }
 }
