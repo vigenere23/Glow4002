@@ -19,12 +19,10 @@ public class PassOrder {
     private OrderNumber orderNumber;
     private List<Pass> passes = new ArrayList<>();
     private OrderDiscount orderDiscount;
-    private IncomeSaver incomeSaver;
 
-    public PassOrder(OrderNumber orderNumber, List<Pass> passes, IncomeSaver incomeSaver) {
+    public PassOrder(OrderNumber orderNumber, List<Pass> passes) {
         this.orderNumber = orderNumber;
         this.passes = passes;
-        this.incomeSaver = incomeSaver;
         
         orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
@@ -35,7 +33,7 @@ public class PassOrder {
         return calculateTotalPrice();
     }
 
-    public void saveIncome() {
+    public void saveIncome(IncomeSaver incomeSaver) {
         incomeSaver.saveIncome(calculateTotalPrice());
 	}
 

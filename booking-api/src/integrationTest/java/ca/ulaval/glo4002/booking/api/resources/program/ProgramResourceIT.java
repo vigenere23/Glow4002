@@ -86,8 +86,8 @@ public class ProgramResourceIT extends JerseyTest {
     PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
     PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
-    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory);
+    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
     ExternalApiArtist externalApiArtist = new ExternalApiArtist();
     ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);

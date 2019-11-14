@@ -60,7 +60,7 @@ public class PassOrderTest {
 
     @Test
     public void NoPasses_whenGettingPrice_itShouldBeZero() {
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, new ArrayList<>(), incomeSaver);
+        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, new ArrayList<>());
         Price nullPrice = Price.zero();
         assertEquals(nullPrice, passOrder.getPrice());
     }
@@ -68,16 +68,16 @@ public class PassOrderTest {
     @Test
     public void givenOnePass_whenGettingPrice_itShouldBeThePassPrice() {
         initNebulaPasses(1);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes);
         assertEquals(NEBULA_SINGLE_PASS_PRICE, passOrder.getPrice());
     }
 
     @Test
     public void whenSaveIncome_itShouldCallMethodSaveIncomeFromIncomeSaver() {
         initNebulaPasses(1);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes);
 
-        passOrder.saveIncome();
+        passOrder.saveIncome(incomeSaver);
         
         verify(incomeSaver).saveIncome(NEBULA_SINGLE_PASS_PRICE);
     }
@@ -85,7 +85,7 @@ public class PassOrderTest {
     @Test
     public void givenTwoPasses_whenGettingPrice_itShouldBeDoubleThePassPrice() {
         initNebulaPasses(2);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes);
 
         Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
         assertEquals(twoTimesNebulaSinglePassPrice, passOrder.getPrice());
@@ -94,7 +94,7 @@ public class PassOrderTest {
     @Test
     public void givenOverThreeNebulaSinglePasses_whenGettingPrice_itShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes);
 
         Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
@@ -105,7 +105,7 @@ public class PassOrderTest {
     @Test
     public void givenAtLeastFiveSupergiantSinglePasses_whenGettingPrice_itShouldHaveDiscountOnEachPass() {
         initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
-        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
+        PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes);
 
         Price priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 

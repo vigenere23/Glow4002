@@ -13,20 +13,17 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
-import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrderFactory {
 
     private FestivalDates festivalDates;
     private OrderNumberFactory orderNumberFactory;
     private PassFactory passFactory;
-    private IncomeSaver incomeSaver;
 
-    public PassOrderFactory(FestivalDates festivalDates, OrderNumberFactory orderNumberFactory, PassFactory passFactory, IncomeSaver incomeSaver) {
+    public PassOrderFactory(FestivalDates festivalDates, OrderNumberFactory orderNumberFactory, PassFactory passFactory) {
         this.festivalDates = festivalDates;
         this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;
-        this.incomeSaver = incomeSaver;
     }
 
     public PassOrder create(
@@ -39,7 +36,7 @@ public class PassOrderFactory {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
         OrderNumber orderNumber = orderNumberFactory.create(vendorCode);
-        return new PassOrder(orderNumber, passes, incomeSaver);
+        return new PassOrder(orderNumber, passes);
     }
 
     private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {
