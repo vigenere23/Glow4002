@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class HeapOxygenHistoryRepositoryTest {
@@ -20,14 +19,9 @@ public class HeapOxygenHistoryRepositoryTest {
 
     private HeapOxygenHistoryRepository oxygenHistoryRepository;
 
-    @BeforeEach
-    public void setUpOxygenHistoryRepository() {
-        initializeOxygenHistoryItem();
-        oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-    }
-
     @Test
     public void whenUpdateHistory_thenHistoryIsCorrectlyUpdated() {
+        setUpOxygenHistoryRepository();
         OxygenHistoryItem someOxygenHistoryItem = initializeOxygenHistoryItem();
         oxygenHistoryRepository.save(someOxygenHistoryItem);
 
@@ -42,5 +36,10 @@ public class HeapOxygenHistoryRepositoryTest {
         someOxygenHistoryItem.updateQuantity(HistoryType.WATER_USED, SOME_WATER_USED_QTY);
 
         return someOxygenHistoryItem;
+    }
+
+    private void setUpOxygenHistoryRepository() {
+        initializeOxygenHistoryItem();
+        oxygenHistoryRepository = new HeapOxygenHistoryRepository();
     }
 }
