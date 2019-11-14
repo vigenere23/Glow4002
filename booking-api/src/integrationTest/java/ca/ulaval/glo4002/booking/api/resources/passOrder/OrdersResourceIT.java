@@ -34,14 +34,14 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     private static final String INVALID_EVENT_DATE_MESSAGE = "event date should be between July 17 2050 and July 24 2050";
     private static final String INVALID_REQUEST_ERROR = "INVALID_FORMAT";
     private static final String INVALID_REQUEST_MESSAGE = "invalid format";
-    private static float NEBULA_PACKAGE_PASS_COST = 250000;
-    private static float NEBULA_SINGLE_PASS_COST = 50000;
-    private static float NEBULA_SINGLE_PASS_COST_DISCOUNT = (float) (NEBULA_SINGLE_PASS_COST * 0.9);
-    private static float SUPERNOVA_PACKAGE_PASS_COST = 700000;
-    private static float SUPERNOVA_SINGLE_PASS_COST = 150000;
-    private static float SUPERGIANT_PACKAGE_PASS_COST = 500000;
-    private static float SUPERGIANT_SINGLE_PASS_COST = 100000;
-    private static float SUPERGIANT_SINGLE_PASS_COST_DISCOUNT = 90000;
+    private static double NEBULA_PACKAGE_PASS_COST = 250000;
+    private static double NEBULA_SINGLE_PASS_COST = 50000;
+    private static double NEBULA_SINGLE_PASS_COST_DISCOUNT = (NEBULA_SINGLE_PASS_COST * 0.9);
+    private static double SUPERNOVA_PACKAGE_PASS_COST = 700000;
+    private static double SUPERNOVA_SINGLE_PASS_COST = 150000;
+    private static double SUPERGIANT_PACKAGE_PASS_COST = 500000;
+    private static double SUPERGIANT_SINGLE_PASS_COST = 100000;
+    private static double SUPERGIANT_SINGLE_PASS_COST_DISCOUNT = 90000;
     private List<String> someValidEventDates = new ArrayList<>();
     private List<String> someInvalidEventDates = new ArrayList<>();
     private List<String> threeValidEventDates = new ArrayList<>();
@@ -215,7 +215,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         List passes = (List) response.get("passes");
         Map somePass = (Map) passes.get(0);
-        assertTrue(somePass.get("passNumber") instanceof Long);
+        assertTrue(somePass.get("passNumber") instanceof Integer);
     }
 
     @Test
@@ -261,7 +261,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         Map response = getMapPostResponse(orderNumber);
 
-        float expectedPrice = threeValidEventDates.size() * NEBULA_SINGLE_PASS_COST;
+        double expectedPrice = threeValidEventDates.size() * NEBULA_SINGLE_PASS_COST;
         assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
@@ -273,7 +273,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         Map response = getMapPostResponse(orderNumber);
 
-        float expectedPrice = fourValidEventDates.size() * NEBULA_SINGLE_PASS_COST_DISCOUNT;
+        double expectedPrice = fourValidEventDates.size() * NEBULA_SINGLE_PASS_COST_DISCOUNT;
         assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
@@ -284,7 +284,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         Map response = getMapPostResponse(orderNumber);
 
-        float expectedPrice = someValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST;
+        double expectedPrice = someValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST;
         assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
@@ -295,7 +295,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         Map response = getMapPostResponse(orderNumber);
 
-        float expectedPrice = fiveValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST_DISCOUNT;
+        double expectedPrice = fiveValidEventDates.size() * SUPERGIANT_SINGLE_PASS_COST_DISCOUNT;
         assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
@@ -306,7 +306,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         Map response = getMapPostResponse(orderNumber);
 
-        float expectedPrice = someValidEventDates.size() * SUPERNOVA_SINGLE_PASS_COST;
+        double expectedPrice = someValidEventDates.size() * SUPERNOVA_SINGLE_PASS_COST;
         assertEquals(expectedPrice, response.get("orderPrice"));
     }
 
@@ -387,7 +387,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
 
         List passes = (List) response.get("passes");
         Map somePass = (Map) passes.get(0);
-        assertTrue(somePass.get("passNumber") instanceof Long);
+        assertTrue(somePass.get("passNumber") instanceof Integer);
     }
 
     @Test
