@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
@@ -27,9 +28,10 @@ public class ReportOxygenResources {
     }
     
     @GET
-    public ReportOxygenResponse getOxygenReport() {
+    public Response getOxygenReport() {
         List<OxygenInventoryDto> inventory = new OxygenInventoryMapper().toDto(oxygenUseCase.getOxygenInventories());
         List<OxygenHistoryDto> history = new OxygenHistoryMapper().toDto(oxygenUseCase.getOxygenHistory());
-        return new ReportOxygenResponse(inventory, history);
+        ReportOxygenResponse response = new ReportOxygenResponse(inventory, history);
+        return Response.ok(response).build();
     }
 }

@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.profit.dto.ProfitResponse;
 import ca.ulaval.glo4002.booking.application.ProfitUseCase;
@@ -21,7 +22,8 @@ public class ProfitResource {
     }
 
     @GET
-    public ProfitResponse profit() {
-        return new ProfitResponse(profitUseCase.getIncome(), profitUseCase.getOutcome(), profitUseCase.getProfit());
+    public Response profit() {
+        ProfitResponse response = new ProfitResponse(profitUseCase.getIncome(), profitUseCase.getOutcome(), profitUseCase.getProfit());
+        return Response.ok(response).build();
     }
 }

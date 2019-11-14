@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponse;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
@@ -41,16 +42,16 @@ public class OrdersResource {
         if (!passOrder.isPresent()) {
             throw new NotFoundException("order", orderNumber.getValue());
         }
-        return Response.ok().entity(new PassOrderResponseMapper()
-                .getPassOrderResponse(passOrder.get())).build();
+        PassOrderResponse response = new PassOrderResponseMapper().getPassOrderResponse(passOrder.get());
+        return Response.ok(response).build();
     }
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws URISyntaxException {
-        PassOrder passOrder = passOrderUseCase.orchestPassCreation(request.orderDate, request.vendorCode, request.passes);
+        PassOrder passOrder = passOrderUseCase.orchestPassCreation(request.orderDate, request.vendorCode,
+                request.passes);
         String orderNumber = passOrder.getOrderNumber().getValue();
-
         URI location = LocationHeaderCreator.createURI(uriInfo, orderNumber);
-        return Response.status(201).location(location).build();
+        return Response.created(location).build();
     }
 }
