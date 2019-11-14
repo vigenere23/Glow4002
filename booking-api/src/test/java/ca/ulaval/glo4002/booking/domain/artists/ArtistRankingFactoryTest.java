@@ -10,7 +10,7 @@ class ArtistRankingFactoryTest {
     private ArtistRankingFactory artistRankingFactory;
      
     @BeforeEach
-    public void setUp() {
+    public void setUpArtistRankingFactory() {
         artistRankingFactory = new ArtistRankingFactory();
      }
      

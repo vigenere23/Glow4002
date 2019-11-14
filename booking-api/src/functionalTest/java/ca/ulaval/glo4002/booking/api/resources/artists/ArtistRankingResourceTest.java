@@ -22,7 +22,7 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 
-public class ArtistRankingResourceFT extends JerseyTest {
+public class ArtistRankingResourceTest extends JerseyTest {
 
     private static final String ARTIST_RANKING_URL = "/program/artists";
     private static final String QUERY_PARAM = "orderBy";

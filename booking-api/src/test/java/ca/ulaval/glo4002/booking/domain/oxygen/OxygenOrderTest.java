@@ -54,20 +54,23 @@ class OxygenOrderTest {
         oxygenOrder = new OxygenOrderImplementationTest(SOME_FESTIVAL_START_DATE, SOME_TANK_FABRICATION_QUANTITY, SOME_FABRICATION_TIME_IN_DAYS);
     }
 
-    @Test void whenOrderOnTime_thenThereIsEnoughTimeToFabricate() {
+    @Test 
+    public void whenOrderOnTime_thenThereIsEnoughTimeToFabricate() {
         boolean isEnoughTime = oxygenOrder.isEnoughTimeToFabricate(SOME_ORDER_DATE);
 
         assertTrue(isEnoughTime);
     }
 
 
-    @Test void whenOrderOxygenLessThanTankFabricationQuantity_thenHasToReserveTankFabricationQuantity() {
+    @Test 
+    public void whenOrderOxygenLessThanTankFabricationQuantity_thenHasToReserveTankFabricationQuantity() {
         int quantityToReserve = oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY);
 
         assertEquals(SOME_TANK_FABRICATION_QUANTITY, quantityToReserve);
     }
 
-    @Test void whenOrderOxygenMoreThanTankFabricationQuantity_thenHasToReserveAMultipleOfTankFabricationQuantity() {
+    @Test 
+    public void whenOrderOxygenMoreThanTankFabricationQuantity_thenHasToReserveAMultipleOfTankFabricationQuantity() {
         int quantityToReserve = oxygenOrder.getQuantityToReserve(SOME_ORDER_DATE, QUANTITY_LESS_THAN_TWO_TANK_FABRICATION_QUANTITIES);
 
         int expectedQuantityToReserve = SOME_TANK_FABRICATION_QUANTITY * 2;
@@ -117,21 +120,20 @@ class OxygenOrderTest {
     }
 
     @Test 
-    void whenOrderTooLate_thenThereIsNotEnoughTimeToFabricate() {
+    public void whenOrderTooLate_thenThereIsNotEnoughTimeToFabricate() {
         boolean isEnoughTime = oxygenOrder.isEnoughTimeToFabricate(TOO_LATE_DATE);
 
         assertFalse(isEnoughTime);
     }
 
     @Test 
-    void whenOrderTooLate_thenExceptionIsThrown() {
+    public void whenOrderTooLate_thenExceptionIsThrown() {
         assertThrows(IllegalArgumentException.class, () -> oxygenOrder.getQuantityToReserve(TOO_LATE_DATE, QUANTITY_LESS_THAN_TANK_FABRICATION_QUANTITY));
     }
 
     @Test
-    void whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverIsCalled() {
+    public void whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverIsCalled() {
         oxygenOrder.saveOutcome(outcomeSaver);
         verify(outcomeSaver).saveOutcome(SOME_COST);
     }
-
 }

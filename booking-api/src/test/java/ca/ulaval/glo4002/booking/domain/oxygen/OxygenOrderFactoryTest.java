@@ -21,21 +21,18 @@ class OxygenOrderFactoryTest {
     @Test
     void whenCreateOxygenOrderOfOxygenGradeA_thenCreatesNewGradeAOxygenOrder() {
         OxygenOrder oxygenOrder = oxygenOrderFactory.create(OxygenGrade.A);
-
         assertTrue(oxygenOrder instanceof GradeAOxygenOrder);
     }
 
     @Test
     void whenCreateOxygenOrderOfOxygenGradeB_thenCreatesNewGradeBOxygenOrder() {
         OxygenOrder oxygenOrder = oxygenOrderFactory.create(OxygenGrade.B);
-
         assertTrue(oxygenOrder instanceof GradeBOxygenOrder);
     }
 
     @Test
     void whenCreateOxygenOrderOfOxygenGradeE_thenCreatesNewGradeEOxygenOrder() {
         OxygenOrder oxygenOrder = oxygenOrderFactory.create(OxygenGrade.E);
-
         assertTrue(oxygenOrder instanceof GradeEOxygenOrder);
     }
 }

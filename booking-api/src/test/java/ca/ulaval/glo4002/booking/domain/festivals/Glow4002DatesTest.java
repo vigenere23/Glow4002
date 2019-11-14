@@ -20,12 +20,12 @@ public class Glow4002DatesTest {
 
     private Glow4002Dates festivalDates;
 
-    private static final LocalDate FESTIVAL_START = LocalDate.of(2050, 7, 17);
-    private static final LocalDate FESTIVAL_END = LocalDate.of(2050, 7, 24);
-    private static final OffsetDateTime SALE_START = OffsetDateTime.of(2050, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC);
-    private static final OffsetDateTime SALE_END = OffsetDateTime.of(2050, 7, 16, 23, 59, 59, 0, ZoneOffset.UTC);
-    private static final LocalDate OUTSIDE_FESTIVAL_DATE = FESTIVAL_START.minusDays(50);
-    private static final OffsetDateTime OUTSIDE_ORDER_DATETIME = SALE_START.minusDays(50);
+    private final static LocalDate FESTIVAL_START = LocalDate.of(2050, 7, 17);
+    private final static LocalDate FESTIVAL_END = LocalDate.of(2050, 7, 24);
+    private final static OffsetDateTime SALE_START = OffsetDateTime.of(2050, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC);
+    private final static OffsetDateTime SALE_END = OffsetDateTime.of(2050, 7, 16, 23, 59, 59, 0, ZoneOffset.UTC);
+    private final static LocalDate OUTSIDE_FESTIVAL_DATE = FESTIVAL_START.minusDays(50);
+    private final static OffsetDateTime OUTSIDE_ORDER_DATETIME = SALE_START.minusDays(50);
 
     @BeforeEach
     public void setupGlow4002Dates() {
@@ -80,7 +80,7 @@ public class Glow4002DatesTest {
     @Test
     public void givenDateOneSecondAfterSaleEnd_whenCheckingIfDateIsDuringSaleTime_itReturnsFalse() {
         OffsetDateTime oneSecondAfterSaleEnd = SALE_END.plusSeconds(1);
-        boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondAfterSaleEnd);
+        boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondAfterSaleEnd);       
         assertFalse(isDateDuringSaleTime);
     }
 
