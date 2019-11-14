@@ -29,9 +29,9 @@ public class SingleDayProgramTest {
 
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
     private final static String SOME_ARTIST_NAME = "Sun 41";
-    private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 22);
+    private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 22);
     private final static OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
-    private final static LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
+    private final static LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 7, 12);
     private final static ShuttleCategory SHUTTLE_CATEGORY = ShuttleCategory.ET_SPACESHIP;
     private final static int SOME_PASSENGERS = 1;
     private final static int SOME_ATTENDEES = 4;
@@ -64,18 +64,14 @@ public class SingleDayProgramTest {
     @Test
     public void givenValidDate_whenIsDuringFestivalDate_thenIndicatesThatDateIsDuringFestival() {
         when(festivalDates.isDuringEventTime(SOME_DATE)).thenReturn(true);
-
         boolean validDate = singleDayProgram.isDuringFestivalDate(festivalDates);
-
         assertTrue(validDate);
     }
 
     @Test
     public void givenInvalidDate_whenIsDuringFestivalDate_thenIndicatesThatDateIsNotInFestival() {
         when(festivalDates.isDuringEventTime(SOME_DATE)).thenReturn(false);
-
         boolean validDate = singleDayProgram.isDuringFestivalDate(festivalDates);
-
         assertFalse(validDate);
     }
 

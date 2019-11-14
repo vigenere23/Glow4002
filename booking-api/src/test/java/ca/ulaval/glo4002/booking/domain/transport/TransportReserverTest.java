@@ -12,10 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
 class TransportReserverTest {
 
@@ -25,7 +21,6 @@ class TransportReserverTest {
     private final static ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
 
     private ShuttleRepository shuttleRepository;
-    private Shuttle mockedShuttle;
     private List<Shuttle> someShuttles = new ArrayList<>();
     private TransportReserver transportReserver;
     private ShuttleFiller shuttleFiller;
@@ -35,7 +30,6 @@ class TransportReserverTest {
         mockShuttlesList();
         mockShuttleRepository();
         mockShuttleFiller();
-
 
         transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     }
@@ -77,7 +71,7 @@ class TransportReserverTest {
     }
 
     private void mockShuttlesList() {
-        mockedShuttle = mock(SpaceX.class);
+        Shuttle mockedShuttle = mock(SpaceX.class);
         someShuttles.add(mockedShuttle);    
     }
 

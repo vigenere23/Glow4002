@@ -24,14 +24,12 @@ public class HeapOxygenHistoryRepositoryTest {
     @BeforeEach
     public void setUp() {
         initializeOxygenHistoryItem();
-
         oxygenHistoryRepository = new HeapOxygenHistoryRepository();
     }
 
     @Test
     public void HistoryIsInitialized() {
         Map<LocalDate, OxygenHistoryItem> history = oxygenHistoryRepository.findAll();
-
         assertEquals(0, history.size());
     }
 

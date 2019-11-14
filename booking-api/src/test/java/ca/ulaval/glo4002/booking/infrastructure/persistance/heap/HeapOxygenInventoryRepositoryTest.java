@@ -11,13 +11,14 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import java.util.List;
 
 public class HeapOxygenInventoryRepositoryTest {
-    private static final int SOME_OXYGEN_REMAINING = 2;
-    private static final int SOME_OXYGEN_INVENTORY = 3;
+
+    private final static int SOME_OXYGEN_REMAINING = 2;
+    private final static int SOME_OXYGEN_INVENTORY = 3;
 
     private HeapOxygenInventoryRepository oxygenInventoryRepository;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpOxygenInventory() {
         oxygenInventoryRepository = new HeapOxygenInventoryRepository();
     }
 

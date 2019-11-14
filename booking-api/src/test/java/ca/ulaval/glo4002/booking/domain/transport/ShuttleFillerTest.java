@@ -36,7 +36,7 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleList_whenDoesNotContainCategory_thenShuttleOfNewCategoryIsAddedToList() {
+    public void givenShuttleListWithoutCategory_whenFillOnePlaceShuttle_thenShuttleOfNewCategoryIsAddedToList() {
         when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);

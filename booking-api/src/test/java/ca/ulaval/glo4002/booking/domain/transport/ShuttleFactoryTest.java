@@ -15,11 +15,10 @@ class ShuttleFactoryTest {
     private final static LocalDate DATE = LocalDate.of(2050, 7, 19);
     
     private ShuttleFactory shuttleFactory;
-    private OutcomeSaver outcomeSaver;
-    
+
     @BeforeEach
     public void setUpShuttleFactory() {
-        outcomeSaver = mock(OutcomeSaver.class);
+        OutcomeSaver outcomeSaver = mock(OutcomeSaver.class);
         shuttleFactory = new ShuttleFactory(outcomeSaver);
     }
     
