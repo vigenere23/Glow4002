@@ -22,10 +22,10 @@ public class ProgramResource {
     private ProgramValidator programValidator;
 
     @Inject
-    public ProgramResource(ProgramUseCase programUseCase, ProgramValidator programValidator) {
+    public ProgramResource(ProgramUseCase programUseCase, ProgramValidator programValidator, ProgramMapper programMapper) {
         this.programUseCase = programUseCase;
         this.programValidator = programValidator;
-        programMapper = new ProgramMapper();
+        this.programMapper = programMapper;
     }
 
     @POST

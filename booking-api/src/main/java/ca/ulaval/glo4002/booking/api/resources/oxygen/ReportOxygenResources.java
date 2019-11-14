@@ -25,10 +25,10 @@ public class ReportOxygenResources {
     private final OxygenHistoryMapper oxygenHistoryMapper;
     
     @Inject
-    public ReportOxygenResources(OxygenUseCase oxygenUseCase) {
+    public ReportOxygenResources(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
         this.oxygenUseCase = oxygenUseCase;
-        oxygenInventoryMapper = new OxygenInventoryMapper();
-        oxygenHistoryMapper = new OxygenHistoryMapper();
+        this.oxygenInventoryMapper = oxygenInventoryMapper;
+        this.oxygenHistoryMapper = oxygenHistoryMapper;
     }
     
     @GET

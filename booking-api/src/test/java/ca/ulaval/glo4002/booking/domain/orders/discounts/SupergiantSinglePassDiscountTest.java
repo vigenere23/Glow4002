@@ -17,15 +17,15 @@ import static org.mockito.Mockito.when;
 
 public class SupergiantSinglePassDiscountTest {
 
-    private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
-    private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
-    private static final Price DISCOUNT_PER_PASS = new Price(10000);
+    private final static int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
+    private final static Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
+    private final static Price DISCOUNT_PER_PASS = new Price(10000);
 
     private SupergiantSinglePassDiscount supergiantSinglePassDiscount;
     private List<Pass> passes;
 
     @BeforeEach
-    public void setUpSuperGriantSinglePassDiscount() {
+    public void setUpSuperGiantSinglePassDiscount() {
         supergiantSinglePassDiscount = new SupergiantSinglePassDiscount();
         passes = new ArrayList<>();
     }
@@ -40,6 +40,7 @@ public class SupergiantSinglePassDiscountTest {
     public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsFourTimesThePassDiscount() {
         initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
+        
         assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());
     }
     

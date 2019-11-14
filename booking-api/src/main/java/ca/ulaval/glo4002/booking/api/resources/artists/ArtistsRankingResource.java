@@ -11,8 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorDto;
-import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorResponseBuilder;
+import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
@@ -34,8 +33,7 @@ public class ArtistsRankingResource {
     @GET
     public Response artistRanking(@QueryParam("orderBy") String orderBy) {
         if(!ranking.containsKey(orderBy)){
-            return new ClientErrorResponseBuilder(
-                new ClientErrorDto("Bad request.", "Invalid query parameter.")).build();
+            throw new InvalidFormatException();
         }
         ArtistRankingResponse response = sortArtist(orderBy);
         

@@ -26,12 +26,6 @@ public class DecreasingPriceOrderedArtistsTest {
         assertEquals("lessExpensiveArtist", orderedArtists.get(2));
     }
 
-    private void fillArtistsToOrderWithDifferentPrice() {
-        addArtist(mock(ArtistRankingInformation.class), 5000f, 1, "mostExpensiveArtist");
-        addArtist(mock(ArtistRankingInformation.class), 3000f, 3, "lessExpensiveArtist");
-        addArtist(mock(ArtistRankingInformation.class), 4000f, 2, "secondExpensiveArtist");
-    }
-
     @Test
     public void givenArtistsToOrderWithSamePrices_whenGetOrderedArtists_thenOrderArtistsNameByPriceAndPopularity() {
         fillArtistsToOrderWithSamePrice();
@@ -40,6 +34,12 @@ public class DecreasingPriceOrderedArtistsTest {
 
         assertEquals("mostExpensiveMostPopularArtist", orderedArtists.get(0));
         assertEquals("lessExpensiveArtist", orderedArtists.get(2));
+    }
+
+    private void fillArtistsToOrderWithDifferentPrice() {
+        addArtist(mock(ArtistRankingInformation.class), 5000f, 1, "mostExpensiveArtist");
+        addArtist(mock(ArtistRankingInformation.class), 3000f, 3, "lessExpensiveArtist");
+        addArtist(mock(ArtistRankingInformation.class), 4000f, 2, "secondExpensiveArtist");
     }
 
     private void fillArtistsToOrderWithSamePrice() {
