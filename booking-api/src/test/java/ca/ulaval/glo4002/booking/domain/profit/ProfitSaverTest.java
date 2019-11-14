@@ -15,6 +15,7 @@ public class ProfitSaverTest {
     private final static Price INCOME_TO_ADD = new Price(100);
     private final static Price ADDED_OUTCOME = new Price(12345);
     private final static Price OUTCOME_TO_ADD = new Price(100);
+    
     private ProfitRepository profitRepository;
     private ProfitSaver profitSaver;
     private Price price;

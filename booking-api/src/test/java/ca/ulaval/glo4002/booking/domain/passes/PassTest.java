@@ -20,17 +20,17 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class PassTest {
-    private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
-    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
-    private static final ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
-    private static final LocalDate SOME_ORDER_DATE = LocalDate.of(2050, 01, 01);
-    private static final LocalDate SOME_START_DATE = LocalDate.of(2050, 07, 18);
-    private static final LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
-    private static final int A_NUMBER_OF_FESTIVAL_DAYS = 5;
-    private static final int ONE_PLACE = 1;
-    private static final LocalDate A_FESTIVAL_START = LocalDate.of(2050, 07, 17);
-    private static final LocalDate A_FESTIVAL_END = A_FESTIVAL_START.plusDays(A_NUMBER_OF_FESTIVAL_DAYS - 1);
-    private static final LocalDate BETWEEN_A_FESTIVAL_DATE = A_FESTIVAL_START.plusDays(1);
+    private final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
+    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
+    private final static ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
+    private final static LocalDate SOME_ORDER_DATE = LocalDate.of(2050, 01, 01);
+    private final static LocalDate SOME_START_DATE = LocalDate.of(2050, 07, 18);
+    private final static LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
+    private final static int A_NUMBER_OF_FESTIVAL_DAYS = 5;
+    private final static int ONE_PLACE = 1;
+    private final static LocalDate A_FESTIVAL_START = LocalDate.of(2050, 07, 17);
+    private final static LocalDate A_FESTIVAL_END = A_FESTIVAL_START.plusDays(A_NUMBER_OF_FESTIVAL_DAYS - 1);
+    private final static LocalDate BETWEEN_A_FESTIVAL_DATE = A_FESTIVAL_START.plusDays(1);
 
     private FestivalDates festivalDates;
     private PassNumber passNumber;
@@ -39,7 +39,7 @@ public class PassTest {
     private OxygenReserver oxygenReserver;
     
     @BeforeEach
-    public void setUp() {
+    public void setUpPass() {
         festivalDates = new Glow4002Dates();
         passNumber = new PassNumber(0);
         price = Price.zero();
@@ -51,6 +51,7 @@ public class PassTest {
     public void whenReservingShuttles_thenItReservesASingleDeparture() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
+        
         verify(transportReserver, times(1)).reserveDeparture(any(ShuttleCategory.class), any(LocalDate.class), any(Passenger.class), any(Integer.class));
     }
 
@@ -58,6 +59,7 @@ public class PassTest {
     public void whenReservingShuttles_thenItReservesASingleArrival() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
+        
         verify(transportReserver, times(1)).reserveArrival(any(ShuttleCategory.class), any(LocalDate.class), any(Passenger.class), any(Integer.class));
     }
 
@@ -65,6 +67,7 @@ public class PassTest {
     public void whenReservingShuttles_thenDepartureShuttlesAreReservedWithStartDateAndPassNumber() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
+        
         verify(transportReserver).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, pass, ONE_PLACE);
     }
 
@@ -72,6 +75,7 @@ public class PassTest {
     public void whenReserveShuttles_thenArrivalShuttlesAreReservedWithEndDateAndPassNumber() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
+
         verify(transportReserver).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_END_DATE, pass, ONE_PLACE);
     }
 

@@ -14,8 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 
 class ProfitUseCaseTest {
     
-    private final int NUMBER_OF_DECIMAL = 2;
-    private final float ROUNDED_PRICE = 20;
+    private final static int NUMBER_OF_DECIMAL = 2;
+    private final static float ROUNDED_PRICE = 20;
 
     private ProfitUseCase profitUseCase;
     private ProfitCalculator profitCalculator;
@@ -25,7 +25,7 @@ class ProfitUseCaseTest {
     private Price outcome;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpProfitUseCase() {
         mockPrices();
         mockProfitRepository();
         mockProfitCalculator();

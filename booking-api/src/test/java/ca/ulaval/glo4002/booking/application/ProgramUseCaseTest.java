@@ -22,8 +22,8 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCaseTest {
 
-    private static final LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
-    private static final String SOME_ARTIST_NAME = "Sun 41";
+    private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
+    private final static String SOME_ARTIST_NAME = "Sun 41";
 
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
@@ -58,25 +58,25 @@ public class ProgramUseCaseTest {
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
+    public void whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(program);
         verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenSaveOutcome() {
+    public void whenProvideProgramResources_thenSaveOutcome() {
         programUseCase.provideProgramResources(program);
         verify(singleDay).saveOutcome(outcomeSaver, artistsForProgram);
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenOrderOxygen() {
+    public void whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(program);
         verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), festivalAttendeesCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
+    public void whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
         programUseCase.provideProgramResources(program);
         verify(festivalAttendeesCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
     }

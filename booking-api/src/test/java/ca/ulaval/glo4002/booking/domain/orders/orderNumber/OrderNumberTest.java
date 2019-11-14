@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 public class OrderNumberTest {
 
     @Test
-    public void whenCreatingOrderNumber_itConcatensTheVendorCodeAndTheNumberWithHyphenBetween() {
+    public void whenCreatingOrderNumber_thenConcatensVendorCodeAndNumberWithHyphenBetween() {
         VendorCode vendorCode = VendorCode.TEAM;
         long number = 4568;
         String expectedOrderNumberValue = "TEAM-4568";
@@ -21,23 +21,26 @@ public class OrderNumberTest {
     }
 
     @Test
-    public void whenCreatingOrderNumberFromString_itReturnsTheSameValueAsTheGivenString() {
+    public void whenCreatingOrderNumberFromString_thenReturnsTheSameValueAsTheGivenString() {
         String stringOrderNumber = "TEAM-4566";
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
+
         assertEquals(stringOrderNumber, orderNumber.getValue());
     }
 
     @Test
-    public void givenTwoCreatedOrderNumbersWithDifferentArguments_whenComparingEquality_itReturnsFalse() {
+    public void givenTwoCreatedOrderNumbersWithDifferentArguments_whenComparingEquality_thenReturnsFalse() {
         OrderNumber orderNumber1 = new OrderNumber(VendorCode.TEAM, 1);
         OrderNumber orderNumber2 = new OrderNumber(VendorCode.TEAM, 2);
+
         assertNotEquals(orderNumber1, orderNumber2);
     }
 
     @Test
-    public void givenTwoCreatedOrderNumbersWithSameArguments_whenComparingEquality_itReturnsTrue() {
+    public void givenTwoCreatedOrderNumbersWithSameArguments_whenComparingEquality_thenReturnsTrue() {
         OrderNumber orderNumber1 = new OrderNumber(VendorCode.TEAM, 1);
         OrderNumber orderNumber2 = new OrderNumber(VendorCode.TEAM, 1);
+
         assertEquals(orderNumber1, orderNumber2);
     }
 }
