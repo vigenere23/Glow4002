@@ -40,6 +40,7 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApi
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
@@ -144,7 +145,8 @@ public class BookingServer implements Runnable {
         PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
         PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
+		OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, incomeSaver, orderNumberFactory);
         
         return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
     }

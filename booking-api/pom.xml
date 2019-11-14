@@ -123,7 +123,7 @@
                 <version>1.12</version>
                 <executions>
                     <execution>
-                        <id>add-integrationTest-sources</id>
+                        <id>add-test-sources</id>
                         <phase>generate-test-sources</phase>
                         <goals>
                             <goal>add-test-source</goal>
@@ -131,6 +131,7 @@
                         <configuration>
                             <sources>
                                 <source>src/integrationTest/java</source>
+                                <source>src/functionalTest/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -150,6 +151,19 @@
                             <skipTests>false</skipTests>
                             <includes>
                                 <include>**/*IT.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <id>functionalTest</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>**/*FT.java</include>
                             </includes>
                         </configuration>
                     </execution>

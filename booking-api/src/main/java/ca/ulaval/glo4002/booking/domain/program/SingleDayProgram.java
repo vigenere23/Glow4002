@@ -56,6 +56,6 @@ public class SingleDayProgram {
 	}
 
     private ArtistProgramInformation getArtist(List<ArtistProgramInformation> artistsForProgram) {
-        return artistsForProgram.stream().filter(artist -> artistName.equals(artist.getArtistName())).findAny().orElse(null);
+        return artistsForProgram.stream().filter(artistInformation -> artistName.equals(artistInformation.getArtistName())).findAny().orElse(null);
     }
 }

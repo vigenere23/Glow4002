@@ -5,11 +5,11 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
+import java.util.Map;
 
 public class OxygenHistoryMapper {
 
-    public List<OxygenHistoryDto> toDto(SortedMap<LocalDate, OxygenHistoryItem> history) {
+    public List<OxygenHistoryDto> toDto(Map<LocalDate, OxygenHistoryItem> history) {
         List<OxygenHistoryDto> historyDto = new ArrayList<>();
         for (OxygenHistoryItem oxygenHistoryItem : history.values()) {
             OxygenHistoryDto oxygenHistoryDto = new OxygenHistoryDto();

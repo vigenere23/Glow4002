@@ -1,5 +1,6 @@
-package ca.ulaval.glo4002.booking.infrastructure;
+package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -12,11 +13,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
 import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
 import ca.ulaval.glo4002.organisation.OrganisationServer;
 
-public class ExternalServiceApiArtistIT {
+public class ExternalApiArtistFT {
 
     private static ExternalApiArtist apiArtist;
     private static Thread organizationServer;
@@ -56,21 +56,21 @@ public class ExternalServiceApiArtistIT {
     public void whenGetOneArtistDtoFromExternalService_thenArtistMusicStyleIsValid(){
         ArtistDto oneArtistDto = getFirstArtistDto();
 
-        assertTrue(oneArtistDto.musicStyle != null, "First artist retrieved does not have any musicStyle.");
+        assertFalse(oneArtistDto.musicStyle.isEmpty(), "First artist retrieved does not have any musicStyle.");
     }
 
     @Test
     public void whenGetOneArtistDtoFromExternalService_thenArtistAvailabilityContainerIsValid(){
         ArtistDto oneArtistDto = getFirstArtistDto();
 
-        assertTrue(oneArtistDto.availabilities != null, "First artist retrieved does not have any availability container.");
+        assertFalse(oneArtistDto.availabilities.equals(null), "First artist retrieved does not have any availability container.");
     }
 
     @Test
     public void whenGetOneArtistDtoFromExternalService_thenArtistNameIsValid(){
         ArtistDto oneArtistDto = getFirstArtistDto();
 
-        assertTrue(oneArtistDto.name != null, "First artist retrieved does not have any name.");
+        assertFalse(oneArtistDto.name.isEmpty(), "First artist retrieved does not have any name.");
     }
 
     private static List<ArtistDto> getArtistDtoCollectionFromApiArtistServer() {

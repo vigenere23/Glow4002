@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -17,16 +21,17 @@ import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrderFactory {
 
-    private FestivalDates festivalDates;
-    private OrderNumberFactory orderNumberFactory;
     private PassFactory passFactory;
+    private FestivalDates festivalDates;
+    private OrderDiscountFactory orderDiscountFactory;
     private IncomeSaver incomeSaver;
-
-    public PassOrderFactory(FestivalDates festivalDates, OrderNumberFactory orderNumberFactory, PassFactory passFactory, IncomeSaver incomeSaver) {
+    private OrderNumberFactory orderNumberFactory;
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountFactory orderDiscountFactory, IncomeSaver incomeSaver,  OrderNumberFactory orderNumberFactory) {
         this.festivalDates = festivalDates;
         this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;
-        this.incomeSaver = incomeSaver;
+        this.orderDiscountFactory = orderDiscountFactory;
+		this.incomeSaver = incomeSaver;
     }
 
     public PassOrder create(
@@ -39,7 +44,10 @@ public class PassOrderFactory {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
         OrderNumber orderNumber = orderNumberFactory.create(vendorCode);
-        return new PassOrder(orderNumber, passes, incomeSaver);
+        OrderDiscount orderDiscount = orderDiscountFactory.fromMultipleDiscounts(
+            new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
+        );
+        return new PassOrder(orderNumber, passes, orderDiscount, incomeSaver);
     }
 
     private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {
