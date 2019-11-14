@@ -132,8 +132,8 @@ public class BookingServer implements Runnable {
 
     private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
-        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory);
+        ShuttleFactory shuttleFactory = new ShuttleFactory();
+        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
         transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
         return new TransportUseCase(festivalDates, shuttleRepository);
     }
