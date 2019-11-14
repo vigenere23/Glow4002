@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 
 public class ShuttleMapper {
@@ -14,7 +14,7 @@ public class ShuttleMapper {
         for (Shuttle shuttle: shuttles) {        
             ShuttleDto shuttleDto = new ShuttleDto();
             shuttleDto.date = shuttle.getDate().toString();
-            shuttleDto.passengers = shuttle.getPassNumbers().stream().map(PassNumber::getValue).collect(Collectors.toList());
+            shuttleDto.passengers = shuttle.getPassengers().stream().map(PassengerNumber::getValue).collect(Collectors.toList());
             shuttleDto.shuttleName = shuttle.getCategory().toString();
             shuttlesDto.add(shuttleDto);
         }

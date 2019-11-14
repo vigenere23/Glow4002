@@ -47,8 +47,8 @@ public class SingleDayProgram {
     public void orderShuttle(TransportReserver transportReserver, List<ArtistProgramInformation> artistsForProgram) {
         ArtistProgramInformation artist = getArtist(artistsForProgram);
         ShuttleCategory shuttleCategory = ShuttleCategory.getCategoryAccordingToPassengerCount(artist.getGroupSize());
-        transportReserver.reserveDeparture(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
-        transportReserver.reserveArrival(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
+        transportReserver.reserveDeparture(shuttleCategory, date, artist, artist.getGroupSize());
+        transportReserver.reserveArrival(shuttleCategory, date, artist, artist.getGroupSize());
     }
 
     public void saveOutcome(OutcomeSaver outcomeSaver, List<ArtistProgramInformation> artistsForProgram) {
