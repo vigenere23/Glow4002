@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.eclipse.jetty.server.Server;

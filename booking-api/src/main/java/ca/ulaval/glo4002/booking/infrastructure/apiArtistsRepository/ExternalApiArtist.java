@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.client.Client;

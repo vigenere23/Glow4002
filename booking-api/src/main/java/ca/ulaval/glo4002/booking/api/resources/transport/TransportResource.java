@@ -31,7 +31,7 @@ public class TransportResource {
     }
 
     @GET
-    public Response transport(@QueryParam("date") String stringDate) throws InvalidFormatException {
+    public Response transport(@QueryParam("date") String stringDate) {
         List<ShuttleDto> departures;
         List<ShuttleDto> arrivals;
         if (stringDate == null) {
