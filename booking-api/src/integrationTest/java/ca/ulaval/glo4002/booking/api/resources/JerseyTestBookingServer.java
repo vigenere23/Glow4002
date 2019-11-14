@@ -20,7 +20,6 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
@@ -98,8 +97,7 @@ public class JerseyTestBookingServer extends JerseyTest {
 
     ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator, profitRepository);
 
-    FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
+    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
     static
