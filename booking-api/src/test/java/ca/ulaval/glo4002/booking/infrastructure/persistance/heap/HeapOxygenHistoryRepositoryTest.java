@@ -21,7 +21,7 @@ public class HeapOxygenHistoryRepositoryTest {
     private HeapOxygenHistoryRepository oxygenHistoryRepository;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpOxygenHistoryRepository() {
         initializeOxygenHistoryItem();
 
         oxygenHistoryRepository = new HeapOxygenHistoryRepository();
