@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.api.resources.passOrder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -19,7 +18,7 @@ import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponse;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
-import ca.ulaval.glo4002.booking.api.resources.helpers.LocationHeaderCreator;
+import ca.ulaval.glo4002.booking.api.resources.responseUtil.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 
@@ -28,22 +27,22 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 public class OrdersResource {
 
     private PassOrderUseCase passOrderUseCase;
+    private final PassOrderResponseMapper passOrderResponseMapper;
 
     @Inject
     public OrdersResource(PassOrderUseCase passOrderUseCase) {
         this.passOrderUseCase = passOrderUseCase;
+        passOrderResponseMapper = new PassOrderResponseMapper();
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") String stringOrderNumber) {
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
-        Optional<PassOrder> passOrder = passOrderUseCase.getOrder(orderNumber);
-        if (!passOrder.isPresent()) {
-            throw new NotFoundException("order", orderNumber.getValue());
-        }
-        PassOrderResponse response = new PassOrderResponseMapper().getPassOrderResponse(passOrder.get());
-        return Response.ok(response).build();
+        PassOrder passOrder = passOrderUseCase.getOrder(orderNumber)
+            .orElseThrow(() -> new NotFoundException("order", orderNumber.getValue()));
+
+        return Response.ok().entity(passOrderResponseMapper.getPassOrderResponse(passOrder)).build();
     }
 
     @POST

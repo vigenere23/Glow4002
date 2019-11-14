@@ -160,7 +160,7 @@ public class ArtistRankingResourceFT extends JerseyTest {
     }
 
     private ArtistRankingResponse buildExpectedResponse(List<ArtistRankingInformation> information) {
-        ArrayList<String> sortedArtist = new ArrayList<String>();
+        List<String> sortedArtist = new ArrayList<String>();
         for (ArtistRankingInformation rankingInfo : information) {
             sortedArtist.add(rankingInfo.getArtistName());
         }

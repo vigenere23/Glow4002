@@ -20,9 +20,10 @@ public class PassOrder {
     private List<Pass> passes = new ArrayList<>();
     private OrderDiscount orderDiscount;
 
-    public PassOrder(OrderNumber orderNumber, List<Pass> passes) {
+    public PassOrder(OrderNumber orderNumber, List<Pass> passes, OrderDiscount orderDiscount) {
         this.orderNumber = orderNumber;
         this.passes = passes;
+        this.orderDiscount = orderDiscount;
         
         orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
@@ -33,10 +34,6 @@ public class PassOrder {
         return calculateTotalPrice();
     }
 
-    public void saveIncome(IncomeSaver incomeSaver) {
-        incomeSaver.saveIncome(calculateTotalPrice());
-	}
-
     private Price calculateTotalPrice() {
         Price priceBeforeDiscounts = Price.sum(getPrices());
 
@@ -44,6 +41,10 @@ public class PassOrder {
             Collections.unmodifiableList(passes), priceBeforeDiscounts
         );
     }
+
+    public void saveIncome(IncomeSaver incomeSaver) {
+        incomeSaver.saveIncome(getPrice());
+	}
 
     private Stream<Price> getPrices() {
         return passes.stream().map(Pass::getPrice);

@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +32,10 @@ public class HeapPassOrderRepositoryTest {
         List<Pass> passes = Arrays.asList(mock(Pass.class));
 
         passOrderRepository = new HeapPassOrderRepository();
-        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes);
+        OrderDiscount orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
+            new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
+        );
+        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes, orderDiscount);
     }
 
     @Test

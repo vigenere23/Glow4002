@@ -4,7 +4,9 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public abstract class OxygenOrder {
 

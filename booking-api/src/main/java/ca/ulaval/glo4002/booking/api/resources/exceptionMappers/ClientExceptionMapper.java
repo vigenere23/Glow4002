@@ -8,7 +8,6 @@ import javax.ws.rs.ext.Provider;
 import ca.ulaval.glo4002.booking.api.exceptions.ClientException;
 import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorResponseBuilder;
 
-
 @Provider
 @Priority(1)
 public class ClientExceptionMapper implements ExceptionMapper<ClientException> {

@@ -9,7 +9,6 @@ import javax.ws.rs.ext.Provider;
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorResponseBuilder;
 
-
 @Provider
 public class DateTimeParseExceptionMapper implements ExceptionMapper<DateTimeParseException> {
 

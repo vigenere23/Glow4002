@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SupergiantSinglePassDiscountTests {
+public class SupergiantSinglePassDiscountTest {
 
     private static final int SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY = 5;
     private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
@@ -37,7 +37,7 @@ public class SupergiantSinglePassDiscountTests {
     }
 
     @Test
-    public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsADiscount() {
+    public void givenFourSupergiantPasses_whenCalculatingPrice_thenItReturnsFourTimesThePassDiscount() {
         initPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.minus(DISCOUNT_PER_PASS.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY));
         assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());

@@ -18,6 +18,13 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleTest {
 
+    private final static int ONE_PLACE = 1;
+    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
+	
+    private ShuttleImplementationTest shuttle;
+    private OutcomeSaver outcomeSaver;
+    private Price price;
+
     private class ShuttleImplementationTest extends Shuttle {
 
         public ShuttleImplementationTest(LocalDate date, OutcomeSaver outcomeSaver, Price price) {
@@ -36,12 +43,6 @@ public class ShuttleTest {
             outcomeSaver.saveOutcome(price);
         }    
     }    
-
-    private final static int ONE_PLACE = 1;
-    private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
-    private ShuttleImplementationTest shuttle;
-    private OutcomeSaver outcomeSaver;
-    private Price price;
 
     @BeforeEach
     public void setUp() {

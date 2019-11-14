@@ -16,9 +16,9 @@ import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistI
 
 public class ExternalArtistRepositoryTest {
 
-    private final String SOME_ARTIST_NAME = "ArtistName";
-    private final int SOME_POPULARITY_RANK = 5;
-    private final float SOME_PRICE = 5000.00f;
+    private final static String SOME_ARTIST_NAME = "ArtistName";
+    private final static int SOME_POPULARITY_RANK = 5;
+    private final static float SOME_PRICE = 5000.00f;
 
     private ApiArtist apiArtist;
     private ExternalArtistRepository externalArtistRepository;
