@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class OrderNumberFactoryTest {
 
     private final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    
     private OrderNumberFactory orderNumberFactory;
 
     @BeforeEach

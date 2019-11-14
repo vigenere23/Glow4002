@@ -66,9 +66,7 @@ public class PassOrderFactoryTest {
     @Test
     public void givenEmptyListOfEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
-
         passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
-
         verify(passFactory, times(1)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATE);
     }
 

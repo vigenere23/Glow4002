@@ -46,9 +46,9 @@ class TransportUseCaseTest {
     @Test
     public void whenGetAllDeparture_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
-        List<Shuttle> expectedShuttles = transportUseCase.getAllDepartures();
 
-        assertEquals(shuttlesEarth, expectedShuttles);
+        List<Shuttle> departureShuttles = transportUseCase.getAllDepartures();
+        assertEquals(shuttlesEarth, departureShuttles);
     }
 
     @Test

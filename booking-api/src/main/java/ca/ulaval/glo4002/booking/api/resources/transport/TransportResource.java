@@ -25,9 +25,9 @@ public class TransportResource {
     private ShuttleMapper shuttleMapper;
     
     @Inject
-    public TransportResource(TransportUseCase transportUseCase) {
+    public TransportResource(TransportUseCase transportUseCase, ShuttleMapper shuttleMapper) {
         this.transportUseCase = transportUseCase;
-        shuttleMapper = new ShuttleMapper();
+        this.shuttleMapper = shuttleMapper;
     }
 
     @GET

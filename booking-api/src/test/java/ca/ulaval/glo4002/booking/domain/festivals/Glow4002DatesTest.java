@@ -47,18 +47,14 @@ public class Glow4002DatesTest {
     @Test
     public void givenDateOneDayBeforeFestivalStart_whenCheckingIfDateIsDuringEventTime_itReturnsFalse() {
         LocalDate oneDayBeforeFestivalStart = FESTIVAL_START.minusDays(1);
-
         boolean isDateDuringEventTime = festivalDates.isDuringEventTime(oneDayBeforeFestivalStart);
-
         assertFalse(isDateDuringEventTime);
     }
 
     @Test
     public void givenDateOneDayAfterFestivalEnd_whenCheckingIfDateIsDuringEventTime_itReturnsFalse() {
         LocalDate oneDayAfterFestivalEnd = FESTIVAL_END.plusDays(1);
-
         boolean isDateDuringEventTime = festivalDates.isDuringEventTime(oneDayAfterFestivalEnd);
-
         assertFalse(isDateDuringEventTime);
     }
 
@@ -77,18 +73,14 @@ public class Glow4002DatesTest {
     @Test
     public void givenDateOneSecondBeforeSaleStart_whenCheckingIfDateIsDuringSaleTime_itReturnsFalse() {
         OffsetDateTime oneSecondBeforeSaleStart = SALE_START.minusSeconds(1);
-
         boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondBeforeSaleStart);
-
         assertFalse(isDateDuringSaleTime);
     }
 
     @Test
     public void givenDateOneSecondAfterSaleEnd_whenCheckingIfDateIsDuringSaleTime_itReturnsFalse() {
         OffsetDateTime oneSecondAfterSaleEnd = SALE_END.plusSeconds(1);
-
-        boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondAfterSaleEnd);
-        
+        boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondAfterSaleEnd);       
         assertFalse(isDateDuringSaleTime);
     }
 

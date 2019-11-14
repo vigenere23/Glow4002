@@ -53,9 +53,11 @@ public class PassOrderTest {
     @Test
     public void givenNoPasses_whenGettingPrice_itShouldBeZero() {
         PassOrder passOrder = new PassOrder(orderNumber, new ArrayList<>(), orderDiscount);
-        Price nullPrice = Price.zero();
 
-        assertEquals(passOrder.getPrice() , nullPrice);
+        Price actualPrice = passOrder.getPrice();
+
+        Price expectedPrice = Price.zero();
+        assertEquals(expectedPrice, actualPrice);
     }
 
     @Test
@@ -69,32 +71,38 @@ public class PassOrderTest {
     public void givenTwoNebulaPasses_whenGettingPrice_thenShouldBeDoubleTheNebulaPassPrice() {
         initNebulaPasses(2);
         PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
+        
+        Price actualPrice = passOrder.getPrice();
 
         Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
-        assertEquals(passOrder.getPrice() , twoTimesNebulaSinglePassPrice);
+        assertEquals(twoTimesNebulaSinglePassPrice, actualPrice);
     }
 
     @Test
-    public void givenOverThreeNebulaSinglePasses_whenGettingPrice_itShouldHaveTenPercentDiscount() {
+    public void givenOverThreeNebulaSinglePasses_whenGettingPrice_thenItShouldHaveTenPercentDiscount() {
         initNebulaPasses(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
 
+        Price actualPrice = passOrder.getPrice();
+
         Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
-        assertEquals(passOrder.getPrice() , priceAfterDiscount);
+        assertEquals(priceAfterDiscount, actualPrice);
     }
 
     @Test
-    public void givenAtLeastFiveSupergiantSinglePasses_whenGettingPrice_itShouldHaveDiscountOnEachPass() {
+    public void givenAtLeastFiveSupergiantSinglePasses_whenGettingPrice_thenItShouldHaveDiscountOnEachPass() {
         initSupergiantPasses(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
         PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
 
+        Price actualPrice = passOrder.getPrice();
+
         Price priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
-        assertEquals(passOrder.getPrice() , priceAfterDiscount);
+        assertEquals(priceAfterDiscount, actualPrice);
     }
 
     @Test
-    public void whenSaveIncome_itShouldCallMethodSaveIncomeFromIncomeSaver() {
+    public void givenNebulaPass_whenSaveIncome_thenItShouldCallMethodSaveIncomeFromIncomeSaverWithNebulaPrice() {
         initNebulaPasses(1);
         PassOrder passOrder = new PassOrder(orderNumber, passes, orderDiscount);
 
