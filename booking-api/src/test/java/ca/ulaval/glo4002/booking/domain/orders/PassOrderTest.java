@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.orders;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -62,14 +62,14 @@ public class PassOrderTest {
     public void NoPasses_whenGettingPrice_itShouldBeZero() {
         PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, new ArrayList<>(), incomeSaver);
         Price nullPrice = Price.zero();
-        assertThat(passOrder.getPrice()).isEqualTo(nullPrice);
+        assertEquals(nullPrice, passOrder.getPrice());
     }
 
     @Test
     public void givenOnePass_whenGettingPrice_itShouldBeThePassPrice() {
         initNebulaPasses(1);
         PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
-        assertThat(passOrder.getPrice()).isEqualTo(NEBULA_SINGLE_PASS_PRICE);
+        assertEquals(NEBULA_SINGLE_PASS_PRICE, passOrder.getPrice());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class PassOrderTest {
         PassOrder passOrder = new PassOrder(SOME_ORDER_NUMBER, passes, incomeSaver);
 
         Price twoTimesNebulaSinglePassPrice = NEBULA_SINGLE_PASS_PRICE.multipliedBy(2);
-        assertThat(passOrder.getPrice()).isEqualTo(twoTimesNebulaSinglePassPrice);
+        assertEquals(twoTimesNebulaSinglePassPrice, passOrder.getPrice());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class PassOrderTest {
         Price priceBeforeDiscount = NEBULA_SINGLE_PASS_PRICE.multipliedBy(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price priceAfterDiscount = priceBeforeDiscount.multipliedBy(0.9);
 
-        assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
+        assertEquals(priceAfterDiscount, passOrder.getPrice());
     }
 
     @Test
@@ -109,6 +109,6 @@ public class PassOrderTest {
 
         Price priceAfterDiscount = SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE.multipliedBy(SUPERGIANT_SINGLE_PASS_DISCOUNT_QUANTITY);
 
-        assertThat(passOrder.getPrice()).isEqualTo(priceAfterDiscount);
+        assertEquals(priceAfterDiscount, passOrder.getPrice());
     }
 }

@@ -10,9 +10,11 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Glow4002DatesTest {
 
@@ -32,93 +34,85 @@ public class Glow4002DatesTest {
 
     @Test
     public void whenCreating_thenTheCorrectEventDatesAreSet() {
-        assertThat(festivalDates.getStartDate()).isEqualTo(FESTIVAL_START);
-        assertThat(festivalDates.getEndDate()).isEqualTo(FESTIVAL_END);
+        assertEquals(FESTIVAL_START, festivalDates.getStartDate());
+        assertEquals(FESTIVAL_END, festivalDates.getEndDate());
     }
 
     @Test
     public void whenCreating_thenTheCorrectSaleDatesAreSet() {
-        assertThat(festivalDates.getSaleStartDate()).isEqualTo(SALE_START);
-        assertThat(festivalDates.getSaleEndDate()).isEqualTo(SALE_END);
+        assertEquals(SALE_START, festivalDates.getSaleStartDate());
+        assertEquals(SALE_END, festivalDates.getSaleEndDate());
     }
 
     @Test
     public void givenDateOneDayBeforeFestivalStart_whenCheckingIfDateIsDuringEventTime_itReturnsFalse() {
         LocalDate oneDayBeforeFestivalStart = FESTIVAL_START.minusDays(1);
         boolean isDateDuringEventTime = festivalDates.isDuringEventTime(oneDayBeforeFestivalStart);
-        assertThat(isDateDuringEventTime).isFalse();
+        assertFalse(isDateDuringEventTime);
     }
 
     @Test
     public void givenDateOneDayAfterFestivalEnd_whenCheckingIfDateIsDuringEventTime_itReturnsFalse() {
         LocalDate oneDayAfterFestivalEnd = FESTIVAL_END.plusDays(1);
         boolean isDateDuringEventTime = festivalDates.isDuringEventTime(oneDayAfterFestivalEnd);
-        assertThat(isDateDuringEventTime).isFalse();
+        assertFalse(isDateDuringEventTime);
     }
 
     @Test
     public void givenDateIsFestivalStart_whenCheckingIfDateIsDuringEventTime_itReturnsTrue() {
         boolean isDateDuringEventTime = festivalDates.isDuringEventTime(FESTIVAL_START);
-        assertThat(isDateDuringEventTime).isTrue();
+        assertTrue(isDateDuringEventTime);
     }
 
     @Test
     public void givenDateIsFestivalEnd_whenCheckingIfDateIsDuringEventTime_itReturnsTrue() {
         boolean isDateDuringEventTime = festivalDates.isDuringEventTime(FESTIVAL_END);
-        assertThat(isDateDuringEventTime).isTrue();
+        assertTrue(isDateDuringEventTime);
     }
 
     @Test
     public void givenDateOneSecondBeforeSaleStart_whenCheckingIfDateIsDuringSaleTime_itReturnsFalse() {
         OffsetDateTime oneSecondBeforeSaleStart = SALE_START.minusSeconds(1);
         boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondBeforeSaleStart);
-        assertThat(isDateDuringSaleTime).isFalse();
+        assertFalse(isDateDuringSaleTime);
     }
 
     @Test
     public void givenDateOneSecondAfterSaleEnd_whenCheckingIfDateIsDuringSaleTime_itReturnsFalse() {
         OffsetDateTime oneSecondAfterSaleEnd = SALE_END.plusSeconds(1);
         boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(oneSecondAfterSaleEnd);
-        assertThat(isDateDuringSaleTime).isFalse();
+        assertFalse(isDateDuringSaleTime);
     }
 
     @Test
     public void givenDateIsSaleStart_whenCheckingIfDateIsDuringSaleTime_itReturnsTrue() {
         boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(SALE_START);
-        assertThat(isDateDuringSaleTime).isTrue();
+        assertTrue(isDateDuringSaleTime);
     }
 
     @Test
     public void givenDateIsSaleEnd_whenCheckingIfDateIsDuringSaleTime_itReturnsTrue() {
         boolean isDateDuringSaleTime = festivalDates.isDuringSaleTime(SALE_END);
-        assertThat(isDateDuringSaleTime).isTrue();
+        assertTrue(isDateDuringSaleTime);
     }
 
     @Test
     public void givenDateIsDuringEventTime_whenValidatingEventDates_itDoesNothing() {
-        assertThatCode(() -> {
-            festivalDates.validateEventDate(FESTIVAL_START);
-        }).doesNotThrowAnyException();
+        assertDoesNotThrow(() -> festivalDates.validateEventDate(FESTIVAL_START));
     }
 
     @Test
     public void givenDateIsOutsideEventTime_whenValidatingEventDates_itThrowsAnOutOfFestivalDatesException() {
-        assertThatExceptionOfType(OutOfFestivalDatesException.class).isThrownBy(() -> {
-            festivalDates.validateEventDate(OUTSIDE_FESTIVAL_DATE);
-        });
+        assertThrows(OutOfFestivalDatesException.class, () -> festivalDates.validateEventDate(OUTSIDE_FESTIVAL_DATE));
     }
 
     @Test
     public void givenDateIsDuringSaleTime_whenValidatingEventDates_itDoesNothing() {
-        assertThatCode(() -> {
-            festivalDates.validateOrderDate(SALE_START);
-        }).doesNotThrowAnyException();
+        assertDoesNotThrow(() -> festivalDates.validateEventDate(FESTIVAL_START));
     }
 
     @Test
     public void givenDateIsOutsideSaleTime_whenValidatingEventDates_itThrowsAnOutOfSaleDatesException() {
-        assertThatExceptionOfType(OutOfSaleDatesException.class).isThrownBy(() -> {
-            festivalDates.validateOrderDate(OUTSIDE_ORDER_DATETIME);
-        });
+        assertThrows(OutOfSaleDatesException.class, () -> festivalDates.validateOrderDate(OUTSIDE_ORDER_DATETIME));
     }
 }

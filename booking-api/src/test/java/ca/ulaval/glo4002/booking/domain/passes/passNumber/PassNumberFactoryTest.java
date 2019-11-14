@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PassNumberFactoryTest {
 
@@ -19,7 +19,7 @@ public class PassNumberFactoryTest {
     @Test
     public void givenOnFirstUse_whenCreating_thenTheNumberIsZero() {
         PassNumber passNumber = passNumberFactory.create();
-        assertThat(passNumber.getValue()).isEqualTo(0);
+        assertEquals(0, passNumber.getValue());
     }
 
     @Test
@@ -30,6 +30,6 @@ public class PassNumberFactoryTest {
             passNumber = passNumberFactory.create();
         }
 
-        assertThat(passNumber.getValue()).isEqualTo(numberOfCreations);
+        assertEquals(numberOfCreations, passNumber.getValue());
     }
 }

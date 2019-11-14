@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ public class PriceTest {
     public void givenNormalAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
         Price price = new Price(decimalAmount);
-        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+        assertEquals(decimalAmount, price.getAmount());
     }
 
     @Test
@@ -51,7 +50,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalAmount);
 
         BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
-        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+        assertEquals(decimalAmount, price.getAmount());
     }
 
     @Test
@@ -61,7 +60,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalAmount);
         
         BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
-        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+        assertEquals(decimalAmount, price.getAmount());
     }
 
     @Test
@@ -71,7 +70,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalAmount);
         
         BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
-        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+        assertEquals(decimalAmount, price.getAmount());
     }
 
     @Test
@@ -81,7 +80,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalValue);
 
         BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
-        assertThat(price.getAmount()).isEqualTo(decimalAmount);
+        assertEquals(decimalAmount, price.getAmount());
     }
 
     @Test
@@ -138,26 +137,26 @@ public class PriceTest {
 
     @Test
     public void givenAPositivePrice_whenMultiplyingByDouble_itReturnsNewInstanceWithMultipliedAmount() {
-        double multiplicator = 0.176;	
-        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);	
+        double multiplicator = 0.176;    
+        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);    
 
-        Price multipliedPrice = price.multipliedBy(multiplicator);	
-        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1	
-            .multiply(BigDecimal.valueOf(multiplicator));	
+        Price multipliedPrice = price.multipliedBy(multiplicator);    
+        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1    
+            .multiply(BigDecimal.valueOf(multiplicator));    
 
-        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);	
+        assertEquals(expectedMultipliedPrice, multipliedPrice.getAmount());    
     }
 
     @Test
     public void givenAPositivePrice_whenMultiplyingByInteger_itReturnsTheMultipliedAmount() {
-        double multiplicator = 3;	
-        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);	
+        double multiplicator = 3;    
+        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);    
 
-        Price multipliedPrice = price.multipliedBy(multiplicator);	
-        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1	
-            .multiply(BigDecimal.valueOf(multiplicator));	
+        Price multipliedPrice = price.multipliedBy(multiplicator);    
+        BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1    
+            .multiply(BigDecimal.valueOf(multiplicator));    
 
-        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);	
+        assertEquals(expectedMultipliedPrice, multipliedPrice.getAmount());    
     }
 
     @Test
@@ -169,6 +168,6 @@ public class PriceTest {
         BigDecimal expectedDividedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1
             .divide(BigDecimal.valueOf(divisor), RoundingMode.HALF_UP);
 
-        assertThat(dividedPrice.getAmount()).isEqualTo(expectedDividedPrice);    
+        assertEquals(expectedDividedPrice, dividedPrice.getAmount());    
     }
 }
