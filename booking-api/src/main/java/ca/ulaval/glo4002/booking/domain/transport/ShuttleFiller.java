@@ -34,7 +34,7 @@ public class ShuttleFiller {
     }
 
     private void addShuttleCostToOutcome(Shuttle shuttle) {
-        outcomeSaver.saveOutcome(shuttle.getPrice());
+        shuttle.saveOutcome(outcomeSaver);
     }
 
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {

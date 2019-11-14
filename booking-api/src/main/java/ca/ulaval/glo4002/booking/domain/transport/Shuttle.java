@@ -6,6 +6,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public abstract class Shuttle {
     
@@ -27,9 +28,9 @@ public abstract class Shuttle {
         return category;
     }
 
-    public Price getPrice() {
-		return price;
-	}
+    public void saveOutcome(OutcomeSaver outcomeSaver) {
+        outcomeSaver.saveOutcome(price);
+    }
         
     public void addPassNumber(PassNumber passNumber) {
         this.passNumbers.add(passNumber);
