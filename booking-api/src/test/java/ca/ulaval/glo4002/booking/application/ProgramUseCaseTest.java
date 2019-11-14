@@ -16,13 +16,14 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
 import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCaseTest {
 
-    private static final LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
-    private static final String SOME_ARTIST_NAME = "Sun 41";
+    private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
+    private final static String SOME_ARTIST_NAME = "Sun 41";
 
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
@@ -34,6 +35,7 @@ public class ProgramUseCaseTest {
     private ArtistProgramInformation artistProgramInformation;
     private FestivalAttendeesCounter festivalAttendeesCounter;
     private List<ArtistProgramInformation> artistsForProgram;
+    private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setUpProgramUseCase() {
@@ -43,6 +45,7 @@ public class ProgramUseCaseTest {
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
+        outcomeSaver = mock(OutcomeSaver.class);
         festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
 
         when(singleDay.getDate()).thenReturn(SOME_DATE);
@@ -51,27 +54,30 @@ public class ProgramUseCaseTest {
         program.add(singleDay);
         mockArtistForProgram();
 
-        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter);
+        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenOrderShuttles() {
+    public void whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(program);
-
         verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenOrderOxygen() {
+    public void whenProvideProgramResources_thenSaveOutcome() {
         programUseCase.provideProgramResources(program);
+        verify(singleDay).saveOutcome(outcomeSaver, artistsForProgram);
+    }
 
+    @Test
+    public void whenProvideProgramResources_thenOrderOxygen() {
+        programUseCase.provideProgramResources(program);
         verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), festivalAttendeesCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
     }
 
     @Test
-    public void givenProgram_whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
+    public void whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
         programUseCase.provideProgramResources(program);
-
         verify(festivalAttendeesCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
     }
 

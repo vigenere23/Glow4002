@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+
 import java.time.LocalDate;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -34,36 +36,37 @@ class OxygenReserverTest {
     private OxygenOrder oxygenOrderGradeB;
     private OxygenOrder oxygenOrderGradeE;
     private OxygenReserver oxygenReserver;
+    private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setUp() {
         mockOxygenOrders();
         OxygenOrderFactory oxygenOrderFactory = mockOxygenOrderFactory();
+
         initializeOxygenOrderHistory();
         initializeOxygenInventories();
         mockOxygenInventoryRepository();
         mockOxygenHistoryRepository();
-        oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository);
+
+        outcomeSaver = mock(OutcomeSaver.class);
+        oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
     }
 
     @Test
     public void whenOrderOxygen_thenOxygenInventoryIsSaved() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_REMAINING_QUANTITY);
-
         verify(oxygenInventoryRepository).save(oxygenInventoryGradeA);
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanRemainingQuantity_thenOxygenHistoryIsNotUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_REMAINING_QUANTITY);
-
         verify(oxygenHistoryRepository, never()).save(any());
     }
 
     @Test
     public void whenOrderOxygenQuantityLessThanRemainingQuantity_thenOxygenInventoryIsNotUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_LESS_THAN_REMAINING_QUANTITY);
-
         assertEquals(SOME_QUANTITY, oxygenInventoryGradeA.getInventory());
     }
 
@@ -76,17 +79,20 @@ class OxygenReserverTest {
     }
 
     @Test
+    public void whenOrderOxygenQuantityMoreThanRemainingQuantity_thenSaveOutcomeFromOxygenReserverIsCalled() {
+        oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
+        verify(oxygenOrderGradeA).saveOutcome(outcomeSaver);
+    }
+
+    @Test
     public void whenOrderOxygenQuantityMoreThanRemainingQuantity_thenOxygenHistoryIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
-
-        int quantityToProduce = QUANTITY_MORE_THAN_REMAINING_QUANTITY - SOME_REMAINING_QUANTITY;
-        verify(oxygenOrderGradeA).getOxygenOrderHistory(SOME_ORDER_DATE, quantityToProduce);
+        verify(oxygenOrderGradeA).getOxygenOrderHistory(SOME_ORDER_DATE);
     }
 
     @Test
     public void whenOrderOxygenQuantityMoreThanRemainingQuantity_thenOxygenHistoryISavedTwice() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
-
         verify(oxygenHistoryRepository, times(2)).save(someOxygenHistoryItem);
     }
 
@@ -106,46 +112,48 @@ class OxygenReserverTest {
         assertEquals(expectedRemainingQuantity, oxygenInventoryGradeA.getRemainingQuantity());
     }
 
-    @Test void whenOrderOxygenGradeATooLateForGradeA_thenInventoryOfGradeBIsUpdated() {
+    @Test 
+    public void whenOrderOxygenGradeATooLateForGradeA_thenInventoryOfGradeBIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
         int expectedInventory = SOME_QUANTITY + SOME_QUANTITY_TO_RESERVE;
         assertEquals(expectedInventory, oxygenInventoryGradeB.getInventory());
     }
 
-    @Test void whenOrderOxygenGradeATooLateForGradeB_thenInventoryOfGradeEIsUpdated() {
+    @Test 
+    public void whenOrderOxygenGradeATooLateForGradeB_thenInventoryOfGradeEIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_B, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
         int expectedInventory = SOME_QUANTITY + SOME_QUANTITY_TO_RESERVE;
         assertEquals(expectedInventory, oxygenInventoryGradeE.getInventory());
     }
 
-    @Test void whenOrderOxygenGradeATooLateForGradeB_thenRemainingQuantityOfGradeAIsUpdated() {
+    @Test 
+    public void whenOrderOxygenGradeATooLateForGradeB_thenRemainingQuantityOfGradeAIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
         int expectedRemainingQuantity = 0;
         assertEquals(expectedRemainingQuantity, oxygenInventoryGradeA.getRemainingQuantity());
     }
 
-    @Test void whenOrderOxygenGradeATooLateForGradeB_thenRemainingQuantityOfGradeBIsUpdated() {
+    @Test 
+    public void whenOrderOxygenGradeATooLateForGradeB_thenRemainingQuantityOfGradeBIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
         int expectedRemainingQuantity = 0;
         assertEquals(expectedRemainingQuantity, oxygenInventoryGradeB.getRemainingQuantity());
     }
 
-    @Test void whenOrderOxygenGradeATooLateForGradeA_thenOxygenHistoryOfGradeBIsUpdated() {
+    @Test 
+    public void whenOrderOxygenGradeATooLateForGradeA_thenOxygenHistoryOfGradeBIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
-
-        int quantityToProduce = QUANTITY_MORE_THAN_REMAINING_QUANTITY - 2 * SOME_REMAINING_QUANTITY;
-        verify(oxygenOrderGradeB).getOxygenOrderHistory(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A, quantityToProduce);
+        verify(oxygenOrderGradeB).getOxygenOrderHistory(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A);
     }
 
-    @Test void whenOrderOxygenGradeATooLateForGradeB_thenOxygenHistoryOfGradeEIsUpdated() {
+    @Test 
+    public void whenOrderOxygenGradeATooLateForGradeB_thenOxygenHistoryOfGradeEIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_B, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
-
-        int quantityToProduce = QUANTITY_MORE_THAN_REMAINING_QUANTITY - 2 * SOME_REMAINING_QUANTITY;
-        verify(oxygenOrderGradeE).getOxygenOrderHistory(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_B, quantityToProduce);
+        verify(oxygenOrderGradeE).getOxygenOrderHistory(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_B);
     }
 
     private void mockOxygenOrders() {
@@ -157,7 +165,7 @@ class OxygenReserverTest {
     private void mockOxygenOrderGradeA() {
         oxygenOrderGradeA = mock(OxygenOrder.class);
 
-        when(oxygenOrderGradeA.getOxygenOrderHistory(any(), anyInt())).thenReturn(someOrderHistory);
+        when(oxygenOrderGradeA.getOxygenOrderHistory(any())).thenReturn(someOrderHistory);
         when(oxygenOrderGradeA.getQuantityToReserve(any(), anyInt())).thenReturn(SOME_QUANTITY_TO_RESERVE);
         when(oxygenOrderGradeA.isEnoughTimeToFabricate(SOME_ORDER_DATE)).thenReturn(true);
         when(oxygenOrderGradeA.isEnoughTimeToFabricate(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A)).thenReturn(false);
@@ -166,7 +174,7 @@ class OxygenReserverTest {
     private void mockOxygenOrderGradeB() {
         oxygenOrderGradeB = mock(OxygenOrder.class);
 
-        when(oxygenOrderGradeB.getOxygenOrderHistory(any(), anyInt())).thenReturn(someOrderHistory);
+        when(oxygenOrderGradeB.getOxygenOrderHistory(any())).thenReturn(someOrderHistory);
         when(oxygenOrderGradeB.getQuantityToReserve(any(), anyInt())).thenReturn(SOME_QUANTITY_TO_RESERVE);
         when(oxygenOrderGradeB.isEnoughTimeToFabricate(SOME_ORDER_DATE)).thenReturn(true);
         when(oxygenOrderGradeB.isEnoughTimeToFabricate(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A)).thenReturn(true);
@@ -176,7 +184,7 @@ class OxygenReserverTest {
     private void mockOxygenOrderGradeE() {
         oxygenOrderGradeE = mock(OxygenOrder.class);
 
-        when(oxygenOrderGradeE.getOxygenOrderHistory(any(), anyInt())).thenReturn(someOrderHistory);
+        when(oxygenOrderGradeE.getOxygenOrderHistory(any())).thenReturn(someOrderHistory);
         when(oxygenOrderGradeE.getQuantityToReserve(any(), anyInt())).thenReturn(SOME_QUANTITY_TO_RESERVE);
         when(oxygenOrderGradeE.isEnoughTimeToFabricate(SOME_ORDER_DATE)).thenReturn(true);
         when(oxygenOrderGradeE.isEnoughTimeToFabricate(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A)).thenReturn(true);
@@ -214,7 +222,6 @@ class OxygenReserverTest {
 
     private void mockOxygenHistoryRepository() {
         oxygenHistoryRepository = mock(OxygenHistoryRepository.class);
-
         when(oxygenHistoryRepository.findOxygenHistoryOfDate(any())).thenReturn(someOxygenHistoryItem);
     }
 }

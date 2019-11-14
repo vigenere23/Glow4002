@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -16,10 +22,14 @@ public class PassOrderFactory {
 
     private PassFactory passFactory;
     private FestivalDates festivalDates;
-
-    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory) {
+    private OrderDiscountFactory orderDiscountFactory;
+    private OrderNumberFactory orderNumberFactory;
+    
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountFactory orderDiscountFactory,  OrderNumberFactory orderNumberFactory) {
         this.festivalDates = festivalDates;
+        this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;
+        this.orderDiscountFactory = orderDiscountFactory;
     }
 
     public PassOrder create(
@@ -31,7 +41,11 @@ public class PassOrderFactory {
     ) {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
-        return new PassOrder(vendorCode, passes);
+        OrderNumber orderNumber = orderNumberFactory.create(vendorCode);
+        OrderDiscount orderDiscount = orderDiscountFactory.fromMultipleDiscounts(
+            new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
+        );
+        return new PassOrder(orderNumber, passes, orderDiscount);
     }
 
     private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {

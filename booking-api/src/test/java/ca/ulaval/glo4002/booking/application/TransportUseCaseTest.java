@@ -40,7 +40,6 @@ class TransportUseCaseTest {
     @Test
     public void whenGetAllDeparture_thenCallMethodGetShuttlesFromEarthFromRepository() {
         transportUseCase.getAllDepartures();
-
         verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
     }
 
@@ -48,66 +47,61 @@ class TransportUseCaseTest {
     public void whenGetAllDeparture_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
 
-        List<Shuttle> expectedShuttles = transportUseCase.getAllDepartures();
-        assertEquals(shuttlesEarth, expectedShuttles);
+        List<Shuttle> departureShuttles = transportUseCase.getAllDepartures();
+        assertEquals(shuttlesEarth, departureShuttles);
     }
 
     @Test
     public void whenGetAllArrivals_thenCallMethodGetShuttlesFromEarthFromRepository() {
         transportUseCase.getAllArrivals();
-
         verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
     }
 
     @Test
     public void whenGetAllArrivals_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
-
         List<Shuttle> expectedShuttles = transportUseCase.getAllArrivals();
+
         assertEquals(shuttlesUlavalogy, expectedShuttles);
     }
 
     @Test
-    public void givenDate_whenGetShuttlesDepartureByDate_thenCallMethodGetShuttlesByDateFromRepository() throws OutOfFestivalDatesException {
+    public void givenDate_whenGetShuttlesDepartureByDate_thenCallMethodGetShuttlesByDateFromRepository() {
         transportUseCase.getShuttlesDepartureByDate(SOME_DATE);
-
         verify(shuttleRepository).findShuttlesByDate(Location.EARTH, SOME_DATE);
     }
 
     @Test
-    public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {
+    public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() {
         when(shuttleRepository.findShuttlesByDate(Location.EARTH, SOME_DATE)).thenReturn(shuttlesEarth);
-
         List<Shuttle> expectedShuttles = transportUseCase.getShuttlesDepartureByDate(SOME_DATE);
+
         assertEquals(shuttlesEarth, expectedShuttles);
     }
 
     @Test
-    public void givenDateOutsideOfFestival_whenGetShuttlesDepartureByDate_throwsException() throws OutOfFestivalDatesException {
+    public void givenDateOutsideOfFestival_whenGetShuttlesDepartureByDate_throwsException() {
         when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
-
         assertThrows(OutOfFestivalDatesException.class, () -> transportUseCase.getShuttlesDepartureByDate(OUT_OF_FESTIVAL_DATE));
     }
 
     @Test
-    public void givenDate_whenGetShuttlesArrivalByDate_thenCallMethodGetShuttlesByDateFromRepository() throws OutOfFestivalDatesException {
+    public void givenDate_whenGetShuttlesArrivalByDate_thenCallMethodGetShuttlesByDateFromRepository() {
         transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
-
         verify(shuttleRepository).findShuttlesByDate(Location.ULAVALOGY, SOME_DATE);
     }
 
     @Test
-    public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() throws OutOfFestivalDatesException {
+    public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() {
         when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, SOME_DATE)).thenReturn(shuttlesUlavalogy);
-
         List<Shuttle> expectedShuttles = transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
+
         assertEquals(shuttlesUlavalogy, expectedShuttles);
     }
 
     @Test
-    public void givenDateOutsideOfFestival_whenGetShuttlesArrivalByDate_throwsException() throws OutOfFestivalDatesException {
+    public void givenDateOutsideOfFestival_whenGetShuttlesArrivalByDate_throwsException() {
         when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
-
         assertThrows(OutOfFestivalDatesException.class, () -> transportUseCase.getShuttlesArrivalByDate(OUT_OF_FESTIVAL_DATE));
     }
 

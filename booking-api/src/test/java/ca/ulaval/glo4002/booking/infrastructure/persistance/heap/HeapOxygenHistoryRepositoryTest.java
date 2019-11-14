@@ -3,39 +3,25 @@ package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-import java.util.SortedMap;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 public class HeapOxygenHistoryRepositoryTest {
 
-    private final LocalDate SOME_DATE = LocalDate.of(2050, 2, 17);
-    private static final int SOME_CANDLES_USED_QTY = 2;
-    private static final int SOME_OXYGEN_TANK_BOUGH_QTY = 2;
-    private static final int SOME_OXYGEN_TANK_MADE_USED_QTY = 2;
-    private static final int SOME_WATER_USED_QTY = 2;
+    private final static LocalDate SOME_DATE = LocalDate.of(2050, 2, 17);
+    private final static int SOME_CANDLES_USED_QTY = 2;
+    private final static int SOME_OXYGEN_TANK_BOUGH_QTY = 2;
+    private final static int SOME_OXYGEN_TANK_MADE_USED_QTY = 2;
+    private final static int SOME_WATER_USED_QTY = 2;
 
     private HeapOxygenHistoryRepository oxygenHistoryRepository;
 
-    @BeforeEach
-    public void setUp() {
-        initializeOxygenHistoryItem();
-
-        oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-    }
-
-    @Test
-    public void HistoryIsInitialized() {
-        SortedMap<LocalDate, OxygenHistoryItem> history = oxygenHistoryRepository.findAll();
-
-        assertEquals(0, history.size());
-    }
-
     @Test
     public void whenUpdateHistory_thenHistoryIsCorrectlyUpdated() {
+        setUpOxygenHistoryRepository();
         OxygenHistoryItem someOxygenHistoryItem = initializeOxygenHistoryItem();
         oxygenHistoryRepository.save(someOxygenHistoryItem);
 
@@ -50,5 +36,10 @@ public class HeapOxygenHistoryRepositoryTest {
         someOxygenHistoryItem.updateQuantity(HistoryType.WATER_USED, SOME_WATER_USED_QTY);
 
         return someOxygenHistoryItem;
+    }
+
+    private void setUpOxygenHistoryRepository() {
+        initializeOxygenHistoryItem();
+        oxygenHistoryRepository = new HeapOxygenHistoryRepository();
     }
 }

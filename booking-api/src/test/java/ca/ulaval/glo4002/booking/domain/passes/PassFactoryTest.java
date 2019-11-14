@@ -1,62 +1,61 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 
 public class PassFactoryTest {
+     
+    private final static Optional<LocalDate> VALID_EVENT_DATE = Optional.of(LocalDate.now());
+    private final static Optional<LocalDate> EMPTY_EVENT_DATE = Optional.empty();
+    private final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
+    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
 
     private PassFactory passFactory;
     private FestivalDates festivalDates;
+    private PassNumberFactory passNumberFactory;
     private PassPriceFactory passPriceFactory;
-    
-    private static final Optional<LocalDate> VALID_EVENT_DATE = Optional.of(LocalDate.now());
-    private static final Optional<LocalDate> EMPTY_EVENT_DATE = Optional.empty();
-    private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
-    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
     
     @BeforeEach
     public void setupPassFactory() {
         festivalDates = mock(FestivalDates.class);
+        passNumberFactory = new PassNumberFactory(new AtomicLong(0));
         passPriceFactory = mock(PassPriceFactory.class);
-        passFactory = new PassFactory(festivalDates, passPriceFactory);
+
+        passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     }
 
     @Test
     public void givenNoEventDate_whenCreatingASinglePass_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            passFactory.create(PassOption.SINGLE_PASS, PassCategory.NEBULA, Optional.empty());
-        });
+        assertThrows(IllegalArgumentException.class, () -> passFactory.create(PassOption.SINGLE_PASS, PassCategory.NEBULA, Optional.empty()));
     }
 
     @Test
     public void givenAValidEventDate_whenCreatingAPackagePass_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            passFactory.create(PassOption.PACKAGE, PassCategory.NEBULA, VALID_EVENT_DATE);
-        });
+        assertThrows(IllegalArgumentException.class, () -> passFactory.create(PassOption.PACKAGE, PassCategory.NEBULA, VALID_EVENT_DATE));
     }
 
     @Test
     public void whenCreatingASinglePass_itReturnsASinglePass() {
-        PassCategory anyPassCategory = PassCategory.NEBULA;
-        Pass pass = passFactory.create(PassOption.SINGLE_PASS, anyPassCategory, VALID_EVENT_DATE);
-        assertThat(pass.getPassOption()).isEqualTo(PassOption.SINGLE_PASS);
+        Pass pass = passFactory.create(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, VALID_EVENT_DATE);
+        assertEquals(PassOption.SINGLE_PASS, pass.getPassOption());
     }
 
     @Test
     public void whenCreatingAPackagePass_itReturnsAPackagePass() {
-        PassCategory anyPassCategory = PassCategory.NEBULA;
-        Pass pass = passFactory.create(PassOption.PACKAGE, anyPassCategory, EMPTY_EVENT_DATE);
-        assertThat(pass.getPassOption()).isEqualTo(PassOption.PACKAGE);
+        Pass pass = passFactory.create(PassOption.PACKAGE, SOME_PASS_CATEGORY, EMPTY_EVENT_DATE);
+        assertEquals(PassOption.PACKAGE, pass.getPassOption());
     }
 
     @Test

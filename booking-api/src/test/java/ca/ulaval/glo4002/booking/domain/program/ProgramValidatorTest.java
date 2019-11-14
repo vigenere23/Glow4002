@@ -18,14 +18,12 @@ public class ProgramValidatorTest {
 
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
     private final static String SOME_ARTIST_NAME = "Lady Gamma";
-    private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 07, 12);
-    private final static LocalDate DUPLICATE_FESTIVAL_DATE = LocalDate.of(2050, 07, 18);
-    private final static LocalDate FESTIVAL_DATE = LocalDate.of(2050, 07, 17);
-
-
+    private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 7, 12);
+    private final static LocalDate DUPLICATE_FESTIVAL_DATE = LocalDate.of(2050, 7, 18);
+    private final static LocalDate FESTIVAL_DATE = LocalDate.of(2050, 7, 17);
 
     private ProgramValidator programValidator;
-    private List<SingleDayProgram> singleDaysProgram = new LinkedList<SingleDayProgram>();
+    private List<SingleDayProgram> singleDaysProgram = new LinkedList<>();
     private FestivalDates glow4002Dates = new Glow4002Dates();
     private SingleDayProgram singleDay;
 
@@ -82,13 +80,13 @@ public class ProgramValidatorTest {
     }
 
     private void createProgram() {
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 07, 17)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Sun 41", LocalDate.of(2050, 07, 18)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Kelvin Harris",  LocalDate.of(2050, 07, 19)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Bruno Mars",  LocalDate.of(2050, 07, 20)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Coldray",  LocalDate.of(2050, 07, 21)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "David Glowie",  LocalDate.of(2050, 07, 22)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "30 seconds to Mars",  LocalDate.of(2050, 07, 23)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Novana",  LocalDate.of(2050, 07, 24)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 7, 17)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Sun 41", LocalDate.of(2050, 7, 18)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Kelvin Harris",  LocalDate.of(2050, 7, 19)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Bruno Mars",  LocalDate.of(2050, 7, 20)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Coldray",  LocalDate.of(2050, 7, 21)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "David Glowie",  LocalDate.of(2050, 7, 22)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "30 seconds to Mars",  LocalDate.of(2050, 7, 23)));
+        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Novana",  LocalDate.of(2050, 7, 24)));
     }
 }

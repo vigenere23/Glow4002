@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class NebulaSinglePassDiscountTests {
+public class NebulaSinglePassDiscountTest {
 
-    private static final int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
-    private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
-    private static final double PERCENTAGE_DISCOUNT = 0.1;
+    private final static int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
+    private final static Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);
+    private final static double PERCENTAGE_DISCOUNT = 0.1;
 
     private NebulaSinglePassDiscount nebulaSinglePassDiscount;
     private List<Pass> passes;
@@ -40,6 +40,7 @@ public class NebulaSinglePassDiscountTests {
     public void givenFourNebulaPasses_whenCalculatingPrice_thenItReturnsATenPercentDiscount() {
         initializePassesWithMockPass(NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY);
         Price expectedPriceAfterDiscount = PRICE_WITHOUT_DISCOUNT.multipliedBy(1 - PERCENTAGE_DISCOUNT);
+        
         assertEquals(expectedPriceAfterDiscount, getPriceAfterDiscount());
     }
     

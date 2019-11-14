@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleDto;
@@ -24,13 +25,13 @@ public class TransportResource {
     private ShuttleMapper shuttleMapper;
     
     @Inject
-    public TransportResource(TransportUseCase transportUseCase) {
+    public TransportResource(TransportUseCase transportUseCase, ShuttleMapper shuttleMapper) {
         this.transportUseCase = transportUseCase;
-        shuttleMapper = new ShuttleMapper();
+        this.shuttleMapper = shuttleMapper;
     }
 
     @GET
-    public TransportResponse transport(@QueryParam("date") String stringDate) throws InvalidFormatException {
+    public Response transport(@QueryParam("date") String stringDate) throws InvalidFormatException {
         List<ShuttleDto> departures;
         List<ShuttleDto> arrivals;
         if (stringDate == null) {
@@ -40,7 +41,8 @@ public class TransportResource {
             LocalDate date = LocalDate.parse(stringDate);
             departures = shuttleMapper.toDto(transportUseCase.getShuttlesDepartureByDate(date));
             arrivals = shuttleMapper.toDto(transportUseCase.getShuttlesArrivalByDate(date));
-        }    
-        return new TransportResponse(departures, arrivals);
+        }
+        TransportResponse response = new TransportResponse(departures, arrivals);
+        return Response.ok(response).build();
     }
 }

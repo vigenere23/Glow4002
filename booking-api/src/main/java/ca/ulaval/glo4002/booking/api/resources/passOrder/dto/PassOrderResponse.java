@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
 public class PassOrderResponse {
 
-    public final double orderPrice;
+    public final float orderPrice;
     public final List<PassDto> passes;
 
     public PassOrderResponse(Price orderPrice, List<Pass> passes) {

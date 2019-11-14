@@ -3,21 +3,24 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleFiller {
     
     private ShuttleFactory shuttleFactory;
+    private OutcomeSaver outcomeSaver;
 
-    public ShuttleFiller() {
-        shuttleFactory = new ShuttleFactory();
+    public ShuttleFiller(ShuttleFactory shuttleFactory, OutcomeSaver outcomeSaver) {
+        this.shuttleFactory = shuttleFactory;
+        this.outcomeSaver = outcomeSaver;
     }
     
-    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassNumber passNumber, LocalDate date, int numberOfPassengers) {
+    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, LocalDate date, int numberOfPassengers) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
-        assignNewPlaces(availableShuttle, passNumber, numberOfPassengers);
+        assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);
         if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
+            addShuttleCostToOutcome(availableShuttle);
         }
         return shuttlesToFill;
     }
@@ -29,13 +32,17 @@ public class ShuttleFiller {
             .orElse(shuttleFactory.createShuttle(shuttleCategory, date));          
     }
 
+    private void addShuttleCostToOutcome(Shuttle shuttle) {
+        shuttle.saveOutcome(outcomeSaver);
+    }
+
     private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
         return shuttleToVerify.hasDate(date) && shuttleToVerify.hasCategory(shuttleCategory) && shuttleToVerify.hasAvailableCapacity(numberOfPassengers);
     }
 
-    private void assignNewPlaces(Shuttle availableShuttle, PassNumber passNumber, int numberOfPassengers) {
+    private void assignNewPlaces(Shuttle availableShuttle, PassengerNumber passengerNumber, int numberOfPassengers) {
         for (int place = 0; place < numberOfPassengers; place++) {
-            availableShuttle.addPassNumber(passNumber);
+            availableShuttle.addPassenger(passengerNumber);
         }
     }
 }

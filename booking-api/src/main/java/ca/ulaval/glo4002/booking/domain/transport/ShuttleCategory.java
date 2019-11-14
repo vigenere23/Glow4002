@@ -16,7 +16,7 @@ public enum ShuttleCategory {
         return text;
     }
 
-    public static ShuttleCategory artistShuttleCategory(int numberPeople) {
-        return numberPeople == 1 ? ET_SPACESHIP : MILLENNIUM_FALCON;
+    public static ShuttleCategory getCategoryAccordingToPassengerCount(int passengerCount) {
+        return passengerCount == 1 ? ET_SPACESHIP : MILLENNIUM_FALCON;
     }
 }

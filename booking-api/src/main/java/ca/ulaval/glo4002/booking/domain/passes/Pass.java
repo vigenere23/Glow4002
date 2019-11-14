@@ -7,11 +7,14 @@ import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.transport.Passenger;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.helpers.DateCalculator;
+import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
 
-public class Pass {
+public class Pass implements Passenger {
 
     private static final int ONE_PLACE = 1;
     private PassNumber passNumber;
@@ -23,22 +26,29 @@ public class Pass {
     private ShuttleCategory shuttleCategory;
     private OxygenGrade oxygenGrade;
     private int oxygenQuantityPerDay;
+    private PassengerNumber passengerNumber;
 
-    public Pass(FestivalDates festivalDates, PassOption passOption, PassCategory passCategory, Price price,
-            LocalDate startDate, LocalDate endDate) {
+    public Pass(FestivalDates festivalDates, PassNumber passNumber, PassOption passOption, PassCategory passCategory,
+            Price price, LocalDate startDate, LocalDate endDate) {
         festivalDates.validateEventDate(startDate);
         festivalDates.validateEventDate(endDate);
 
+        this.passNumber = passNumber;
         this.passOption = passOption;
         this.passCategory = passCategory;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
 
-        passNumber = new PassNumber();
+        passengerNumber = new PassengerNumber(passNumber);
         shuttleCategory = PassCategoryMapper.getShuttleCategory(passCategory);
         oxygenGrade = PassCategoryMapper.getOxygenGrade(passCategory);
         oxygenQuantityPerDay = PassCategoryMapper.getOxygenQuantity(passCategory);
+    }
+
+    public Pass(FestivalDates festivalDates, PassNumber passNumber, PassOption passOption, PassCategory passCategory,
+            Price price, LocalDate eventDate) {
+        this(festivalDates, passNumber, passOption, passCategory, price, eventDate, eventDate);
     }
 
     public boolean isOfType(PassOption passOption, PassCategory passCategory) {
@@ -47,6 +57,10 @@ public class Pass {
 
     public boolean hasSameDateAs(LocalDate eventDate) {
         return this.startDate.equals(eventDate);
+    }
+
+    public PassengerNumber getPassengerNumber() {
+        return passengerNumber;
     }
 
     public Price getPrice() {
@@ -70,8 +84,8 @@ public class Pass {
     }
 
     public void reserveShuttles(TransportReserver transportReserver) {
-        transportReserver.reserveDeparture(shuttleCategory, startDate, passNumber, ONE_PLACE);
-        transportReserver.reserveArrival(shuttleCategory, endDate, passNumber, ONE_PLACE);
+        transportReserver.reserveDeparture(shuttleCategory, startDate, this, ONE_PLACE);
+        transportReserver.reserveArrival(shuttleCategory, endDate, this, ONE_PLACE);
     }
 
     public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {

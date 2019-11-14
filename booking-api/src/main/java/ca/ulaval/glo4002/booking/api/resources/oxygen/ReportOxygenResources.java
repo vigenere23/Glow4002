@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
@@ -20,16 +21,21 @@ import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 public class ReportOxygenResources {
 
     private OxygenUseCase oxygenUseCase;
+    private final OxygenInventoryMapper oxygenInventoryMapper;
+    private final OxygenHistoryMapper oxygenHistoryMapper;
     
     @Inject
-    public ReportOxygenResources(OxygenUseCase oxygenUseCase) {
+    public ReportOxygenResources(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
         this.oxygenUseCase = oxygenUseCase;
+        this.oxygenInventoryMapper = oxygenInventoryMapper;
+        this.oxygenHistoryMapper = oxygenHistoryMapper;
     }
     
     @GET
-    public ReportOxygenResponse getOxygenReport() {
-        List<OxygenInventoryDto> inventory = new OxygenInventoryMapper().toDto(oxygenUseCase.getOxygenInventories());
-        List<OxygenHistoryDto> history = new OxygenHistoryMapper().toDto(oxygenUseCase.getOxygenHistory());
-        return new ReportOxygenResponse(inventory, history);
+    public Response getOxygenReport() {
+        List<OxygenInventoryDto> inventory = oxygenInventoryMapper.toDto(oxygenUseCase.getOxygenInventories());
+        List<OxygenHistoryDto> history = oxygenHistoryMapper.toDto(oxygenUseCase.getOxygenHistory());
+        ReportOxygenResponse response = new ReportOxygenResponse(inventory, history);
+        return Response.ok(response).build();
     }
 }

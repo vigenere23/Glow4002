@@ -22,15 +22,15 @@ public class ProgramResource {
     private ProgramValidator programValidator;
 
     @Inject
-    public ProgramResource(ProgramUseCase programUseCase, ProgramValidator programValidator) {
+    public ProgramResource(ProgramUseCase programUseCase, ProgramValidator programValidator, ProgramMapper programMapper) {
         this.programUseCase = programUseCase;
         this.programValidator = programValidator;
-        programMapper = new ProgramMapper();
+        this.programMapper = programMapper;
     }
 
     @POST
     public Response create(ProgramRequest request) throws URISyntaxException {
         programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
-        return Response.status(200).build();
+        return Response.ok().build();
     }
 }

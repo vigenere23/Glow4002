@@ -12,7 +12,7 @@ import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassMapper;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.SinglePassDto;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.passes.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassMapperTest {
@@ -20,8 +20,8 @@ public class PassMapperTest {
     private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
     private final static PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
     private final static PassOption OTHER_PASS_OPTION = PassOption.SINGLE_PASS;
-    private final static PassNumber SOME_PASS_NUMBER = new PassNumber();
-    private final static PassNumber OTHER_PASS_NUMBER = new PassNumber();
+    private final static PassNumber SOME_PASS_NUMBER = new PassNumber(0);
+    private final static PassNumber OTHER_PASS_NUMBER = new PassNumber(1);
     
     private PassMapper passMapper = new PassMapper();
     private Pass packagePass;

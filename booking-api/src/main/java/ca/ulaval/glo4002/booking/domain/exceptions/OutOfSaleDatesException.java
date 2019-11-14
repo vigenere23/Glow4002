@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.exceptions;
 
 import java.time.OffsetDateTime;
 
-import ca.ulaval.glo4002.booking.helpers.DateFormatter;
+import ca.ulaval.glo4002.booking.domain.dateUtil.DateFormatter;
 
 public class OutOfSaleDatesException extends RuntimeException {
     

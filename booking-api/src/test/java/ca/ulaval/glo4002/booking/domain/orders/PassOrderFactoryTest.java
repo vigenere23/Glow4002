@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.orders;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -19,28 +19,33 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassOrderFactoryTest {
 
+    private final static OffsetDateTime SOME_DATE = OffsetDateTime.now();
+    private final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    private final static PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
+    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
+    private final static Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
+    private final static Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
+
     private FestivalDates festivalDates;
+    private OrderNumberFactory orderNumberFactory;
     private PassFactory passFactory;
     private PassOrderFactory passOrderFactory;
-    
-    private static final OffsetDateTime SOME_DATE = OffsetDateTime.now();
-    private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
-    private static final PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
-    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
-    private static final Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
-    private static final Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
 
     @BeforeEach
     public void setupPassOrderFactory() {
         festivalDates = mock(FestivalDates.class);
+        orderNumberFactory = mock(OrderNumberFactory.class);
         passFactory = mock(PassFactory.class);
-        passOrderFactory = new PassOrderFactory(festivalDates, passFactory);
+        OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+        passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, orderNumberFactory);
     }
 
     @Test
@@ -49,9 +54,7 @@ public class PassOrderFactoryTest {
             .when(festivalDates).validateOrderDate(any(OffsetDateTime.class));
         Optional<List<LocalDate>> anyEventDates = Optional.empty();
 
-        assertThatExceptionOfType(OutOfSaleDatesException.class).isThrownBy(() -> {
-            passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, anyEventDates);
-        });
+        assertThrows(OutOfSaleDatesException.class, () -> passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, anyEventDates));
     }
 
     @Test
@@ -81,8 +84,9 @@ public class PassOrderFactoryTest {
     @Test
     public void givenNoEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
         PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATES_LIST);
+
         int numberOfPasses = passOrder.getPasses().size();
-        assertThat(numberOfPasses).isEqualTo(1);
+        assertEquals(1, numberOfPasses);
     }
 
     @Test
@@ -92,7 +96,7 @@ public class PassOrderFactoryTest {
         PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
         
         int numberOfPasses = passOrder.getPasses().size();
-        assertThat(numberOfPasses).isEqualTo(1);
+        assertEquals(1, numberOfPasses);
     }
 
     @Test
@@ -104,7 +108,7 @@ public class PassOrderFactoryTest {
         PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, eventDates);
 
         int numberOfPasses = passOrder.getPasses().size();
-        assertThat(numberOfPasses).isEqualTo(NUMBER_OF_DATES);
+        assertEquals(NUMBER_OF_DATES, numberOfPasses);
     }
 
     private List<LocalDate> getListOfDates(int numberOfDates, LocalDate date) {

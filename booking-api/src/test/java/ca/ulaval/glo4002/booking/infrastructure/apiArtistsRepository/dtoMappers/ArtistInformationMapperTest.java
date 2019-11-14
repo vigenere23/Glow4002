@@ -37,7 +37,7 @@ public class ArtistInformationMapperTest {
         programInformation = artistInformationMapper.programFromDto(artistDto);
 
         assertEquals(SOME_ARTIST_NAME, programInformation.getArtistName());
-        assertEquals(SOME_ARTIST_ID, programInformation.getPassNumber().getValue());
+        assertEquals(SOME_ARTIST_ID, programInformation.getPassengerNumber().getValue());
         assertEquals(SOME_NUMBER_OF_PEOPLE, programInformation.getGroupSize());
     }
 

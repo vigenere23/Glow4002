@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
@@ -45,12 +46,16 @@ public class SingleDayProgram {
 
     public void orderShuttle(TransportReserver transportReserver, List<ArtistProgramInformation> artistsForProgram) {
         ArtistProgramInformation artist = getArtist(artistsForProgram);
-        ShuttleCategory shuttleCategory = ShuttleCategory.artistShuttleCategory(artist.getGroupSize());
-        transportReserver.reserveDeparture(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
-        transportReserver.reserveArrival(shuttleCategory, date, artist.getPassNumber(), artist.getGroupSize());
+        ShuttleCategory shuttleCategory = ShuttleCategory.getCategoryAccordingToPassengerCount(artist.getGroupSize());
+        transportReserver.reserveDeparture(shuttleCategory, date, artist, artist.getGroupSize());
+        transportReserver.reserveArrival(shuttleCategory, date, artist, artist.getGroupSize());
     }
 
+    public void saveOutcome(OutcomeSaver outcomeSaver, List<ArtistProgramInformation> artistsForProgram) {
+        outcomeSaver.saveOutcome(getArtist(artistsForProgram).getPrice());
+	}
+
     private ArtistProgramInformation getArtist(List<ArtistProgramInformation> artistsForProgram) {
-        return artistsForProgram.stream().filter(artist -> artistName.equals(artist.getArtistName())).findAny().orElse(null);
+        return artistsForProgram.stream().filter(artistInformation -> artistName.equals(artistInformation.getArtistName())).findAny().orElse(null);
     }
 }
