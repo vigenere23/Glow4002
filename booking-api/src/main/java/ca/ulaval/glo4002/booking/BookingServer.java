@@ -59,7 +59,6 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassReposit
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
-    private ExternalApiArtist externalApiArtist;
     private OxygenReserver oxygenReserver;
     private TransportReserver transportReserver;
     private ArtistRepository artistsRepository;
@@ -87,12 +86,6 @@ public class BookingServer implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                externalApiArtist.close();
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-
             server.destroy();
         }
     }
@@ -169,7 +162,7 @@ public class BookingServer implements Runnable {
 
     private ArtistRankingUseCase createArtistRankingUseCase() {
         ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
-        externalApiArtist = new ExternalApiArtist();
+        ExternalApiArtist externalApiArtist = new ExternalApiArtist();
         artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         return new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
