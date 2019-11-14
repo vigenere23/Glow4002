@@ -13,15 +13,15 @@ public class TransportReserver {
         this.shuttleFiller = shuttleFiller;
     }
     
-    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, Passenger passenger, int numberOfPassengers) {
+    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passenger.getPassengerNumber(), numberOfPassengers);
+        List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
         shuttleRepository.saveDeparture(shuttlesToSave);
     }
 
-    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, Passenger passenger, int numberOfPassengers) {
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
         List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passenger.getPassengerNumber(), numberOfPassengers);
+        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
         shuttleRepository.saveArrival(shuttlesToSave);
     }   
 
