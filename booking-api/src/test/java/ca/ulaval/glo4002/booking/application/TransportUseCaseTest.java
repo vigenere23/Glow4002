@@ -13,6 +13,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,7 +26,7 @@ class TransportUseCaseTest {
 
     private List<Shuttle> shuttlesEarth = new ArrayList<>();
     private List<Shuttle> shuttlesUlavalogy = new ArrayList<>();
-    private FestivalDates festival;
+    private FestivalDates festivalDates;
     private ShuttleRepository shuttleRepository;
     private TransportUseCase transportUseCase;
 
@@ -34,7 +36,7 @@ class TransportUseCaseTest {
         mockFestival();
         shuttleRepository = mock(ShuttleRepository.class);
 
-        transportUseCase = new TransportUseCase(festival, shuttleRepository);
+        transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
     }
 
     @Test
@@ -81,7 +83,8 @@ class TransportUseCaseTest {
 
     @Test
     public void givenDateOutsideOfFestival_whenGetShuttlesDepartureByDate_throwsException() {
-        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
+        doThrow(new OutOfFestivalDatesException(SOME_DATE, SOME_DATE))
+            .when(festivalDates).validateEventDate(any(LocalDate.class));
         assertThrows(OutOfFestivalDatesException.class, () -> transportUseCase.getShuttlesDepartureByDate(OUT_OF_FESTIVAL_DATE));
     }
 
@@ -101,16 +104,17 @@ class TransportUseCaseTest {
 
     @Test
     public void givenDateOutsideOfFestival_whenGetShuttlesArrivalByDate_throwsException() {
-        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(false);
+        doThrow(new OutOfFestivalDatesException(SOME_DATE, SOME_DATE))
+            .when(festivalDates).validateEventDate(any(LocalDate.class));
         assertThrows(OutOfFestivalDatesException.class, () -> transportUseCase.getShuttlesArrivalByDate(OUT_OF_FESTIVAL_DATE));
     }
 
     private void mockFestival() {
-        festival = mock(Glow4002Dates.class);
+        festivalDates = mock(Glow4002Dates.class);
 
-        when(festival.isDuringEventTime(any(LocalDate.class))).thenReturn(true);
-        when(festival.getStartDate()).thenReturn(LocalDate.now());
-        when(festival.getEndDate()).thenReturn(LocalDate.now());
+        doNothing().when(festivalDates).validateEventDate(any(LocalDate.class));
+        when(festivalDates.getStartDate()).thenReturn(LocalDate.now());
+        when(festivalDates.getEndDate()).thenReturn(LocalDate.now());
     }
 
     private void mockShuttles() {

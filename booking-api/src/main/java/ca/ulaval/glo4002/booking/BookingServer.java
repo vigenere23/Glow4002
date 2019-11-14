@@ -50,7 +50,6 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
@@ -176,7 +175,6 @@ public class BookingServer implements Runnable {
     }
 
     private ProgramUseCase createProgramUseCase() {
-        FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-        return new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
+        return new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, outcomeSaver);
     }
 }

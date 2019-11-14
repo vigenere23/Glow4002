@@ -13,6 +13,7 @@ import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
+import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
 
 public class Pass implements Passenger {
 
@@ -57,6 +58,10 @@ public class Pass implements Passenger {
 
     public boolean hasSameDateAs(LocalDate eventDate) {
         return this.startDate.equals(eventDate);
+    }
+
+    public boolean isAttendingAtDate(LocalDate eventDate) {
+        return DateComparator.dateIsInclusivelyBetween(eventDate, startDate, endDate);
     }
 
     public PassengerNumber getPassengerNumber() {
