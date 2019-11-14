@@ -5,12 +5,18 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.ReportOxygenResources;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.OrdersResource;
+import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
+import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
+import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.application.*;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
@@ -51,6 +57,12 @@ public class JerseyTestBookingServer extends JerseyTest {
 
     FestivalDates festivalDates = new Glow4002Dates();
 
+    OxygenInventoryMapper oxygenInventoryMapper = new OxygenInventoryMapper();
+    OxygenHistoryMapper oxygenHistoryMapper = new OxygenHistoryMapper();
+    PassOrderResponseMapper passOrderResponseMapper = new PassOrderResponseMapper();
+    ProgramMapper programMapper = new ProgramMapper();
+    ShuttleMapper shuttleMapper = new ShuttleMapper();
+
     ProfitRepository profitRepository = new HeapProfitRepository();
     ProfitCalculator profitCalculator = new ProfitCalculator();
     IncomeSaver incomeSaver = new ProfitSaver(profitRepository);
@@ -63,8 +75,8 @@ public class JerseyTestBookingServer extends JerseyTest {
     OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
     ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-    ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
-    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory);
+    ShuttleFactory shuttleFactory = new ShuttleFactory();
+    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
     TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
 
@@ -74,8 +86,9 @@ public class JerseyTestBookingServer extends JerseyTest {
     PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
     PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
-    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+    OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
+    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
 
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
     ExternalApiArtist externalApiArtist = new ExternalApiArtist();
@@ -119,6 +132,11 @@ public class JerseyTestBookingServer extends JerseyTest {
                 bind(profitUseCase).to(ProfitUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
+                bind(oxygenInventoryMapper).to(OxygenInventoryMapper.class);
+                bind(oxygenHistoryMapper).to(OxygenHistoryMapper.class);
+                bind(passOrderResponseMapper).to(PassOrderResponseMapper.class);
+                bind(programMapper).to(ProgramMapper.class);
+                bind(shuttleMapper).to(ShuttleMapper.class);
             }
         });
         return resourceConfig;

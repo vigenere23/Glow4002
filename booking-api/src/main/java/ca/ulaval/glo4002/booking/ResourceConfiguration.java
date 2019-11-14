@@ -27,7 +27,7 @@ public class ResourceConfiguration extends ResourceConfig {
             ProgramUseCase programUseCase,
             ProgramValidator programValidator,
             OxygenInventoryMapper oxygenInventoryMapper,
-            OxygenHistoryMapper OxygenHistoryMapper,
+            OxygenHistoryMapper oxygenHistoryMapper,
             PassOrderResponseMapper passOrderResponseMapper,
             ProgramMapper programMapper,
             ShuttleMapper shuttleMapper
@@ -43,7 +43,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
                 bind(oxygenInventoryMapper).to(OxygenInventoryMapper.class);
-                bind(OxygenHistoryMapper).to(OxygenHistoryMapper.class);
+                bind(oxygenHistoryMapper).to(OxygenHistoryMapper.class);
                 bind(passOrderResponseMapper).to(PassOrderResponseMapper.class);
                 bind(programMapper).to(ProgramMapper.class);
                 bind(shuttleMapper).to(ShuttleMapper.class);
