@@ -15,22 +15,23 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 
 public class PassFactoryTest {
+     
+    private final static Optional<LocalDate> VALID_EVENT_DATE = Optional.of(LocalDate.now());
+    private final static Optional<LocalDate> EMPTY_EVENT_DATE = Optional.empty();
+    private final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
+    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
 
     private PassFactory passFactory;
     private FestivalDates festivalDates;
     private PassNumberFactory passNumberFactory;
     private PassPriceFactory passPriceFactory;
     
-    private static final Optional<LocalDate> VALID_EVENT_DATE = Optional.of(LocalDate.now());
-    private static final Optional<LocalDate> EMPTY_EVENT_DATE = Optional.empty();
-    private static final PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
-    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
-    
     @BeforeEach
     public void setupPassFactory() {
         festivalDates = mock(FestivalDates.class);
         passNumberFactory = mock(PassNumberFactory.class);
         passPriceFactory = mock(PassPriceFactory.class);
+
         passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     }
 
@@ -46,15 +47,13 @@ public class PassFactoryTest {
 
     @Test
     public void whenCreatingASinglePass_itReturnsASinglePass() {
-        PassCategory anyPassCategory = PassCategory.NEBULA;
-        Pass pass = passFactory.create(PassOption.SINGLE_PASS, anyPassCategory, VALID_EVENT_DATE);
+        Pass pass = passFactory.create(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, VALID_EVENT_DATE);
         assertEquals(PassOption.SINGLE_PASS, pass.getPassOption());
     }
 
     @Test
     public void whenCreatingAPackagePass_itReturnsAPackagePass() {
-        PassCategory anyPassCategory = PassCategory.NEBULA;
-        Pass pass = passFactory.create(PassOption.PACKAGE, anyPassCategory, EMPTY_EVENT_DATE);
+        Pass pass = passFactory.create(PassOption.PACKAGE, SOME_PASS_CATEGORY, EMPTY_EVENT_DATE);
         assertEquals(PassOption.PACKAGE, pass.getPassOption());
     }
 

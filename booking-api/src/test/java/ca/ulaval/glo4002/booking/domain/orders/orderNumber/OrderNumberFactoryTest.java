@@ -11,9 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OrderNumberFactoryTest {
 
+    private final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
     private OrderNumberFactory orderNumberFactory;
-
-    private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
 
     @BeforeEach
     public void setupOrderNumberFactory() {
@@ -24,11 +23,12 @@ public class OrderNumberFactoryTest {
     public void givenOnFirstUse_whenCreating_thenTheNumberIsZero() {
         OrderNumber orderNumber = orderNumberFactory.create(SOME_VENDOR_CODE);
         String expectedValue = SOME_VENDOR_CODE.toString() + "-0";
+
         assertEquals(expectedValue, orderNumber.getValue());
     }
 
     @Test
-    public void givenMultipleCreation_whenCreating_thenTheNumberIsIncrementedByNumberOfCreations() {
+    public void givenMultipleCreations_whenCreating_thenTheNumberIsIncrementedByNumberOfCreations() {
         int numberOfCreations = 10;
         OrderNumber lastOrderNumber = null;
         for (int i = 0; i <= numberOfCreations; i++) {

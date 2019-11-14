@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,30 +22,19 @@ class OxygenHistoryItemTest {
     private OxygenHistoryItem oxygenHistoryItem;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpOxygenHistory() {
         oxygenHistoryItem = new OxygenHistoryItem(SOME_DATE);
-    }
-
-    @Test
-    public void oxygenDateHistoryTypeQuantitiesAreInitialized() {
-        EnumMap<HistoryType, Integer> history = oxygenHistoryItem.getOxygenHistory();
-        for (HistoryType historyType: history.keySet()) {
-            int quantity = history.get(historyType);
-            assertEquals(0, quantity);
-        }
     }
 
     @Test
     public void whenUpdateAHistoryTypeQuantity_thenHistoryTypeIsUpdated() {
         oxygenHistoryItem.updateQuantity(HistoryType.CANDLES_USED, SOME_QUANTITY);
-
         assertEquals(SOME_QUANTITY, oxygenHistoryItem.getCandlesUsed());
     }
 
     @Test
     public void givenAHistoryTypeQuantity_whenUpdateTheHistoryTypeQuantity_thenHistoryTypeIsUpdated() {
         oxygenHistoryItem.updateQuantity(HistoryType.CANDLES_USED, SOME_QUANTITY);
-
         oxygenHistoryItem.updateQuantity(HistoryType.CANDLES_USED, SOME_OTHER_QUANTITY);
 
         int expectedQuantity = SOME_QUANTITY + SOME_OTHER_QUANTITY;
@@ -54,7 +42,7 @@ class OxygenHistoryItemTest {
     }
 
     @Test
-    public void givenAnotherOxygenDateHistory_whenUpdateWithIt_thenOxygenTankBoughtIsUpdated() {
+    public void givenAnotherOxygenDateHistory_whenUpdateQuantities_thenOxygenTankBoughtIsUpdated() {
         OxygenHistoryItem someOxygenHistoryItem = initializeOtherDateHistory();
 
         oxygenHistoryItem.updateQuantities(someOxygenHistoryItem);
@@ -63,7 +51,7 @@ class OxygenHistoryItemTest {
     }
 
     @Test
-    public void givenAnotherOxygenDateHistory_whenUpdateWithIt_thenOxygenTankMadeIsUpdated() {
+    public void givenAnotherOxygenDateHistory_whenUpdateQuantities_thenOxygenTankMadeIsUpdated() {
         OxygenHistoryItem someOxygenHistoryItem = initializeOtherDateHistory();
 
         oxygenHistoryItem.updateQuantities(someOxygenHistoryItem);
@@ -72,7 +60,7 @@ class OxygenHistoryItemTest {
     }
 
     @Test
-    public void givenAnotherOxygenDateHistory_whenUpdateWithIt_thenWaterUsedIsUpdated() {
+    public void givenAnotherOxygenDateHistory_whenUpdateQuantities_thenWaterUsedIsUpdated() {
         OxygenHistoryItem someOxygenHistoryItem = initializeOtherDateHistory();
 
         oxygenHistoryItem.updateQuantities(someOxygenHistoryItem);
@@ -81,7 +69,7 @@ class OxygenHistoryItemTest {
     }
 
     @Test
-    public void givenAnotherOxygenDateHistory_whenUpdateWithIt_thenCandlesUsedIsUpdated() {
+    public void givenAnotherOxygenDateHistory_whenUpdateQuantities_thenCandlesUsedIsUpdated() {
         OxygenHistoryItem someOxygenHistoryItem = initializeOtherDateHistory();
 
         oxygenHistoryItem.updateQuantities(someOxygenHistoryItem);
@@ -92,7 +80,6 @@ class OxygenHistoryItemTest {
     @Test
     public void givenAnotherOxygenDateHistoryWithOtherDate_whenUpdateWithIt_thenExceptionIsThrown() {
         OxygenHistoryItem someOxygenHistoryItem = new OxygenHistoryItem(SOME_OTHER_DATE);
-
         assertThrows(IllegalArgumentException.class, () -> oxygenHistoryItem.updateQuantities(someOxygenHistoryItem));
     }
 

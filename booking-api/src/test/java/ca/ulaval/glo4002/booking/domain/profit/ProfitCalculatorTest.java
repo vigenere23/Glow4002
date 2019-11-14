@@ -8,8 +8,8 @@ import ca.ulaval.glo4002.booking.domain.Price;
 
 public class ProfitCalculatorTest {
     
-    private static final Price INCOME = new Price(100);
-    private static final Price OUTCOME = new Price(50);
+    private final static Price INCOME = new Price(100);
+    private final static Price OUTCOME = new Price(50);
 
     private ProfitCalculator profitCalculator;
 
@@ -23,6 +23,4 @@ public class ProfitCalculatorTest {
 
         assertEquals(expectedProfit, actualProfit);
     }
-
-
 }

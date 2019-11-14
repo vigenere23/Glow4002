@@ -28,12 +28,12 @@ import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
 public class PassOrderFactoryTest {
 
-    private static final OffsetDateTime SOME_DATE = OffsetDateTime.now();
-    private static final VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
-    private static final PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
-    private static final PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
-    private static final Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
-    private static final Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
+    private final static OffsetDateTime SOME_DATE = OffsetDateTime.now();
+    private final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    private final static PassOption SOME_PASS_OPTION = PassOption.PACKAGE;
+    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
+    private final static Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
+    private final static Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
 
     private FestivalDates festivalDates;
     private OrderNumberFactory orderNumberFactory;
@@ -46,7 +46,8 @@ public class PassOrderFactoryTest {
         festivalDates = mock(FestivalDates.class);
         orderNumberFactory = mock(OrderNumberFactory.class);
         passFactory = mock(PassFactory.class);
-		incomeSaver = mock(IncomeSaver.class);
+        incomeSaver = mock(IncomeSaver.class);
+        
         OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
         passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, incomeSaver, orderNumberFactory);
     }
@@ -69,7 +70,9 @@ public class PassOrderFactoryTest {
     @Test
     public void givenEmptyListOfEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
+
         passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
+
         verify(passFactory, times(1)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATE);
     }
 
@@ -87,6 +90,7 @@ public class PassOrderFactoryTest {
     @Test
     public void givenNoEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
         PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATES_LIST);
+
         int numberOfPasses = passOrder.getPasses().size();
         assertEquals(1, numberOfPasses);
     }
