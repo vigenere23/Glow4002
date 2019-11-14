@@ -35,7 +35,7 @@ public class ArtistRankingResourceTest extends JerseyTest {
     private static final float someLowArtistPrice = 50.00f;
     private static final float someHightArtistPrice = 5000.00f;
 
-    private ArtistRepository   artistsRepositoryMock = mock(ArtistRepository.class);
+    private ArtistRepository artistsRepositoryMock = mock(ArtistRepository.class);
     private ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
     private ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepositoryMock, artistRankingFactory);  
     private List<ArtistRankingInformation> artistRankingInformation;
@@ -68,7 +68,7 @@ public class ArtistRankingResourceTest extends JerseyTest {
     }
 
     @Test
-    public void givenOneArtist_whenSortByMostPopular_thenTheOneArtistIsReturnedWith200ResponseStatus() {
+    public void givenOneArtist_whenSortByMostPopular_thenTheArtistIsReturnedWith200ResponseStatus() {
         ArtistRankingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
 
         Response response = getSortedArtistFromServer(MOST_POPULAR_PARAM);
@@ -79,7 +79,7 @@ public class ArtistRankingResourceTest extends JerseyTest {
     }
 
     @Test
-    public void givenOneArtist_whenSortByLowCost_thenTheOneArtistIsReturnedWith200ResponseStatus() {
+    public void givenOneArtist_whenSortByLowCost_thenTheArtistIsReturnedWith200ResponseStatus() {
         ArtistRankingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
 
         Response response = getSortedArtistFromServer(LOW_COST_PARAM);
@@ -125,10 +125,8 @@ public class ArtistRankingResourceTest extends JerseyTest {
     @Test
     public void givenOneArtist_whenSortWithInvalidParameter_thenAResponseIsReturnedWithWithBadRequestResponseStatus() {
         Response response = getSortedArtistFromServer("");
-
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-
 
     private ArtistRankingResponse mockOneLowPopularityArtistFromExternalRepository() {
         ArtistRankingInformation information = addArtistToListInformation("notPopularArtistName", someLowArtistPopularity, someLowArtistPrice);

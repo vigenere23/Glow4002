@@ -22,7 +22,7 @@ public class ShuttleMapperTest {
     private OutcomeSaver outcomeSaver; 
 
     @BeforeEach
-    public void setUpMapper() {
+    public void setUpShuttleMapper() {
         shuttleMapper = new ShuttleMapper();
         shuttles = new ArrayList<>();
         outcomeSaver = mock(OutcomeSaver.class);
