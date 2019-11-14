@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.integration;
+package ca.ulaval.glo4002.booking.api.resources.program;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
-import ca.ulaval.glo4002.booking.api.resources.program.ProgramResource;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
@@ -40,7 +39,6 @@ import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
-import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitSaver;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
@@ -58,21 +56,17 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassReposit
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
-import ca.ulaval.glo4002.booking.application.ProfitUseCase;
 
-public class ProgramFunctionalTest extends JerseyTest {
+public class ProgramResourceIT extends JerseyTest {
 
     private static final String PROGRAM_URL = "/program";
-    private String validProgram = "{\"program\": [{   \"eventDate\": \"2050-07-17\",   \"am\": \"yoga\",   \"pm\": \"Kid Rocket\"},{   \"eventDate\": \"2050-07-18\",   \"am\": \"yoga\",   \"pm\": \"Freddie Mercury\"},{   \"eventDate\": \"2050-07-19\",   \"am\": \"cardio\",   \"pm\": \"Kelvin Harris\"},{   \"eventDate\": \"2050-07-20\",   \"am\": \"cardio\",   \"pm\": \"Lady Gamma\"},{   \"eventDate\": \"2050-07-21\",   \"am\": \"yoga\",   \"pm\": \"30 Seconds to Mars\"},{   \"eventDate\": \"2050-07-22\",   \"am\": \"yoga\",   \"pm\": \"Coldray\"},{   \"eventDate\": \"2050-07-23\",   \"am\": \"cardio\",   \"pm\": \"Suns N’ Roses\"},{   \"eventDate\": \"2050-07-24\",   \"am\": \"yoga\",   \"pm\": \"Eclipse Presley\"}]}";
     private String invalidProgram = "{\"program\": [{}]}";
 
     FestivalDates festivalDates = new Glow4002Dates();
 
     ProfitRepository profitRepository = new HeapProfitRepository();
-    ProfitCalculator profitCalculator = new ProfitCalculator();
     IncomeSaver incomeSaver = new ProfitSaver(profitRepository);
     OutcomeSaver outcomeSaver = new ProfitSaver(profitRepository);
-    ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator, profitRepository);
 
     OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
     OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
@@ -134,13 +128,6 @@ public class ProgramFunctionalTest extends JerseyTest {
         });
         return resourceConfig;
     }
-
-    // @Test
-    // public void givenValidProgramPosted_thenReturnsCorrectStatusCode() {
-    //     Response response = target(PROGRAM_URL).request().post(Entity.json(validProgram));
-
-    //     assertEquals(Status.OK.getStatusCode(), response.getStatus(), "Http Response should be 200 ");
-    // }
 
     @Test
     public void giveninvalidProgramPosted_thenReturnsCorrectStatusCode() {
