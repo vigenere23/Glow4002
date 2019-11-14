@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.api.resources.artists;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +15,7 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
@@ -127,7 +127,7 @@ public class ArtistRankingResourceFT extends JerseyTest {
 
     private ArtistRankingResponse mockOneLowPopularityArtistFromExternalRepository() {
         ArtistRankingInformation information = addArtistToListInformation("notPopularArtistName", someLowArtistPopularity, someLowArtistPrice);
-        List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
+        List<ArtistRankingInformation> informationCollection = new ArrayList<>();
         informationCollection.add(information);
         return buildExpectedResponse(informationCollection);
     }
@@ -135,7 +135,7 @@ public class ArtistRankingResourceFT extends JerseyTest {
     private ArtistRankingResponse mockOneHightAndOneLowPopularityArtistFromExternalRepository() {
         ArtistRankingInformation popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someLowArtistPrice);
         ArtistRankingInformation notPopularArtistInformation = addArtistToListInformation("Unknown Artist", someLowArtistPopularity, someLowArtistPrice);
-        List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
+        List<ArtistRankingInformation> informationCollection = new ArrayList<>();
         informationCollection.add(notPopularArtistInformation);
         informationCollection.add(popularArtistInformation);
         return buildExpectedResponse(informationCollection);
@@ -144,7 +144,7 @@ public class ArtistRankingResourceFT extends JerseyTest {
     private ArtistRankingResponse mockOneExpensiveAndOneCheapCostArtistFromExternalRepository() {
         ArtistRankingInformation hightCostArtist = addArtistToListInformation("Expensive artist", someLowArtistPopularity, someHightArtistPrice);
         ArtistRankingInformation lowCostArtist = addArtistToListInformation("Cheap Artist", someHightArtistPopularity, someLowArtistPrice);
-        List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
+        List<ArtistRankingInformation> informationCollection = new ArrayList<>();
         informationCollection.add(hightCostArtist);
         informationCollection.add(lowCostArtist);
         return buildExpectedResponse(informationCollection);
@@ -153,14 +153,14 @@ public class ArtistRankingResourceFT extends JerseyTest {
     private ArtistRankingResponse mockTwortistWithSamePriceFromExternalRepository() {
         ArtistRankingInformation notPopularArtistInformation = addArtistToListInformation("Unknown artist", someLowArtistPopularity, someHightArtistPrice);
         ArtistRankingInformation popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someHightArtistPrice);
-        List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
+        List<ArtistRankingInformation> informationCollection = new ArrayList<>();
         informationCollection.add(popularArtistInformation);
         informationCollection.add(notPopularArtistInformation);
         return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse buildExpectedResponse(List<ArtistRankingInformation> information) {
-        ArrayList<String> sortedArtist = new ArrayList<String>();
+        ArrayList<String> sortedArtist = new ArrayList<>();
         for (ArtistRankingInformation rankingInfo : information) {
             sortedArtist.add(rankingInfo.getArtistName());
         }

@@ -148,7 +148,7 @@
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
-                        <id>integrationTest</id>
+                        <id>integration-test</id>
                         <goals>
                             <goal>test</goal>
                         </goals>
@@ -161,7 +161,7 @@
                     </execution>
                     <execution>
                         <phase>integration-test</phase>
-                        <id>functionalTest</id>
+                        <id>functional-test</id>
                         <goals>
                             <goal>test</goal>
                         </goals>

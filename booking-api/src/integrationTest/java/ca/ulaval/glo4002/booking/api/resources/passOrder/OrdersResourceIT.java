@@ -43,6 +43,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     private static double SUPERGIANT_SINGLE_PASS_COST = 100000;
     private static double SUPERGIANT_SINGLE_PASS_COST_DISCOUNT = 90000;
     private List<String> someValidEventDates = new ArrayList<>();
+    private List<String> someOutOfFestivalEventDates = new ArrayList<>();
     private List<String> someInvalidEventDates = new ArrayList<>();
     private List<String> threeValidEventDates = new ArrayList<>();
     private List<String> fourValidEventDates = new ArrayList<>();
@@ -51,6 +52,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     @BeforeEach
     public void setUpEventDates() {
         initializeValidEventDates();
+        initializeOutOfFestivalEventDates();
         initializeInvalidEventDates();
         generateEventDates(threeValidEventDates, 3);
         generateEventDates(fourValidEventDates, 4);
@@ -73,14 +75,14 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     }
 
     @Test
-    public void whenInvalidEventDate_thenBadRequest() {
-        Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someInvalidEventDates);
+    public void whenOutOfFestivalEventDate_thenBadRequest() {
+        Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someOutOfFestivalEventDates);
         assertEquals(HTTP_BAD_REQUEST, response.getStatus());
     }
 
     @Test
-    public void whenInvalidEventDate_thenInvalidEventDateError() {
-        Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someInvalidEventDates);
+    public void whenOutOfFestivalEventDate_thenInvalidEventDateError() {
+        Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someOutOfFestivalEventDates);
         String errorResponse = response.readEntity(String.class);
 
         String expectedResponse = getErrorResponse(INVALID_EVENT_DATE_ERROR, INVALID_EVENT_DATE_MESSAGE);
@@ -91,6 +93,15 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     public void whenInvaliRequest_thenBadRequest() {
         Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_INVALID_PASS_CATEGORY, someValidEventDates);
         assertEquals(HTTP_BAD_REQUEST, response.getStatus());
+    }
+
+    @Test
+    public void whenInvalidEventDate_thenInvalidFormatError() {
+        Response response = postSinglePassOrder(SOME_VALID_ORDER_DATE, SOME_PASS_CATEGORY, someInvalidEventDates);
+        String errorResponse = response.readEntity(String.class);
+
+        String expectedResponse = getErrorResponse(INVALID_REQUEST_ERROR, INVALID_REQUEST_MESSAGE);
+        assertEquals(expectedResponse, errorResponse);
     }
 
     @Test
@@ -476,9 +487,14 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
         someValidEventDates.add("2050-07-18");
     }
 
+    private void initializeOutOfFestivalEventDates() {
+        someOutOfFestivalEventDates.add("2050-07-17");
+        someOutOfFestivalEventDates.add("2020-07-18");
+    }
+
     private void initializeInvalidEventDates() {
         someInvalidEventDates.add("2050-07-17");
-        someInvalidEventDates.add("2020-07-18");
+        someInvalidEventDates.add("hello");
     }
 
     private void generateEventDates(List<String> eventDates, int quantity) {
