@@ -95,7 +95,7 @@ public class Pass implements Passenger {
     }
 
     private int calculateRequiredQuantity() {
-        int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
+        int numberOfDays = DateCalculator.numberOfDaysInclusivelyBetween(startDate, endDate);
         return oxygenQuantityPerDay * numberOfDays;
     }
 }
