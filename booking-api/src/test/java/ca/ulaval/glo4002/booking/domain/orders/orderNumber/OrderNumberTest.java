@@ -1,10 +1,11 @@
 package ca.ulaval.glo4002.booking.domain.orders.orderNumber;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderNumberTest {
 
@@ -16,27 +17,27 @@ public class OrderNumberTest {
 
         OrderNumber orderNumber = new OrderNumber(vendorCode, number);
 
-        assertThat(orderNumber.getValue()).isEqualTo(expectedOrderNumberValue);
+        assertEquals(expectedOrderNumberValue, orderNumber.getValue());
     }
 
     @Test
     public void whenCreatingOrderNumberFromString_itReturnsTheSameValueAsTheGivenString() {
         String stringOrderNumber = "TEAM-4566";
         OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
-        assertThat(orderNumber.getValue()).isEqualTo(stringOrderNumber);
+        assertEquals(stringOrderNumber, orderNumber.getValue());
     }
 
     @Test
     public void givenTwoCreatedOrderNumbersWithDifferentArguments_whenComparingEquality_itReturnsFalse() {
         OrderNumber orderNumber1 = new OrderNumber(VendorCode.TEAM, 1);
         OrderNumber orderNumber2 = new OrderNumber(VendorCode.TEAM, 2);
-        assertThat(orderNumber1).isNotEqualTo(orderNumber2);
+        assertNotEquals(orderNumber1, orderNumber2);
     }
 
     @Test
     public void givenTwoCreatedOrderNumbersWithSameArguments_whenComparingEquality_itReturnsTrue() {
         OrderNumber orderNumber1 = new OrderNumber(VendorCode.TEAM, 1);
         OrderNumber orderNumber2 = new OrderNumber(VendorCode.TEAM, 1);
-        assertThat(orderNumber1).isEqualTo(orderNumber2);
+        assertEquals(orderNumber1, orderNumber2);
     }
 }
