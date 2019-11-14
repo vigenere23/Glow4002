@@ -53,10 +53,11 @@ public class ProgramValidator {
     
     private boolean validEventDates(SingleDayProgram programForOneDay) {
         boolean validDates = true;
-        if(!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
+        if (!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
             validDates = false;
         }
-        if (retrieveDates().size() != DateCalculator.daysBetween(glow4002Dates.getStartDate(), glow4002Dates.getEndDate())) {
+        int numberOfFestivalDays = DateCalculator.numberOfDaysInclusivelyBetween(glow4002Dates.getStartDate(), glow4002Dates.getEndDate());
+        if (retrieveDates().size() != numberOfFestivalDays) {
             validDates = false;
         }
         return validDates;

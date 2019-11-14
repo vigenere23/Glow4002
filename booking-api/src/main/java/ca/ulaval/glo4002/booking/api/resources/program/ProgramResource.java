@@ -29,7 +29,7 @@ public class ProgramResource {
     }
 
     @POST
-    public Response create(ProgramRequest request) throws URISyntaxException {
+    public Response create(ProgramRequest request) {
         programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
         return Response.ok().build();
     }

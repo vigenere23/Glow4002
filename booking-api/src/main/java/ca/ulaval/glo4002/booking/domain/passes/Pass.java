@@ -12,6 +12,7 @@ import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
+import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
 
 public class Pass {
 
@@ -54,8 +55,8 @@ public class Pass {
         return this.passOption == passOption && this.passCategory == passCategory;
     }
 
-    public boolean hasSameDateAs(LocalDate eventDate) {
-        return this.startDate.equals(eventDate);
+    public boolean isAttendingAtDate(LocalDate eventDate) {
+        return DateComparator.dateIsInclusivelyBetween(eventDate, startDate, endDate);
     }
 
     public PassengerNumber getPassengerNumber() {
@@ -93,7 +94,7 @@ public class Pass {
     }
 
     private int calculateRequiredQuantity() {
-        int numberOfDays = DateCalculator.daysBetween(startDate, endDate);
+        int numberOfDays = DateCalculator.numberOfDaysInclusivelyBetween(startDate, endDate);
         return oxygenQuantityPerDay * numberOfDays;
     }
 }

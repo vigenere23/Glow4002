@@ -36,7 +36,6 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
@@ -101,8 +100,7 @@ public class ProgramResourceIT extends JerseyTest {
     ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
     ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
 
-    FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
-    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
+    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
     ProgramMapper programMapper = new ProgramMapper();
 
