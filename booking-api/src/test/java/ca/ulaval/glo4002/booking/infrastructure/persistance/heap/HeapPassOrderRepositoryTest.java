@@ -38,7 +38,7 @@ public class HeapPassOrderRepositoryTest {
         OrderDiscount orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );
-        passOrder = new PassOrder(new OrderNumber(VendorCode.TEAM), passes, orderDiscount, incomeSaver);
+        passOrder = new PassOrder(VALID_ORDER_NUMBER, passes, orderDiscount, incomeSaver);
     }
 
     @Test

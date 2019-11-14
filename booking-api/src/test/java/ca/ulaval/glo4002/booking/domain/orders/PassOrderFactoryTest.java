@@ -48,7 +48,7 @@ public class PassOrderFactoryTest {
         passFactory = mock(PassFactory.class);
 		incomeSaver = mock(IncomeSaver.class);
         OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
-        passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, orderDiscountFactory, incomeSaver);
+        passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, incomeSaver, orderNumberFactory);
     }
 
     @Test

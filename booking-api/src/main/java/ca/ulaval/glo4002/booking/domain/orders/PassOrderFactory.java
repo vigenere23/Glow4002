@@ -11,6 +11,8 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscoun
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -24,7 +26,7 @@ public class PassOrderFactory {
     private OrderDiscountFactory orderDiscountFactory;
     private IncomeSaver incomeSaver;
     private OrderNumberFactory orderNumberFactory;
-    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountFactory orderDiscountFactory, IncomeSaver incomeSaver,  OrderNumberFactory orderNumberFactory,) {
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountFactory orderDiscountFactory, IncomeSaver incomeSaver,  OrderNumberFactory orderNumberFactory) {
         this.festivalDates = festivalDates;
         this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;

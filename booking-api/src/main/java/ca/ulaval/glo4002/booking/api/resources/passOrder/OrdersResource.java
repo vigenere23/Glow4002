@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.api.resources.passOrder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -21,7 +20,6 @@ import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.api.resources.responseUtil.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
-import ca.ulaval.glo4002.booking.domain.orders.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 
 @Path("/orders")
