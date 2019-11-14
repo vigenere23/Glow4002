@@ -1,17 +1,18 @@
 package ca.ulaval.glo4002.booking.domain.artists;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.transport.Passenger;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
-public class ArtistProgramInformation {
+public class ArtistProgramInformation implements Passenger {
     private String artistName;
-    private PassNumber passNumber;
+    private PassengerNumber passengerNumber;
     private int groupSize;
     private Price price;
 
-    public ArtistProgramInformation(String artistName, PassNumber passNumber, int groupSize, Price price) {
+    public ArtistProgramInformation(String artistName, PassengerNumber passengerNumber, int groupSize, Price price) {
         this.artistName = artistName;
-        this.passNumber = passNumber;
+        this.passengerNumber = passengerNumber;
         this.groupSize = groupSize;
         this.price = price;
     }
@@ -24,8 +25,8 @@ public class ArtistProgramInformation {
         return artistName;
     }
 
-    public PassNumber getPassNumber() {
-        return passNumber;
+    public PassengerNumber getPassengerNumber() {
+        return passengerNumber;
     }
 
     public int getGroupSize() {

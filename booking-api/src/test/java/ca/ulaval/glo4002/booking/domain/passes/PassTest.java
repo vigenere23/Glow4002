@@ -15,6 +15,7 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.*;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.transport.Passenger;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
@@ -50,32 +51,32 @@ public class PassTest {
     public void whenReservingShuttles_thenItReservesASingleDeparture() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
-
-        verify(transportReserver, times(1)).reserveDeparture(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), any(Integer.class));
+        
+        verify(transportReserver, times(1)).reserveDeparture(any(ShuttleCategory.class), any(LocalDate.class), any(Passenger.class), any(Integer.class));
     }
 
     @Test
     public void whenReservingShuttles_thenItReservesASingleArrival() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
-
-        verify(transportReserver, times(1)).reserveArrival(any(ShuttleCategory.class), any(LocalDate.class), any(PassNumber.class), any(Integer.class));
+        
+        verify(transportReserver, times(1)).reserveArrival(any(ShuttleCategory.class), any(LocalDate.class), any(Passenger.class), any(Integer.class));
     }
 
     @Test
     public void whenReservingShuttles_thenDepartureShuttlesAreReservedWithStartDateAndPassNumber() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
-
-        verify(transportReserver).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, pass.getPassNumber(), ONE_PLACE);
+        
+        verify(transportReserver).reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_START_DATE, pass, ONE_PLACE);
     }
 
     @Test
     public void whenReserveShuttles_thenArrivalShuttlesAreReservedWithEndDateAndPassNumber() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, SOME_PASS_CATEGORY, SOME_START_DATE, SOME_END_DATE);
         pass.reserveShuttles(transportReserver);
-        
-        verify(transportReserver).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_END_DATE, pass.getPassNumber(), ONE_PLACE);
+
+        verify(transportReserver).reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_END_DATE, pass, ONE_PLACE);
     }
 
     @Test
@@ -84,8 +85,8 @@ public class PassTest {
 
         pass.reserveShuttles(transportReserver);
 
-        verify(transportReserver).reserveDeparture(ShuttleCategory.SPACE_X, SOME_START_DATE, pass.getPassNumber(), ONE_PLACE);
-        verify(transportReserver).reserveArrival(ShuttleCategory.SPACE_X, SOME_END_DATE, pass.getPassNumber(), ONE_PLACE);
+        verify(transportReserver).reserveDeparture(ShuttleCategory.SPACE_X, SOME_START_DATE, pass, ONE_PLACE);
+        verify(transportReserver).reserveArrival(ShuttleCategory.SPACE_X, SOME_END_DATE, pass, ONE_PLACE);
     }
 
     @Test
@@ -94,8 +95,8 @@ public class PassTest {
 
         pass.reserveShuttles(transportReserver);
 
-        verify(transportReserver).reserveDeparture(ShuttleCategory.MILLENNIUM_FALCON, SOME_START_DATE, pass.getPassNumber(), ONE_PLACE);
-        verify(transportReserver).reserveArrival(ShuttleCategory.MILLENNIUM_FALCON, SOME_END_DATE, pass.getPassNumber(), ONE_PLACE);
+        verify(transportReserver).reserveDeparture(ShuttleCategory.MILLENNIUM_FALCON, SOME_START_DATE, pass, ONE_PLACE);
+        verify(transportReserver).reserveArrival(ShuttleCategory.MILLENNIUM_FALCON, SOME_END_DATE, pass, ONE_PLACE);
     }
 
     @Test
@@ -104,8 +105,8 @@ public class PassTest {
 
         pass.reserveShuttles(transportReserver);
 
-        verify(transportReserver).reserveDeparture(ShuttleCategory.ET_SPACESHIP, SOME_START_DATE, pass.getPassNumber(), ONE_PLACE);
-        verify(transportReserver).reserveArrival(ShuttleCategory.ET_SPACESHIP, SOME_END_DATE, pass.getPassNumber(), ONE_PLACE);
+        verify(transportReserver).reserveDeparture(ShuttleCategory.ET_SPACESHIP, SOME_START_DATE, pass, ONE_PLACE);
+        verify(transportReserver).reserveArrival(ShuttleCategory.ET_SPACESHIP, SOME_END_DATE, pass, ONE_PLACE);
     }
 
     @Test

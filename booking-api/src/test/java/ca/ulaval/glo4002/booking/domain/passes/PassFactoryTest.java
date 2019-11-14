@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ public class PassFactoryTest {
     @BeforeEach
     public void setupPassFactory() {
         festivalDates = mock(FestivalDates.class);
-        passNumberFactory = mock(PassNumberFactory.class);
+        passNumberFactory = new PassNumberFactory(new AtomicLong(0));
         passPriceFactory = mock(PassPriceFactory.class);
 
         passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);

@@ -20,8 +20,8 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
@@ -38,7 +38,7 @@ public class SingleDayProgramTest {
     private final static int SOME_OXYGEN_QUANTITY = 66;
     
     private List<ArtistProgramInformation> artistsForProgram;   
-    private PassNumber passNumber;
+    private PassengerNumber passengerNumber;
     private OxygenReserver oxygenReserver;
     private TransportReserver transportReserver;
     private SingleDayProgram singleDayProgram;
@@ -82,13 +82,13 @@ public class SingleDayProgramTest {
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderDepartureShuttle() {
         singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
-        verify(transportReserver).reserveDeparture(SHUTTLE_CATEGORY, SOME_DATE, passNumber, SOME_PASSENGERS);
+        verify(transportReserver).reserveDeparture(SHUTTLE_CATEGORY, SOME_DATE, artistProgramInformation, SOME_PASSENGERS);
     }
 
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderArrivalShuttle() {
         singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
-        verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, passNumber, SOME_PASSENGERS);
+        verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, artistProgramInformation, SOME_PASSENGERS);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class SingleDayProgramTest {
         oxygenReserver = mock(OxygenReserver.class);
         transportReserver = mock(TransportReserver.class);
         festivalDates = mock(Glow4002Dates.class);
-        passNumber = mock(PassNumber.class);
+        passengerNumber = mock(PassengerNumber.class);
         artistProgramInformation = mock(ArtistProgramInformation.class);
         outcomeSaver = mock(OutcomeSaver.class);
         price = mock(Price.class);
@@ -118,7 +118,7 @@ public class SingleDayProgramTest {
         artistsForProgram.add(artistProgramInformation);
         when(artistProgramInformation.getArtistName()).thenReturn(SOME_ARTIST_NAME);
         when(artistProgramInformation.getGroupSize()).thenReturn(SOME_PASSENGERS);
-        when(artistProgramInformation.getPassNumber()).thenReturn(passNumber);
+        when(artistProgramInformation.getPassengerNumber()).thenReturn(passengerNumber);
         when(artistProgramInformation.getPrice()).thenReturn(price);
     }
 }
