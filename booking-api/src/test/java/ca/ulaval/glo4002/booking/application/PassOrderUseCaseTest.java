@@ -20,12 +20,12 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.*;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 public class PassOrderUseCaseTest {
 
@@ -43,6 +43,7 @@ public class PassOrderUseCaseTest {
     private PassRequest passRequest;
     private PassOrderRepository passOrderRepository;
     private PassRepository passRepository;
+    private IncomeSaver incomeSaver;
     private PassOrderUseCase passOrderUseCase;
 
     @BeforeEach
@@ -53,6 +54,7 @@ public class PassOrderUseCaseTest {
         transportReserver = mock(TransportReserver.class);
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
+        incomeSaver = mock(IncomeSaver.class);
 
         mockPassOrder();
         passRequest = mock(PassRequest.class);
@@ -63,7 +65,7 @@ public class PassOrderUseCaseTest {
             any(OffsetDateTime.class), any(VendorCode.class), any(PassOption.class), any(PassCategory.class), any())
         ).thenReturn(passOrder);
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
     }
 
     @Test

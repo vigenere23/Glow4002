@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class NebulaSinglePassDiscountTests {
+public class NebulaSinglePassDiscountTest {
 
     private static final int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
     private static final Price PRICE_WITHOUT_DISCOUNT = new Price(1000000);

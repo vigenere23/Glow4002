@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.ProgramUseCase;
+import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
@@ -27,6 +28,7 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
@@ -74,8 +76,8 @@ public class ProgramResourceIT extends JerseyTest {
     OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
     OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
 
-    ShuttleFactory shuttleFactory = new ShuttleFactory(outcomeSaver);
-    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory); 
+    ShuttleFactory shuttleFactory = new ShuttleFactory();
+    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver); 
     ShuttleRepository shuttleRepository = new HeapShuttleRepository();
     TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
@@ -86,8 +88,9 @@ public class ProgramResourceIT extends JerseyTest {
     PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
     PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, orderNumberFactory, passFactory, incomeSaver);
-    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository);
+    OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
+    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
     ExternalApiArtist externalApiArtist = new ExternalApiArtist();
     ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
@@ -97,6 +100,7 @@ public class ProgramResourceIT extends JerseyTest {
     FestivalAttendeesCounter festivalAttendeesCounter = new FestivalAttendeesCounter();
     ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
     ProgramValidator programValidator = new ProgramValidator(festivalDates);
+    ProgramMapper programMapper = new ProgramMapper();
 
     @BeforeEach
     @Override
@@ -124,6 +128,7 @@ public class ProgramResourceIT extends JerseyTest {
                 bind(oxygenUseCase).to(OxygenUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
+                bind(programMapper).to(ProgramMapper.class);
             }
         });
         return resourceConfig;

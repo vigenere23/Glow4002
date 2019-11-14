@@ -21,16 +21,20 @@ import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 public class ReportOxygenResources {
 
     private OxygenUseCase oxygenUseCase;
+    private final OxygenInventoryMapper oxygenInventoryMapper;
+    private final OxygenHistoryMapper oxygenHistoryMapper;
     
     @Inject
-    public ReportOxygenResources(OxygenUseCase oxygenUseCase) {
+    public ReportOxygenResources(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
         this.oxygenUseCase = oxygenUseCase;
+        this.oxygenInventoryMapper = oxygenInventoryMapper;
+        this.oxygenHistoryMapper = oxygenHistoryMapper;
     }
     
     @GET
     public Response getOxygenReport() {
-        List<OxygenInventoryDto> inventory = new OxygenInventoryMapper().toDto(oxygenUseCase.getOxygenInventories());
-        List<OxygenHistoryDto> history = new OxygenHistoryMapper().toDto(oxygenUseCase.getOxygenHistory());
+        List<OxygenInventoryDto> inventory = oxygenInventoryMapper.toDto(oxygenUseCase.getOxygenInventories());
+        List<OxygenHistoryDto> history = oxygenHistoryMapper.toDto(oxygenUseCase.getOxygenHistory());
         ReportOxygenResponse response = new ReportOxygenResponse(inventory, history);
         return Response.ok(response).build();
     }

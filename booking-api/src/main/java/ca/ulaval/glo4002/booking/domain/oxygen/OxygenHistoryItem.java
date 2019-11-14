@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
-import ca.ulaval.glo4002.booking.helpers.DateComparator;
+import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
 
 import java.time.LocalDate;
 import java.util.EnumMap;

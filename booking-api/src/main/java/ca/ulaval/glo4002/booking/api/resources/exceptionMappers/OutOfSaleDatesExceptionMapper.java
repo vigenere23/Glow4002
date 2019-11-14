@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorD
 import ca.ulaval.glo4002.booking.api.resources.exceptionMappers.dto.ClientErrorResponseBuilder;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 
-
 @Provider
 public class OutOfSaleDatesExceptionMapper implements ExceptionMapper<OutOfSaleDatesException> {
 

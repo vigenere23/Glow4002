@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.helpers;
+package ca.ulaval.glo4002.booking.api.resources.responseUtil;
 
 import java.net.URI;
 import java.net.URISyntaxException;

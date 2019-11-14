@@ -13,26 +13,30 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 class ShuttleFillerTest {
     
     private final static LocalDate DATE = LocalDate.of(2050, 7, 22);
     private final static PassNumber PASS_NUMBER = mock(PassNumber.class);
-    private static final int ONE_PLACE = 1;
-    private static final int SOME_PLACES = 5;
+    private final static int ONE_PLACE = 1;
+    private final static int SOME_PLACES = 5;
 
     private ShuttleFiller shuttleFiller;
     private List<Shuttle> shuttles;
     private Shuttle firstMockedShuttle;
     private Shuttle secondMockedShuttle;
     private ShuttleFactory shuttleFactory;
+    private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setUpShuttleFiller() {
         mockShuttles();
         mockShuttleFactory();
-        shuttleFiller = new ShuttleFiller(shuttleFactory);
+        mockOutcomeSaver();
+        shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
     }
 
     @Test
@@ -72,7 +76,7 @@ class ShuttleFillerTest {
     }
 
     @Test
-    public void givenShuttleListWithoutAnyShuttleToFill_whenFillOnePlaceShuttle_SaveOutcomeFromShuttleIsCalled() {
+    public void givenShuttleListWithoutAnyShuttleToFill_whenFillOnePlaceShuttle_saveOutcomeFromOutcomeSaverIsCalled() {
         when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
@@ -80,7 +84,7 @@ class ShuttleFillerTest {
         
         shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASS_NUMBER, DATE, SOME_PLACES);
         
-        verify(secondMockedShuttle).saveOutcome();
+        verify(secondMockedShuttle).saveOutcome(outcomeSaver);
     }
     
     @Test
@@ -116,5 +120,9 @@ class ShuttleFillerTest {
     private void mockShuttleFactory() {
         shuttleFactory = mock(ShuttleFactory.class);
         when(shuttleFactory.createShuttle(ShuttleCategory.SPACE_X, DATE)).thenReturn(secondMockedShuttle);
+    }
+
+    private void mockOutcomeSaver() {
+        outcomeSaver = mock(OutcomeSaver.class);
     }
 }
