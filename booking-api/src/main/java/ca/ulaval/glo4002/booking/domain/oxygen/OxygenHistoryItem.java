@@ -40,6 +40,15 @@ public class OxygenHistoryItem {
                 .forEach(type -> oxygenHistory.put(type, 0));
     }
 
+    public boolean isAllZero() {
+        for (int quantity: oxygenHistory.values()) {
+            if (quantity > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int getOxygenTankBought() {
         return oxygenHistory.get(HistoryType.OXYGEN_TANK_BOUGHT);
     }

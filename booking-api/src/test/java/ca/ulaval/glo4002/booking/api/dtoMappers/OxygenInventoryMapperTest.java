@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.api.dtoMappers;
 
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +12,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
 

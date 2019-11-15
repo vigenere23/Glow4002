@@ -58,8 +58,16 @@ public abstract class OxygenOrder {
 
     private SortedMap<LocalDate, OxygenHistoryItem> updateOxygenOrderHistory(SortedMap<LocalDate, OxygenHistoryItem> oxygenOrderHistory, LocalDate orderDate) {
         LocalDate completionDate = getFabricationCompletionDate(orderDate);
-        oxygenOrderHistory.put(orderDate, getOrderDateHistory(orderDate));
-        oxygenOrderHistory.put(completionDate, getCompletionDateHistory(completionDate));
+        OxygenHistoryItem orderDateHistory = getOrderDateHistory(orderDate);
+        if (!orderDateHistory.isAllZero()) {
+            oxygenOrderHistory.put(orderDate, orderDateHistory);
+        }
+        OxygenHistoryItem completionDateHistory = getCompletionDateHistory(completionDate);
+
+        if (!completionDateHistory.isAllZero()) {
+            oxygenOrderHistory.put(completionDate, completionDateHistory);
+        }
+
         return oxygenOrderHistory;
     }
 

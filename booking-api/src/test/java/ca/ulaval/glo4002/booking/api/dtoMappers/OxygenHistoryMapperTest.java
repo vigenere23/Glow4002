@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.api.dtoMappers;
 
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +14,6 @@ import java.util.EnumMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
 import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
 
@@ -65,7 +65,7 @@ public class OxygenHistoryMapperTest {
     }
 
     private void createHistoryTypeMap() {
-        SOME_HISTORY = new EnumMap<HistoryType, Integer>(HistoryType.class);
+        SOME_HISTORY = new EnumMap<>(HistoryType.class);
         SOME_HISTORY.put(HistoryType.OXYGEN_TANK_BOUGHT, SOME_NUMBER_OF_TANKS_BOUGHT);
         SOME_HISTORY.put(HistoryType.OXYGEN_TANK_MADE, SOME_NUMBER_OF_TANKS_MADE);
         SOME_HISTORY.put(HistoryType.WATER_USED, SOME_QUANTITY_OF_WATER_USED);
