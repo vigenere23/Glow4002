@@ -10,26 +10,57 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 
 public class PassCategoryMapperTest {
 
-    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.SUPERGIANT;
+    @Test
+    public void givenNebula_whenGettingOxygenGrade_itReturnsOxygenGradeA() {
+        OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(PassCategory.NEBULA);
+        assertEquals(OxygenGrade.A, oxygenGrade);
+    }
 
     @Test
-    public void givenPassCategory_whenGettingOxygenGradeFromMap_thenReturnAssociatedOxygenGrade() {
-        OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(SOME_PASS_CATEGORY);
-
+    public void givenSupergiant_whenGettingOxygenGrade_itReturnsOxygenGradeB() {
+        OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(PassCategory.SUPERGIANT);
         assertEquals(OxygenGrade.B, oxygenGrade);
     }
 
     @Test
-    public void givenPassCategory_whenGettingOxygenQuantityFromMap_thenReturnAssociatedQuantity() {
-        int oxygenQuantity = PassCategoryMapper.getOxygenQuantity(SOME_PASS_CATEGORY);
+    public void givenSupernova_whenGettingOxygenGrade_itReturnsOxygenGradeE() {
+        OxygenGrade oxygenGrade = PassCategoryMapper.getOxygenGrade(PassCategory.SUPERNOVA);
+        assertEquals(OxygenGrade.E, oxygenGrade);
+    }
 
+    @Test
+    public void givenNebula_whenGettingOxygenQuantity_itReturns3() {
+        int oxygenQuantity = PassCategoryMapper.getOxygenQuantity(PassCategory.NEBULA);
         assertEquals(3, oxygenQuantity);
     }
 
     @Test
-    public void givenPassCategory_whenGettingShuttleCategoryFromMap_thenReturnAssociatedShuttleCategory() {
-        ShuttleCategory shuttleCategory = PassCategoryMapper.getShuttleCategory(SOME_PASS_CATEGORY);
+    public void givenSupergiant_whenGettingOxygenQuantity_itReturns3() {
+        int oxygenQuantity = PassCategoryMapper.getOxygenQuantity(PassCategory.SUPERGIANT);
+        assertEquals(3, oxygenQuantity);
+    }
 
+    @Test
+    public void givenSupernova_whenGettingOxygenQuantity_itReturns5() {
+        int oxygenQuantity = PassCategoryMapper.getOxygenQuantity(PassCategory.SUPERNOVA);
+        assertEquals(5, oxygenQuantity);
+    }
+
+    @Test
+    public void givenNebula_whenGettingShuttleCategory_itReturnsSpaceX() {
+        ShuttleCategory shuttleCategory = PassCategoryMapper.getShuttleCategory(PassCategory.NEBULA);
+        assertEquals(ShuttleCategory.SPACE_X, shuttleCategory);
+    }
+
+    @Test
+    public void givenSupergiant_whenGettingShuttleCategory_itReturnsMilleniumFalcon() {
+        ShuttleCategory shuttleCategory = PassCategoryMapper.getShuttleCategory(PassCategory.SUPERGIANT);
         assertEquals(ShuttleCategory.MILLENNIUM_FALCON, shuttleCategory);
+    }
+
+    @Test
+    public void givenSupernova_whenGettingShuttleCategory_itReturnsETSpaceship() {
+        ShuttleCategory shuttleCategory = PassCategoryMapper.getShuttleCategory(PassCategory.SUPERNOVA);
+        assertEquals(ShuttleCategory.ET_SPACESHIP, shuttleCategory);
     }
 }
