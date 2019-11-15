@@ -4,7 +4,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.ReportOxygenResources;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.ReportOxygenResource;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.OrdersResource;
@@ -119,7 +119,7 @@ public class JerseyTestBookingServer extends JerseyTest {
 
     @Override
     protected Application configure() {
-        ResourceConfig resourceConfig = new ResourceConfig(ReportOxygenResources.class, OrdersResource.class).packages("ca.ulaval.glo4002.booking");
+        ResourceConfig resourceConfig = new ResourceConfig(ReportOxygenResource.class, OrdersResource.class).packages("ca.ulaval.glo4002.booking");
         resourceConfig.register(new AbstractBinder() {
             @Override
             protected void configure() {

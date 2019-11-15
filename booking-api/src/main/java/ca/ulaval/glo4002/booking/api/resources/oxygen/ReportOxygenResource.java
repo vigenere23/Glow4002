@@ -18,14 +18,14 @@ import ca.ulaval.glo4002.booking.application.OxygenUseCase;
 
 @Path("/report/o2")
 @Produces(MediaType.APPLICATION_JSON)
-public class ReportOxygenResources {
+public class ReportOxygenResource {
 
     private OxygenUseCase oxygenUseCase;
     private final OxygenInventoryMapper oxygenInventoryMapper;
     private final OxygenHistoryMapper oxygenHistoryMapper;
     
     @Inject
-    public ReportOxygenResources(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
+    public ReportOxygenResource(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
         this.oxygenUseCase = oxygenUseCase;
         this.oxygenInventoryMapper = oxygenInventoryMapper;
         this.oxygenHistoryMapper = oxygenHistoryMapper;
