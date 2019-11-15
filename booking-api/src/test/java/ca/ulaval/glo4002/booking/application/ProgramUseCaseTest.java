@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.application;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.FestivalAttendeesCounter;
+import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;
@@ -24,6 +25,7 @@ public class ProgramUseCaseTest {
 
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
     private final static String SOME_ARTIST_NAME = "Sun 41";
+    private final static int NUMBER_OF_ATTENDEES = 10;
 
     private TransportReserver transportReserver;
     private ArtistRepository artistRepository;
@@ -33,7 +35,6 @@ public class ProgramUseCaseTest {
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
     private ArtistProgramInformation artistProgramInformation;
-    private FestivalAttendeesCounter festivalAttendeesCounter;
     private List<ArtistProgramInformation> artistsForProgram;
     private OutcomeSaver outcomeSaver;
 
@@ -46,15 +47,16 @@ public class ProgramUseCaseTest {
         oxygenReserver = mock(OxygenReserver.class);
         passRepository = mock(PassRepository.class);
         outcomeSaver = mock(OutcomeSaver.class);
-        festivalAttendeesCounter = mock(FestivalAttendeesCounter.class);
 
         when(singleDay.getDate()).thenReturn(SOME_DATE);
         when(singleDay.getArtist()).thenReturn(SOME_ARTIST_NAME);
 
         program.add(singleDay);
+
+        mockPassRepository();
         mockArtistForProgram();
 
-        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, festivalAttendeesCounter, outcomeSaver);
+        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, outcomeSaver);
     }
 
     @Test
@@ -72,13 +74,7 @@ public class ProgramUseCaseTest {
     @Test
     public void whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(program);
-        verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), festivalAttendeesCounter.countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE));
-    }
-
-    @Test
-    public void whenProvideProgramResources_thenCountFestivalAttendeesForOneDay() {
-        programUseCase.provideProgramResources(program);
-        verify(festivalAttendeesCounter).countFestivalAttendeesForOneDay(passRepository.findAll(), SOME_DATE);
+        verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), NUMBER_OF_ATTENDEES);
     }
 
     private void mockArtistForProgram() {
@@ -86,5 +82,13 @@ public class ProgramUseCaseTest {
         artistsForProgram.add(artistProgramInformation);
 
         when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);
+    }
+
+    private void mockPassRepository() {
+        List<Pass> passes = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_ATTENDEES; i++) {
+            passes.add(mock(Pass.class));
+        }
+        when(passRepository.findAttendingAtDate(any(LocalDate.class))).thenReturn(passes);
     }
 }

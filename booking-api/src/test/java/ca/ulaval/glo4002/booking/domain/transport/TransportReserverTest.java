@@ -28,51 +28,49 @@ class TransportReserverTest {
     private List<Shuttle> someShuttles = new ArrayList<>();
     private TransportReserver transportReserver;
     private ShuttleFiller shuttleFiller;
-    private Passenger somePassenger;
 
     @BeforeEach
     public void setUpTransportReserver() {
         mockShuttlesList();
         mockShuttleRepository();
         mockShuttleFiller();
-        mockPassenger();
 
         transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
     }
     
     @Test
     public void whenReserveDeparture_thenGetShuttlesListFromShuttleRepositoryIsCalled() {
-        transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, somePassenger, SOME_PASSENGERS);
+        transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).findShuttlesByLocation(Location.EARTH);
     }
 
     @Test
     public void whenReserveDeparture_thenSaveDepartureFromRepositoryIsCalled() {
-        transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, somePassenger, SOME_PASSENGERS);
+        transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).saveDeparture(someShuttles);
     }
 
     @Test
     public void whenReserveDeparture_thenFillShuttleFromShuttleFillerIsCalled() {
-        transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, somePassenger, SOME_PASSENGERS);
+        transportReserver.reserveDeparture(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
         verify(shuttleFiller).fillShuttle(someShuttles, SOME_SHUTTLE_CATEGORY, SOME_PASSENGER_NUMBER, SOME_DATE, SOME_PASSENGERS);
     }
     
     @Test
     public void whenReserveArrival_thenGetShuttlesListFromRepositoryIsCalled() {        
-        transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, somePassenger, SOME_PASSENGERS);
+        transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).findShuttlesByLocation(Location.ULAVALOGY);
     }
     
     @Test
     public void whenReserveArrival_thenSaveArrivalFromRepositoryIsCalled() {
-        transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, somePassenger, SOME_PASSENGERS);
+        transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
         verify(shuttleRepository).saveArrival(someShuttles);
     }
 
     @Test
     public void whenReserveArrival_thenFillShuttleFromShuttleFillerIsCalled() {
-        transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, somePassenger, SOME_PASSENGERS);
+        transportReserver.reserveArrival(SOME_SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
         verify(shuttleFiller).fillShuttle(someShuttles, SOME_SHUTTLE_CATEGORY, SOME_PASSENGER_NUMBER, SOME_DATE, SOME_PASSENGERS);
     }
 
@@ -90,10 +88,5 @@ class TransportReserverTest {
     private void mockShuttleFiller() {
         shuttleFiller = mock(ShuttleFiller.class);
         when(shuttleFiller.fillShuttle(someShuttles, SOME_SHUTTLE_CATEGORY, SOME_PASSENGER_NUMBER, SOME_DATE, SOME_PASSENGERS)).thenReturn(someShuttles);
-    }
-
-    private void mockPassenger() {
-        somePassenger = mock(Passenger.class);
-        when(somePassenger.getPassengerNumber()).thenReturn(SOME_PASSENGER_NUMBER);
     }
 }

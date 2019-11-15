@@ -11,7 +11,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.TransportResponse;
@@ -31,7 +30,7 @@ public class TransportResource {
     }
 
     @GET
-    public Response transport(@QueryParam("date") String stringDate) throws InvalidFormatException {
+    public Response transport(@QueryParam("date") String stringDate) {
         List<ShuttleDto> departures;
         List<ShuttleDto> arrivals;
         if (stringDate == null) {

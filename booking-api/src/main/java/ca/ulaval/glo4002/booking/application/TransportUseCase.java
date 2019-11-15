@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.booking.application;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
@@ -11,11 +10,11 @@ import java.util.List;
 
 public class TransportUseCase {
 
-    private FestivalDates festival;
+    private FestivalDates festivalDates;
     private ShuttleRepository transportRepository;
 
     public TransportUseCase(FestivalDates festival, ShuttleRepository transportRepository) {
-        this.festival = festival;
+        this.festivalDates = festival;
         this.transportRepository = transportRepository;
     }
 
@@ -28,18 +27,12 @@ public class TransportUseCase {
     }
 
     public List<Shuttle> getShuttlesDepartureByDate(LocalDate date) {
-        validateDateRange(date);
+        festivalDates.validateEventDate(date);
         return transportRepository.findShuttlesByDate(Location.EARTH, date);
     }
 
     public List<Shuttle> getShuttlesArrivalByDate(LocalDate date) {
-        validateDateRange(date);
+        festivalDates.validateEventDate(date);
         return transportRepository.findShuttlesByDate(Location.ULAVALOGY, date);
-    }
-
-    private void validateDateRange(LocalDate date) {
-        if (!festival.isDuringEventTime(date)) {
-            throw new OutOfFestivalDatesException(festival.getStartDate(), festival.getEndDate());
-        }
     }
 }

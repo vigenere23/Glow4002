@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.domain.oxygen;
 
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
-
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -30,7 +28,7 @@ public class OxygenHistoryItem {
     }
 
     public void updateQuantities(OxygenHistoryItem oxygenHistoryItem) {
-        if (!DateComparator.areDatesEquals(oxygenHistoryItem.getDate(), date)) {
+        if (!oxygenHistoryItem.getDate().equals(date)) {
             throw new IllegalArgumentException("Both OxygenHistoryItem don't have the same date.");
         }
         oxygenHistoryItem.getOxygenHistory().forEach(this::updateQuantity);

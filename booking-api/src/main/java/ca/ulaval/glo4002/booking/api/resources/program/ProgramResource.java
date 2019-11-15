@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.api.resources.program;
 
-import java.net.URISyntaxException;
-
 import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -29,7 +27,7 @@ public class ProgramResource {
     }
 
     @POST
-    public Response create(ProgramRequest request) throws URISyntaxException {
+    public Response create(ProgramRequest request) {
         programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
         return Response.ok().build();
     }
