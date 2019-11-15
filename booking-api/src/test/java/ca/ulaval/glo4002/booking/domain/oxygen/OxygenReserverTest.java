@@ -19,7 +19,7 @@ class OxygenReserverTest {
     private final static int SOME_REMAINING_QUANTITY = 3;
     private final static int QUANTITY_LESS_THAN_REMAINING_QUANTITY = 2;
     private final static int QUANTITY_MORE_THAN_REMAINING_QUANTITY = 20;
-    private final static int SOME_QUANTITY_TO_RESERVE = 5;
+    private final static int SOME_QUANTITY_TO_RESERVE = 25;
     private final static LocalDate FESTIVAL_STARTING_DATE = LocalDate.of(2050, 7, 17);
     private final static LocalDate SOME_ORDER_DATE = FESTIVAL_STARTING_DATE.minusMonths(1);
     private final static LocalDate SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A = FESTIVAL_STARTING_DATE.minusDays(15);
@@ -108,7 +108,7 @@ class OxygenReserverTest {
     public void whenOrderOxygenQuantityMoreThanRemainingQuantity_thenQuantityRemainingIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
-        int expectedRemainingQuantity = 0;
+        int expectedRemainingQuantity = SOME_QUANTITY_TO_RESERVE - QUANTITY_MORE_THAN_REMAINING_QUANTITY + SOME_REMAINING_QUANTITY;
         assertEquals(expectedRemainingQuantity, oxygenInventoryGradeA.getRemainingQuantity());
     }
 
@@ -140,7 +140,7 @@ class OxygenReserverTest {
     public void whenOrderOxygenGradeATooLateForGradeB_thenRemainingQuantityOfGradeBIsUpdated() {
         oxygenReserver.reserveOxygen(SOME_ORDER_DATE_TOO_LATE_FOR_GRADE_A, OxygenGrade.A, QUANTITY_MORE_THAN_REMAINING_QUANTITY);
 
-        int expectedRemainingQuantity = 0;
+        int expectedRemainingQuantity = SOME_QUANTITY_TO_RESERVE - QUANTITY_MORE_THAN_REMAINING_QUANTITY + 2 * SOME_REMAINING_QUANTITY;
         assertEquals(expectedRemainingQuantity, oxygenInventoryGradeB.getRemainingQuantity());
     }
 

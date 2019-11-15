@@ -20,7 +20,6 @@ public class OxygenUseCase {
     }
 
     public Map<LocalDate, OxygenHistoryItem> getOxygenHistory() {
-
         return oxygenHistoryRepository.findAll();
     }
 }

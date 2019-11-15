@@ -48,6 +48,7 @@ public class OxygenReserver {
     private OxygenStatus getNewOxygenStatus(LocalDate orderDate, OxygenGrade grade, int quantityToOrder, OxygenInventory oxygenInventory, OxygenOrder oxygenOrder) {
         if (!oxygenOrder.isEnoughTimeToFabricate(orderDate)) {
             reserveOxygen(orderDate, getLowerGradeOf(grade), quantityToOrder);
+            return new OxygenStatus(oxygenInventory);
         }
 
         updateOxygenInventory(oxygenInventory, oxygenOrder, orderDate, quantityToOrder);
@@ -69,6 +70,7 @@ public class OxygenReserver {
 
     private void updateOxygenInventory(OxygenInventory oxygenInventory, OxygenOrder oxygenOrder, LocalDate orderDate, int quantityToOrder) {
         int quantityToReserve = oxygenOrder.getQuantityToReserve(orderDate, quantityToOrder);
+        oxygenInventory.setRemainingQuantity(quantityToReserve - quantityToOrder);
         oxygenInventory.updateInventory(quantityToReserve);
     }
 
