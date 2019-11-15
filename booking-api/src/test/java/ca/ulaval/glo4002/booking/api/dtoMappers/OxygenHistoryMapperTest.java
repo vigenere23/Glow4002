@@ -1,10 +1,5 @@
 package ca.ulaval.glo4002.booking.api.dtoMappers;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -14,6 +9,11 @@ import java.util.EnumMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
 import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
 
