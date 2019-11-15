@@ -70,6 +70,7 @@ public class OxygenReserver {
 
     private void updateOxygenInventory(OxygenInventory oxygenInventory, OxygenOrder oxygenOrder, LocalDate orderDate, int quantityToOrder) {
         int quantityToReserve = oxygenOrder.getQuantityToReserve(orderDate, quantityToOrder);
+        oxygenInventory.setRemainingQuantity(quantityToReserve - quantityToOrder);
         oxygenInventory.updateInventory(quantityToReserve);
     }
 
