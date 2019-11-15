@@ -10,10 +10,13 @@ public class OxygenInventoryMapper {
     public List<OxygenInventoryDto> toDto(List<OxygenInventory> oxygenInventories) {
         List<OxygenInventoryDto> inventoryDto = new ArrayList<>();
         for (OxygenInventory oxygenInventory: oxygenInventories) {
-            OxygenInventoryDto oxygenInventoryDto = new OxygenInventoryDto();
-            oxygenInventoryDto.gradeTankOxygen = oxygenInventory.getOxygenGrade().toString();
-            oxygenInventoryDto.quantity = oxygenInventory.getInventory();
-            inventoryDto.add(oxygenInventoryDto);
+            int quantity = oxygenInventory.getInventory();
+            if (quantity > 0) {
+                OxygenInventoryDto oxygenInventoryDto = new OxygenInventoryDto();
+                oxygenInventoryDto.gradeTankOxygen = oxygenInventory.getOxygenGrade().toString();
+                oxygenInventoryDto.quantity = quantity;
+                inventoryDto.add(oxygenInventoryDto);
+            }
         }
         return inventoryDto;
     }
