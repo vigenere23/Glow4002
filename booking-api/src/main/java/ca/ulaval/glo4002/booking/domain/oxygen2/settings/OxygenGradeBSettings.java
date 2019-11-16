@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.settings;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 
-public class OxygenGradeBSettings implements OxygenRequestingSettings, OxygenOrderingSettings {
+public class OxygenGradeBSettings implements OxygenRequestSettings, OxygenOrderSettings {
 
     @Override
     public OxygenGrade getGrade() {

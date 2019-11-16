@@ -3,12 +3,15 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.ordering;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderingSettings;
+import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 
 public class OxygenGradeEOrdering extends OxygenOrderer {
 
-    public OxygenGradeEOrdering(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderingSettings oxygenOrderingSettings) {
+    private final Price costPerTank = new Price(5000);
+
+    public OxygenGradeEOrdering(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
         super(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
     }
 
