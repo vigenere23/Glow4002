@@ -23,12 +23,12 @@ public class OxygenOrdererFactory {
     public OxygenOrderer create(OxygenGrade oxygenGrade, LocalDate limitDate) {
         OxygenOrderer orderer = createGradeEOrderer(limitDate);
 
-        if (oxygenGrade.compareTo(OxygenGrade.B) >= 0) {
+        if (oxygenGrade.compareTo(OxygenGrade.B) <= 0) {
             OxygenOrderer previousOrderer = createGradeBOrderer(limitDate);
             orderer = setNextOrderer(previousOrderer, orderer);
         }
 
-        if (oxygenGrade.compareTo(OxygenGrade.A) >= 0) {
+        if (oxygenGrade.compareTo(OxygenGrade.A) <= 0) {
             OxygenOrderer previousOrderer = createGradeAOrderer(limitDate);
             orderer = setNextOrderer(previousOrderer, orderer);
         }
@@ -38,19 +38,19 @@ public class OxygenOrdererFactory {
 
     private OxygenOrderer createGradeEOrderer(LocalDate limitDate) {
         OxygenGradeESettings oxygenGradeESettings = new OxygenGradeESettings();
-        OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGradeESettings);
+        OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGradeESettings.getGrade());
         return new OxygenOrderer(oxygenGradeESettings, oxygenSupplier, limitDate, oxygenInventory);
     }
 
     private OxygenOrderer createGradeBOrderer(LocalDate limitDate) {
         OxygenGradeBSettings oxygenGradeBSettings = new OxygenGradeBSettings();
-        OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGradeBSettings);
+        OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGradeBSettings.getGrade());
         return new OxygenOrderer(oxygenGradeBSettings, oxygenSupplier, limitDate, oxygenInventory);
     }
 
     private OxygenOrderer createGradeAOrderer(LocalDate limitDate) {
         OxygenGradeASettings oxygenGradeASettings = new OxygenGradeASettings();
-        OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGradeASettings);
+        OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGradeASettings.getGrade());
         return new OxygenOrderer(oxygenGradeASettings, oxygenSupplier, limitDate, oxygenInventory);
     }
 
