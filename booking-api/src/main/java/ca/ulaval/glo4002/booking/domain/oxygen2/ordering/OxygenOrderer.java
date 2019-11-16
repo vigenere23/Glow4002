@@ -4,19 +4,23 @@ import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderingSettings;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 
 public abstract class OxygenOrderer {
 
     protected OxygenInventory oxygenInventory;
     protected OxygenHistory oxygenHistory;
-    protected OxygenOrderingSettings oxygenOrderingSettings;
+    protected OxygenOrderingSettings orderingSettings;
 
     public OxygenOrderer(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderingSettings oxygenOrderingSettings) {
         this.oxygenInventory = oxygenInventory;
         this.oxygenHistory = oxygenHistory;
-        this.oxygenOrderingSettings = oxygenOrderingSettings;
+        this.orderingSettings = oxygenOrderingSettings;
     }
 
-	public abstract void order(LocalDate orderDate, int minQuantityToProduce);
+    public abstract void order(LocalDate orderDate, int minQuantityToProduce);
+    
+    protected int calculateNumberOfBatchesRequired(int minQuantityToProduce) {
+        return minQuantityToProduce % orderingSettings.getBatchSize() + 1;
+    }
 }

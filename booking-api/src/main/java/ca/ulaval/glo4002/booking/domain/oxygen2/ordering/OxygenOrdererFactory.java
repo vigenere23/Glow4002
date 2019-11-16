@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.ordering;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderingSettings;
 
