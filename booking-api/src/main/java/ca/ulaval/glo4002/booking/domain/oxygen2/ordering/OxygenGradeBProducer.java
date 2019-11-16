@@ -7,12 +7,12 @@ import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 
-public class OxygenGradeBOrdering extends OxygenOrderer {
+public class OxygenGradeBProducer extends OxygenOrderer {
 
     private final int litersOfWaterPerBatch = 8;
     private final Price costPerWaterLiter = new Price(600);
 
-    public OxygenGradeBOrdering(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
+    public OxygenGradeBProducer(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
         super(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
     }
 

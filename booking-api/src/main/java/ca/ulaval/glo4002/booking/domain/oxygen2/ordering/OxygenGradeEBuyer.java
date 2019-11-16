@@ -7,11 +7,11 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 
-public class OxygenGradeEOrdering extends OxygenOrderer {
+public class OxygenGradeEBuyer extends OxygenOrderer {
 
     private final Price costPerTank = new Price(5000);
 
-    public OxygenGradeEOrdering(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
+    public OxygenGradeEBuyer(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
         super(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
     }
 

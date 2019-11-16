@@ -17,11 +17,11 @@ public class OxygenOrdererFactory {
 	public OxygenOrderer create(OxygenOrderSettings oxygenOrderingSettings) {
 		switch (oxygenOrderingSettings.getGrade()) {
 		case A:
-			return new OxygenGradeAOrdering(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
+			return new OxygenGradeAProducer(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
 		case B:
-			return new OxygenGradeBOrdering(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
+			return new OxygenGradeBProducer(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
 		case E:
-			return new OxygenGradeEOrdering(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
+			return new OxygenGradeEBuyer(oxygenInventory, oxygenHistory, oxygenOrderingSettings);
 		default:
 			throw new IllegalArgumentException("no orderer for grade X");
 		}
