@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2.ordering;
+package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 
-public class OxygenGradeAProducer extends OxygenOrderer {
+public class OxygenGradeAProducer extends OxygenSupplier {
 
     private final int numberOfCandlesPerBatch = 15;
     private final Price costPerCandle = new Price(650);

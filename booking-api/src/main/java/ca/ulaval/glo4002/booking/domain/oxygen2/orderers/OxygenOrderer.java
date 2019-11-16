@@ -1,37 +1,37 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2.requesting;
+package ca.ulaval.glo4002.booking.domain.oxygen2.orderers;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.oxygen2.ordering.OxygenOrderer;
+import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
 
-public class OxygenRequester {
+public class OxygenOrderer {
 
-    private Optional<OxygenRequester> nextStrategy;
+    private Optional<OxygenOrderer> nextOrderer;
     private OxygenRequestSettings requestSettings;
-    private OxygenOrderer oxygenOrderer;
+    private OxygenSupplier oxygenSupplier;
     private LocalDate limitDate;
     private OxygenInventory oxygenInventory;
 
-    public OxygenRequester(OxygenRequestSettings requestSettings, OxygenOrderer oxygenOrderer, LocalDate limitDate, OxygenInventory oxygenInventory) {
-        nextStrategy = Optional.empty();
+    public OxygenOrderer(OxygenRequestSettings requestSettings, OxygenSupplier oxygenSupplier, LocalDate limitDate, OxygenInventory oxygenInventory) {
+        nextOrderer = Optional.empty();
 
         this.requestSettings = requestSettings;
-        this.oxygenOrderer = oxygenOrderer;
+        this.oxygenSupplier = oxygenSupplier;
         this.limitDate = limitDate;
         this.oxygenInventory = oxygenInventory;
     }
 
-    public void setNextStrategy(OxygenRequester nextStrategy) {
-        this.nextStrategy = Optional.of(nextStrategy);
+    public void setNextOrderer(OxygenOrderer nextOrderer) {
+        this.nextOrderer = Optional.of(nextOrderer);
     }
 
     private void requestOxygenToNextStrategy(LocalDate orderDate, int requestedQuantity) {
-        if (nextStrategy.isPresent()) {
-            nextStrategy.get().requestOxygen(orderDate, requestedQuantity);
+        if (nextOrderer.isPresent()) {
+            nextOrderer.get().requestOxygen(orderDate, requestedQuantity);
         } else {
             throw new RuntimeException("Not enough time to produce");
         }
@@ -51,7 +51,7 @@ public class OxygenRequester {
     private void orderOxygenIfNeeded(LocalDate orderDate, int requestedQuantity) {
         int quantityRemaining = oxygenInventory.getQuantity(requestSettings.getGrade());
         if (quantityRemaining < requestedQuantity) {
-            oxygenOrderer.order(orderDate, requestedQuantity - quantityRemaining);
+            oxygenSupplier.order(orderDate, requestedQuantity - quantityRemaining);
         }
     }
 

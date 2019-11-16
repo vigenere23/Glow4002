@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2.ordering;
+package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 
-public class OxygenGradeEBuyer extends OxygenOrderer {
+public class OxygenGradeEBuyer extends OxygenSupplier {
 
     private final Price costPerTank = new Price(5000);
 

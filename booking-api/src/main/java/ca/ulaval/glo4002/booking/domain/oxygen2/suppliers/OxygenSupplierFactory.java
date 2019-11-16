@@ -1,20 +1,20 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2.ordering;
+package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 
-public class OxygenOrdererFactory {
+public class OxygenSupplierFactory {
 
 	private OxygenInventory oxygenInventory;
 	private OxygenHistory oxygenHistory;
 
-	public OxygenOrdererFactory(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory) {
+	public OxygenSupplierFactory(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory) {
 		this.oxygenInventory = oxygenInventory;
 		this.oxygenHistory = oxygenHistory;
 	}
 
-	public OxygenOrderer create(OxygenOrderSettings oxygenOrderingSettings) {
+	public OxygenSupplier create(OxygenOrderSettings oxygenOrderingSettings) {
 		switch (oxygenOrderingSettings.getGrade()) {
 		case A:
 			return new OxygenGradeAProducer(oxygenInventory, oxygenHistory, oxygenOrderingSettings);

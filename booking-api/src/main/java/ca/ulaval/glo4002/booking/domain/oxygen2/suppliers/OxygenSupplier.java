@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2.ordering;
+package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import java.time.LocalDate;
 
@@ -6,13 +6,13 @@ import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenOrderSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 
-public abstract class OxygenOrderer {
+public abstract class OxygenSupplier {
 
     protected OxygenInventory oxygenInventory;
     protected OxygenHistory oxygenHistory;
     protected OxygenOrderSettings orderingSettings;
 
-    public OxygenOrderer(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
+    public OxygenSupplier(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, OxygenOrderSettings oxygenOrderingSettings) {
         this.oxygenInventory = oxygenInventory;
         this.oxygenHistory = oxygenHistory;
         this.orderingSettings = oxygenOrderingSettings;
