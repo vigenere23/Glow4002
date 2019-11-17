@@ -20,6 +20,6 @@ public class OxygenRequester {
     public void requestOxygen(OffsetDateTime orderDateTime, OxygenGrade oxygenGrade, int requestedQuantity) {
         LocalDate orderDate = orderDateTime.toLocalDate();
         OxygenOrderer oxygenOrderer = oxygenOrdererFactory.create(oxygenGrade, limitDate);
-        oxygenOrderer.requestOxygen(orderDate, requestedQuantity);
+        oxygenOrderer.order(orderDate, requestedQuantity);
     }
 }

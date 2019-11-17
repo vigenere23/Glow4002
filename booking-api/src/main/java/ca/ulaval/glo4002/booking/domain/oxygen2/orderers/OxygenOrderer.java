@@ -29,29 +29,29 @@ public class OxygenOrderer {
         this.nextOrderer = Optional.of(nextOrderer);
     }
 
-    private void requestOxygenToNextStrategy(LocalDate orderDate, int requestedQuantity) {
-        if (nextOrderer.isPresent()) {
-            nextOrderer.get().requestOxygen(orderDate, requestedQuantity);
-        } else {
-            throw new RuntimeException("Not enough time to produce");
-        }
-    }
-
-	public void requestOxygen(LocalDate orderDate, int requestedQuantity) {
+	public void order(LocalDate orderDate, int requestedQuantity) {
         int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, limitDate);
         
         if (numberOfDaysUntilLimitDate < requestSettings.getNumberOfDaysToReceive()) {
-            requestOxygenToNextStrategy(orderDate, requestedQuantity);
+            delegateToNextOrderer(orderDate, requestedQuantity);
         }
 
         orderOxygenIfNeeded(orderDate, requestedQuantity);
         removeQuantityFromInventory(requestedQuantity);
     }
 
+    private void delegateToNextOrderer(LocalDate orderDate, int requestedQuantity) {
+        if (nextOrderer.isPresent()) {
+            nextOrderer.get().order(orderDate, requestedQuantity);
+        } else {
+            throw new RuntimeException("Not enough time to produce");
+        }
+    }
+
     private void orderOxygenIfNeeded(LocalDate orderDate, int requestedQuantity) {
         int quantityRemaining = oxygenInventory.getQuantity(requestSettings.getGrade());
         if (quantityRemaining < requestedQuantity) {
-            oxygenSupplier.order(orderDate, requestedQuantity - quantityRemaining);
+            oxygenSupplier.supply(orderDate, requestedQuantity - quantityRemaining);
         }
     }
 

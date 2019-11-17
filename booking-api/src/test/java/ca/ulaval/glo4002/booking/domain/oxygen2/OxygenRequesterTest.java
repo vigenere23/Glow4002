@@ -38,6 +38,6 @@ public class OxygenRequesterTest {
     public void whenRequestingOxygen_itDelegatesToAnOrderer() {
         oxygenRequester.requestOxygen(SOME_DATETIME, SOME_OXYGEN_GRADE, SOME_OXYGEN_QUANTITY);
         LocalDate orderDate = SOME_DATETIME.toLocalDate();
-        verify(SOME_OXYGEN_ORDERER).requestOxygen(orderDate, SOME_OXYGEN_QUANTITY);
+        verify(SOME_OXYGEN_ORDERER).order(orderDate, SOME_OXYGEN_QUANTITY);
     }
 }

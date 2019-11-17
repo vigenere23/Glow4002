@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.settings;
 
+import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 
 public class OxygenGradeASettings implements OxygenRequestSettings, OxygenSupplySettings {
@@ -17,5 +18,10 @@ public class OxygenGradeASettings implements OxygenRequestSettings, OxygenSupply
     @Override
     public int getBatchSize() {
         return 5;
+    }
+
+    @Override
+    public Price getCostPerBatch() {
+        return new Price(650 * 15);
     }
 }
