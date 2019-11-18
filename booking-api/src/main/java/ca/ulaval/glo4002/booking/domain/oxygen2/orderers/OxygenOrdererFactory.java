@@ -31,7 +31,7 @@ public class OxygenOrdererFactory {
 
         for (OxygenGrade oxygenGradeToCompare : OxygenGrade.values()) {
             if (oxygenGrade.compareTo(oxygenGradeToCompare) <= 0) {
-                oxygenOrderers.add(0, createOrderer(oxygenGradeToCompare, limitDate));
+                oxygenOrderers.add(createOrderer(oxygenGradeToCompare, limitDate));
             }
         }
         
