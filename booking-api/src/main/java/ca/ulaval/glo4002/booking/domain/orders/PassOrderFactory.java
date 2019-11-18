@@ -9,7 +9,7 @@ import java.util.Optional;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
-import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
@@ -22,10 +22,10 @@ public class PassOrderFactory {
 
     private PassFactory passFactory;
     private FestivalDates festivalDates;
-    private OrderDiscountFactory orderDiscountFactory;
+    private OrderDiscountLinker orderDiscountFactory;
     private OrderNumberFactory orderNumberFactory;
     
-    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountFactory orderDiscountFactory,  OrderNumberFactory orderNumberFactory) {
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountLinker orderDiscountFactory,  OrderNumberFactory orderNumberFactory) {
         this.festivalDates = festivalDates;
         this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;
@@ -42,7 +42,7 @@ public class PassOrderFactory {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
         OrderNumber orderNumber = orderNumberFactory.create(vendorCode);
-        OrderDiscount orderDiscount = orderDiscountFactory.fromMultipleDiscounts(
+        OrderDiscount orderDiscount = orderDiscountFactory.link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );
         return new PassOrder(orderNumber, passes, orderDiscount);

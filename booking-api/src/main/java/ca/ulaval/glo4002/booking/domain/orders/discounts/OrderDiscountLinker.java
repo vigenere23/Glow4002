@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.booking.domain.orders.discounts;
 
-public class OrderDiscountFactory {
+public class OrderDiscountLinker {
 
-    public OrderDiscount fromMultipleDiscounts(OrderDiscount...discounts) {
+    public OrderDiscount link(OrderDiscount...discounts) {
         if (discounts.length == 0) {
             throw new IllegalArgumentException("At least one discount must be present");
         }

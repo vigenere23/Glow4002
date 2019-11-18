@@ -30,7 +30,7 @@ import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
-import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
@@ -91,7 +91,7 @@ public class ProgramResourceIT extends JerseyTest {
     PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
     PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
     OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-    OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+    OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
     PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
     PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
