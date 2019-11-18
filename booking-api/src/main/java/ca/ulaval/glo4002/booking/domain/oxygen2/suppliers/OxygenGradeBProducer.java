@@ -32,7 +32,7 @@ public class OxygenGradeBProducer implements OxygenSupplier {
         LocalDate receivedDate = orderDate.plusDays(supplySettings.getNumberOfDaysToReceive());
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
         
-        oxygenInventory.updateQuantity(supplySettings.getGrade(), numberOfTanksProduced);
+        oxygenInventory.addQuantity(supplySettings.getGrade(), numberOfTanksProduced);
         oxygenHistory.addWaterUsed(orderDate, numberOfBatchesProduced * litersOfWaterPerBatch);
         oxygenHistory.addTankMade(receivedDate, numberOfTanksProduced);
         profitCalculator.addOutcome(cost);

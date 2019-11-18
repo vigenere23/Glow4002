@@ -30,7 +30,7 @@ public class OxygenGradeEBuyer implements OxygenSupplier {
         int numberOfTanksBought = numberOfBatchesBought * supplySettings.getBatchSize();
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesBought);
 
-        oxygenInventory.updateQuantity(supplySettings.getGrade(), numberOfTanksBought);
+        oxygenInventory.addQuantity(supplySettings.getGrade(), numberOfTanksBought);
         oxygenHistory.addTankBought(orderDate, numberOfTanksBought);
         profitCalculator.addOutcome(cost);
     }

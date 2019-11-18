@@ -40,7 +40,7 @@ public class OxygenGradeAProducerTest {
     public void whenSupplying_itAddsTheProducedQuantityToTheInventory() {
         oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY);
         int quantityProduced = OxygenSupplierTestHelper.getQuantityProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
-        verify(oxygenInventory).updateQuantity(SUPPLY_SETTINGS.getGrade(), quantityProduced);
+        verify(oxygenInventory).addQuantity(SUPPLY_SETTINGS.getGrade(), quantityProduced);
     }
 
     @Test

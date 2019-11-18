@@ -24,7 +24,19 @@ public class OxygenInventory {
 		return inventory.get(oxygenGrade);
 	}
 
-    public void updateQuantity(OxygenGrade oxygenGrade, int quantity) {
+    public void addQuantity(OxygenGrade oxygenGrade, int quantity) {
+        int newQuantity = getQuantity(oxygenGrade) + quantity;
+        updateQuantity(oxygenGrade, newQuantity);
+    }
+
+    public void removeQuantity(OxygenGrade oxygenGrade, int quantity) {
+        int newQuantity = getQuantity(oxygenGrade) - quantity;
+        updateQuantity(oxygenGrade, newQuantity);
+    }
+
+    private void updateQuantity(OxygenGrade oxygenGrade, int quantity) {
+        if (quantity < 0) throw new IllegalArgumentException("the inventory cannot have negative quantities");
+        
         inventory.put(oxygenGrade, quantity);
     }
 }

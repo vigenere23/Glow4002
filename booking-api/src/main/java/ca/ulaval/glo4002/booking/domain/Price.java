@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.domain;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
