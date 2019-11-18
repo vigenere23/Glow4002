@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.orderers;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -21,6 +22,13 @@ public class OxygenOrdererLinkerTest {
     public void setup() {
         setupOxygenOrderersList();
         oxygenOrdererLinker = new OxygenOrdererLinker();
+    }
+
+    @Test
+    public void givenEmptyList_whenLinking_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            oxygenOrdererLinker.link(new ArrayList<>());
+        });
     }
 
     @Test

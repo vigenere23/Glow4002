@@ -1,10 +1,25 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.junit.jupiter.api.Test;
 
 public class OxygenCalculatorTest {
+
+    @Test
+    public void givenBatchSizeOfZero_whenCalculatingNumberOfBatchesRequired_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            OxygenCalculator.calculateNumberOfBatchesRequired(0, 0);
+        });
+    }
+
+    @Test
+    public void givenNegativeBatchSize_whenCalculatingNumberOfBatchesRequired_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            OxygenCalculator.calculateNumberOfBatchesRequired(0, -5);
+        });
+    }
 
     @Test
     public void givenMinQuantityisZero_whenCalculatingNumberOfBatchesRequired_itReturnsZero() {
