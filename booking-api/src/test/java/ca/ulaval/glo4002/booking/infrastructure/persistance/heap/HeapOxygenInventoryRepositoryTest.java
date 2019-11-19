@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
 public class HeapOxygenInventoryRepositoryTest {
 

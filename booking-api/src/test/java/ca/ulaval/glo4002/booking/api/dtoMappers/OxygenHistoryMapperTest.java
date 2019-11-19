@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
 public class OxygenHistoryMapperTest {
 

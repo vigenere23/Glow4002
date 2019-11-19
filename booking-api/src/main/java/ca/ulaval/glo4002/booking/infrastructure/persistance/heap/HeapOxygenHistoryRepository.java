@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 
 public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
 

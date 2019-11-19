@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 
 public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.api.resources.oxygen.dto;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
 import java.util.ArrayList;
 import java.util.List;

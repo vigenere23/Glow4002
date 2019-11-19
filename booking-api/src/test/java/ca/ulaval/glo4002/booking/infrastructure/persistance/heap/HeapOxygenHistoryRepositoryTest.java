@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
 public class HeapOxygenHistoryRepositoryTest {
     

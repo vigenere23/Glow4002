@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.api.resources.oxygen.dto;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
 import java.util.ArrayList;
 import java.util.List;

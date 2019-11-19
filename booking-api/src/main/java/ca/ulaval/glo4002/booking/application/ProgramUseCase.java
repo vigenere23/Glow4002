@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.program.SingleDayProgram;

@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
 public class OxygenInventoryMapperTest {
 
