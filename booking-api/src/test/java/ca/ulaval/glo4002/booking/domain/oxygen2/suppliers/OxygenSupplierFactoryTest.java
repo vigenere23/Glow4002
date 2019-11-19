@@ -7,21 +7,21 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenSupplierFactoryTest {
 
     private OxygenSupplierFactory oxygenSupplierFactory;
     private OxygenHistory oxygenHistory;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setup() {
         oxygenHistory = mock(OxygenHistory.class);
-        profitCalculator = mock(ProfitCalculator.class);
-        oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, profitCalculator);
+        outcomeSaver = mock(OutcomeSaver.class);
+        oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, outcomeSaver);
     }
 
     @Test

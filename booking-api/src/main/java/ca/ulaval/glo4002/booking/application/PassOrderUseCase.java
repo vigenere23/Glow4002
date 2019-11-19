@@ -6,7 +6,7 @@ import java.util.Optional;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
@@ -18,16 +18,16 @@ public class PassOrderUseCase {
     private PassOrderRepository passOrderRepository;
     private PassRepository passRepository;
     private TransportReserver transportReserver;
-    private OxygenReserver oxygenReserver;
+    private OxygenRequester oxygenRequester;
     private IncomeSaver incomeSaver;
 
     public PassOrderUseCase(PassOrderFactory passFactory, PassOrderRepository passOrderRepository,
-            TransportReserver transportReserver, OxygenReserver oxygenReserver, PassRepository passRepository,
+            TransportReserver transportReserver, OxygenRequester oxygenRequester, PassRepository passRepository,
             IncomeSaver incomeSaver) {
         this.passOrderFactory = passFactory;
         this.passOrderRepository = passOrderRepository;
         this.transportReserver = transportReserver;
-        this.oxygenReserver = oxygenReserver;
+        this.oxygenRequester = oxygenRequester;
         this.passRepository = passRepository;
         this.incomeSaver = incomeSaver;
     }
@@ -45,7 +45,7 @@ public class PassOrderUseCase {
         for (Pass pass : passOrder.getPasses()) {
             passRepository.save(pass);
             pass.reserveShuttles(transportReserver);
-            pass.reserveOxygen(orderDate.toLocalDate(), oxygenReserver);
+            pass.reserveOxygen(orderDate, oxygenRequester);
         }
         return passOrder;
     }

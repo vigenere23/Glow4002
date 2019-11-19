@@ -5,11 +5,11 @@ import java.time.LocalDate;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeBSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenGradeBProducer implements OxygenSupplier {
 
@@ -17,11 +17,11 @@ public class OxygenGradeBProducer implements OxygenSupplier {
     private final int litersOfWaterPerBatch = 8;
 
     private OxygenHistory oxygenHistory;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
 
-    public OxygenGradeBProducer(OxygenHistory oxygenHistory, ProfitCalculator profitCalculator) {
+    public OxygenGradeBProducer(OxygenHistory oxygenHistory, OutcomeSaver outcomeSaver) {
         this.oxygenHistory = oxygenHistory;
-        this.profitCalculator = profitCalculator;
+        this.outcomeSaver = outcomeSaver;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class OxygenGradeBProducer implements OxygenSupplier {
         int numberOfTanksProduced = numberOfBatchesProduced * supplySettings.getBatchSize();
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
         
-        profitCalculator.addOutcome(cost);
+        outcomeSaver.saveOutcome(cost);
         oxygenInventoryEntry.addQuantity(numberOfTanksProduced);
         
         addTankMade(orderDate, numberOfTanksProduced);

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
@@ -31,7 +31,7 @@ public class ProgramUseCaseTest {
     private ArtistRepository artistRepository;
     private ProgramUseCase programUseCase;
     private List<SingleDayProgram> program = new ArrayList<>();
-    private OxygenReserver oxygenReserver;
+    private OxygenRequester oxygenRequester;
     private SingleDayProgram singleDay;
     private PassRepository passRepository;
     private ArtistProgramInformation artistProgramInformation;
@@ -44,7 +44,7 @@ public class ProgramUseCaseTest {
         artistProgramInformation = mock(ArtistProgramInformation.class);
         artistRepository = mock(ArtistRepository.class);
         transportReserver = mock(TransportReserver.class);
-        oxygenReserver = mock(OxygenReserver.class);
+        oxygenRequester = mock(OxygenRequester.class);
         passRepository = mock(PassRepository.class);
         outcomeSaver = mock(OutcomeSaver.class);
 
@@ -56,7 +56,7 @@ public class ProgramUseCaseTest {
         mockPassRepository();
         mockArtistForProgram();
 
-        programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistRepository, passRepository, outcomeSaver);
+        programUseCase = new ProgramUseCase(transportReserver, oxygenRequester, artistRepository, passRepository, outcomeSaver);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ProgramUseCaseTest {
     @Test
     public void whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(program);
-        verify(singleDay).orderOxygen(oxygenReserver,  artistRepository.getArtistsForProgram(), NUMBER_OF_ATTENDEES);
+        verify(singleDay).orderOxygen(oxygenRequester,  artistRepository.getArtistsForProgram(), NUMBER_OF_ATTENDEES);
     }
 
     private void mockArtistForProgram() {

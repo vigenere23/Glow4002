@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.api.resources.passOrder.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.*;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
@@ -37,7 +37,7 @@ public class PassOrderUseCaseTest {
 
     private PassOrderFactory passOrderFactory;
     private TransportReserver transportReserver;
-    private OxygenReserver oxygenReserver;
+    private OxygenRequester oxygenRequester;
     private Pass pass;
     private PassOrder passOrder;
     private PassRequest passRequest;
@@ -52,14 +52,14 @@ public class PassOrderUseCaseTest {
         passOrderFactory = mock(PassOrderFactory.class);
         passOrderRepository = mock(HeapPassOrderRepository.class);
         transportReserver = mock(TransportReserver.class);
-        oxygenReserver = mock(OxygenReserver.class);
+        oxygenRequester = mock(OxygenRequester.class);
         passRepository = mock(PassRepository.class);
         incomeSaver = mock(IncomeSaver.class);
 
         mockPassOrder();
         mockPassRequest();
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class PassOrderUseCaseTest {
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
-        verify(pass).reserveOxygen(SOME_DATE, oxygenReserver);
+        verify(pass).reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
     }
 
     private void mockPassOrder() {

@@ -5,22 +5,22 @@ import java.time.LocalDate;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeESettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenGradeEBuyer implements OxygenSupplier {
 
     private final OxygenSupplySettings supplySettings = new OxygenGradeESettings();
 
     private OxygenHistory oxygenHistory;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
 
-    public OxygenGradeEBuyer(OxygenHistory oxygenHistory, ProfitCalculator profitCalculator) {
+    public OxygenGradeEBuyer(OxygenHistory oxygenHistory, OutcomeSaver outcomeSaver) {
         this.oxygenHistory = oxygenHistory;
-        this.profitCalculator = profitCalculator;
+        this.outcomeSaver = outcomeSaver;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class OxygenGradeEBuyer implements OxygenSupplier {
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesBought);
 
         oxygenInventoryEntry.addQuantity(numberOfTanksBought);
-        profitCalculator.addOutcome(cost);
+        outcomeSaver.saveOutcome(cost);
         
         addTankBought(orderDate, numberOfTanksBought);
     }

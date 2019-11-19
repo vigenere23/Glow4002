@@ -10,12 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeESettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenGradeEBuyerTest {
 
@@ -27,15 +27,15 @@ public class OxygenGradeEBuyerTest {
     private OxygenGradeEBuyer oxygenGradeEBuyer;
     private OxygenInventoryEntry oxygenInventoryEntry;
     private OxygenHistory oxygenHistory;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
     private OxygenHistoryEntry receivedDateOxygenHistoryEntry;
 
     @BeforeEach
     public void setup() {
         oxygenInventoryEntry = mock(OxygenInventoryEntry.class);
         oxygenHistory = mock(OxygenHistory.class);
-        profitCalculator = mock(ProfitCalculator.class);
-        oxygenGradeEBuyer = new OxygenGradeEBuyer(oxygenHistory, profitCalculator);
+        outcomeSaver = mock(OutcomeSaver.class);
+        oxygenGradeEBuyer = new OxygenGradeEBuyer(oxygenHistory, outcomeSaver);
 
         receivedDateOxygenHistoryEntry = mock(OxygenHistoryEntry.class);
         when(oxygenHistory.findOrCreate(RECEIVED_DATE)).thenReturn(receivedDateOxygenHistoryEntry);
@@ -61,6 +61,6 @@ public class OxygenGradeEBuyerTest {
         oxygenGradeEBuyer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int numberOfBatchesProduced = OxygenSupplierTestHelper.getNumberOfBatchesProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         Price cost = SUPPLY_SETTINGS.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
-        verify(profitCalculator).addOutcome(cost);
+        verify(outcomeSaver).saveOutcome(cost);
     }
 }

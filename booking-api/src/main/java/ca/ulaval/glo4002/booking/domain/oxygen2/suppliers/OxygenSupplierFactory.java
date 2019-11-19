@@ -1,27 +1,27 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
-import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 
 public class OxygenSupplierFactory {
 
 	private OxygenHistory oxygenHistory;
-	private ProfitCalculator profitCalculator;
+	private OutcomeSaver outcomeSaver;
 
-	public OxygenSupplierFactory(OxygenHistory oxygenHistory, ProfitCalculator profitCalculator) {
+	public OxygenSupplierFactory(OxygenHistory oxygenHistory, OutcomeSaver outcomeSaver) {
 		this.oxygenHistory = oxygenHistory;
-		this.profitCalculator = profitCalculator;
+		this.outcomeSaver = outcomeSaver;
 	}
 
 	public OxygenSupplier create(OxygenGrade oxygenGrade) {
 		switch (oxygenGrade) {
 		case A:
-			return new OxygenGradeAProducer(oxygenHistory, profitCalculator);
+			return new OxygenGradeAProducer(oxygenHistory, outcomeSaver);
 		case B:
-			return new OxygenGradeBProducer(oxygenHistory, profitCalculator);
+			return new OxygenGradeBProducer(oxygenHistory, outcomeSaver);
 		case E:
-			return new OxygenGradeEBuyer(oxygenHistory, profitCalculator);
+			return new OxygenGradeEBuyer(oxygenHistory, outcomeSaver);
 		default:
 			throw new IllegalArgumentException(
 				String.format("No orderer exists for oxygen grade %s", oxygenGrade.toString())

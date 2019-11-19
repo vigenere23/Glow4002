@@ -18,8 +18,8 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -39,7 +39,7 @@ public class SingleDayProgramTest {
     private final static int SOME_OXYGEN_QUANTITY = 66;
     
     private List<ArtistProgramInformation> artistsForProgram;   
-    private OxygenReserver oxygenReserver;
+    private OxygenRequester oxygenRequester;
     private TransportReserver transportReserver;
     private SingleDayProgram singleDayProgram;
     private FestivalDates festivalDates;
@@ -89,8 +89,8 @@ public class SingleDayProgramTest {
 
     @Test
     public void whenOrderOxygen_thenOxygenReserverOrderOxygen() {
-        singleDayProgram.orderOxygen(oxygenReserver, artistsForProgram, SOME_ATTENDEES);
-        verify(oxygenReserver).reserveOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, SOME_OXYGEN_QUANTITY);
+        singleDayProgram.orderOxygen(oxygenRequester, artistsForProgram, SOME_ATTENDEES);
+        verify(oxygenRequester).requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, SOME_OXYGEN_QUANTITY);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class SingleDayProgramTest {
     }
 
     private void mockDependency() {
-        oxygenReserver = mock(OxygenReserver.class);
+        oxygenRequester = mock(OxygenRequester.class);
         transportReserver = mock(TransportReserver.class);
         festivalDates = mock(Glow4002Dates.class);
         artistProgramInformation = mock(ArtistProgramInformation.class);

@@ -34,8 +34,6 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
@@ -45,10 +43,13 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.orderers.OxygenOrdererFactory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.orderers.OxygenOrdererLinker;
+import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettingsFactory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplierFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
@@ -57,7 +58,7 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassReposit
 
 public class BookingServer implements Runnable {
     private static final int PORT = 8181;
-    private OxygenReserver oxygenReserver;
+    private OxygenRequester oxygenRequester;
     private TransportReserver transportReserver;
     private ArtistRepository artistsRepository;
     private PassRepository passRepository;
@@ -88,7 +89,7 @@ public class BookingServer implements Runnable {
         }
     }
 
-    private ResourceConfig setupResourceConfig() {
+    public ResourceConfig setupResourceConfig() {
         Glow4002Dates festivalDates = new Glow4002Dates();
         
         ProfitUseCase profitUseCase = createProfitUseCase();        
@@ -130,11 +131,14 @@ public class BookingServer implements Runnable {
     }
 
     private OxygenUseCase createOxygenUseCase(Glow4002Dates festivalDates) {
-        OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
-        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getOxygenLimitDeliveryDate());
-        oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
-        return new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
+        OxygenInventory oxygenInventory = new OxygenInventory();
+        OxygenHistory oxygenHistory = new OxygenHistory();
+        OxygenOrdererLinker oxygenOrdererLinker = new OxygenOrdererLinker();
+        OxygenRequestSettingsFactory requestSettingsFactory = new OxygenRequestSettingsFactory();
+        OxygenSupplierFactory oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, outcomeSaver);
+        OxygenOrdererFactory oxygenOrdererFactory = new OxygenOrdererFactory(oxygenOrdererLinker, oxygenSupplierFactory, requestSettingsFactory, oxygenInventory);
+        oxygenRequester = new OxygenRequester(oxygenOrdererFactory, festivalDates.getOxygenLimitDeliveryDate());
+        return new OxygenUseCase(oxygenHistory, oxygenInventory);
     }
 
     private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
@@ -155,7 +159,7 @@ public class BookingServer implements Runnable {
 		OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
         
-        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
+        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver);
     }
 
     private ArtistRankingUseCase createArtistRankingUseCase() {
@@ -167,6 +171,6 @@ public class BookingServer implements Runnable {
     }
 
     private ProgramUseCase createProgramUseCase() {
-        return new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, outcomeSaver);
+        return new ProgramUseCase(transportReserver, oxygenRequester, artistsRepository, passRepository, outcomeSaver);
     }
 }

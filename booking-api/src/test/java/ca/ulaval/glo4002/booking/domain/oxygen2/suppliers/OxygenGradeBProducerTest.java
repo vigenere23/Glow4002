@@ -10,12 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeBSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenGradeBProducerTest {
 
@@ -28,7 +28,7 @@ public class OxygenGradeBProducerTest {
     private OxygenGradeBProducer oxygenGradeBProducer;
     private OxygenInventoryEntry oxygenInventoryEntry;
     private OxygenHistory oxygenHistory;
-    private ProfitCalculator profitCalculator;
+    private OutcomeSaver outcomeSaver;
     private OxygenHistoryEntry orderDateOxygenHistoryEntry;
     private OxygenHistoryEntry receivedDateOxygenHistoryEntry;
 
@@ -36,8 +36,8 @@ public class OxygenGradeBProducerTest {
     public void setup() {
         oxygenInventoryEntry = mock(OxygenInventoryEntry.class);
         oxygenHistory = mock(OxygenHistory.class);
-        profitCalculator = mock(ProfitCalculator.class);
-        oxygenGradeBProducer = new OxygenGradeBProducer(oxygenHistory, profitCalculator);
+        outcomeSaver = mock(OutcomeSaver.class);
+        oxygenGradeBProducer = new OxygenGradeBProducer(oxygenHistory, outcomeSaver);
 
         orderDateOxygenHistoryEntry = mock(OxygenHistoryEntry.class);
         when(oxygenHistory.findOrCreate(ORDER_DATE)).thenReturn(orderDateOxygenHistoryEntry);
@@ -74,6 +74,6 @@ public class OxygenGradeBProducerTest {
         oxygenGradeBProducer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int numberOfBatchesProduced = OxygenSupplierTestHelper.getNumberOfBatchesProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         Price cost = SUPPLY_SETTINGS.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
-        verify(profitCalculator).addOutcome(cost);
+        verify(outcomeSaver).saveOutcome(cost);
     }
 }
