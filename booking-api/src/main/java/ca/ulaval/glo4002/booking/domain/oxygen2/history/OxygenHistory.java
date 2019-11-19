@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class OxygenHistory {
 
@@ -42,12 +43,16 @@ public class OxygenHistory {
         return new ArrayList<>(history.values());
     }
 
+    public Optional<OxygenHistoryEntry> find(LocalDate date) {
+        return Optional.ofNullable(history.get(date));
+    }
+
     private OxygenHistoryEntry findOrCreate(LocalDate date) {
-        OxygenHistoryEntry oxygenHistoryEntry = history.get(date);
-        if (oxygenHistoryEntry == null) {
-            oxygenHistoryEntry = new OxygenHistoryEntry(date);
+        Optional<OxygenHistoryEntry> entry = find(date);
+        if (!entry.isPresent()) {
+            return new OxygenHistoryEntry(date);
         }
-        return oxygenHistoryEntry;
+        return entry.get();
     }
 
     private void save(OxygenHistoryEntry oxygenHistoryEntry) {

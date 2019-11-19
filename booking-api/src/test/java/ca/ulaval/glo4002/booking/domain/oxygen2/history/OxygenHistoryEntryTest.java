@@ -52,28 +52,28 @@ public class OxygenHistoryEntryTest {
 
     @Test
     public void givenNegativeQuantity_whenAddingTankBought_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
             oxygenHistoryEntry.addTankBought(-1);
         });
     }
 
     @Test
     public void givenNegativeQuantity_whenAddingTankMade_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
             oxygenHistoryEntry.addTankMade(-1);
         });
     }
 
     @Test
     public void givenNegativeQuantity_whenAddingCandlesUsed_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
             oxygenHistoryEntry.addCandlesUsed(-1);
         });
     }
 
     @Test
     public void givenNegativeQuantity_whenAddingWaterUsed_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
             oxygenHistoryEntry.addWaterUsed(-1);
         });
     }
