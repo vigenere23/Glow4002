@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2;
+package ca.ulaval.glo4002.booking.domain.oxygen2.inventory;
 
 import java.util.HashMap;
 import java.util.Map;

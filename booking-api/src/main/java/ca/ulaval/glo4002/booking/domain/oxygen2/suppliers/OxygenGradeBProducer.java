@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeBSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
 

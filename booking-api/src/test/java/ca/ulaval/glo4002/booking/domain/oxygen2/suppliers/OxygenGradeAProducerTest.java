@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeASettings;

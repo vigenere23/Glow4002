@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 

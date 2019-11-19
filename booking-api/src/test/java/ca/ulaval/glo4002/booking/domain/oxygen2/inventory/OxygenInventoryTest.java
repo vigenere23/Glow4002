@@ -1,10 +1,12 @@
-package ca.ulaval.glo4002.booking.domain.oxygen2;
+package ca.ulaval.glo4002.booking.domain.oxygen2.inventory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 
 public class OxygenInventoryTest {
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplierFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;

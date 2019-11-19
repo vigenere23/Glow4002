@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 
 public class OxygenSupplierFactory {
 
