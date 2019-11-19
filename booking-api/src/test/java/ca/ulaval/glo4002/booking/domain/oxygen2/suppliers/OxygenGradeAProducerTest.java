@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeASettings;
@@ -26,7 +26,7 @@ public class OxygenGradeAProducerTest {
     private static final int NUMBER_OF_CANDLES_PER_BATCH = 15;
 
     private OxygenGradeAProducer oxygenGradeAProducer;
-    private OxygenInventory oxygenInventory;
+    private OxygenInventoryEntry oxygenInventoryEntry;
     private OxygenHistory oxygenHistory;
     private ProfitCalculator profitCalculator;
     private OxygenHistoryEntry orderDateOxygenHistoryEntry;
@@ -34,10 +34,10 @@ public class OxygenGradeAProducerTest {
 
     @BeforeEach
     public void setup() {
-        oxygenInventory = mock(OxygenInventory.class);
+        oxygenInventoryEntry = mock(OxygenInventoryEntry.class);
         oxygenHistory = mock(OxygenHistory.class);
         profitCalculator = mock(ProfitCalculator.class);
-        oxygenGradeAProducer = new OxygenGradeAProducer(oxygenInventory, oxygenHistory, profitCalculator);
+        oxygenGradeAProducer = new OxygenGradeAProducer(oxygenHistory, profitCalculator);
 
         orderDateOxygenHistoryEntry = mock(OxygenHistoryEntry.class);
         when(oxygenHistory.findOrCreate(ORDER_DATE)).thenReturn(orderDateOxygenHistoryEntry);
@@ -47,14 +47,14 @@ public class OxygenGradeAProducerTest {
 
     @Test
     public void whenSupplying_itAddsTheProducedQuantityToTheInventory() {
-        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY);
+        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int quantityProduced = OxygenSupplierTestHelper.getQuantityProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
-        verify(oxygenInventory).addQuantity(SUPPLY_SETTINGS.getGrade(), quantityProduced);
+        verify(oxygenInventoryEntry).addQuantity(quantityProduced);
     }
 
     @Test
     public void whenSupplying_itAddsTheProducedQuantityToTheHistoryAtTheReceivedDateAndSaves() {
-        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY);
+        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int quantityProduced = OxygenSupplierTestHelper.getQuantityProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         verify(receivedDateOxygenHistoryEntry).addTankMade(quantityProduced);
         verify(oxygenHistory).save(receivedDateOxygenHistoryEntry);
@@ -62,7 +62,7 @@ public class OxygenGradeAProducerTest {
 
     @Test
     public void whenSupplying_itAddsTheUsedCandlesToTheHistoryAtTheOrderDateAndSaves() {
-        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY);
+        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int numberOfBatchesProduced = OxygenSupplierTestHelper.getNumberOfBatchesProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         int candlesUsed = numberOfBatchesProduced * NUMBER_OF_CANDLES_PER_BATCH;
         verify(orderDateOxygenHistoryEntry).addCandlesUsed(candlesUsed);
@@ -71,7 +71,7 @@ public class OxygenGradeAProducerTest {
 
     @Test
     public void whenSupplying_itAddsTheOutcomeToTheProfitCalculator() {
-        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY);
+        oxygenGradeAProducer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int numberOfBatchesProduced = OxygenSupplierTestHelper.getNumberOfBatchesProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         Price cost = SUPPLY_SETTINGS.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
         verify(profitCalculator).addOutcome(cost);

@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.inventory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,49 +19,30 @@ public class OxygenInventoryTest {
     }
 
     @Test
-    public void whenCreating_thenAllQuantitiesAreAtZero() {
+    public void whenCreating_thenAllGradesArePresent() {
         for (OxygenGrade oxygenGrade : OxygenGrade.values()) {
-            int quantity = oxygenInventory.getQuantity(oxygenGrade);
-            assertThat(quantity).isZero();
+            assertThat(oxygenInventory.find(oxygenGrade)).isNotNull();
         }
     }
 
     @Test
-    public void whenAddingQuantity_itAddsQuantity() {
-        final int quantityAdded = 15;
-        oxygenInventory.addQuantity(SOME_OXYGEN_GRADE, quantityAdded);
+    public void whenSaving_itDoesNotChangeTheNumberOfEntries() {
+        int oldSize = oxygenInventory.findAll().size();
+        OxygenInventoryEntry entry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
+        oxygenInventory.save(entry);
+
+        int newSize = oxygenInventory.findAll().size();
+
+        assertThat(newSize).isEqualTo(oldSize);
+    }
+
+    @Test
+    public void whenSaving_itReplacesTheOldEntryByTheNewOne() {
+        OxygenInventoryEntry entry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
+        oxygenInventory.save(entry);
+
+        OxygenInventoryEntry savedEntry = oxygenInventory.find(SOME_OXYGEN_GRADE);
         
-        int quantity = oxygenInventory.getQuantity(SOME_OXYGEN_GRADE);
-        assertThat(quantity).isEqualTo(quantityAdded);
-    }
-
-    @Test
-    public void givenQuantityPresent_whenRemovingSmallerQuantity_itRemovesQuantity() {
-        final int quantityAlreadyPresent = 15;
-        final int quantityRemoved = 10;
-        oxygenInventory.addQuantity(SOME_OXYGEN_GRADE, quantityAlreadyPresent);
-
-        oxygenInventory.removeQuantity(SOME_OXYGEN_GRADE, quantityRemoved);
-        
-        int quantity = oxygenInventory.getQuantity(SOME_OXYGEN_GRADE);
-        assertThat(quantity).isEqualTo(quantityAlreadyPresent - quantityRemoved);
-    }
-
-    @Test
-    public void givenQuantityPresent_whenRemovingGreaterQuantity_itThrowsAnIllegalArgumentException() {
-        final int quantityAlreadyPresent = 15;
-        final int quantityRemoved = 20;
-        oxygenInventory.addQuantity(SOME_OXYGEN_GRADE, quantityAlreadyPresent);
-
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            oxygenInventory.removeQuantity(SOME_OXYGEN_GRADE, quantityRemoved);
-        });
-    }
-
-    @Test
-    public void givenQuantityNotPresent_whenRemovingQuantity_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            oxygenInventory.removeQuantity(SOME_OXYGEN_GRADE, 1);
-        });
+        assertThat(savedEntry).isEqualTo(entry);
     }
 }

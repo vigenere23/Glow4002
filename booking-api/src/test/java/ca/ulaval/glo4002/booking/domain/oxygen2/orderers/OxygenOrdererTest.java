@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 
@@ -27,6 +28,7 @@ public class OxygenOrdererTest {
     
     private OxygenSupplier oxygenSupplier;
     private OxygenInventory oxygenInventory;
+    private OxygenInventoryEntry inventoryEntry;
     private OxygenRequestSettings requestSettingsWithLongTimeToReceive;
     private OxygenRequestSettings requestSettingsWithNoTimeToReceive;
 
@@ -34,6 +36,9 @@ public class OxygenOrdererTest {
     public void setup() {
         oxygenSupplier = mock(OxygenSupplier.class);
         oxygenInventory = mock(OxygenInventory.class);
+        inventoryEntry = mock(OxygenInventoryEntry.class);
+
+        when(oxygenInventory.find(SOME_OXYGEN_GRADE)).thenReturn(inventoryEntry);
         
         requestSettingsWithLongTimeToReceive = mock(OxygenRequestSettings.class);
         setupRequestSettings(requestSettingsWithLongTimeToReceive, 100);
@@ -61,50 +66,51 @@ public class OxygenOrdererTest {
 
     @Test
     public void givenEmptyInventory_whenOrdering_itAskSupplierWithQuantityNeeded() {
-        when(oxygenInventory.getQuantity(SOME_OXYGEN_GRADE)).thenReturn(0);
+        when(inventoryEntry.getQuantity()).thenReturn(0);
         OxygenOrderer oxygenOrderer = new OxygenOrderer(requestSettingsWithNoTimeToReceive, oxygenSupplier, NOW, oxygenInventory);
         
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
-        verify(oxygenSupplier).supply(SOME_DATE, SOME_QUANTITY);
+        verify(oxygenSupplier).supply(SOME_DATE, SOME_QUANTITY, inventoryEntry);
     }
 
     @Test
     public void givenInventoryWithSmallerQuantityThanNeeded_whenOrdering_itAskSupplierWithQuantityNeededMinusInventoryQuantity() {
         int inventoryQuantity = SOME_QUANTITY - 1;
-        when(oxygenInventory.getQuantity(SOME_OXYGEN_GRADE)).thenReturn(inventoryQuantity);
+        when(inventoryEntry.getQuantity()).thenReturn(inventoryQuantity);
         OxygenOrderer oxygenOrderer = new OxygenOrderer(requestSettingsWithNoTimeToReceive, oxygenSupplier, NOW, oxygenInventory);
         
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
-        verify(oxygenSupplier).supply(SOME_DATE, SOME_QUANTITY - inventoryQuantity);
+        verify(oxygenSupplier).supply(SOME_DATE, SOME_QUANTITY - inventoryQuantity, inventoryEntry);
     }
 
     @Test
     public void givenInventoryWithSameQuantityThanNeeded_whenOrdering_itDoesNotAskTheSupplier() {
-        when(oxygenInventory.getQuantity(SOME_OXYGEN_GRADE)).thenReturn(SOME_QUANTITY);
+        when(inventoryEntry.getQuantity()).thenReturn(SOME_QUANTITY);
         OxygenOrderer oxygenOrderer = new OxygenOrderer(requestSettingsWithNoTimeToReceive, oxygenSupplier, NOW, oxygenInventory);
         
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
-        verify(oxygenSupplier, times(0)).supply(any(LocalDate.class), any(Integer.class));
+        verify(oxygenSupplier, times(0)).supply(any(LocalDate.class), any(Integer.class), any(OxygenInventoryEntry.class));
     }
 
     @Test
     public void givenInventoryWithGreaterQuantityThanNeeded_whenOrdering_itDoesNotAskTheSupplier() {
-        when(oxygenInventory.getQuantity(SOME_OXYGEN_GRADE)).thenReturn(SOME_QUANTITY + 1);
+        when(inventoryEntry.getQuantity()).thenReturn(SOME_QUANTITY + 1);
         OxygenOrderer oxygenOrderer = new OxygenOrderer(requestSettingsWithNoTimeToReceive, oxygenSupplier, NOW, oxygenInventory);
         
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
-        verify(oxygenSupplier, times(0)).supply(any(LocalDate.class), any(Integer.class));
+        verify(oxygenSupplier, times(0)).supply(any(LocalDate.class), any(Integer.class), any(OxygenInventoryEntry.class));
     }
 
     @Test
     public void whenOrdering_itRemovesTheRequestedQuantityFromTheInventory() {
         OxygenOrderer oxygenOrderer = new OxygenOrderer(requestSettingsWithNoTimeToReceive, oxygenSupplier, NOW, oxygenInventory);
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
-        verify(oxygenInventory).removeQuantity(SOME_OXYGEN_GRADE, SOME_QUANTITY);
+        verify(inventoryEntry).removeQuantity(SOME_QUANTITY);
+        verify(oxygenInventory).save(inventoryEntry);
     }
 
     private void setupRequestSettings(OxygenRequestSettings requestSettings, int daysToReceive) {

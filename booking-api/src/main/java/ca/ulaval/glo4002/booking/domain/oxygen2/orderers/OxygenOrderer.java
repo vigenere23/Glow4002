@@ -6,6 +6,7 @@ import java.util.Optional;
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
 
@@ -41,8 +42,10 @@ public class OxygenOrderer {
             delegateToNextOrderer(orderDate, requestedQuantity);
         }
 
-        orderOxygenIfNeeded(orderDate, requestedQuantity);
-        oxygenInventory.removeQuantity(requestSettings.getGrade(), requestedQuantity);
+        OxygenInventoryEntry inventoryEntry = oxygenInventory.find(requestSettings.getGrade());
+        orderOxygenIfNeeded(orderDate, requestedQuantity, inventoryEntry);
+        inventoryEntry.removeQuantity(requestedQuantity);
+        oxygenInventory.save(inventoryEntry);
     }
 
     private void delegateToNextOrderer(LocalDate orderDate, int requestedQuantity) {
@@ -53,10 +56,10 @@ public class OxygenOrderer {
         }
     }
 
-    private void orderOxygenIfNeeded(LocalDate orderDate, int requestedQuantity) {
-        int quantityRemaining = oxygenInventory.getQuantity(requestSettings.getGrade());
+    private void orderOxygenIfNeeded(LocalDate orderDate, int requestedQuantity, OxygenInventoryEntry inventoryEntry) {
+        int quantityRemaining = inventoryEntry.getQuantity();
         if (quantityRemaining < requestedQuantity) {
-            oxygenSupplier.supply(orderDate, requestedQuantity - quantityRemaining);
+            oxygenSupplier.supply(orderDate, requestedQuantity - quantityRemaining, inventoryEntry);
         }
     }
 }

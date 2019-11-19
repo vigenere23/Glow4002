@@ -1,13 +1,15 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.inventory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 
 public class OxygenInventory {
 
-    private Map<OxygenGrade, Integer> inventory;
+    private Map<OxygenGrade, OxygenInventoryEntry> inventory;
 
     public OxygenInventory() {
         inventory = new HashMap<>();
@@ -16,27 +18,19 @@ public class OxygenInventory {
 
 	private void setupInventory() {
         for (OxygenGrade oxygenGrade : OxygenGrade.values()) {
-            inventory.put(oxygenGrade, 0);
+            save(new OxygenInventoryEntry(oxygenGrade));
         }
     }
-
-    public int getQuantity(OxygenGrade oxygenGrade) {
-		return inventory.get(oxygenGrade);
-	}
-
-    public void addQuantity(OxygenGrade oxygenGrade, int quantity) {
-        int newQuantity = getQuantity(oxygenGrade) + quantity;
-        updateQuantity(oxygenGrade, newQuantity);
+    
+    public OxygenInventoryEntry find(OxygenGrade oxygenGrade) {
+        return inventory.get(oxygenGrade);
     }
 
-    public void removeQuantity(OxygenGrade oxygenGrade, int quantity) {
-        int newQuantity = getQuantity(oxygenGrade) - quantity;
-        updateQuantity(oxygenGrade, newQuantity);
+    public List<OxygenInventoryEntry> findAll() {
+        return new ArrayList<>(inventory.values());
     }
 
-    private void updateQuantity(OxygenGrade oxygenGrade, int quantity) {
-        if (quantity < 0) throw new IllegalArgumentException("the inventory cannot have negative quantities");
-        
-        inventory.put(oxygenGrade, quantity);
+    public void save(OxygenInventoryEntry entry) {
+        inventory.put(entry.getOxygenGrade(), entry);
     }
 }

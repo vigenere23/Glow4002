@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeBSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
 
@@ -16,25 +16,23 @@ public class OxygenGradeBProducer implements OxygenSupplier {
     private final OxygenSupplySettings supplySettings = new OxygenGradeBSettings();
     private final int litersOfWaterPerBatch = 8;
 
-    private OxygenInventory oxygenInventory;
     private OxygenHistory oxygenHistory;
     private ProfitCalculator profitCalculator;
 
-    public OxygenGradeBProducer(OxygenInventory oxygenInventory, OxygenHistory oxygenHistory, ProfitCalculator profitCalculator) {
-        this.oxygenInventory = oxygenInventory;
+    public OxygenGradeBProducer(OxygenHistory oxygenHistory, ProfitCalculator profitCalculator) {
         this.oxygenHistory = oxygenHistory;
         this.profitCalculator = profitCalculator;
     }
 
     @Override
-    public void supply(LocalDate orderDate, int minQuantityToProduce) {
+    public void supply(LocalDate orderDate, int minQuantityToProduce, OxygenInventoryEntry oxygenInventoryEntry) {
         int numberOfBatchesProduced = OxygenCalculator.calculateNumberOfBatchesRequired(minQuantityToProduce, supplySettings.getBatchSize());
         int numberOfTanksProduced = numberOfBatchesProduced * supplySettings.getBatchSize();
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
         
-        oxygenInventory.addQuantity(supplySettings.getGrade(), numberOfTanksProduced);
         profitCalculator.addOutcome(cost);
-
+        oxygenInventoryEntry.addQuantity(numberOfTanksProduced);
+        
         addTankMade(orderDate, numberOfTanksProduced);
         addWaterUsed(orderDate, numberOfBatchesProduced);
     }

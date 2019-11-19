@@ -9,22 +9,19 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 
 public class OxygenSupplierFactoryTest {
 
     private OxygenSupplierFactory oxygenSupplierFactory;
-    private OxygenInventory oxygenInventory;
     private OxygenHistory oxygenHistory;
     private ProfitCalculator profitCalculator;
 
     @BeforeEach
     public void setup() {
-        oxygenInventory = mock(OxygenInventory.class);
         oxygenHistory = mock(OxygenHistory.class);
         profitCalculator = mock(ProfitCalculator.class);
-        oxygenSupplierFactory = new OxygenSupplierFactory(oxygenInventory, oxygenHistory, profitCalculator);
+        oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, profitCalculator);
     }
 
     @Test
