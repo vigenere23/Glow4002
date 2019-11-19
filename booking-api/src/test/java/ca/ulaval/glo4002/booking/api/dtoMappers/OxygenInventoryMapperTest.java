@@ -42,7 +42,7 @@ public class OxygenInventoryMapperTest {
     private void mockInventoryItem() {
         inventoryEntry = mock(OxygenInventoryEntry.class);
 
-        when(inventoryEntry.getQuantity()).thenReturn(SOME_INVENTORY_NUMBER);
+        when(inventoryEntry.getTotalQuantity()).thenReturn(SOME_INVENTORY_NUMBER);
         when(inventoryEntry.getOxygenGrade()).thenReturn(SOME_OXYGEN_GRADE);
     }
 }

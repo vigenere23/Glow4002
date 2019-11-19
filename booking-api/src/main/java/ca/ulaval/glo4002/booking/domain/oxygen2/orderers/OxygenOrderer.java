@@ -44,7 +44,7 @@ public class OxygenOrderer {
 
         OxygenInventoryEntry inventoryEntry = oxygenInventory.find(requestSettings.getGrade());
         orderOxygenIfNeeded(orderDate, requestedQuantity, inventoryEntry);
-        inventoryEntry.removeQuantity(requestedQuantity);
+        inventoryEntry.useQuantity(requestedQuantity);
         oxygenInventory.save(inventoryEntry);
     }
 
@@ -57,7 +57,7 @@ public class OxygenOrderer {
     }
 
     private void orderOxygenIfNeeded(LocalDate orderDate, int requestedQuantity, OxygenInventoryEntry inventoryEntry) {
-        int quantityRemaining = inventoryEntry.getQuantity();
+        int quantityRemaining = inventoryEntry.getSurplusQuantity();
         if (quantityRemaining < requestedQuantity) {
             oxygenSupplier.supply(orderDate, requestedQuantity - quantityRemaining, inventoryEntry);
         }

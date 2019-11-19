@@ -10,7 +10,7 @@ public class OxygenInventoryMapper {
     public List<OxygenInventoryDto> toDto(List<OxygenInventoryEntry> oxygenInventory) {
         List<OxygenInventoryDto> inventoryDto = new ArrayList<>();
         for (OxygenInventoryEntry oxygenInventoryEntry : oxygenInventory) {
-            int quantity = oxygenInventoryEntry.getQuantity();
+            int quantity = oxygenInventoryEntry.getTotalQuantity();
             if (quantity > 0) {
                 OxygenInventoryDto oxygenInventoryDto = new OxygenInventoryDto();
                 oxygenInventoryDto.gradeTankOxygen = oxygenInventoryEntry.getOxygenGrade().toString();

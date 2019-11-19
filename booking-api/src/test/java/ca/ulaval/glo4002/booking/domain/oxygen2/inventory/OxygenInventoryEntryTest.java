@@ -20,9 +20,9 @@ public class OxygenInventoryEntryTest {
     }
 
     @Test
-    public void whenCreating_quantityIsZero() {
+    public void whenCreating_totalQuantityIsZero() {
         OxygenInventoryEntry inventoryEntry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
-        assertThat(inventoryEntry.getQuantity()).isZero();
+        assertThat(inventoryEntry.getTotalQuantity()).isZero();
     }
 
     @Test
@@ -32,16 +32,16 @@ public class OxygenInventoryEntryTest {
     }
 
     @Test
-    public void whenAddingQuantity_itAddsQuantity() {
+    public void whenAddingQuantity_itAddsQuantityToSurplus() {
         final int quantityAdded = 15;
         inventoryEntry.addQuantity(quantityAdded);
-        assertThat(inventoryEntry.getQuantity()).isEqualTo(quantityAdded);
+        assertThat(inventoryEntry.getSurplusQuantity()).isEqualTo(quantityAdded);
     }
 
     @Test
-    public void givenQuantityNotPresent_whenRemovingQuantity_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            inventoryEntry.removeQuantity(1);
+    public void givenSurplusQuantityNotPresent_whenUsingQuantity_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+            inventoryEntry.useQuantity(1);
         });
     }
 
@@ -51,8 +51,8 @@ public class OxygenInventoryEntryTest {
         final int quantityRemoved = 20;
         inventoryEntry.addQuantity(quantityAlreadyPresent);
 
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            inventoryEntry.removeQuantity(quantityRemoved);
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+            inventoryEntry.useQuantity(quantityRemoved);
         });
     }
 
@@ -62,8 +62,8 @@ public class OxygenInventoryEntryTest {
         final int quantityRemoved = 10;
         inventoryEntry.addQuantity(quantityAlreadyPresent);
 
-        inventoryEntry.removeQuantity(quantityRemoved);
+        inventoryEntry.useQuantity(quantityRemoved);
         
-        assertThat(inventoryEntry.getQuantity()).isEqualTo(quantityAlreadyPresent - quantityRemoved);
+        assertThat(inventoryEntry.getSurplusQuantity()).isEqualTo(quantityAlreadyPresent - quantityRemoved);
     }
 }
