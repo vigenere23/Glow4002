@@ -42,10 +42,9 @@ public class OxygenOrdererLinkerTest {
         oxygenOrderer1 = mock(OxygenOrderer.class);
         oxygenOrderer2 = mock(OxygenOrderer.class);
         oxygenOrderer3 = mock(OxygenOrderer.class);
-        oxygenOrderers = new ArrayList<OxygenOrderer>() {{
-            add(oxygenOrderer1);
-            add(oxygenOrderer2);
-            add(oxygenOrderer3);
-        }};
+        oxygenOrderers = new ArrayList<>();
+        oxygenOrderers.add(oxygenOrderer1);
+        oxygenOrderers.add(oxygenOrderer2);
+        oxygenOrderers.add(oxygenOrderer3);
     }
 }
