@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryRepository;
 
 public class OxygenSupplierFactory {
 
-	private OxygenHistory oxygenHistory;
+	private OxygenHistoryRepository oxygenHistory;
 	private OutcomeSaver outcomeSaver;
 
-	public OxygenSupplierFactory(OxygenHistory oxygenHistory, OutcomeSaver outcomeSaver) {
+	public OxygenSupplierFactory(OxygenHistoryRepository oxygenHistory, OutcomeSaver outcomeSaver) {
 		this.oxygenHistory = oxygenHistory;
 		this.outcomeSaver = outcomeSaver;
 	}

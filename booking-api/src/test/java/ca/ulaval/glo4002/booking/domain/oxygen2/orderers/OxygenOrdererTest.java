@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
@@ -27,7 +27,7 @@ public class OxygenOrdererTest {
     private static final OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     
     private OxygenSupplier oxygenSupplier;
-    private OxygenInventory oxygenInventory;
+    private HeapOxygenInventoryRepository oxygenInventory;
     private OxygenInventoryEntry inventoryEntry;
     private OxygenRequestSettings requestSettingsWithLongTimeToReceive;
     private OxygenRequestSettings requestSettingsWithNoTimeToReceive;
@@ -35,7 +35,7 @@ public class OxygenOrdererTest {
     @BeforeEach
     public void setup() {
         oxygenSupplier = mock(OxygenSupplier.class);
-        oxygenInventory = mock(OxygenInventory.class);
+        oxygenInventory = mock(HeapOxygenInventoryRepository.class);
         inventoryEntry = mock(OxygenInventoryEntry.class);
 
         when(oxygenInventory.find(SOME_OXYGEN_GRADE)).thenReturn(inventoryEntry);

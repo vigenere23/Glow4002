@@ -44,8 +44,10 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen2.orderers.OxygenOrdererFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.orderers.OxygenOrdererLinker;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettingsFactory;
@@ -131,8 +133,8 @@ public class BookingServer implements Runnable {
     }
 
     private OxygenUseCase createOxygenUseCase(Glow4002Dates festivalDates) {
-        OxygenInventory oxygenInventory = new OxygenInventory();
-        OxygenHistory oxygenHistory = new OxygenHistory();
+        OxygenInventoryRepository oxygenInventory = new HeapOxygenInventoryRepository();
+        OxygenHistoryRepository oxygenHistory = new HeapOxygenHistoryRepository();
         OxygenOrdererLinker oxygenOrdererLinker = new OxygenOrdererLinker();
         OxygenRequestSettingsFactory requestSettingsFactory = new OxygenRequestSettingsFactory();
         OxygenSupplierFactory oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, outcomeSaver);

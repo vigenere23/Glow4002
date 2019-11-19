@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
 
@@ -16,9 +16,9 @@ public class OxygenOrderer {
     private OxygenRequestSettings requestSettings;
     private OxygenSupplier oxygenSupplier;
     private LocalDate limitDate;
-    private OxygenInventory oxygenInventory;
+    private OxygenInventoryRepository oxygenInventory;
 
-    public OxygenOrderer(OxygenRequestSettings requestSettings, OxygenSupplier oxygenSupplier, LocalDate limitDate, OxygenInventory oxygenInventory) {
+    public OxygenOrderer(OxygenRequestSettings requestSettings, OxygenSupplier oxygenSupplier, LocalDate limitDate, OxygenInventoryRepository oxygenInventory) {
         nextOrderer = Optional.empty();
 
         this.requestSettings = requestSettings;

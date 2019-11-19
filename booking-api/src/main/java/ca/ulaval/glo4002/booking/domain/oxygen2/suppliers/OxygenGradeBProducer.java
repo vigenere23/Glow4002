@@ -2,8 +2,8 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryEntry;
@@ -16,10 +16,10 @@ public class OxygenGradeBProducer implements OxygenSupplier {
     private final OxygenSupplySettings supplySettings = new OxygenGradeBSettings();
     private final int litersOfWaterPerBatch = 8;
 
-    private OxygenHistory oxygenHistory;
+    private OxygenHistoryRepository oxygenHistory;
     private OutcomeSaver outcomeSaver;
 
-    public OxygenGradeBProducer(OxygenHistory oxygenHistory, OutcomeSaver outcomeSaver) {
+    public OxygenGradeBProducer(OxygenHistoryRepository oxygenHistory, OutcomeSaver outcomeSaver) {
         this.oxygenHistory = oxygenHistory;
         this.outcomeSaver = outcomeSaver;
     }

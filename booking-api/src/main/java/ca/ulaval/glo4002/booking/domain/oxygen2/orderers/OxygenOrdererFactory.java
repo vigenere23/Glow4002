@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplierFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettings;
@@ -16,10 +16,10 @@ public class OxygenOrdererFactory {
     private OxygenOrdererLinker oxygenOrdererLinker;
     private OxygenSupplierFactory oxygenSupplierFactory;
     private OxygenRequestSettingsFactory requestSettingsFactory;
-    private OxygenInventory oxygenInventory;
+    private OxygenInventoryRepository oxygenInventory;
 
     public OxygenOrdererFactory(OxygenOrdererLinker oxygenOrdererLinker, OxygenSupplierFactory oxygenSupplierFactory,
-            OxygenRequestSettingsFactory requestSettingsFactory, OxygenInventory oxygenInventory) {
+            OxygenRequestSettingsFactory requestSettingsFactory, OxygenInventoryRepository oxygenInventory) {
         this.oxygenOrdererLinker = oxygenOrdererLinker;
         this.oxygenSupplierFactory = oxygenSupplierFactory;
         this.requestSettingsFactory = requestSettingsFactory;

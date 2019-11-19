@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.inventory.OxygenInventory;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenRequestSettingsFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplierFactory;
 
@@ -21,14 +21,14 @@ public class OxygenOrdererFactoryTest {
     private OxygenOrdererLinker oxygenOrdererLinker;
     private OxygenSupplierFactory oxygenSupplierFactory;
     private OxygenRequestSettingsFactory requestSettingsFactory;
-    private OxygenInventory oxygenInventory;
+    private HeapOxygenInventoryRepository oxygenInventory;
 
     @BeforeEach
     public void setup() {
         oxygenOrdererLinker = new OxygenOrdererLinker();
         oxygenSupplierFactory = mock(OxygenSupplierFactory.class);
         requestSettingsFactory = new OxygenRequestSettingsFactory();
-        oxygenInventory = mock(OxygenInventory.class);
+        oxygenInventory = mock(HeapOxygenInventoryRepository.class);
         oxygenOrdererFactory = new OxygenOrdererFactory(
             oxygenOrdererLinker, oxygenSupplierFactory, requestSettingsFactory, oxygenInventory
         );

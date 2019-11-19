@@ -8,18 +8,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenSupplierFactoryTest {
 
     private OxygenSupplierFactory oxygenSupplierFactory;
-    private OxygenHistory oxygenHistory;
+    private HeapOxygenHistoryRepository oxygenHistory;
     private OutcomeSaver outcomeSaver;
 
     @BeforeEach
     public void setup() {
-        oxygenHistory = mock(OxygenHistory.class);
+        oxygenHistory = mock(HeapOxygenHistoryRepository.class);
         outcomeSaver = mock(OutcomeSaver.class);
         oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, outcomeSaver);
     }
