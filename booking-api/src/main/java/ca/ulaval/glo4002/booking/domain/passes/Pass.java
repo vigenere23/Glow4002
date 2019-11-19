@@ -11,8 +11,8 @@ import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
+import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
+import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
 
 public class Pass {
 

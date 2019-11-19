@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.orderers;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
+import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.suppliers.OxygenSupplier;

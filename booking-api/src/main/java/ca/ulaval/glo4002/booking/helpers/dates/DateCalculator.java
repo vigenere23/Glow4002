@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.dateUtil;
+package ca.ulaval.glo4002.booking.helpers.dates;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

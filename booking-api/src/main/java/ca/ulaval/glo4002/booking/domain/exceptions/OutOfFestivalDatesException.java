@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.exceptions;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateFormatter;
+import ca.ulaval.glo4002.booking.helpers.dates.DateFormatter;
 
 public class OutOfFestivalDatesException extends RuntimeException {
 

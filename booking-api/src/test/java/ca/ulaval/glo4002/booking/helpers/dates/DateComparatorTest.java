@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.dateUtil;
+package ca.ulaval.glo4002.booking.helpers.dates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
