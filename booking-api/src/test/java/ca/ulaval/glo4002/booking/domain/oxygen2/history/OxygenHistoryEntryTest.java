@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.oxygen2.history;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.LocalDate;
 
@@ -47,6 +48,34 @@ public class OxygenHistoryEntryTest {
     public void whenCreating_itSetsTheCandlesUsedAtZero() {
         oxygenHistoryEntry = new OxygenHistoryEntry(SOME_DATE);
         assertThat(oxygenHistoryEntry.getCandlesUsed()).isZero();
+    }
+
+    @Test
+    public void givenNegativeQuantity_whenAddingTankBought_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            oxygenHistoryEntry.addTankBought(-1);
+        });
+    }
+
+    @Test
+    public void givenNegativeQuantity_whenAddingTankMade_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            oxygenHistoryEntry.addTankMade(-1);
+        });
+    }
+
+    @Test
+    public void givenNegativeQuantity_whenAddingCandlesUsed_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            oxygenHistoryEntry.addCandlesUsed(-1);
+        });
+    }
+
+    @Test
+    public void givenNegativeQuantity_whenAddingWaterUsed_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            oxygenHistoryEntry.addWaterUsed(-1);
+        });
     }
 
     @Test

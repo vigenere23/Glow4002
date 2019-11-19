@@ -20,19 +20,29 @@ public class OxygenHistoryEntry {
     }
 
     public void addCandlesUsed(int candlesUsed) {
+        validateNonNegativeQuantity(candlesUsed);
         this.candlesUsed += candlesUsed;
     }
 
     public void addWaterUsed(int waterUsed) {
+        validateNonNegativeQuantity(waterUsed);
         this.waterUsed += waterUsed;
     }
 
     public void addTankMade(int tankMade) {
+        validateNonNegativeQuantity(tankMade);
         this.tankMade += tankMade;
     }
 
     public void addTankBought(int tankBought) {
+        validateNonNegativeQuantity(tankBought);
         this.tankBought += tankBought;
+    }
+
+    private void validateNonNegativeQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("quantity cannot be negative");
+        }
     }
 
     public LocalDate getDate() {
