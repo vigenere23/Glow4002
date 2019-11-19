@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
@@ -29,12 +30,25 @@ public class OxygenGradeBProducer implements OxygenSupplier {
     public void supply(LocalDate orderDate, int minQuantityToProduce) {
         int numberOfBatchesProduced = OxygenCalculator.calculateNumberOfBatchesRequired(minQuantityToProduce, supplySettings.getBatchSize());
         int numberOfTanksProduced = numberOfBatchesProduced * supplySettings.getBatchSize();
-        LocalDate receivedDate = orderDate.plusDays(supplySettings.getNumberOfDaysToReceive());
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
         
         oxygenInventory.addQuantity(supplySettings.getGrade(), numberOfTanksProduced);
-        oxygenHistory.addWaterUsed(orderDate, numberOfBatchesProduced * litersOfWaterPerBatch);
-        oxygenHistory.addTankMade(receivedDate, numberOfTanksProduced);
         profitCalculator.addOutcome(cost);
+
+        addTankMade(orderDate, numberOfTanksProduced);
+        addWaterUsed(orderDate, numberOfBatchesProduced);
+    }
+
+    private void addTankMade(LocalDate orderDate, int numberOfTanksProduced) {
+        LocalDate receivedDate = orderDate.plusDays(supplySettings.getNumberOfDaysToReceive());
+        OxygenHistoryEntry receivedDateHistoryEntry = oxygenHistory.findOrCreate(receivedDate);
+        receivedDateHistoryEntry.addTankMade(numberOfTanksProduced);
+        oxygenHistory.save(receivedDateHistoryEntry);
+    }
+
+    private void addWaterUsed(LocalDate orderDate, int numberOfBatchesProduced) {
+        OxygenHistoryEntry orderDateHistoryEntry = oxygenHistory.findOrCreate(orderDate);
+        orderDateHistoryEntry.addWaterUsed(numberOfBatchesProduced * litersOfWaterPerBatch);
+        oxygenHistory.save(orderDateHistoryEntry);
     }
 }

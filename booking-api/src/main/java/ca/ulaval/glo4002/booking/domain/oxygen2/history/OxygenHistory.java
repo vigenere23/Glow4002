@@ -15,47 +15,19 @@ public class OxygenHistory {
         history = new HashMap<>();
     }
 
-    public void addCandlesUsed(LocalDate date, int numberOfCandles) {
-        OxygenHistoryEntry oxygenHistoryEntry = findOrCreate(date);
-        oxygenHistoryEntry.addCandlesUsed(numberOfCandles);
-        save(oxygenHistoryEntry);
-    }
-
-    public void addWaterUsed(LocalDate date, int litersOfWater) {
-        OxygenHistoryEntry oxygenHistoryEntry = findOrCreate(date);
-        oxygenHistoryEntry.addWaterUsed(litersOfWater);
-        save(oxygenHistoryEntry);
-    }
-
-    public void addTankMade(LocalDate date, int numberOfTankMade) {
-        OxygenHistoryEntry oxygenHistoryEntry = findOrCreate(date);
-        oxygenHistoryEntry.addTankMade(numberOfTankMade);
-        save(oxygenHistoryEntry);
-    }
-
-    public void addTankBought(LocalDate date, int numberOfTankBought) {
-        OxygenHistoryEntry oxygenHistoryEntry = findOrCreate(date);
-        oxygenHistoryEntry.addTankBought(numberOfTankBought);
-        save(oxygenHistoryEntry);
-    }
-
     public List<OxygenHistoryEntry> findAll() {
         return new ArrayList<>(history.values());
     }
 
-    public Optional<OxygenHistoryEntry> find(LocalDate date) {
-        return Optional.ofNullable(history.get(date));
-    }
-
-    private OxygenHistoryEntry findOrCreate(LocalDate date) {
-        Optional<OxygenHistoryEntry> entry = find(date);
-        if (!entry.isPresent()) {
+    public OxygenHistoryEntry findOrCreate(LocalDate date) {
+        OxygenHistoryEntry entry = history.get(date);
+        if (entry == null) {
             return new OxygenHistoryEntry(date);
         }
-        return entry.get();
+        return entry;
     }
 
-    private void save(OxygenHistoryEntry oxygenHistoryEntry) {
+    public void save(OxygenHistoryEntry oxygenHistoryEntry) {
         history.put(oxygenHistoryEntry.getDate(), oxygenHistoryEntry);
     }
 }

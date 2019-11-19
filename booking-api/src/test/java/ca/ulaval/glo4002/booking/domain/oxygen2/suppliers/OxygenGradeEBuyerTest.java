@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
@@ -12,6 +13,7 @@ import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenInventory;
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenGradeESettings;
 import ca.ulaval.glo4002.booking.domain.oxygen2.settings.OxygenSupplySettings;
 
@@ -26,6 +28,7 @@ public class OxygenGradeEBuyerTest {
     private OxygenInventory oxygenInventory;
     private OxygenHistory oxygenHistory;
     private ProfitCalculator profitCalculator;
+    private OxygenHistoryEntry receivedDateOxygenHistoryEntry;
 
     @BeforeEach
     public void setup() {
@@ -33,6 +36,9 @@ public class OxygenGradeEBuyerTest {
         oxygenHistory = mock(OxygenHistory.class);
         profitCalculator = mock(ProfitCalculator.class);
         oxygenGradeEBuyer = new OxygenGradeEBuyer(oxygenInventory, oxygenHistory, profitCalculator);
+
+        receivedDateOxygenHistoryEntry = mock(OxygenHistoryEntry.class);
+        when(oxygenHistory.findOrCreate(RECEIVED_DATE)).thenReturn(receivedDateOxygenHistoryEntry);
     }
 
     @Test
@@ -43,10 +49,11 @@ public class OxygenGradeEBuyerTest {
     }
 
     @Test
-    public void whenSupplying_itAddsTheBoughtQuantityToTheHistoryAtTheReceivedDate() {
+    public void whenSupplying_itAddsTheBoughtQuantityToTheHistoryAtTheReceivedDateAndSaves() {
         oxygenGradeEBuyer.supply(ORDER_DATE, SOME_QUANTITY);
         int quantityProduced = OxygenSupplierTestHelper.getQuantityProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
-        verify(oxygenHistory).addTankBought(RECEIVED_DATE, quantityProduced);
+        verify(receivedDateOxygenHistoryEntry).addTankBought(quantityProduced);
+        verify(oxygenHistory).save(receivedDateOxygenHistoryEntry);
     }
 
     @Test

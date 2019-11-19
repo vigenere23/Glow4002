@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.suppliers;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistory;
+import ca.ulaval.glo4002.booking.domain.oxygen2.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.finance.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.oxygen2.OxygenCalculator;
@@ -31,7 +32,15 @@ public class OxygenGradeEBuyer implements OxygenSupplier {
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesBought);
 
         oxygenInventory.addQuantity(supplySettings.getGrade(), numberOfTanksBought);
-        oxygenHistory.addTankBought(orderDate, numberOfTanksBought);
         profitCalculator.addOutcome(cost);
+        
+        addTankBought(orderDate, numberOfTanksBought);
+    }
+
+    private void addTankBought(LocalDate orderDate, int numberOfTanksBought) {
+        LocalDate receivedDate = orderDate.plusDays(supplySettings.getNumberOfDaysToReceive());
+        OxygenHistoryEntry receivedDateHistoryEntry = oxygenHistory.findOrCreate(receivedDate);
+        receivedDateHistoryEntry.addTankBought(numberOfTanksBought);
+        oxygenHistory.save(receivedDateHistoryEntry);
     }
 }
