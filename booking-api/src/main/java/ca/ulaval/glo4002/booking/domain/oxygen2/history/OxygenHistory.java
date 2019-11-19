@@ -2,16 +2,16 @@ package ca.ulaval.glo4002.booking.domain.oxygen2.history;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class OxygenHistory {
 
     private Map<LocalDate, OxygenHistoryEntry> history;
 
     public OxygenHistory() {
-        history = new HashMap<>();
+        history = new TreeMap<>();
     }
 
     public List<OxygenHistoryEntry> findAll() {

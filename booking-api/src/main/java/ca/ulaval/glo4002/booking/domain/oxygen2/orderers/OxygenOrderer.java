@@ -40,6 +40,7 @@ public class OxygenOrderer {
         
         if (numberOfDaysUntilLimitDate < requestSettings.getNumberOfDaysToReceive()) {
             delegateToNextOrderer(orderDate, requestedQuantity);
+            return;
         }
 
         OxygenInventoryEntry inventoryEntry = oxygenInventory.find(requestSettings.getGrade());
