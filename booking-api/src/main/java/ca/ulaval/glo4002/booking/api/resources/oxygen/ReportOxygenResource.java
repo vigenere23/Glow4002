@@ -33,7 +33,7 @@ public class ReportOxygenResource {
     
     @GET
     public Response getOxygenReport() {
-        List<OxygenInventoryDto> inventory = oxygenInventoryMapper.toDto(oxygenUseCase.getOxygenInventories());
+        List<OxygenInventoryDto> inventory = oxygenInventoryMapper.toDto(oxygenUseCase.getOxygenInventory());
         List<OxygenHistoryDto> history = oxygenHistoryMapper.toDto(oxygenUseCase.getOxygenHistory());
         ReportOxygenResponse response = new ReportOxygenResponse(inventory, history);
         return Response.ok(response).build();

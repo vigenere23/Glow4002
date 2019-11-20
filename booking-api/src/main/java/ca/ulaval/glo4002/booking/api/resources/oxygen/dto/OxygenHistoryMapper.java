@@ -1,23 +1,21 @@
 package ca.ulaval.glo4002.booking.api.resources.oxygen.dto;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class OxygenHistoryMapper {
 
-    public List<OxygenHistoryDto> toDto(Map<LocalDate, OxygenHistoryItem> history) {
+    public List<OxygenHistoryDto> toDto(List<OxygenHistoryEntry> history) {
         List<OxygenHistoryDto> historyDto = new ArrayList<>();
-        for (OxygenHistoryItem oxygenHistoryItem : history.values()) {
+        for (OxygenHistoryEntry historyEntry : history) {
             OxygenHistoryDto oxygenHistoryDto = new OxygenHistoryDto();
-            oxygenHistoryDto.date = oxygenHistoryItem.getDate();
-            oxygenHistoryDto.qtyOxygenTankBought = oxygenHistoryItem.getOxygenTankBought();
-            oxygenHistoryDto.qtyWaterUsed = oxygenHistoryItem.getWaterUsed();
-            oxygenHistoryDto.qtyCandlesUsed = oxygenHistoryItem.getCandlesUsed();
-            oxygenHistoryDto.qtyOxygenTankMade = oxygenHistoryItem.getOxygenTankMade();
+            oxygenHistoryDto.date = historyEntry.getDate();
+            oxygenHistoryDto.qtyOxygenTankBought = historyEntry.getTankBought();
+            oxygenHistoryDto.qtyWaterUsed = historyEntry.getWaterUsed();
+            oxygenHistoryDto.qtyCandlesUsed = historyEntry.getCandlesUsed();
+            oxygenHistoryDto.qtyOxygenTankMade = historyEntry.getTankMade();
             historyDto.add(oxygenHistoryDto);
         }
         return historyDto;

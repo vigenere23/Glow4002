@@ -1,18 +1,19 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.enumMaps.PassCategoryMapper;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateCalculator;
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
+import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
+import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
 
 public class Pass {
 
@@ -88,9 +89,9 @@ public class Pass {
         transportReserver.reserveArrival(shuttleCategory, endDate, passengerNumber, ONE_PLACE);
     }
 
-    public void reserveOxygen(LocalDate orderDate, OxygenReserver oxygenReserver) {
+    public void reserveOxygen(OffsetDateTime orderDate, OxygenRequester oxygenRequester) {
         int requiredQuantity = calculateRequiredQuantity();
-        oxygenReserver.reserveOxygen(orderDate, oxygenGrade, requiredQuantity);
+        oxygenRequester.requestOxygen(orderDate, oxygenGrade, requiredQuantity);
     }
 
     private int calculateRequiredQuantity() {

@@ -13,22 +13,22 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
 public class OxygenInventoryMapperTest {
 
     private final static int SOME_INVENTORY_NUMBER = 12;
     private final static OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     
-    private List<OxygenInventory> inventory = new ArrayList<>();
-    private OxygenInventory inventoryItem;
+    private List<OxygenInventoryEntry> inventory = new ArrayList<>();
+    private OxygenInventoryEntry inventoryEntry;
     private OxygenInventoryMapper inventoryMapper = new OxygenInventoryMapper();
 
     @BeforeEach
     public void setUpOxygenInventoryMapper() {
         mockInventoryItem();
  
-        inventory.add(inventoryItem);
+        inventory.add(inventoryEntry);
     }
 
     @Test
@@ -40,9 +40,9 @@ public class OxygenInventoryMapperTest {
     }
 
     private void mockInventoryItem() {
-        inventoryItem = mock(OxygenInventory.class);
+        inventoryEntry = mock(OxygenInventoryEntry.class);
 
-        when(inventoryItem.getInventory()).thenReturn(SOME_INVENTORY_NUMBER);
-        when(inventoryItem.getOxygenGrade()).thenReturn(SOME_OXYGEN_GRADE);
+        when(inventoryEntry.getTotalQuantity()).thenReturn(SOME_INVENTORY_NUMBER);
+        when(inventoryEntry.getOxygenGrade()).thenReturn(SOME_OXYGEN_GRADE);
     }
 }

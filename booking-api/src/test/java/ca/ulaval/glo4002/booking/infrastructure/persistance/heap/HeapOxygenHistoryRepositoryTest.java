@@ -1,45 +1,54 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
+
 public class HeapOxygenHistoryRepositoryTest {
+    
+    private final static LocalDate SOME_DATE = LocalDate.now();
 
-    private final static LocalDate SOME_DATE = LocalDate.of(2050, 2, 17);
-    private final static int SOME_CANDLES_USED_QTY = 2;
-    private final static int SOME_OXYGEN_TANK_BOUGH_QTY = 2;
-    private final static int SOME_OXYGEN_TANK_MADE_USED_QTY = 2;
-    private final static int SOME_WATER_USED_QTY = 2;
+    private HeapOxygenHistoryRepository oxygenHistory;
 
-    private HeapOxygenHistoryRepository oxygenHistoryRepository;
+    @BeforeEach
+    public void setup() {
+        oxygenHistory = new HeapOxygenHistoryRepository();
+    }
 
     @Test
-    public void whenUpdateHistory_thenHistoryIsCorrectlyUpdated() {
-        setUpOxygenHistoryRepository();
-        OxygenHistoryItem someOxygenHistoryItem = initializeOxygenHistoryItem();
-        oxygenHistoryRepository.save(someOxygenHistoryItem);
-
-        assertEquals(someOxygenHistoryItem, oxygenHistoryRepository.findOxygenHistoryOfDate(SOME_DATE));
+    public void whenCreating_noHistoryEntryIsPresent() {
+        assertThat(oxygenHistory.findAll()).isEmpty();
     }
 
-    private OxygenHistoryItem initializeOxygenHistoryItem() {
-        OxygenHistoryItem someOxygenHistoryItem = new OxygenHistoryItem(SOME_DATE);
-        someOxygenHistoryItem.updateQuantity(HistoryType.CANDLES_USED, SOME_CANDLES_USED_QTY);
-        someOxygenHistoryItem.updateQuantity(HistoryType.OXYGEN_TANK_BOUGHT, SOME_OXYGEN_TANK_BOUGH_QTY);
-        someOxygenHistoryItem.updateQuantity(HistoryType.OXYGEN_TANK_MADE, SOME_OXYGEN_TANK_MADE_USED_QTY);
-        someOxygenHistoryItem.updateQuantity(HistoryType.WATER_USED, SOME_WATER_USED_QTY);
-
-        return someOxygenHistoryItem;
+    @Test
+    public void givenEmptyHistory_whenFindingOrCreating_itReturnsAHistoryEntry() {
+        OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
+        assertThat(entry).isNotNull();
     }
 
-    private void setUpOxygenHistoryRepository() {
-        initializeOxygenHistoryItem();
-        oxygenHistoryRepository = new HeapOxygenHistoryRepository();
+    @Test
+    public void givenNonEmptyHistory_whenFindingOrCreating_itReturnsThePresentHistoryEntry() {
+        OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
+        oxygenHistory.save(entry);
+
+        OxygenHistoryEntry savedEntry = oxygenHistory.findOrCreate(SOME_DATE);
+        
+        assertThat(savedEntry).isEqualTo(entry);
+    }
+
+    @Test
+    public void whenSaving_itAddsTheSavedEntryToTheHistory() {
+        int oldSize = oxygenHistory.findAll().size();
+        OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
+        oxygenHistory.save(entry);
+
+        int newSize = oxygenHistory.findAll().size();
+        
+        assertThat(newSize).isEqualTo(oldSize + 1);
     }
 }

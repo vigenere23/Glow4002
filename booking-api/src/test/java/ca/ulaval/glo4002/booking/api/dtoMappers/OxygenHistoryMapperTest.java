@@ -5,17 +5,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.EnumMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
-import ca.ulaval.glo4002.booking.domain.oxygen.HistoryType;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryItem;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
 public class OxygenHistoryMapperTest {
 
@@ -25,15 +23,13 @@ public class OxygenHistoryMapperTest {
     private final static int SOME_NUMBER_OF_TANKS_BOUGHT = 0;
     private final static int SOME_NUMBER_OF_TANKS_MADE = 0;
 
-    private EnumMap<HistoryType, Integer> SOME_HISTORY;
-    private SortedMap<LocalDate, OxygenHistoryItem> history;
-    private OxygenHistoryItem historyItem;
+    private List<OxygenHistoryEntry> history;
+    private OxygenHistoryEntry historyEntry;
     private OxygenHistoryMapper historyMapper = new OxygenHistoryMapper();
     
     @BeforeEach
     public void setUpOxygenHistoryMapper() {
         mockOxygenHistoryItem();
-        createHistoryTypeMap();
         createHistoryMap();
     }
 
@@ -49,26 +45,17 @@ public class OxygenHistoryMapperTest {
     }
 
     private void mockOxygenHistoryItem() {
-        historyItem = mock(OxygenHistoryItem.class);
+        historyEntry = mock(OxygenHistoryEntry.class);
 
-        when(historyItem.getCandlesUsed()).thenReturn(SOME_NUMBER_OF_CANDLES);
-        when(historyItem.getDate()).thenReturn(SOME_DATE);
-        when(historyItem.getOxygenTankBought()).thenReturn(SOME_NUMBER_OF_TANKS_BOUGHT);
-        when(historyItem.getOxygenTankMade()).thenReturn(SOME_NUMBER_OF_TANKS_MADE);
-        when(historyItem.getWaterUsed()).thenReturn(SOME_QUANTITY_OF_WATER_USED);
-        when(historyItem.getOxygenHistory()).thenReturn(SOME_HISTORY);
+        when(historyEntry.getCandlesUsed()).thenReturn(SOME_NUMBER_OF_CANDLES);
+        when(historyEntry.getDate()).thenReturn(SOME_DATE);
+        when(historyEntry.getTankBought()).thenReturn(SOME_NUMBER_OF_TANKS_BOUGHT);
+        when(historyEntry.getTankMade()).thenReturn(SOME_NUMBER_OF_TANKS_MADE);
+        when(historyEntry.getWaterUsed()).thenReturn(SOME_QUANTITY_OF_WATER_USED);
     }
 
     private void createHistoryMap() {
-        history = new TreeMap<>();
-        history.put(SOME_DATE, historyItem);
-    }
-
-    private void createHistoryTypeMap() {
-        SOME_HISTORY = new EnumMap<>(HistoryType.class);
-        SOME_HISTORY.put(HistoryType.OXYGEN_TANK_BOUGHT, SOME_NUMBER_OF_TANKS_BOUGHT);
-        SOME_HISTORY.put(HistoryType.OXYGEN_TANK_MADE, SOME_NUMBER_OF_TANKS_MADE);
-        SOME_HISTORY.put(HistoryType.WATER_USED, SOME_QUANTITY_OF_WATER_USED);
-        SOME_HISTORY.put(HistoryType.CANDLES_USED, SOME_NUMBER_OF_CANDLES);
+        history = new ArrayList<>();
+        history.add(historyEntry);
     }
 }

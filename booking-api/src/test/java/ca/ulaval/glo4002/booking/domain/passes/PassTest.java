@@ -6,6 +6,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.any;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.oxygen.*;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -25,7 +28,7 @@ public class PassTest {
     private final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
     private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
     private final static ShuttleCategory SOME_SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
-    private final static LocalDate SOME_ORDER_DATE = LocalDate.of(2050, 01, 01);
+    private final static OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(2050, 01, 01, 0, 0, 0, 0, ZoneOffset.UTC);
     private final static LocalDate SOME_START_DATE = LocalDate.of(2050, 07, 18);
     private final static LocalDate SOME_END_DATE = SOME_START_DATE.plusDays(3);
     private final static int A_NUMBER_OF_FESTIVAL_DAYS = 5;
@@ -37,14 +40,14 @@ public class PassTest {
     private FestivalDates festivalDates;
     private Price price;
     private TransportReserver transportReserver;
-    private OxygenReserver oxygenReserver;
+    private OxygenRequester oxygenRequester;
     
     @BeforeEach
     public void setUpPass() {
         festivalDates = new Glow4002Dates();
         price = Price.zero();
         transportReserver = mock(TransportReserver.class);
-        oxygenReserver = mock(OxygenReserver.class);
+        oxygenRequester = mock(OxygenRequester.class);
     }
 
     @Test
@@ -113,66 +116,66 @@ public class PassTest {
     public void givenNebulaSinglePass_whenOrderOxygen_thenThreeGradeAOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, BETWEEN_A_FESTIVAL_DATE, BETWEEN_A_FESTIVAL_DATE);
 
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
 
         OxygenGrade expectedGrade = OxygenGrade.A;
         int expectedQuantity = 3;
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+        verify(oxygenRequester).requestOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenSupergiantSinglePass_whenOrderOxygen_thenThreeGradeBOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT, BETWEEN_A_FESTIVAL_DATE, BETWEEN_A_FESTIVAL_DATE);
 
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
 
         OxygenGrade expectedGrade = OxygenGrade.B;
         int expectedQuantity = 3;
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+        verify(oxygenRequester).requestOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenSupernovaSinglePass_whenOrderOxygen_thenFiveGradeEOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.SUPERNOVA, BETWEEN_A_FESTIVAL_DATE, BETWEEN_A_FESTIVAL_DATE);
 
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
 
         OxygenGrade expectedGrade = OxygenGrade.E;
         int expectedQuantity = 5;
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+        verify(oxygenRequester).requestOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenNebulaPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeAOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.SINGLE_PASS, PassCategory.NEBULA, A_FESTIVAL_START, A_FESTIVAL_END);
 
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
 
         OxygenGrade expectedGrade = OxygenGrade.A;
         int expectedQuantity = 3 * A_NUMBER_OF_FESTIVAL_DAYS;
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+        verify(oxygenRequester).requestOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenSupergiantPackagePass_whenOrderOxygen_thenThreeTimesNumberOfDaysGradeBOxygenIsOrdered()  {
         Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERGIANT, A_FESTIVAL_START, A_FESTIVAL_END);
 
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
 
         OxygenGrade expectedGrade = OxygenGrade.B;
         int expectedQuantity = 3 * A_NUMBER_OF_FESTIVAL_DAYS;
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+        verify(oxygenRequester).requestOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     @Test
     public void givenSupernovaPackagePass_whenOrderOxygen_thenFiveTimesNumberOfDaysGradeEOxygenIsOrdered() {
         Pass pass = createSimplePass(PassOption.PACKAGE, PassCategory.SUPERNOVA, A_FESTIVAL_START, A_FESTIVAL_END);
 
-        pass.reserveOxygen(SOME_ORDER_DATE, oxygenReserver);
+        pass.reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
 
         OxygenGrade expectedGrade = OxygenGrade.E;
         int expectedQuantity = 5 * A_NUMBER_OF_FESTIVAL_DAYS;
-        verify(oxygenReserver).reserveOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
+        verify(oxygenRequester).requestOxygen(SOME_ORDER_DATE, expectedGrade, expectedQuantity);
     }
 
     private Pass createSimplePass(PassOption passOption, PassCategory passCategory, LocalDate startDate, LocalDate endDate) {

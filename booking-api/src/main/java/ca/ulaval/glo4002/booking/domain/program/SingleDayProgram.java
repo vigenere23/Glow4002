@@ -6,7 +6,7 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
@@ -38,10 +38,10 @@ public class SingleDayProgram {
         return festivalDates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenReserver oxygenReserver, List<ArtistProgramInformation> artistsForProgram, int numberOfFestivalAttendees) {
+    public void orderOxygen(OxygenRequester oxygenRequester, List<ArtistProgramInformation> artistsForProgram, int numberOfFestivalAttendees) {
         ArtistProgramInformation artist = getArtist(artistsForProgram);
         int oxygenQuantity = artist.getGroupSize() * OXYGEN_QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity) * numberOfFestivalAttendees;
-        oxygenReserver.reserveOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, oxygenQuantity);
+        oxygenRequester.requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, oxygenQuantity);
     }
 
     public void orderShuttle(TransportReserver transportReserver, List<ArtistProgramInformation> artistsForProgram) {

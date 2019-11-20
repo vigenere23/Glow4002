@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
-import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
@@ -32,7 +32,7 @@ public class HeapPassOrderRepositoryTest {
         List<Pass> passes = Arrays.asList(mock(Pass.class));
 
         passOrderRepository = new HeapPassOrderRepository();
-        OrderDiscount orderDiscount = new OrderDiscountFactory().fromMultipleDiscounts(
+        OrderDiscount orderDiscount = new OrderDiscountLinker().link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );
         passOrder = new PassOrder(VALID_ORDER_NUMBER, passes, orderDiscount);

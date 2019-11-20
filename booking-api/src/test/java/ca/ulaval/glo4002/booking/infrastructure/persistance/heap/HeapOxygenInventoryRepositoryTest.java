@@ -1,49 +1,49 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
 public class HeapOxygenInventoryRepositoryTest {
 
-    private final static int SOME_OXYGEN_REMAINING = 2;
-    private final static int SOME_OXYGEN_INVENTORY = 3;
-
-    private HeapOxygenInventoryRepository oxygenInventoryRepository;
+    private final static OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
+    
+    private HeapOxygenInventoryRepository oxygenInventory;
 
     @BeforeEach
-    public void setUpOxygenInventory() {
-        oxygenInventoryRepository = new HeapOxygenInventoryRepository();
+    public void setup() {
+        oxygenInventory = new HeapOxygenInventoryRepository();
     }
 
     @Test
-    public void whenSetOxygenCategoryInventoryOfGradeA_thenInventoryIsCorrectlyUpdated() {
-        OxygenInventory expectedOxygenInventoryGradeB = new OxygenInventory(OxygenGrade.A, SOME_OXYGEN_INVENTORY, SOME_OXYGEN_REMAINING);
-        oxygenInventoryRepository.save(expectedOxygenInventoryGradeB);
-
-        OxygenInventory oxygenInventoryGradeB = oxygenInventoryRepository.findByGrade(OxygenGrade.A);
-        assertEquals(expectedOxygenInventoryGradeB, oxygenInventoryGradeB);
+    public void whenCreating_thenAllGradesArePresent() {
+        for (OxygenGrade oxygenGrade : OxygenGrade.values()) {
+            assertThat(oxygenInventory.find(oxygenGrade)).isNotNull();
+        }
     }
 
     @Test
-    public void whenSetOxygenCategoryInventoryOfGradeB_thenInventoryIsCorrectlyUpdated() {
-        OxygenInventory expectedOxygenInventoryGradeA = new OxygenInventory(OxygenGrade.B, SOME_OXYGEN_INVENTORY, SOME_OXYGEN_REMAINING);
-        oxygenInventoryRepository.save(expectedOxygenInventoryGradeA);
+    public void whenSaving_itDoesNotChangeTheNumberOfEntries() {
+        int oldSize = oxygenInventory.findAll().size();
+        OxygenInventoryEntry entry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
+        oxygenInventory.save(entry);
 
-        OxygenInventory oxygenInventoryGradeA = oxygenInventoryRepository.findByGrade(OxygenGrade.B);
-        assertEquals(expectedOxygenInventoryGradeA, oxygenInventoryGradeA);
+        int newSize = oxygenInventory.findAll().size();
+
+        assertThat(newSize).isEqualTo(oldSize);
     }
 
     @Test
-    public void whenSetOxygenCategoryInventoryOfGradeE_thenInventoryIsCorrectlyUpdated() {
-        OxygenInventory expectedOxygenInventoryGradeE = new OxygenInventory(OxygenGrade.E, SOME_OXYGEN_INVENTORY, SOME_OXYGEN_REMAINING);
-        oxygenInventoryRepository.save(expectedOxygenInventoryGradeE);
+    public void whenSaving_itReplacesTheOldEntryByTheNewOne() {
+        OxygenInventoryEntry entry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
+        oxygenInventory.save(entry);
 
-        OxygenInventory oxygenInventoryGradeE = oxygenInventoryRepository.findByGrade(OxygenGrade.E);
-        assertEquals(expectedOxygenInventoryGradeE, oxygenInventoryGradeE);
+        OxygenInventoryEntry savedEntry = oxygenInventory.find(SOME_OXYGEN_GRADE);
+        
+        assertThat(savedEntry).isEqualTo(entry);
     }
 }

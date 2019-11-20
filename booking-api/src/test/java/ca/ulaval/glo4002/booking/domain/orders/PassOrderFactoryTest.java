@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -44,7 +44,7 @@ public class PassOrderFactoryTest {
         festivalDates = mock(FestivalDates.class);
         orderNumberFactory = mock(OrderNumberFactory.class);
         passFactory = mock(PassFactory.class);
-        OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
+        OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
         passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, orderNumberFactory);
     }
 

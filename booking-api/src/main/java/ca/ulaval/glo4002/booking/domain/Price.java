@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.domain;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.joda.money.CurrencyUnit;
@@ -61,6 +62,10 @@ public class Price {
 
     public Price dividedBy(double multiplier) {
         return new Price(price.dividedBy(multiplier, ROUNDING_MODE).getAmount());
+    }
+
+    public static Price sum(Price ...prices) {
+        return sum(Arrays.asList(prices).stream());
     }
 
     public static Price sum(Stream<Price> prices) {

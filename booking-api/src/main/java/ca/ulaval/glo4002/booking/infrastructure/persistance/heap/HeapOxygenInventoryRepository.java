@@ -1,42 +1,41 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 
 public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
 
-    private EnumMap<OxygenGrade, OxygenInventory> inventories;
+    private Map<OxygenGrade, OxygenInventoryEntry> inventory;
 
     public HeapOxygenInventoryRepository() {
-        inventories = initializeInventories();
+        inventory = new HashMap<>();
+        setupInventory();
+    }
+
+	private void setupInventory() {
+        for (OxygenGrade oxygenGrade : OxygenGrade.values()) {
+            save(new OxygenInventoryEntry(oxygenGrade));
+        }
+    }
+    
+    @Override
+    public OxygenInventoryEntry find(OxygenGrade oxygenGrade) {
+        return inventory.get(oxygenGrade);
     }
 
     @Override
-    public List<OxygenInventory> findAll() {
-        return new ArrayList<>(inventories.values());
+    public List<OxygenInventoryEntry> findAll() {
+        return new ArrayList<>(inventory.values());
     }
 
     @Override
-    public OxygenInventory findByGrade(OxygenGrade oxygenGrade) {
-        return inventories.get(oxygenGrade);
+    public void save(OxygenInventoryEntry entry) {
+        inventory.put(entry.getOxygenGrade(), entry);
     }
-
-    @Override
-    public void save(OxygenInventory oxygenInventory) {
-        this.inventories.put(oxygenInventory.getOxygenGrade(), oxygenInventory);
-    }
-
-    private EnumMap<OxygenGrade, OxygenInventory> initializeInventories() {
-        EnumMap<OxygenGrade, OxygenInventory> collection = new EnumMap<>(OxygenGrade.class);
-        EnumSet.allOf(OxygenGrade.class)
-            .forEach(grade -> collection.put(grade, new OxygenInventory(grade, 0, 0)));
-        return collection;
-    }
-
 }

@@ -6,8 +6,8 @@ import java.time.OffsetDateTime;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateComparator;
-import ca.ulaval.glo4002.booking.domain.dateUtil.DateConverter;;
+import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
+import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;;
 
 public class Glow4002Dates implements FestivalDates {
 

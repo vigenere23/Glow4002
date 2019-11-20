@@ -1,25 +1,26 @@
 package ca.ulaval.glo4002.booking.application;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.*;
-
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
+
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 
 public class OxygenUseCase {
-    private final OxygenHistoryRepository oxygenHistoryRepository;
-    private final OxygenInventoryRepository oxygenInventoryRepository;
+    private final OxygenHistoryRepository oxygenHistory;
+    private final OxygenInventoryRepository oxygenInventory;
 
-    public OxygenUseCase(OxygenHistoryRepository oxygenHistoryRepository, OxygenInventoryRepository oxygenInventoryRepository) {
-        this.oxygenHistoryRepository = oxygenHistoryRepository;
-        this.oxygenInventoryRepository = oxygenInventoryRepository;
+    public OxygenUseCase(OxygenHistoryRepository oxygenHistory, OxygenInventoryRepository oxygenInventory) {
+        this.oxygenHistory = oxygenHistory;
+        this.oxygenInventory = oxygenInventory;
     }
 
-    public List<OxygenInventory> getOxygenInventories() {
-        return oxygenInventoryRepository.findAll();
+    public List<OxygenInventoryEntry> getOxygenInventory() {
+        return oxygenInventory.findAll();
     }
 
-    public Map<LocalDate, OxygenHistoryItem> getOxygenHistory() {
-        return oxygenHistoryRepository.findAll();
+    public List<OxygenHistoryEntry> getOxygenHistory() {
+        return oxygenHistory.findAll();
     }
 }

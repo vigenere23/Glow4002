@@ -4,101 +4,19 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.ReportOxygenResource;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.OrdersResource;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
-import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
-import ca.ulaval.glo4002.booking.application.*;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountFactory;
-import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenOrderFactory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenReserver;
-import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
-import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
-import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
-import ca.ulaval.glo4002.booking.domain.profit.*;
-import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
-import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.*;
+import ca.ulaval.glo4002.booking.BookingServer;
 import com.google.gson.Gson;
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.ResourceConfig;
 
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenHistoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class JerseyTestBookingServer extends JerseyTest {
     protected static final String ORDERS_URL = "/orders";
     protected static final String SINGLE_PASS_OPTION = "singlePass";
     protected static final String PACKAGE_PASS_OPTION = "package";
-
-    FestivalDates festivalDates = new Glow4002Dates();
-
-    OxygenInventoryMapper oxygenInventoryMapper = new OxygenInventoryMapper();
-    OxygenHistoryMapper oxygenHistoryMapper = new OxygenHistoryMapper();
-    PassOrderResponseMapper passOrderResponseMapper = new PassOrderResponseMapper();
-    ProgramMapper programMapper = new ProgramMapper();
-    ShuttleMapper shuttleMapper = new ShuttleMapper();
-
-    ProfitRepository profitRepository = new HeapProfitRepository();
-    ProfitCalculator profitCalculator = new ProfitCalculator();
-    IncomeSaver incomeSaver = new ProfitSaver(profitRepository);
-    OutcomeSaver outcomeSaver = new ProfitSaver(profitRepository);
-
-    OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
-    OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-    OxygenOrderFactory oxygenOrderFactory = new OxygenOrderFactory(festivalDates.getStartDate().minusDays(1));
-    OxygenReserver oxygenReserver = new OxygenReserver(oxygenOrderFactory, oxygenInventoryRepository, oxygenHistoryRepository, outcomeSaver);
-    OxygenUseCase oxygenUseCase = new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository);
-
-    ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-    ShuttleFactory shuttleFactory = new ShuttleFactory();
-    ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
-    TransportReserver transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
-    TransportUseCase transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
-
-    PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-    PassRepository passRepository = new HeapPassRepository();
-    PassPriceFactory passPriceFactory = new PassPriceFactory();
-    PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
-    PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
-    OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-    OrderDiscountFactory orderDiscountFactory = new OrderDiscountFactory();
-    PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
-    PassOrderUseCase passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenReserver, passRepository, incomeSaver);
-
-    ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
-    ExternalApiArtist externalApiArtist = new ExternalApiArtist();
-    ArtistRepository artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
-    ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
-    ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-
-    ProfitUseCase profitUseCase = new ProfitUseCase(profitCalculator, profitRepository);
-
-    ProgramUseCase programUseCase = new ProgramUseCase(transportReserver, oxygenReserver, artistsRepository, passRepository, outcomeSaver);
-    ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
     static
     {
@@ -119,25 +37,7 @@ public class JerseyTestBookingServer extends JerseyTest {
 
     @Override
     protected Application configure() {
-        ResourceConfig resourceConfig = new ResourceConfig(ReportOxygenResource.class, OrdersResource.class).packages("ca.ulaval.glo4002.booking");
-        resourceConfig.register(new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bind(passOrderUseCase).to(PassOrderUseCase.class);
-                bind(transportUseCase).to(TransportUseCase.class);
-                bind(oxygenUseCase).to(OxygenUseCase.class);
-                bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
-                bind(profitUseCase).to(ProfitUseCase.class);
-                bind(programUseCase).to(ProgramUseCase.class);
-                bind(programValidator).to(ProgramValidator.class);
-                bind(oxygenInventoryMapper).to(OxygenInventoryMapper.class);
-                bind(oxygenHistoryMapper).to(OxygenHistoryMapper.class);
-                bind(passOrderResponseMapper).to(PassOrderResponseMapper.class);
-                bind(programMapper).to(ProgramMapper.class);
-                bind(shuttleMapper).to(ShuttleMapper.class);
-            }
-        });
-        return resourceConfig;
+        return new BookingServer().setupResourceConfig();
     }
 
     protected Response postSinglePassOrder(String orderDate, String passCategory, List<String> eventDates) {
