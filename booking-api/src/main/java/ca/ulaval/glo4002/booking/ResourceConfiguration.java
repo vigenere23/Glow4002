@@ -4,13 +4,12 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
+import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ProgramUseCase;
-import ca.ulaval.glo4002.booking.application.use_cases.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 public class ResourceConfiguration extends ResourceConfig {
@@ -23,8 +22,7 @@ public class ResourceConfiguration extends ResourceConfig {
             ArtistRankingUseCase artistRankingUseCase,
             ProgramUseCase programUseCase,
             ProgramValidator programValidator,
-            ProgramMapper programMapper,
-            ShuttleMapper shuttleMapper
+            ProgramMapper programMapper
     ) {
         register(new AbstractBinder() {
             @Override
@@ -37,7 +35,6 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
                 bind(programMapper).to(ProgramMapper.class);
-                bind(shuttleMapper).to(ShuttleMapper.class);
             }
         });
     }

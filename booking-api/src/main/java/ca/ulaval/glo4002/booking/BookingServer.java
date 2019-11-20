@@ -9,18 +9,18 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
-import ca.ulaval.glo4002.booking.application.use_cases.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDtoMapper;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryEntryDtoMapper;
+import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassPriceFactory;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
@@ -104,7 +104,6 @@ public class BookingServer implements Runnable {
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
         ProgramMapper programMapper = new ProgramMapper();
-        ShuttleMapper shuttleMapper = new ShuttleMapper();
 
         return new ResourceConfiguration(
             profitUseCase,
@@ -114,8 +113,7 @@ public class BookingServer implements Runnable {
             artistRankingUseCase,
             programUseCase,
             programValidator,
-            programMapper,
-            shuttleMapper
+            programMapper
         ).packages("ca.ulaval.glo4002.booking");
     }
 
@@ -144,8 +142,9 @@ public class BookingServer implements Runnable {
         ShuttleRepository shuttleRepository = new HeapShuttleRepository();
         ShuttleFactory shuttleFactory = new ShuttleFactory();
         ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
+        ShuttleDtoMapper shuttleDtoMapper = new ShuttleDtoMapper();
         transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
-        return new TransportUseCase(festivalDates, shuttleRepository);
+        return new TransportUseCase(festivalDates, shuttleRepository, shuttleDtoMapper);
     }
 
     private PassOrderUseCase createPassOrderUseCase(FestivalDates festivalDates) {

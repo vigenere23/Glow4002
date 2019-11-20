@@ -11,8 +11,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleDto;
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
 import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
@@ -27,7 +27,7 @@ public class ShuttleMapperTest {
     private List<PassengerNumber> passengers = new ArrayList<>();
     private List<Shuttle> shuttles = new ArrayList<>();
     private SpaceX shuttle;
-    private ShuttleMapper shuttleMapper = new ShuttleMapper();
+    private ShuttleDtoMapper shuttleMapper = new ShuttleDtoMapper();
 
     @BeforeEach
     public void setUpShuttleMapper() {
@@ -38,7 +38,7 @@ public class ShuttleMapperTest {
 
     @Test
     public void whenMappingShuttleToDto_thenReturnEquivalentShuttlesDto() {
-        ShuttleDto shuttleDto = shuttleMapper.toDto(shuttles).get(0);
+        ShuttleDto shuttleDto = shuttleMapper.toDtos(shuttles).get(0);
         
         assertEquals(SOME_DATE.toString(), shuttleDto.date);
         assertEquals(SOME_SHUTTLE_CATEGORY.toString(), shuttleDto.shuttleName);

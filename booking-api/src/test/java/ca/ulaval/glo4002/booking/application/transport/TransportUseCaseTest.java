@@ -1,23 +1,30 @@
-package ca.ulaval.glo4002.booking.application.use_cases;
+package ca.ulaval.glo4002.booking.application.transport;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
-import ca.ulaval.glo4002.booking.domain.transport.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
+import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.transport.Location;
+import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
 class TransportUseCaseTest {
 
@@ -32,11 +39,12 @@ class TransportUseCaseTest {
 
     @BeforeEach
     public void setUpTransportUseCase() {
-        mockShuttles();
+        prepareShuttles();
         mockFestival();
         shuttleRepository = mock(ShuttleRepository.class);
+        ShuttleDtoMapper shuttleDtoMapper = new ShuttleDtoMapper();
 
-        transportUseCase = new TransportUseCase(festivalDates, shuttleRepository);
+        transportUseCase = new TransportUseCase(festivalDates, shuttleRepository, shuttleDtoMapper);
     }
 
     @Test
@@ -49,8 +57,8 @@ class TransportUseCaseTest {
     public void whenGetAllDeparture_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
 
-        List<Shuttle> departureShuttles = transportUseCase.getAllDepartures();
-        assertEquals(shuttlesEarth, departureShuttles);
+        List<ShuttleDto> departureShuttles = transportUseCase.getAllDepartures();
+        assertThat(departureShuttles).hasSameSizeAs(shuttlesEarth);
     }
 
     @Test
@@ -62,9 +70,9 @@ class TransportUseCaseTest {
     @Test
     public void whenGetAllArrivals_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
-        List<Shuttle> expectedShuttles = transportUseCase.getAllArrivals();
+        List<ShuttleDto> arrivalShuttles = transportUseCase.getAllArrivals();
 
-        assertEquals(shuttlesUlavalogy, expectedShuttles);
+        assertThat(arrivalShuttles).hasSameSizeAs(shuttlesUlavalogy);
     }
 
     @Test
@@ -76,16 +84,18 @@ class TransportUseCaseTest {
     @Test
     public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() {
         when(shuttleRepository.findShuttlesByDate(Location.EARTH, SOME_DATE)).thenReturn(shuttlesEarth);
-        List<Shuttle> expectedShuttles = transportUseCase.getShuttlesDepartureByDate(SOME_DATE);
+        List<ShuttleDto> departueShuttles = transportUseCase.getShuttlesDepartureByDate(SOME_DATE);
 
-        assertEquals(shuttlesEarth, expectedShuttles);
+        assertThat(departueShuttles).hasSameSizeAs(shuttlesEarth);
     }
 
     @Test
     public void givenDateOutsideOfFestival_whenGetShuttlesDepartureByDate_throwsException() {
         doThrow(new OutOfFestivalDatesException(SOME_DATE, SOME_DATE))
             .when(festivalDates).validateEventDate(any(LocalDate.class));
-        assertThrows(OutOfFestivalDatesException.class, () -> transportUseCase.getShuttlesDepartureByDate(OUT_OF_FESTIVAL_DATE));
+        assertThatExceptionOfType(OutOfFestivalDatesException.class).isThrownBy(() -> {
+            transportUseCase.getShuttlesDepartureByDate(OUT_OF_FESTIVAL_DATE);
+        });
     }
 
     @Test
@@ -97,16 +107,19 @@ class TransportUseCaseTest {
     @Test
     public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() {
         when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, SOME_DATE)).thenReturn(shuttlesUlavalogy);
-        List<Shuttle> expectedShuttles = transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
+        List<ShuttleDto> arrivalShuttles = transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
 
-        assertEquals(shuttlesUlavalogy, expectedShuttles);
+        assertThat(arrivalShuttles).hasSameSizeAs(shuttlesUlavalogy);
     }
 
     @Test
     public void givenDateOutsideOfFestival_whenGetShuttlesArrivalByDate_throwsException() {
         doThrow(new OutOfFestivalDatesException(SOME_DATE, SOME_DATE))
             .when(festivalDates).validateEventDate(any(LocalDate.class));
-        assertThrows(OutOfFestivalDatesException.class, () -> transportUseCase.getShuttlesArrivalByDate(OUT_OF_FESTIVAL_DATE));
+
+        assertThatExceptionOfType(OutOfFestivalDatesException.class).isThrownBy(() -> {
+            transportUseCase.getShuttlesArrivalByDate(OUT_OF_FESTIVAL_DATE);
+        });
     }
 
     private void mockFestival() {
@@ -117,8 +130,8 @@ class TransportUseCaseTest {
         when(festivalDates.getEndDate()).thenReturn(LocalDate.now());
     }
 
-    private void mockShuttles() {
-        Shuttle mockedShuttle = mock(SpaceX.class);
+    private void prepareShuttles() {
+        Shuttle mockedShuttle = new SpaceX(SOME_DATE);
 
         shuttlesEarth.add(mockedShuttle);
         shuttlesUlavalogy.add(mockedShuttle);
