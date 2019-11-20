@@ -37,7 +37,7 @@ public class JerseyTestBookingServer extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new BookingServer().setupResourceConfig();
+        return new BookingServer().generateResourceConfig();
     }
 
     protected Response postSinglePassOrder(String orderDate, String passCategory, List<String> eventDates) {

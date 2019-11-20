@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 
-///Note => Those tests have been disabled because we know the implementation is not optimal. We did not learned how to do it yet.
-@Disabled
 public class OrdersResourceIT extends JerseyTestBookingServer {
 
     private static final String LOCAL_HOST = "http://localhost:8181";

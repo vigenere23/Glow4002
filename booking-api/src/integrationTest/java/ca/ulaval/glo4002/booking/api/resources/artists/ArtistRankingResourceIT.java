@@ -1,31 +1,18 @@
 package ca.ulaval.glo4002.booking.api.resources.artists;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 
-import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
+import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 
-///Note => Those tests have been disabled because we know the implementation is not optimal. We did not learned how to do it yet.
-@Disabled
-public class ArtistRankingResourceIT extends JerseyTest {
+public class ArtistRankingResourceIT extends JerseyTestBookingServer {
 
     private static final String ARTIST_RANKING_URL = "/program/artists";
     private static final String QUERY_PARAM = "orderBy";
@@ -36,37 +23,8 @@ public class ArtistRankingResourceIT extends JerseyTest {
     private static final float someLowArtistPrice = 50.00f;
     private static final float someHightArtistPrice = 5000.00f;
 
-    private ArtistRepository artistsRepositoryMock = mock(ArtistRepository.class);
-    private ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
-    private ArtistRankingUseCase artistRankingUseCase = new ArtistRankingUseCase(artistsRepositoryMock, artistRankingFactory);  
     private List<ArtistRankingInformation> artistRankingInformation;
     
-    @BeforeEach
-    @Override
-    public void setUp() throws Exception {
-        createResources();
-        when(artistsRepositoryMock.findArtistRankingInformation()).thenReturn(artistRankingInformation);   
-        super.setUp();
-    }
-
-    @AfterEach
-    @Override
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    @Override
-    protected Application configure() {     
-        ResourceConfig resourceConfig = new ResourceConfig(ArtistsRankingResource.class);
-        resourceConfig.register(new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
-            }
-        });
-        return resourceConfig;
-    }
-
     @Test
     public void givenOneArtist_whenSortByMostPopular_thenTheArtistIsReturnedWith200ResponseStatus() {
         ArtistRankingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
@@ -183,9 +141,5 @@ public class ArtistRankingResourceIT extends JerseyTest {
         ArtistRankingInformation rankingInformation = new ArtistRankingInformation(artistName, popularity, price);
         artistRankingInformation.add(rankingInformation);
         return rankingInformation;
-    }
-
-    private void createResources() {  
-        artistRankingInformation = new ArrayList<>();    
     }
 }

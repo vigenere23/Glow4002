@@ -75,7 +75,7 @@ public class BookingServer implements Runnable {
 
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        ResourceConfig packageConfig = setupResourceConfig();
+        ResourceConfig packageConfig = generateResourceConfig();
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
@@ -91,7 +91,7 @@ public class BookingServer implements Runnable {
         }
     }
 
-    public ResourceConfig setupResourceConfig() {
+    public ResourceConfig generateResourceConfig() {
         Glow4002Dates festivalDates = new Glow4002Dates();
         
         ProfitUseCase profitUseCase = createProfitUseCase();        
