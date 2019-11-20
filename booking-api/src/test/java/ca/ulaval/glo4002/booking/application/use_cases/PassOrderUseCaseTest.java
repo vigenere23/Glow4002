@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application;
+package ca.ulaval.glo4002.booking.application.use_cases;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

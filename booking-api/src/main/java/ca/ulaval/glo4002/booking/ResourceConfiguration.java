@@ -8,12 +8,12 @@ import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
-import ca.ulaval.glo4002.booking.application.ArtistRankingUseCase;
-import ca.ulaval.glo4002.booking.application.OxygenUseCase;
-import ca.ulaval.glo4002.booking.application.PassOrderUseCase;
-import ca.ulaval.glo4002.booking.application.ProfitUseCase;
-import ca.ulaval.glo4002.booking.application.ProgramUseCase;
-import ca.ulaval.glo4002.booking.application.TransportUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.OxygenUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.ProgramUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 public class ResourceConfiguration extends ResourceConfig {

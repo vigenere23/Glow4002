@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
-import ca.ulaval.glo4002.booking.application.ProgramUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.ProgramUseCase;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 @Path("/program")

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application;
+package ca.ulaval.glo4002.booking.application.use_cases;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;

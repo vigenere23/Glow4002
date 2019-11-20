@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.TransportResponse;
-import ca.ulaval.glo4002.booking.application.TransportUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.TransportUseCase;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)

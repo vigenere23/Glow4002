@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.profit.dto.ProfitResponse;
-import ca.ulaval.glo4002.booking.application.ProfitUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
 
 @Path("/report/profits")
 @Produces(MediaType.APPLICATION_JSON)

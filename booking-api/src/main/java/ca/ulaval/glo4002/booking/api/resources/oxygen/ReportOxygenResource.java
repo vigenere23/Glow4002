@@ -14,7 +14,7 @@ import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.ReportOxygenResponse;
-import ca.ulaval.glo4002.booking.application.OxygenUseCase;
+import ca.ulaval.glo4002.booking.application.use_cases.OxygenUseCase;
 
 @Path("/report/o2")
 @Produces(MediaType.APPLICATION_JSON)
