@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.exceptionMappers;
+package ca.ulaval.glo4002.booking.api.exception_mappers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
