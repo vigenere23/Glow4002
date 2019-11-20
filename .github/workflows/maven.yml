@@ -16,7 +16,7 @@ jobs:
     - name: Build
       run: mvn -B package --file pom.xml
     - name: Test
-      run: mvn test
+      run: mvn verify
     - name: Coverage
       run: mvn cobertura:cobertura
     - name: Upload coverage to Codecov
