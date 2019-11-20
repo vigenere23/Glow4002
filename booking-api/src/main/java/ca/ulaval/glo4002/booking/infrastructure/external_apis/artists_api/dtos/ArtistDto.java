@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto;
+package ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

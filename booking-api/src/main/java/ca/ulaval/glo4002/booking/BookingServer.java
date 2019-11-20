@@ -37,8 +37,6 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
@@ -46,6 +44,9 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.ExternalApiArtist;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.ExternalApiArtistRepository;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererFactory;
@@ -55,7 +56,6 @@ import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplierFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 
 public class BookingServer implements Runnable {
@@ -167,7 +167,7 @@ public class BookingServer implements Runnable {
     private ArtistRankingUseCase createArtistRankingUseCase() {
         ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
         ExternalApiArtist externalApiArtist = new ExternalApiArtist();
-        artistsRepository = new ExternalArtistRepository(artistInformationMapper, externalApiArtist);
+        artistsRepository = new ExternalApiArtistRepository(artistInformationMapper, externalApiArtist);
         ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
         return new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
     }

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
+package ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistInformationMapper;
 
 public class ExternalArtistRepositoryTest {
 
@@ -21,14 +21,14 @@ public class ExternalArtistRepositoryTest {
     private final static float SOME_PRICE = 5000.00f;
 
     private ApiArtist apiArtist;
-    private ExternalArtistRepository externalArtistRepository;
+    private ExternalApiArtistRepository externalArtistRepository;
     private List<ArtistDto> artistsDtoCollection;
 
     @BeforeEach
     public void setUpExternalArtistRepository() {
         apiArtist = mock(ApiArtist.class);
         ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
-        externalArtistRepository = new ExternalArtistRepository(artistInformationMapper, apiArtist);
+        externalArtistRepository = new ExternalApiArtistRepository(artistInformationMapper, apiArtist);
         artistsDtoCollection = new ArrayList<>();
     }
 

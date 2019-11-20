@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.infrastructure.apiArtistsRepository;
+package ca.ulaval.glo4002.booking.api.infrastructure.external_apis.artists_api;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.ExternalApiArtist;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.ExternalApiArtist;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
 import ca.ulaval.glo4002.organisation.OrganisationServer;
 
 ///Note => Those tests have been disabled because we know the implementation is not optimal. We did not learned how to do it yet.

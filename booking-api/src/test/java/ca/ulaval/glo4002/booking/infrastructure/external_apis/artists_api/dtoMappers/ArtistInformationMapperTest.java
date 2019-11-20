@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dtoMappers;
+package ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtoMappers;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistInformationMapper;
 
 public class ArtistInformationMapperTest {
 

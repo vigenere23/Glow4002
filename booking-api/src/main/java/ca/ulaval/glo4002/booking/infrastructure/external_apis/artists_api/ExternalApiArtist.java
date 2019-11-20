@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository;
+package ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import ca.ulaval.glo4002.booking.infrastructure.apiArtistsRepository.dto.ArtistDto;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
 
 public class ExternalApiArtist implements ApiArtist {
 
@@ -19,11 +19,8 @@ public class ExternalApiArtist implements ApiArtist {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(ARTIST_REPOSITORY_URL);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-        List<ArtistDto> artistDtos = invocationBuilder.get(new GenericType<List<ArtistDto>>() {
-        });
+        List<ArtistDto> artistDtos = invocationBuilder.get(new GenericType<List<ArtistDto>>() {});
         client.close();
         return artistDtos;
     }
-
-
 }
