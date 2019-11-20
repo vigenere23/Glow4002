@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.orders.orderNumber;
+package ca.ulaval.glo4002.booking.domain.orders.order_number;
 
 import java.util.concurrent.atomic.AtomicLong;
 

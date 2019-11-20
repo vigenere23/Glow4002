@@ -40,7 +40,7 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapProfitRepos
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
-import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
+import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;

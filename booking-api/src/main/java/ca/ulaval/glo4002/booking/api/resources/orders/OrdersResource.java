@@ -19,7 +19,7 @@ import ca.ulaval.glo4002.booking.api.resources.orders.requests.PassOrderRequest;
 import ca.ulaval.glo4002.booking.api.resources.orders.responses.PassOrderResponse;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
-import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)

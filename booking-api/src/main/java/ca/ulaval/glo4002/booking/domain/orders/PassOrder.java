@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
-import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
