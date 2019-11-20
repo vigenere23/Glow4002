@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.passOrder.dto;
+package ca.ulaval.glo4002.booking.api.resources.orders.dto;
 
 public class PassDto {
 

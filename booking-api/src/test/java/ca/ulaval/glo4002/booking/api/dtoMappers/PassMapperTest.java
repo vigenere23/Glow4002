@@ -7,9 +7,9 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassDto;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassMapper;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.SinglePassDto;
+import ca.ulaval.glo4002.booking.api.resources.orders.dto.PassDto;
+import ca.ulaval.glo4002.booking.api.resources.orders.dto.PassMapper;
+import ca.ulaval.glo4002.booking.api.resources.orders.dto.SinglePassDto;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;

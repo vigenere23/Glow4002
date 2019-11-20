@@ -5,7 +5,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
+import ca.ulaval.glo4002.booking.api.resources.orders.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
 import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;

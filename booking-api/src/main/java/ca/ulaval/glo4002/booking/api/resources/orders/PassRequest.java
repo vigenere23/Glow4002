@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.passOrder;
+package ca.ulaval.glo4002.booking.api.resources.orders;
 
 import java.time.LocalDate;
 import java.util.List;

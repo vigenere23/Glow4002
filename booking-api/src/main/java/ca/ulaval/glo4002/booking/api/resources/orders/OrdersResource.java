@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.passOrder;
+package ca.ulaval.glo4002.booking.api.resources.orders;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.glo4002.booking.api.resources.passOrder.dto.PassOrderResponseMapper;
+import ca.ulaval.glo4002.booking.api.resources.orders.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.application.use_cases.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.api.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.api.helpers.response.LocationHeaderCreator;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.api.resources.passOrder.PassRequest;
+import ca.ulaval.glo4002.booking.api.resources.orders.PassRequest;
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
