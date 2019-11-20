@@ -8,14 +8,15 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDtoMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.orders.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
+import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
+import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
-import ca.ulaval.glo4002.booking.application.use_cases.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.TransportUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
@@ -103,8 +104,7 @@ public class BookingServer implements Runnable {
         ProgramValidator programValidator = new ProgramValidator(festivalDates);
 
         OxygenInventoryMapper oxygenInventoryMapper = new OxygenInventoryMapper();
-        OxygenHistoryMapper oxygenHistoryMapper = new OxygenHistoryMapper();
-        PassOrderResponseMapper passOrderResponseMapper = new PassOrderResponseMapper();
+        OxygenHistoryDtoMapper oxygenHistoryMapper = new OxygenHistoryDtoMapper();
         ProgramMapper programMapper = new ProgramMapper();
         ShuttleMapper shuttleMapper = new ShuttleMapper();
 
@@ -118,7 +118,6 @@ public class BookingServer implements Runnable {
             programValidator,
             oxygenInventoryMapper,
             oxygenHistoryMapper,
-            passOrderResponseMapper,
             programMapper,
             shuttleMapper
         ).packages("ca.ulaval.glo4002.booking");
@@ -160,8 +159,10 @@ public class BookingServer implements Runnable {
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
 		OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
         PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
-        
-        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver);
+        PassDtoMapper passDtoMapper = new PassDtoMapper();
+        PassOrderDtoMapper passOrderDtoMapper = new PassOrderDtoMapper(passDtoMapper);
+
+        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver, passOrderDtoMapper);
     }
 
     private ArtistRankingUseCase createArtistRankingUseCase() {

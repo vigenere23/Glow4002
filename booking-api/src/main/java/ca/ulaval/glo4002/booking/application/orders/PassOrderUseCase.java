@@ -1,9 +1,10 @@
-package ca.ulaval.glo4002.booking.application.use_cases;
+package ca.ulaval.glo4002.booking.application.orders;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.api.resources.orders.PassRequest;
+import ca.ulaval.glo4002.booking.api.resources.orders.requests.PassRequest;
+import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
+import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
@@ -20,23 +21,25 @@ public class PassOrderUseCase {
     private TransportReserver transportReserver;
     private OxygenRequester oxygenRequester;
     private IncomeSaver incomeSaver;
+    private PassOrderDtoMapper passOrderDtoMapper;
 
     public PassOrderUseCase(PassOrderFactory passFactory, PassOrderRepository passOrderRepository,
             TransportReserver transportReserver, OxygenRequester oxygenRequester, PassRepository passRepository,
-            IncomeSaver incomeSaver) {
+            IncomeSaver incomeSaver, PassOrderDtoMapper passOrderDtoMapper) {
         this.passOrderFactory = passFactory;
         this.passOrderRepository = passOrderRepository;
         this.transportReserver = transportReserver;
         this.oxygenRequester = oxygenRequester;
         this.passRepository = passRepository;
         this.incomeSaver = incomeSaver;
+        this.passOrderDtoMapper = passOrderDtoMapper;
     }
 
-    public Optional<PassOrder> getOrder(OrderNumber orderNumber) {
-        return passOrderRepository.findByOrderNumber(orderNumber);
+    public PassOrderDto getOrder(OrderNumber orderNumber) {
+        return passOrderDtoMapper.toDto(passOrderRepository.findByOrderNumber(orderNumber));
     }
 
-    public PassOrder orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
+    public PassOrderDto orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(
             orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates()
         );
@@ -47,6 +50,6 @@ public class PassOrderUseCase {
             pass.reserveShuttles(transportReserver);
             pass.reserveOxygen(orderDate, oxygenRequester);
         }
-        return passOrder;
+        return passOrderDtoMapper.toDto(passOrder);
     }
 }

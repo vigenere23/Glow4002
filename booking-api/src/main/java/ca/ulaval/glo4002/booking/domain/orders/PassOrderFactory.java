@@ -22,14 +22,14 @@ public class PassOrderFactory {
 
     private PassFactory passFactory;
     private FestivalDates festivalDates;
-    private OrderDiscountLinker orderDiscountFactory;
+    private OrderDiscountLinker orderDiscountLinker;
     private OrderNumberFactory orderNumberFactory;
     
-    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountLinker orderDiscountFactory,  OrderNumberFactory orderNumberFactory) {
+    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountLinker orderDiscountLinker,  OrderNumberFactory orderNumberFactory) {
         this.festivalDates = festivalDates;
         this.orderNumberFactory = orderNumberFactory;
         this.passFactory = passFactory;
-        this.orderDiscountFactory = orderDiscountFactory;
+        this.orderDiscountLinker = orderDiscountLinker;
     }
 
     public PassOrder create(
@@ -42,10 +42,10 @@ public class PassOrderFactory {
         festivalDates.validateOrderDate(orderDate);
         List<Pass> passes = createPasses(passOption, passCategory, eventDates);
         OrderNumber orderNumber = orderNumberFactory.create(vendorCode);
-        OrderDiscount orderDiscount = orderDiscountFactory.link(
+        OrderDiscount orderDiscount = orderDiscountLinker.link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );
-        return new PassOrder(orderNumber, passes, orderDiscount);
+        return new PassOrder(orderNumber, passes, Optional.of(orderDiscount));
     }
 
     private List<Pass> createPasses(PassOption passOption, PassCategory passCategory, Optional<List<LocalDate>> eventDates) {

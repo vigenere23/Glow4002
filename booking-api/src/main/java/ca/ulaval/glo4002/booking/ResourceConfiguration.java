@@ -3,14 +3,13 @@ package ca.ulaval.glo4002.booking;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDtoMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.orders.dto.PassOrderResponseMapper;
 import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
+import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.OxygenUseCase;
-import ca.ulaval.glo4002.booking.application.use_cases.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.ProgramUseCase;
 import ca.ulaval.glo4002.booking.application.use_cases.TransportUseCase;
@@ -27,8 +26,7 @@ public class ResourceConfiguration extends ResourceConfig {
             ProgramUseCase programUseCase,
             ProgramValidator programValidator,
             OxygenInventoryMapper oxygenInventoryMapper,
-            OxygenHistoryMapper oxygenHistoryMapper,
-            PassOrderResponseMapper passOrderResponseMapper,
+            OxygenHistoryDtoMapper oxygenHistoryMapper,
             ProgramMapper programMapper,
             ShuttleMapper shuttleMapper
     ) {
@@ -43,8 +41,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(programUseCase).to(ProgramUseCase.class);
                 bind(programValidator).to(ProgramValidator.class);
                 bind(oxygenInventoryMapper).to(OxygenInventoryMapper.class);
-                bind(oxygenHistoryMapper).to(OxygenHistoryMapper.class);
-                bind(passOrderResponseMapper).to(PassOrderResponseMapper.class);
+                bind(oxygenHistoryMapper).to(OxygenHistoryDtoMapper.class);
                 bind(programMapper).to(ProgramMapper.class);
                 bind(shuttleMapper).to(ShuttleMapper.class);
             }

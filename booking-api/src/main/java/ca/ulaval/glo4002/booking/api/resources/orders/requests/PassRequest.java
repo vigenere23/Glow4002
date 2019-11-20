@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.orders;
+package ca.ulaval.glo4002.booking.api.resources.orders.requests;
 
 import java.time.LocalDate;
 import java.util.List;

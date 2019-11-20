@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class PassOrderTest {
     private Pass nebulaSinglePassMock;
     private Pass supergiantSinglePassMock;
     private IncomeSaver incomeSaver;
-    private OrderDiscount orderDiscount;
+    private Optional<OrderDiscount> orderDiscount;
     private OrderNumber orderNumber;
     private List<Pass> passes;
 
@@ -40,9 +41,9 @@ public class PassOrderTest {
     public void setUpPassOrder() {
         passes = new ArrayList<>();
         incomeSaver = mock(IncomeSaver.class);
-        orderDiscount = new OrderDiscountLinker().link(
+        orderDiscount = Optional.of(new OrderDiscountLinker().link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
-        );
+        ));
 
         orderNumber = new OrderNumber(VendorCode.TEAM, 0);
 

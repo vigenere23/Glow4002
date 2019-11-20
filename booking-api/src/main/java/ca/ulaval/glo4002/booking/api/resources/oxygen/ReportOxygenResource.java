@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDtoMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.ReportOxygenResponse;
@@ -22,10 +22,10 @@ public class ReportOxygenResource {
 
     private OxygenUseCase oxygenUseCase;
     private final OxygenInventoryMapper oxygenInventoryMapper;
-    private final OxygenHistoryMapper oxygenHistoryMapper;
+    private final OxygenHistoryDtoMapper oxygenHistoryMapper;
     
     @Inject
-    public ReportOxygenResource(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
+    public ReportOxygenResource(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryDtoMapper oxygenHistoryMapper) {
         this.oxygenUseCase = oxygenUseCase;
         this.oxygenInventoryMapper = oxygenInventoryMapper;
         this.oxygenHistoryMapper = oxygenHistoryMapper;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application.use_cases;
+package ca.ulaval.glo4002.booking.application.orders;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.api.resources.orders.PassRequest;
+import ca.ulaval.glo4002.booking.api.resources.orders.requests.PassRequest;
+import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.domain.orders.*;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -55,11 +56,12 @@ public class PassOrderUseCaseTest {
         oxygenRequester = mock(OxygenRequester.class);
         passRepository = mock(PassRepository.class);
         incomeSaver = mock(IncomeSaver.class);
+        PassOrderDtoMapper passOrderDtoMapper = mock(PassOrderDtoMapper.class);
 
         mockPassOrder();
         mockPassRequest();
 
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver);
+        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver, passOrderDtoMapper);
     }
 
     @Test

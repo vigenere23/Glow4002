@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDtoMapper;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
 public class OxygenHistoryMapperTest {
@@ -25,7 +25,7 @@ public class OxygenHistoryMapperTest {
 
     private List<OxygenHistoryEntry> history;
     private OxygenHistoryEntry historyEntry;
-    private OxygenHistoryMapper historyMapper = new OxygenHistoryMapper();
+    private OxygenHistoryDtoMapper historyMapper = new OxygenHistoryDtoMapper();
     
     @BeforeEach
     public void setUpOxygenHistoryMapper() {

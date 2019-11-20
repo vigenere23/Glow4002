@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OxygenHistoryMapper {
+public class OxygenHistoryDtoMapper {
 
     public List<OxygenHistoryDto> toDto(List<OxygenHistoryEntry> history) {
         List<OxygenHistoryDto> historyDto = new ArrayList<>();
