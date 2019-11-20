@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
 
 public class SinglePassDto extends PassDto {
 

@@ -55,7 +55,7 @@ import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererLinker;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenRequestSettingsFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplierFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
+import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumberFactory;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassRepository;
 

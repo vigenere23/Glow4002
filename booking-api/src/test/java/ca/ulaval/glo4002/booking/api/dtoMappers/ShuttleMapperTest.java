@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleDto;
 import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
