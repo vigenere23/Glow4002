@@ -11,37 +11,40 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleDto;
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.ShuttleMapper;
-import ca.ulaval.glo4002.booking.api.resources.transport.dto.TransportResponse;
-import ca.ulaval.glo4002.booking.application.TransportUseCase;
+import ca.ulaval.glo4002.booking.api.resources.transport.responses.TransportResponse;
+import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)
 public class TransportResource {
     
     private TransportUseCase transportUseCase;
-    private ShuttleMapper shuttleMapper;
     
     @Inject
-    public TransportResource(TransportUseCase transportUseCase, ShuttleMapper shuttleMapper) {
+    public TransportResource(TransportUseCase transportUseCase) {
         this.transportUseCase = transportUseCase;
-        this.shuttleMapper = shuttleMapper;
     }
 
     @GET
     public Response transport(@QueryParam("date") String stringDate) {
-        List<ShuttleDto> departures;
-        List<ShuttleDto> arrivals;
-        if (stringDate == null) {
-            departures = shuttleMapper.toDto(transportUseCase.getAllDepartures());
-            arrivals = shuttleMapper.toDto(transportUseCase.getAllArrivals());
-        } else {
-            LocalDate date = LocalDate.parse(stringDate);
-            departures = shuttleMapper.toDto(transportUseCase.getShuttlesDepartureByDate(date));
-            arrivals = shuttleMapper.toDto(transportUseCase.getShuttlesArrivalByDate(date));
-        }
-        TransportResponse response = new TransportResponse(departures, arrivals);
+        TransportResponse response = stringDate == null
+            ? getTransportResponse()
+            : getTransportResponseFilteredByDate(stringDate);
+
         return Response.ok(response).build();
+    }
+
+    private TransportResponse getTransportResponse() {
+        List<ShuttleDto> departures = transportUseCase.getAllDepartures();
+        List<ShuttleDto> arrivals = transportUseCase.getAllArrivals();
+        return new TransportResponse(departures, arrivals);
+    }
+
+    private TransportResponse getTransportResponseFilteredByDate(String stringDate) {
+        LocalDate date = LocalDate.parse(stringDate);
+        List<ShuttleDto> departures = transportUseCase.getShuttlesDepartureByDate(date);
+        List<ShuttleDto> arrivals = transportUseCase.getShuttlesArrivalByDate(date);
+        return new TransportResponse(departures, arrivals);
     }
 }

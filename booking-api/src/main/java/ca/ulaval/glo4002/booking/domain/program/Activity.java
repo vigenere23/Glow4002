@@ -3,8 +3,6 @@ package ca.ulaval.glo4002.booking.domain.program;
 import java.util.Arrays;
 import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
-
 public enum Activity {
 
     YOGA("yoga"),
@@ -24,19 +22,11 @@ public enum Activity {
             .findFirst();
 
         if (!value.isPresent()) {
-            throw new InvalidProgramException();
+            throw new IllegalArgumentException(
+                String.format("No enum value for string %s", text)
+            );
         }
         return value.get();
-    }
-
-    public static boolean contains(Activity activity) {
-        boolean isAnActivity = false;
-        for(Activity activityEnum : Activity.values()) {
-            if (activityEnum.equals(activity)) {
-                isAnActivity = true;
-            }
-        } 
-        return isAnActivity; 
     }
 
     public static int oxygenForActivity(Activity activity) {
@@ -44,10 +34,6 @@ public enum Activity {
     }
 
     public static boolean artistIsActivity(String artistName) {
-        boolean isAnActivity = false;
-        if(artistName.equals("yoga") || artistName.equals("cardio")) {
-            isAnActivity = true;
-        }
-        return isAnActivity;
+        return artistName.equals("yoga") || artistName.equals("cardio");
     }
 }

@@ -9,33 +9,27 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenHistoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryDto;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.OxygenInventoryMapper;
-import ca.ulaval.glo4002.booking.api.resources.oxygen.dto.ReportOxygenResponse;
-import ca.ulaval.glo4002.booking.application.OxygenUseCase;
+import ca.ulaval.glo4002.booking.api.resources.oxygen.responses.OxygenReportResponse;
+import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
+import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDto;
+import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryEntryDto;
 
 @Path("/report/o2")
 @Produces(MediaType.APPLICATION_JSON)
 public class ReportOxygenResource {
 
     private OxygenUseCase oxygenUseCase;
-    private final OxygenInventoryMapper oxygenInventoryMapper;
-    private final OxygenHistoryMapper oxygenHistoryMapper;
     
     @Inject
-    public ReportOxygenResource(OxygenUseCase oxygenUseCase, OxygenInventoryMapper oxygenInventoryMapper, OxygenHistoryMapper oxygenHistoryMapper) {
+    public ReportOxygenResource(OxygenUseCase oxygenUseCase) {
         this.oxygenUseCase = oxygenUseCase;
-        this.oxygenInventoryMapper = oxygenInventoryMapper;
-        this.oxygenHistoryMapper = oxygenHistoryMapper;
     }
     
     @GET
     public Response getOxygenReport() {
-        List<OxygenInventoryDto> inventory = oxygenInventoryMapper.toDto(oxygenUseCase.getOxygenInventory());
-        List<OxygenHistoryDto> history = oxygenHistoryMapper.toDto(oxygenUseCase.getOxygenHistory());
-        ReportOxygenResponse response = new ReportOxygenResponse(inventory, history);
+        List<OxygenInventoryEntryDto> inventory = oxygenUseCase.getOxygenInventory();
+        List<OxygenHistoryEntryDto> history = oxygenUseCase.getOxygenHistory();
+        OxygenReportResponse response = new OxygenReportResponse(inventory, history);
         return Response.ok(response).build();
     }
 }

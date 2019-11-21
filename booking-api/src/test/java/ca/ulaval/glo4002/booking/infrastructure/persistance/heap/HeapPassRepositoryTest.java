@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumber;
-import ca.ulaval.glo4002.booking.domain.passes.passNumber.PassNumberFactory;
+import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
+import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumberFactory;
 
 public class HeapPassRepositoryTest {
 

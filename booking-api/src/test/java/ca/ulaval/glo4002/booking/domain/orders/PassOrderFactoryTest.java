@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
-import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumberFactory;
+import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;

@@ -2,9 +2,9 @@ package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.domain.orders.orderNumber.OrderNumber;
+import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
+import ca.ulaval.glo4002.booking.infrastructure.persistance.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 
@@ -17,8 +17,12 @@ public class HeapPassOrderRepository implements PassOrderRepository {
     }
 
     @Override
-    public Optional<PassOrder> findByOrderNumber(OrderNumber orderNumber) {
-        return Optional.ofNullable(passOrders.get(orderNumber.getValue()));
+    public PassOrder findByOrderNumber(OrderNumber orderNumber) {
+        PassOrder passOrder = passOrders.get(orderNumber.getValue());
+        if (passOrder == null) {
+            throw new NotFoundException("order", orderNumber.getValue());
+        }
+        return passOrder;
     }
 
     @Override
