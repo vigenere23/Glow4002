@@ -6,8 +6,8 @@ import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 
 public class TransportResponse {
     
-    public List<ShuttleDto> departures;
-    public List<ShuttleDto> arrivals;
+    public final List<ShuttleDto> departures;
+    public final List<ShuttleDto> arrivals;
 
     public TransportResponse(List<ShuttleDto> departureShuttles, List<ShuttleDto> arrivalShuttles) {
         this.departures = departureShuttles;

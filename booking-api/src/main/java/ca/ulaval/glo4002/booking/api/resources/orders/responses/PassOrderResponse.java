@@ -7,10 +7,8 @@ import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
 
 public class PassOrderResponse {
 
-    public float orderPrice;
-    public List<PassDto> passes;
-
-    public PassOrderResponse() {}
+    public final float orderPrice;
+    public final List<PassDto> passes;
 
     public PassOrderResponse(PassOrderDto passOrderDto) {
         this.orderPrice = passOrderDto.orderPrice;

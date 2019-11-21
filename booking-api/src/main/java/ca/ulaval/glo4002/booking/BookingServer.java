@@ -13,7 +13,7 @@ import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
-import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
+import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDtoMapper;

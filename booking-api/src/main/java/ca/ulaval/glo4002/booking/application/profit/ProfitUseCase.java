@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application.use_cases;
+package ca.ulaval.glo4002.booking.application.profit;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;

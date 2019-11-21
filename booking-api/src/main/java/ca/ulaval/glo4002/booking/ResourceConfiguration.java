@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
-import ca.ulaval.glo4002.booking.application.use_cases.ProfitUseCase;
+import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
 
 public class ResourceConfiguration extends ResourceConfig {
 
