@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
-public class SingleDayProgram {
+public class ProgramDay {
 
     protected static final int OXYGEN_QUANTITY_BY_ARTIST = 6;
     protected static final OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
@@ -20,7 +20,7 @@ public class SingleDayProgram {
     private String artistName;
     private LocalDate date;
 
-    public SingleDayProgram(Activity activity, String artistName, LocalDate date) {
+    public ProgramDay(Activity activity, String artistName, LocalDate date) {
         this.activity = activity;
         this.artistName = artistName;
         this.date = date;

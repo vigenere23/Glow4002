@@ -23,9 +23,9 @@ public class ProgramValidatorTest {
     private final static LocalDate FESTIVAL_DATE = LocalDate.of(2050, 7, 17);
 
     private ProgramValidator programValidator;
-    private List<SingleDayProgram> singleDaysProgram = new LinkedList<>();
+    private List<ProgramDay> singleDaysProgram = new LinkedList<>();
     private FestivalDates glow4002Dates = new Glow4002Dates();
-    private SingleDayProgram singleDay;
+    private ProgramDay singleDay;
 
     @BeforeEach
     public void setUpProgramCreation() {
@@ -41,7 +41,7 @@ public class ProgramValidatorTest {
 
     @Test
     public void givenOutOfFestivalDate_whenValidateProgram_thenInvalidProgramExceptionIsThrown() {
-        singleDay = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, OUT_OF_FESTIVAL_DATE);
+        singleDay = new ProgramDay(SOME_ACTIVITY, SOME_ARTIST_NAME, OUT_OF_FESTIVAL_DATE);
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -49,7 +49,7 @@ public class ProgramValidatorTest {
     
     @Test
     public void givenTwoIdenticalDates_whenValidateProgram_thenInvalidProgramExceptionIsThrown() {
-        singleDay = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, DUPLICATE_FESTIVAL_DATE);
+        singleDay = new ProgramDay(SOME_ACTIVITY, SOME_ARTIST_NAME, DUPLICATE_FESTIVAL_DATE);
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -57,7 +57,7 @@ public class ProgramValidatorTest {
   
     @Test
     public void givenTooLongProgram_whenValidateProgram_thenInvalidProgramExceptionIsThrown() {
-        singleDay = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, FESTIVAL_DATE);
+        singleDay = new ProgramDay(SOME_ACTIVITY, SOME_ARTIST_NAME, FESTIVAL_DATE);
         singleDaysProgram.add(singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -65,7 +65,7 @@ public class ProgramValidatorTest {
 
     @Test
     public void givenSameArtistForTwoDays_whenValidateProgram_thenInvalidProgramExceptionIsThrown() {
-        singleDay = new SingleDayProgram(SOME_ACTIVITY, "Coldray", FESTIVAL_DATE);
+        singleDay = new ProgramDay(SOME_ACTIVITY, "Coldray", FESTIVAL_DATE);
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
@@ -73,20 +73,20 @@ public class ProgramValidatorTest {
 
     @Test
     public void givenActivityStringForPm_whenValidateProgram_thenInvalidProgramExceptionIsThrown() {
-        singleDay = new SingleDayProgram(SOME_ACTIVITY, "yoga", FESTIVAL_DATE);
+        singleDay = new ProgramDay(SOME_ACTIVITY, "yoga", FESTIVAL_DATE);
         singleDaysProgram.set(0 , singleDay);
 
         assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDaysProgram));
     }
 
     private void createProgram() {
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 7, 17)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Sun 41", LocalDate.of(2050, 7, 18)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Kelvin Harris",  LocalDate.of(2050, 7, 19)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Bruno Mars",  LocalDate.of(2050, 7, 20)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Coldray",  LocalDate.of(2050, 7, 21)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "David Glowie",  LocalDate.of(2050, 7, 22)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "30 seconds to Mars",  LocalDate.of(2050, 7, 23)));
-        singleDaysProgram.add(new SingleDayProgram(Activity.CARDIO, "Novana",  LocalDate.of(2050, 7, 24)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "Lady Gamma", LocalDate.of(2050, 7, 17)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "Sun 41", LocalDate.of(2050, 7, 18)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "Kelvin Harris",  LocalDate.of(2050, 7, 19)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "Bruno Mars",  LocalDate.of(2050, 7, 20)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "Coldray",  LocalDate.of(2050, 7, 21)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "David Glowie",  LocalDate.of(2050, 7, 22)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "30 seconds to Mars",  LocalDate.of(2050, 7, 23)));
+        singleDaysProgram.add(new ProgramDay(Activity.CARDIO, "Novana",  LocalDate.of(2050, 7, 24)));
     }
 }

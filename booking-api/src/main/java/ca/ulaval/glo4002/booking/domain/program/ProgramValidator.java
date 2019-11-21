@@ -11,18 +11,18 @@ import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 
 public class ProgramValidator {
     private FestivalDates glow4002Dates;
-    private List<SingleDayProgram> program; 
+    private List<ProgramDay> program; 
 
     public ProgramValidator(FestivalDates glow4002Dates) {
         this.glow4002Dates = glow4002Dates;
     }
      
-    public void validateProgram(List<SingleDayProgram> program) {
+    public void validateProgram(List<ProgramDay> program) {
         this.program = program;
         boolean artistsAreDifferent;
         boolean artistOnPMOnly;
         boolean validDates;
-        for (SingleDayProgram programForOneDay : this.program) {
+        for (ProgramDay programForOneDay : this.program) {
             artistsAreDifferent = artistDifferentOnEachDay(programForOneDay);
             artistOnPMOnly = onlyArtistOnPm(programForOneDay);
             validDates = validEventDates(programForOneDay);
@@ -33,11 +33,11 @@ public class ProgramValidator {
         }
     }
 
-    private boolean artistDifferentOnEachDay(SingleDayProgram programForOneDay) {
+    private boolean artistDifferentOnEachDay(ProgramDay programForOneDay) {
         return Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) == 1;
     }
     
-    private boolean onlyArtistOnPm(SingleDayProgram programForOneDay) {
+    private boolean onlyArtistOnPm(ProgramDay programForOneDay) {
         boolean isAnNotActivity = true;
         for(String artistName : retrieveArtists()) {
             if (Activity.artistIsActivity(artistName)) {
@@ -48,10 +48,10 @@ public class ProgramValidator {
     }
     
     private List<String> retrieveArtists() {
-        return program.stream().map(SingleDayProgram::getArtist).collect(Collectors.toList());
+        return program.stream().map(ProgramDay::getArtist).collect(Collectors.toList());
     }
     
-    private boolean validEventDates(SingleDayProgram programForOneDay) {
+    private boolean validEventDates(ProgramDay programForOneDay) {
         boolean validDates = true;
         if (!programForOneDay.isDuringFestivalDate(glow4002Dates) || !dateIsUnique(programForOneDay)) {
             validDates = false;
@@ -63,11 +63,11 @@ public class ProgramValidator {
         return validDates;
     }
 
-    private boolean dateIsUnique(SingleDayProgram programForOneDay) {
+    private boolean dateIsUnique(ProgramDay programForOneDay) {
         return Collections.frequency(retrieveDates(), programForOneDay.getDate()) == 1;
     }
 
     private List<LocalDate> retrieveDates() {
-        return program.stream().map(SingleDayProgram::getDate).collect(Collectors.toList());
+        return program.stream().map(ProgramDay::getDate).collect(Collectors.toList());
     }
 }

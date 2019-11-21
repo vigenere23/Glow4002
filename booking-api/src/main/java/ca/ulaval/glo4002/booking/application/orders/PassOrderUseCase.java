@@ -46,8 +46,10 @@ public class PassOrderUseCase {
         PassOrder passOrder = passOrderFactory.create(
             orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates()
         );
+
         passOrder.saveIncome(incomeSaver);
         passOrderRepository.save(passOrder);
+        
         for (Pass pass : passOrder.getPasses()) {
             passRepository.save(pass);
             pass.reserveShuttles(transportReserver);

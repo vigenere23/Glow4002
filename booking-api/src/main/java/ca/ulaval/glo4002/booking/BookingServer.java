@@ -8,7 +8,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
@@ -19,6 +18,8 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDtoMapper;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryEntryDtoMapper;
+import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
+import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -28,7 +29,6 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitSaver;
-import ca.ulaval.glo4002.booking.application.use_cases.ProgramUseCase;
 import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.festivals.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
@@ -67,6 +67,7 @@ public class BookingServer implements Runnable {
     private PassRepository passRepository;
     private IncomeSaver incomeSaver;
     private OutcomeSaver outcomeSaver;
+    private FestivalDates festivalDates;
 
     public static void main(String[] args) {
         new BookingServer().run();
@@ -93,7 +94,7 @@ public class BookingServer implements Runnable {
     }
 
     public ResourceConfig generateResourceConfig() {
-        Glow4002Dates festivalDates = new Glow4002Dates();
+        festivalDates = new Glow4002Dates();
         
         ProfitUseCase profitUseCase = createProfitUseCase();        
         OxygenUseCase oxygenUseCase = createOxygenUseCase(festivalDates);
@@ -101,9 +102,6 @@ public class BookingServer implements Runnable {
         PassOrderUseCase passOrderUseCase = createPassOrderUseCase(festivalDates);
         ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();  
         ProgramUseCase programUseCase = createProgramUseCase();  
-        ProgramValidator programValidator = new ProgramValidator(festivalDates);
-
-        ProgramMapper programMapper = new ProgramMapper();
 
         return new ResourceConfiguration(
             profitUseCase,
@@ -111,9 +109,7 @@ public class BookingServer implements Runnable {
             transportUseCase,
             oxygenUseCase,
             artistRankingUseCase,
-            programUseCase,
-            programValidator,
-            programMapper
+            programUseCase
         ).packages("ca.ulaval.glo4002.booking");
     }
 
@@ -125,7 +121,7 @@ public class BookingServer implements Runnable {
         return new ProfitUseCase(profitCalculator, profitRepository); 
     }
 
-    private OxygenUseCase createOxygenUseCase(Glow4002Dates festivalDates) {
+    private OxygenUseCase createOxygenUseCase(FestivalDates festivalDates) {
         OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
         OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
         OxygenOrdererLinker oxygenOrdererLinker = new OxygenOrdererLinker();
@@ -171,6 +167,8 @@ public class BookingServer implements Runnable {
     }
 
     private ProgramUseCase createProgramUseCase() {
-        return new ProgramUseCase(transportReserver, oxygenRequester, artistsRepository, passRepository, outcomeSaver);
+        ProgramValidator programValidator = new ProgramValidator(festivalDates);
+        ProgramDayDtoMapper programMapper = new ProgramDayDtoMapper();
+        return new ProgramUseCase(transportReserver, oxygenRequester, artistsRepository, passRepository, outcomeSaver, programValidator, programMapper);
     }
 }

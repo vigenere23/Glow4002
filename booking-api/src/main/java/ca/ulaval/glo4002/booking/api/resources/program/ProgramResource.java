@@ -7,28 +7,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.program.dto.ProgramMapper;
-import ca.ulaval.glo4002.booking.application.use_cases.ProgramUseCase;
+import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramRequest;
+import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 @Path("/program")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProgramResource {
 
-    private ProgramMapper programMapper;
     private ProgramUseCase programUseCase;
-    private ProgramValidator programValidator;
 
     @Inject
-    public ProgramResource(ProgramUseCase programUseCase, ProgramValidator programValidator, ProgramMapper programMapper) {
+    public ProgramResource(ProgramUseCase programUseCase) {
         this.programUseCase = programUseCase;
-        this.programValidator = programValidator;
-        this.programMapper = programMapper;
     }
 
     @POST
-    public Response create(ProgramRequest request) {
-        programUseCase.provideProgramResources(programMapper.fromDto(request, programValidator));
+    public Response create(ProgramRequest programRequest) {
+        programUseCase.provideProgramResources(programRequest);
         return Response.ok().build();
     }
 }

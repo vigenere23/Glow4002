@@ -25,7 +25,7 @@ import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
-public class SingleDayProgramTest {
+public class ProgramDayTest {
 
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
     private final static String SOME_ARTIST_NAME = "Sun 41";
@@ -41,7 +41,7 @@ public class SingleDayProgramTest {
     private List<ArtistProgramInformation> artistsForProgram;   
     private OxygenRequester oxygenRequester;
     private TransportReserver transportReserver;
-    private SingleDayProgram singleDayProgram;
+    private ProgramDay singleDayProgram;
     private FestivalDates festivalDates;
     private ArtistProgramInformation artistProgramInformation;
     private OutcomeSaver outcomeSaver;
@@ -52,7 +52,7 @@ public class SingleDayProgramTest {
         mockDependency();
         mockArtistProgramInformation();
 
-        singleDayProgram = new SingleDayProgram(SOME_ACTIVITY, SOME_ARTIST_NAME, SOME_DATE);
+        singleDayProgram = new ProgramDay(SOME_ACTIVITY, SOME_ARTIST_NAME, SOME_DATE);
     }
 
     @Test
