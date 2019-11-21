@@ -3,12 +3,12 @@ package ca.ulaval.glo4002.booking;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import ca.ulaval.glo4002.booking.application.artists.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
-import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
+import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
 import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
-import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
 
 public class ResourceConfiguration extends ResourceConfig {
 

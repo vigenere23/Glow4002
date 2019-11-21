@@ -12,7 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.exceptions.InvalidFormatException;
-import ca.ulaval.glo4002.booking.application.use_cases.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.api.resources.artists.responses.ArtistRankingResponse;
+import ca.ulaval.glo4002.booking.application.artists.ArtistRankingUseCase;
 import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
 @Path("/program/artists")
@@ -35,15 +36,13 @@ public class ArtistsRankingResource {
         if(!ranking.containsKey(orderBy)){
             throw new InvalidFormatException();
         }
-        ArtistRankingResponse response = sortArtist(orderBy);
+        ArtistRankingResponse response = getSortedArtists(orderBy);
         
         return Response.status(200).entity(response).build();
     }
 
-    private ArtistRankingResponse sortArtist(String orderBy) {
+    private ArtistRankingResponse getSortedArtists(String orderBy) {
         List<String> artistsRanked = artistRankingUseCase.orderBy(ranking.get(orderBy));
-        ArtistRankingResponse response = new ArtistRankingResponse();
-        response.artists = artistsRanked;
-        return response;
+        return new ArtistRankingResponse(artistsRanked);
     }
 }

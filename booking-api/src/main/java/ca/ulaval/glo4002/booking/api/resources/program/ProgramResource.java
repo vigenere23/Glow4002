@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
-import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 
 @Path("/program")
 @Produces(MediaType.APPLICATION_JSON)

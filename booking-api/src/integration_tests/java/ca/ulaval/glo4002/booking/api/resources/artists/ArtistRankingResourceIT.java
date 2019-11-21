@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
+import ca.ulaval.glo4002.booking.api.resources.artists.responses.ArtistRankingResponse;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 
 public class ArtistRankingResourceIT extends JerseyTestBookingServer {
@@ -128,9 +129,7 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
             sortedArtist.add(rankingInfo.getArtistName());
         }
 
-        ArtistRankingResponse response = new ArtistRankingResponse();
-        response.artists = sortedArtist;
-        return response;
+        return new ArtistRankingResponse(sortedArtist);
     }
 
     private Response getSortedArtistFromServer(String sortingOption) {

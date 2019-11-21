@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application.use_cases;
+package ca.ulaval.glo4002.booking.application.artists;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
