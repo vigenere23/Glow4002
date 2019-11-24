@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 
 public class ProgramValidator {

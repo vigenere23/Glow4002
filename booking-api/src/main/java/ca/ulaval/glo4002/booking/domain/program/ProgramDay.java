@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;

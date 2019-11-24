@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.festivals;
+package ca.ulaval.glo4002.booking.domain.dates;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
