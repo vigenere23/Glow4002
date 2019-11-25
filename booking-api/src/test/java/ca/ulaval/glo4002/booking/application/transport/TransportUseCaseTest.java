@@ -3,9 +3,7 @@ package ca.ulaval.glo4002.booking.application.transport;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +13,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
@@ -25,24 +26,24 @@ import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
+@ExtendWith(MockitoExtension.class)
 class TransportUseCaseTest {
 
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 7, 18);
     private final static LocalDate OUT_OF_FESTIVAL_DATE = LocalDate.of(2050, 7, 10);
 
-    private List<Shuttle> shuttlesEarth = new ArrayList<>();
-    private List<Shuttle> shuttlesUlavalogy = new ArrayList<>();
-    private FestivalDates festivalDates;
-    private ShuttleRepository shuttleRepository;
+    private List<Shuttle> shuttlesEarth;
+    private List<Shuttle> shuttlesUlavalogy;
+    
+    @Mock FestivalDates festivalDates;
+    @Mock ShuttleRepository shuttleRepository;
     private TransportUseCase transportUseCase;
 
     @BeforeEach
     public void setUpTransportUseCase() {
         prepareShuttles();
-        mockFestival();
-        shuttleRepository = mock(ShuttleRepository.class);
+        
         ShuttleDtoMapper shuttleDtoMapper = new ShuttleDtoMapper();
-
         transportUseCase = new TransportUseCase(festivalDates, shuttleRepository, shuttleDtoMapper);
     }
 
@@ -121,15 +122,10 @@ class TransportUseCaseTest {
         });
     }
 
-    private void mockFestival() {
-        festivalDates = mock(FestivalDates.class);
-
-        doNothing().when(festivalDates).validateEventDate(any(LocalDate.class));
-        when(festivalDates.getStartDate()).thenReturn(LocalDate.now());
-        when(festivalDates.getEndDate()).thenReturn(LocalDate.now());
-    }
-
     private void prepareShuttles() {
+        shuttlesEarth = new ArrayList<>();
+        shuttlesUlavalogy = new ArrayList<>();
+
         Shuttle mockedShuttle = new SpaceX(SOME_DATE);
 
         shuttlesEarth.add(mockedShuttle);
