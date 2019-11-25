@@ -37,7 +37,8 @@ public class OxygenOrderer {
     }
 
 	public void order(LocalDate orderDate, int requestedQuantity) {
-        int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, oxygenDates.getOxygenLimitDeliveryDate());
+        LocalDate oxygenLimitDate = oxygenDates.getOxygenLimitDeliveryDate();
+        int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, oxygenLimitDate);
         
         if (numberOfDaysUntilLimitDate < requestSettings.getNumberOfDaysToReceive()) {
             delegateToNextOrderer(orderDate, requestedQuantity);

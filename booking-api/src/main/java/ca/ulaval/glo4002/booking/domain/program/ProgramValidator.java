@@ -55,7 +55,7 @@ public class ProgramValidator {
 
     private boolean validEventDates(ProgramDay programForOneDay) {
         return programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(programForOneDay)
-                && retrieveDates().size() == festivalDates.getNumberOfDays();
+                && retrieveDates().size() == festivalDates.getNumberOfFestivalDays();
     }
 
     private boolean dateIsUnique(ProgramDay programForOneDay) {
