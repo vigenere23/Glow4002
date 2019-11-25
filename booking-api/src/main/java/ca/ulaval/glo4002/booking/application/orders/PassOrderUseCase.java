@@ -20,32 +20,13 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class PassOrderUseCase {
 
-    private PassOrderFactory passOrderFactory;
-    private PassOrderRepository passOrderRepository;
-    private PassRepository passRepository;
-    private TransportReserver transportReserver;
-    private OxygenRequester oxygenRequester;
-    private IncomeSaver incomeSaver;
-    private PassOrderDtoMapper passOrderDtoMapper;
-
-    @Inject
-    public PassOrderUseCase(
-        PassOrderFactory passFactory,
-        PassOrderRepository passOrderRepository,
-        TransportReserver transportReserver,
-        OxygenRequester oxygenRequester,
-        PassRepository passRepository,
-        IncomeSaver incomeSaver,
-        PassOrderDtoMapper passOrderDtoMapper
-    ) {
-        this.passOrderFactory = passFactory;
-        this.passOrderRepository = passOrderRepository;
-        this.transportReserver = transportReserver;
-        this.oxygenRequester = oxygenRequester;
-        this.passRepository = passRepository;
-        this.incomeSaver = incomeSaver;
-        this.passOrderDtoMapper = passOrderDtoMapper;
-    }
+    @Inject private PassOrderFactory passOrderFactory;
+    @Inject private PassOrderRepository passOrderRepository;
+    @Inject private PassRepository passRepository;
+    @Inject private TransportReserver transportReserver;
+    @Inject private OxygenRequester oxygenRequester;
+    @Inject private IncomeSaver incomeSaver;
+    @Inject private PassOrderDtoMapper passOrderDtoMapper;
 
     public PassOrderDto getOrder(OrderNumber orderNumber) {
         return passOrderDtoMapper.toDto(passOrderRepository.findByOrderNumber(orderNumber));

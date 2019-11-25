@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -41,8 +42,6 @@ public class PassOrderUseCaseTest {
     final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
     final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
 
-    PassOrderUseCase passOrderUseCase;
-
     @Mock PassOrderFactory passOrderFactory;
     @Mock TransportReserver transportReserver;
     @Mock OxygenRequester oxygenRequester;
@@ -53,13 +52,12 @@ public class PassOrderUseCaseTest {
     @Mock PassRepository passRepository;
     @Mock IncomeSaver incomeSaver;
     @Mock PassOrderDtoMapper passOrderDtoMapper;
-
+    @InjectMocks PassOrderUseCase passOrderUseCase;
+    
     @BeforeEach
     public void setUpPassOrderUseCase() {
         mockPassOrder();
         mockPassRequest();
-
-        passOrderUseCase = new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver, passOrderDtoMapper);
     }
 
     @Test
