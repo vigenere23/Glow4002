@@ -12,8 +12,8 @@ import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;;
 
 public class Glow4002Dates implements FestivalDates, OxygenDates {
 
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private final OffsetDateTime saleStartDate;
     private final OffsetDateTime saleEndDate;
 
@@ -32,6 +32,16 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     @Override
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    @Override
+    public void updateStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    @Override
+    public void updateEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     @Override

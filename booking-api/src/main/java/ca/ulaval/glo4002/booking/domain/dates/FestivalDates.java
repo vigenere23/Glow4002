@@ -7,6 +7,8 @@ public interface FestivalDates {
 
     public LocalDate getStartDate();
     public LocalDate getEndDate();
+    public void updateStartDate(LocalDate startDate);
+    public void updateEndDate(LocalDate endDate);
     public int getNumberOfDays();
     public OffsetDateTime getSaleStartDate();
     public OffsetDateTime getSaleEndDate();
