@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
@@ -25,6 +27,7 @@ public class PassOrderFactory {
     private OrderDiscountLinker orderDiscountLinker;
     private OrderNumberFactory orderNumberFactory;
     
+    @Inject
     public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountLinker orderDiscountLinker,  OrderNumberFactory orderNumberFactory) {
         this.festivalDates = festivalDates;
         this.orderNumberFactory = orderNumberFactory;

@@ -3,11 +3,14 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class TransportReserver {
 
     private ShuttleFiller shuttleFiller;
     private ShuttleRepository shuttleRepository;
     
+    @Inject
     public TransportReserver(ShuttleRepository shuttleRepository, ShuttleFiller shuttleFiller) {
         this.shuttleRepository = shuttleRepository;
         this.shuttleFiller = shuttleFiller;

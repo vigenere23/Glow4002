@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.booking.application.artists;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
@@ -12,6 +14,7 @@ public class ArtistRankingUseCase {
     private ArtistRepository artistsRepository;
     private ArtistRankingFactory artistRankingFactory;
 
+    @Inject
     public ArtistRankingUseCase(ArtistRepository artistsRepository, ArtistRankingFactory artistRankingFactory) {
         this.artistsRepository = artistsRepository;
         this.artistRankingFactory = artistRankingFactory;

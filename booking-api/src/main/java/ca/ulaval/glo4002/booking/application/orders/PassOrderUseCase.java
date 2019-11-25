@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.booking.application.orders;
 
 import java.time.OffsetDateTime;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.api.resources.orders.requests.PassRequest;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
@@ -26,9 +28,16 @@ public class PassOrderUseCase {
     private IncomeSaver incomeSaver;
     private PassOrderDtoMapper passOrderDtoMapper;
 
-    public PassOrderUseCase(PassOrderFactory passFactory, PassOrderRepository passOrderRepository,
-            TransportReserver transportReserver, OxygenRequester oxygenRequester, PassRepository passRepository,
-            IncomeSaver incomeSaver, PassOrderDtoMapper passOrderDtoMapper) {
+    @Inject
+    public PassOrderUseCase(
+        PassOrderFactory passFactory,
+        PassOrderRepository passOrderRepository,
+        TransportReserver transportReserver,
+        OxygenRequester oxygenRequester,
+        PassRepository passRepository,
+        IncomeSaver incomeSaver,
+        PassOrderDtoMapper passOrderDtoMapper
+    ) {
         this.passOrderFactory = passFactory;
         this.passOrderRepository = passOrderRepository;
         this.transportReserver = transportReserver;

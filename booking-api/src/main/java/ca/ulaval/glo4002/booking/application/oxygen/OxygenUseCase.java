@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.booking.application.oxygen;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDto;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDtoMapper;
 import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryEntryDto;
@@ -15,6 +17,7 @@ public class OxygenUseCase {
     private OxygenHistoryEntryDtoMapper oxygenHistoryEntryDtoMapper;
     private OxygenInventoryEntryDtoMapper oxygenInventoryEntryDtoMapper;
 
+    @Inject
     public OxygenUseCase(
         OxygenHistoryRepository oxygenHistory,
         OxygenInventoryRepository oxygenInventory,

@@ -9,11 +9,14 @@ import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.A
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ExternalApiArtistRepository implements ArtistRepository {
 
     private ArtistInformationMapper artistInformationMapper;
     private ApiArtist apiArtist;
 
+    @Inject
     public ExternalApiArtistRepository(ArtistInformationMapper artistInformationMapper,
             ApiArtist apiArtist) {
         this.artistInformationMapper = artistInformationMapper;

@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.booking.application.program;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
@@ -24,9 +26,15 @@ public class ProgramUseCase {
     private ProgramValidator programValidator;
     private ProgramDayDtoMapper programDayDtoMapper;
 
+    @Inject
     public ProgramUseCase(
-        TransportReserver transportReserver, OxygenRequester oxygenRequester, ArtistRepository artistRepository,
-        PassRepository passRepository, OutcomeSaver outcomeSaver, ProgramValidator programValidator, ProgramDayDtoMapper programDayDtoMapper
+        TransportReserver transportReserver,
+        OxygenRequester oxygenRequester,
+        ArtistRepository artistRepository,
+        PassRepository passRepository,
+        OutcomeSaver outcomeSaver,
+        ProgramValidator programValidator,
+        ProgramDayDtoMapper programDayDtoMapper
     ) {
         this.transportReserver = transportReserver;
         this.oxygenRequester = oxygenRequester;

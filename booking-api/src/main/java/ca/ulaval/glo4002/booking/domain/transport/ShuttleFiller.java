@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.booking.domain.transport;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleFiller {
@@ -10,6 +12,7 @@ public class ShuttleFiller {
     private ShuttleFactory shuttleFactory;
     private OutcomeSaver outcomeSaver;
 
+    @Inject
     public ShuttleFiller(ShuttleFactory shuttleFactory, OutcomeSaver outcomeSaver) {
         this.shuttleFactory = shuttleFactory;
         this.outcomeSaver = outcomeSaver;
