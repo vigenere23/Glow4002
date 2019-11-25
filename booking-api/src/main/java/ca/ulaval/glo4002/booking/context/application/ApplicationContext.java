@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.context.application;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
+import ca.ulaval.glo4002.booking.context.application.artists.ArtistsContext;
 import ca.ulaval.glo4002.booking.context.application.dates.DatesContext;
 import ca.ulaval.glo4002.booking.context.application.orders.OrdersContext;
 import ca.ulaval.glo4002.booking.context.application.oxygen.OxygenContext;
@@ -18,6 +19,7 @@ public class ApplicationContext extends AbstractBinder {
         install(new TransportContext());
         install(new OxygenContext());
         install(new OrdersContext());
+        install(new ArtistsContext());
         install(new ProgramContext());
     }
 }
