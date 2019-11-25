@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
+import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
@@ -15,15 +16,15 @@ public class OxygenOrderer {
     private Optional<OxygenOrderer> nextOrderer;
     private OxygenRequestSettings requestSettings;
     private OxygenSupplier oxygenSupplier;
-    private LocalDate limitDate;
+    private OxygenDates oxygenDates;
     private OxygenInventoryRepository oxygenInventory;
 
-    public OxygenOrderer(OxygenRequestSettings requestSettings, OxygenSupplier oxygenSupplier, LocalDate limitDate, OxygenInventoryRepository oxygenInventory) {
+    public OxygenOrderer(OxygenRequestSettings requestSettings, OxygenSupplier oxygenSupplier, OxygenDates oxygenDates, OxygenInventoryRepository oxygenInventory) {
         nextOrderer = Optional.empty();
 
         this.requestSettings = requestSettings;
         this.oxygenSupplier = oxygenSupplier;
-        this.limitDate = limitDate;
+        this.oxygenDates = oxygenDates;
         this.oxygenInventory = oxygenInventory;
     }
 
@@ -36,7 +37,7 @@ public class OxygenOrderer {
     }
 
 	public void order(LocalDate orderDate, int requestedQuantity) {
-        int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, limitDate);
+        int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, oxygenDates.getOxygenLimitDeliveryDate());
         
         if (numberOfDaysUntilLimitDate < requestSettings.getNumberOfDaysToReceive()) {
             delegateToNextOrderer(orderDate, requestedQuantity);

@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrderer;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererFactory;
@@ -10,11 +11,11 @@ import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererFactory;
 public class OxygenRequester {
 
     private OxygenOrdererFactory oxygenOrdererFactory;
-    private LocalDate limitDate;
+    private OxygenDates oxygenDates;
 
-    public OxygenRequester(OxygenOrdererFactory oxygenOrdererFactory, LocalDate limitDate) {
+    public OxygenRequester(OxygenOrdererFactory oxygenOrdererFactory, OxygenDates oxygenDates) {
         this.oxygenOrdererFactory = oxygenOrdererFactory;
-        this.limitDate = limitDate;
+        this.oxygenDates = oxygenDates;
     }
 
     public void requestOxygen(OffsetDateTime orderDateTime, OxygenGrade oxygenGrade, int requestedQuantity) {
@@ -22,7 +23,7 @@ public class OxygenRequester {
     }
 
     public void requestOxygen(LocalDate orderDate, OxygenGrade oxygenGrade, int requestedQuantity) {
-        OxygenOrderer oxygenOrderer = oxygenOrdererFactory.create(oxygenGrade, limitDate);
+        OxygenOrderer oxygenOrderer = oxygenOrdererFactory.create(oxygenGrade, oxygenDates);
         oxygenOrderer.order(orderDate, requestedQuantity);
     }
 }

@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.orderers;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplier;
@@ -26,12 +26,12 @@ public class OxygenOrdererFactory {
         this.oxygenInventory = oxygenInventory;
     }
 
-    public OxygenOrderer create(OxygenGrade oxygenGrade, LocalDate limitDate) {
+    public OxygenOrderer create(OxygenGrade oxygenGrade, OxygenDates oxygenDates) {
         List<OxygenOrderer> oxygenOrderers = new ArrayList<>();
 
         for (OxygenGrade oxygenGradeToCompare : OxygenGrade.values()) {
             if (oxygenGrade.compareTo(oxygenGradeToCompare) <= 0) {
-                oxygenOrderers.add(createOrderer(oxygenGradeToCompare, limitDate));
+                oxygenOrderers.add(createOrderer(oxygenGradeToCompare, oxygenDates));
             }
         }
         
@@ -44,9 +44,9 @@ public class OxygenOrdererFactory {
         return oxygenOrdererLinker.link(oxygenOrderers);
     }
 
-    private OxygenOrderer createOrderer(OxygenGrade oxygenGrade, LocalDate limitDate) {
+    private OxygenOrderer createOrderer(OxygenGrade oxygenGrade, OxygenDates oxygenDates) {
         OxygenRequestSettings requestSettings = requestSettingsFactory.create(oxygenGrade);
         OxygenSupplier oxygenSupplier = oxygenSupplierFactory.create(oxygenGrade);
-        return new OxygenOrderer(requestSettings, oxygenSupplier, limitDate, oxygenInventory);
+        return new OxygenOrderer(requestSettings, oxygenSupplier, oxygenDates, oxygenInventory);
     }
 }

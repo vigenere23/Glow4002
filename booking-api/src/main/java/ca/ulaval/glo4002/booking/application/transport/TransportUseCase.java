@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.application.transport;
 
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
-import ca.ulaval.glo4002.booking.domain.festivals.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
