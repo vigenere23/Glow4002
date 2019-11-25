@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.application.program;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramRequest;
@@ -24,68 +27,58 @@ import ca.ulaval.glo4002.booking.domain.program.ProgramDay;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
+@ExtendWith(MockitoExtension.class)
 public class ProgramUseCaseTest {
 
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
-    private final static String SOME_ARTIST_NAME = "Sun 41";
     private final static int NUMBER_OF_ATTENDEES = 10;
 
-    private TransportReserver transportReserver;
-    private ArtistRepository artistRepository;
-    private ProgramUseCase programUseCase;
-    private List<ProgramDay> program = new ArrayList<>();
-    private OxygenRequester oxygenRequester;
-    private ProgramDay singleDay;
-    private PassRepository passRepository;
-    private ArtistProgramInformation artistProgramInformation;
     private List<ArtistProgramInformation> artistsForProgram;
-    private OutcomeSaver outcomeSaver;
-    private ProgramValidator programValidator;
-    private ProgramDayDtoMapper programDayDtoMapper;
-    private ProgramRequest programRequest;
+
+    @Mock TransportReserver transportReserver;
+    @Mock ArtistRepository artistRepository;
+    @Mock OxygenRequester oxygenRequester;
+    @Mock ProgramDay programDay;
+    @Mock PassRepository passRepository;
+    @Mock ArtistProgramInformation artistProgramInformation;
+    @Mock OutcomeSaver outcomeSaver;
+    @Mock ProgramValidator programValidator;
+    @Mock ProgramDayDtoMapper programDayDtoMapper;
+    @Mock ProgramRequest programRequest;
+    @Mock Pass pass;
+    @InjectMocks ProgramUseCase programUseCase;
 
     @BeforeEach
     public void setUpProgramUseCase() {
-        singleDay = mock(ProgramDay.class);
-        artistProgramInformation = mock(ArtistProgramInformation.class);
-        artistRepository = mock(ArtistRepository.class);
-        transportReserver = mock(TransportReserver.class);
-        oxygenRequester = mock(OxygenRequester.class);
-        passRepository = mock(PassRepository.class);
-        outcomeSaver = mock(OutcomeSaver.class);
-        programValidator = mock(ProgramValidator.class);
-        programDayDtoMapper = mock(ProgramDayDtoMapper.class);
-        programRequest = mock(ProgramRequest.class);
+        when(programDay.getDate()).thenReturn(SOME_DATE);
 
-        when(singleDay.getDate()).thenReturn(SOME_DATE);
-        when(singleDay.getArtist()).thenReturn(SOME_ARTIST_NAME);
-
-        program.add(singleDay);
-        
-        when(programDayDtoMapper.fromRequests(any())).thenReturn(program);
-
+        mockProgramDayDtoMapper();
         mockPassRepository();
         mockArtistForProgram();
-
-        programUseCase = new ProgramUseCase(transportReserver, oxygenRequester, artistRepository, passRepository, outcomeSaver, programValidator, programDayDtoMapper);
     }
 
     @Test
     public void whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(programRequest);
-        verify(singleDay).orderShuttle(transportReserver, artistsForProgram);
+        verify(programDay).orderShuttle(transportReserver, artistsForProgram);
     }
 
     @Test
     public void whenProvideProgramResources_thenSaveOutcome() {
         programUseCase.provideProgramResources(programRequest);
-        verify(singleDay).saveOutcome(outcomeSaver, artistsForProgram);
+        verify(programDay).saveOutcome(outcomeSaver, artistsForProgram);
     }
 
     @Test
     public void whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(programRequest);
-        verify(singleDay).orderOxygen(oxygenRequester,  artistRepository.getArtistsForProgram(), NUMBER_OF_ATTENDEES);
+        verify(programDay).orderOxygen(oxygenRequester,  artistRepository.getArtistsForProgram(), NUMBER_OF_ATTENDEES);
+    }
+
+    private void mockProgramDayDtoMapper() {
+        List<ProgramDay> programDays = new ArrayList<>();
+        programDays.add(programDay);
+        when(programDayDtoMapper.fromRequests(any())).thenReturn(programDays);
     }
 
     private void mockArtistForProgram() {
@@ -98,7 +91,7 @@ public class ProgramUseCaseTest {
     private void mockPassRepository() {
         List<Pass> passes = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_ATTENDEES; i++) {
-            passes.add(mock(Pass.class));
+            passes.add(pass);
         }
         when(passRepository.findAttendingAtDate(any(LocalDate.class))).thenReturn(passes);
     }
