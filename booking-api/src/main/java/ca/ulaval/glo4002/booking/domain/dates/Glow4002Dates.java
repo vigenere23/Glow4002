@@ -6,21 +6,20 @@ import java.time.OffsetDateTime;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
+import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
 import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;;
 
-public class Glow4002Dates implements FestivalDates {
+public class Glow4002Dates implements FestivalDates, OxygenDates {
 
     private final LocalDate startDate;
     private final LocalDate endDate;
-    private final LocalDate programRevealDate;
     private final OffsetDateTime saleStartDate;
     private final OffsetDateTime saleEndDate;
 
     public Glow4002Dates() {
         startDate = LocalDate.of(2050, 7, 17);
         endDate = LocalDate.of(2050, 7, 24);
-        programRevealDate = LocalDate.of(2050, 07, 12);
         saleStartDate = DateConverter.toOffsetDateTimeStartOfDay(LocalDate.of(2050, 1, 1));
         saleEndDate = DateConverter.toOffsetDateTimeEndOfDay(LocalDate.of(2050, 7, 16));
     }
@@ -36,8 +35,8 @@ public class Glow4002Dates implements FestivalDates {
     }
 
     @Override
-    public LocalDate getProgramRevealDate() {
-        return programRevealDate;
+    public int getNumberOfDays() {
+        return DateCalculator.numberOfDaysInclusivelyBetween(startDate, endDate);
     }
 
     @Override

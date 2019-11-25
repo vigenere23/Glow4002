@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.dates.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
@@ -102,7 +101,7 @@ public class ProgramDayTest {
     private void mockDependency() {
         oxygenRequester = mock(OxygenRequester.class);
         transportReserver = mock(TransportReserver.class);
-        festivalDates = mock(Glow4002Dates.class);
+        festivalDates = mock(FestivalDates.class);
         artistProgramInformation = mock(ArtistProgramInformation.class);
         outcomeSaver = mock(OutcomeSaver.class);
         price = mock(Price.class);

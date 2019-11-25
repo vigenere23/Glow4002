@@ -20,7 +20,6 @@ import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.dates.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
@@ -123,7 +122,7 @@ class TransportUseCaseTest {
     }
 
     private void mockFestival() {
-        festivalDates = mock(Glow4002Dates.class);
+        festivalDates = mock(FestivalDates.class);
 
         doNothing().when(festivalDates).validateEventDate(any(LocalDate.class));
         when(festivalDates.getStartDate()).thenReturn(LocalDate.now());

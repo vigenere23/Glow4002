@@ -7,10 +7,9 @@ public interface FestivalDates {
 
     public LocalDate getStartDate();
     public LocalDate getEndDate();
+    public int getNumberOfDays();
     public OffsetDateTime getSaleStartDate();
     public OffsetDateTime getSaleEndDate();
-    public LocalDate getOxygenLimitDeliveryDate();
-    public LocalDate getProgramRevealDate();
     public boolean isDuringSaleTime(OffsetDateTime dateTime);
     public boolean isDuringEventTime(LocalDate date);
     public void validateOrderDate(OffsetDateTime orderDate);

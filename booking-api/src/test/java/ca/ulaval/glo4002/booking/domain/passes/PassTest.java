@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.dates.Glow4002Dates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
@@ -44,7 +44,10 @@ public class PassTest {
     
     @BeforeEach
     public void setUpPass() {
-        festivalDates = new Glow4002Dates();
+        festivalDates = mock(FestivalDates.class);
+        doNothing().when(festivalDates).validateEventDate(any(LocalDate.class));
+        doNothing().when(festivalDates).validateOrderDate(any(OffsetDateTime.class));
+
         price = Price.zero();
         transportReserver = mock(TransportReserver.class);
         oxygenRequester = mock(OxygenRequester.class);
