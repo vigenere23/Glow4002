@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.booking.domain.passes;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
@@ -15,6 +17,7 @@ public class PassFactory {
     private PassNumberFactory passNumberFactory;
     private PassPriceFactory passPriceFactory;
 
+    @Inject
     public PassFactory(FestivalDates festivalDates, PassNumberFactory passNumberFactory, PassPriceFactory passPriceFactory) {
         this.festivalDates = festivalDates;
         this.passNumberFactory = passNumberFactory;

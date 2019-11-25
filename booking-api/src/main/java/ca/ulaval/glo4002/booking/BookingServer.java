@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -21,6 +22,7 @@ import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
+import ca.ulaval.glo4002.booking.context.BookingContext;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
@@ -79,8 +81,8 @@ public class BookingServer implements Runnable {
 
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        ResourceConfig packageConfig = generateResourceConfig();
-        ServletContainer container = new ServletContainer(packageConfig);
+        ResourceConfig resourceConfig = generateResourceConfig();
+        ServletContainer container = new ServletContainer(resourceConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
         contextHandler.addServlet(servletHolder, "/*");
@@ -96,87 +98,101 @@ public class BookingServer implements Runnable {
     }
 
     public ResourceConfig generateResourceConfig() {
-        glow4002Dates = new Glow4002Dates();
+		return new ResourceConfig()
+				.packages("ca.ulaval.glo4002.booking.api")
+                .register(getRootBinder());
+    }
+
+    private AbstractBinder getRootBinder() {
+		return new AbstractBinder() {
+			@Override
+			protected void configure() {
+				install(new BookingContext());
+			}
+		};
+    }
         
-        ProfitUseCase profitUseCase = createProfitUseCase();
-        OxygenUseCase oxygenUseCase = createOxygenUseCase(glow4002Dates);
-        TransportUseCase transportUseCase = createTransportUseCase(glow4002Dates);
-        PassOrderUseCase passOrderUseCase = createPassOrderUseCase(glow4002Dates);
-        ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();
-        ProgramUseCase programUseCase = createProgramUseCase();
-        DatesUseCase datesUseCase = createDatesUseCase();
+    //     glow4002Dates = new Glow4002Dates();
+        
+    //     ProfitUseCase profitUseCase = createProfitUseCase();
+    //     OxygenUseCase oxygenUseCase = createOxygenUseCase(glow4002Dates);
+    //     TransportUseCase transportUseCase = createTransportUseCase(glow4002Dates);
+    //     PassOrderUseCase passOrderUseCase = createPassOrderUseCase(glow4002Dates);
+    //     ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();
+    //     ProgramUseCase programUseCase = createProgramUseCase();
+    //     DatesUseCase datesUseCase = createDatesUseCase();
 
-        return new ResourceConfiguration(
-            profitUseCase,
-            passOrderUseCase,
-            transportUseCase,
-            oxygenUseCase,
-            artistRankingUseCase,
-            programUseCase,
-            datesUseCase
-        ).packages("ca.ulaval.glo4002.booking");
-    }
+    //     return new ResourceConfiguration(
+    //         profitUseCase,
+    //         passOrderUseCase,
+    //         transportUseCase,
+    //         oxygenUseCase,
+    //         artistRankingUseCase,
+    //         programUseCase,
+    //         datesUseCase
+    //     ).packages("ca.ulaval.glo4002.booking");
+    // }
 
-    private ProfitUseCase createProfitUseCase() {
-        ProfitRepository profitRepository = new HeapProfitRepository();
-        ProfitCalculator profitCalculator = new ProfitCalculator();
-        incomeSaver = new ProfitSaver(profitRepository);
-        outcomeSaver = new ProfitSaver(profitRepository);
-        return new ProfitUseCase(profitCalculator, profitRepository); 
-    }
+    // private ProfitUseCase createProfitUseCase() {
+    //     ProfitRepository profitRepository = new HeapProfitRepository();
+    //     ProfitCalculator profitCalculator = new ProfitCalculator();
+    //     incomeSaver = new ProfitSaver(profitRepository);
+    //     outcomeSaver = new ProfitSaver(profitRepository);
+    //     return new ProfitUseCase(profitCalculator, profitRepository); 
+    // }
 
-    private OxygenUseCase createOxygenUseCase(OxygenDates oxygenDates) {
-        OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
-        OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
-        OxygenOrdererLinker oxygenOrdererLinker = new OxygenOrdererLinker();
-        OxygenRequestSettingsFactory requestSettingsFactory = new OxygenRequestSettingsFactory();
-        OxygenSupplierFactory oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistoryRepository, outcomeSaver);
-        OxygenOrdererFactory oxygenOrdererFactory = new OxygenOrdererFactory(oxygenOrdererLinker, oxygenSupplierFactory, requestSettingsFactory, oxygenInventoryRepository);
-        OxygenHistoryEntryDtoMapper oxygenHistoryMapper = new OxygenHistoryEntryDtoMapper();
-        OxygenInventoryEntryDtoMapper oxygenInventoryMapper = new OxygenInventoryEntryDtoMapper();
-        oxygenRequester = new OxygenRequester(oxygenOrdererFactory, oxygenDates);
-        return new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository, oxygenHistoryMapper, oxygenInventoryMapper);
-    }
+    // private OxygenUseCase createOxygenUseCase(OxygenDates oxygenDates) {
+    //     OxygenInventoryRepository oxygenInventoryRepository = new HeapOxygenInventoryRepository();
+    //     OxygenHistoryRepository oxygenHistoryRepository = new HeapOxygenHistoryRepository();
+    //     OxygenOrdererLinker oxygenOrdererLinker = new OxygenOrdererLinker();
+    //     OxygenRequestSettingsFactory requestSettingsFactory = new OxygenRequestSettingsFactory();
+    //     OxygenSupplierFactory oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistoryRepository, outcomeSaver);
+    //     OxygenOrdererFactory oxygenOrdererFactory = new OxygenOrdererFactory(oxygenOrdererLinker, oxygenSupplierFactory, requestSettingsFactory, oxygenInventoryRepository);
+    //     OxygenHistoryEntryDtoMapper oxygenHistoryMapper = new OxygenHistoryEntryDtoMapper();
+    //     OxygenInventoryEntryDtoMapper oxygenInventoryMapper = new OxygenInventoryEntryDtoMapper();
+    //     oxygenRequester = new OxygenRequester(oxygenOrdererFactory, oxygenDates);
+    //     return new OxygenUseCase(oxygenHistoryRepository, oxygenInventoryRepository, oxygenHistoryMapper, oxygenInventoryMapper);
+    // }
 
-    private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
-        ShuttleRepository shuttleRepository = new HeapShuttleRepository();
-        ShuttleFactory shuttleFactory = new ShuttleFactory();
-        ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
-        ShuttleDtoMapper shuttleDtoMapper = new ShuttleDtoMapper();
-        transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
-        return new TransportUseCase(festivalDates, shuttleRepository, shuttleDtoMapper);
-    }
+    // private TransportUseCase createTransportUseCase(FestivalDates festivalDates) {
+    //     ShuttleRepository shuttleRepository = new HeapShuttleRepository();
+    //     ShuttleFactory shuttleFactory = new ShuttleFactory();
+    //     ShuttleFiller shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
+    //     ShuttleDtoMapper shuttleDtoMapper = new ShuttleDtoMapper();
+    //     transportReserver = new TransportReserver(shuttleRepository, shuttleFiller);
+    //     return new TransportUseCase(festivalDates, shuttleRepository, shuttleDtoMapper);
+    // }
 
-    private PassOrderUseCase createPassOrderUseCase(FestivalDates festivalDates) {
-        passRepository = new HeapPassRepository();
-        PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
-        PassPriceFactory passPriceFactory = new PassPriceFactory();
-        PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
-        PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
-        OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
-		OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
-        PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
-        PassDtoMapper passDtoMapper = new PassDtoMapper();
-        PassOrderDtoMapper passOrderDtoMapper = new PassOrderDtoMapper(passDtoMapper);
+    // private PassOrderUseCase createPassOrderUseCase(FestivalDates festivalDates) {
+    //     passRepository = new HeapPassRepository();
+    //     PassOrderRepository passOrderRepository = new HeapPassOrderRepository();
+    //     PassPriceFactory passPriceFactory = new PassPriceFactory();
+    //     PassNumberFactory passNumberFactory = new PassNumberFactory(new AtomicLong(0));
+    //     PassFactory passFactory = new PassFactory(festivalDates, passNumberFactory, passPriceFactory);
+    //     OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
+	// 	OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
+    //     PassOrderFactory passOrderFactory = new PassOrderFactory(festivalDates, passFactory, orderDiscountFactory, orderNumberFactory);
+    //     PassDtoMapper passDtoMapper = new PassDtoMapper();
+    //     PassOrderDtoMapper passOrderDtoMapper = new PassOrderDtoMapper(passDtoMapper);
 
-        return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver, passOrderDtoMapper);
-    }
+    //     return new PassOrderUseCase(passOrderFactory, passOrderRepository, transportReserver, oxygenRequester, passRepository, incomeSaver, passOrderDtoMapper);
+    // }
 
-    private ArtistRankingUseCase createArtistRankingUseCase() {
-        ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
-        ExternalApiArtist externalApiArtist = new ExternalApiArtist();
-        artistsRepository = new ExternalApiArtistRepository(artistInformationMapper, externalApiArtist);
-        ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
-        return new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
-    }
+    // private ArtistRankingUseCase createArtistRankingUseCase() {
+    //     ArtistInformationMapper artistInformationMapper = new ArtistInformationMapper();
+    //     ExternalApiArtist externalApiArtist = new ExternalApiArtist();
+    //     artistsRepository = new ExternalApiArtistRepository(artistInformationMapper, externalApiArtist);
+    //     ArtistRankingFactory artistRankingFactory = new ArtistRankingFactory();
+    //     return new ArtistRankingUseCase(artistsRepository, artistRankingFactory);
+    // }
 
-    private ProgramUseCase createProgramUseCase() {
-        ProgramValidator programValidator = new ProgramValidator(glow4002Dates);
-        ProgramDayDtoMapper programMapper = new ProgramDayDtoMapper();
-        return new ProgramUseCase(transportReserver, oxygenRequester, artistsRepository, passRepository, outcomeSaver, programValidator, programMapper);
-    }
+    // private ProgramUseCase createProgramUseCase() {
+    //     ProgramValidator programValidator = new ProgramValidator(glow4002Dates);
+    //     ProgramDayDtoMapper programMapper = new ProgramDayDtoMapper();
+    //     return new ProgramUseCase(transportReserver, oxygenRequester, artistsRepository, passRepository, outcomeSaver, programValidator, programMapper);
+    // }
 
-    private DatesUseCase createDatesUseCase() {
-        return new DatesUseCase(glow4002Dates);
-    }
+    // private DatesUseCase createDatesUseCase() {
+    //     return new DatesUseCase(glow4002Dates);
+    // }
 }

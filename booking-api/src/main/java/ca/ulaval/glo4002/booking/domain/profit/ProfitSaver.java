@@ -1,11 +1,14 @@
 package ca.ulaval.glo4002.booking.domain.profit;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.Price;
 
 public class ProfitSaver implements IncomeSaver, OutcomeSaver {
 
     private ProfitRepository profitRepository;
     
+    @Inject
     public ProfitSaver(ProfitRepository profitRepository) {
         this.profitRepository = profitRepository;
     }

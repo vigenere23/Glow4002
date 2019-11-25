@@ -7,6 +7,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
@@ -26,6 +27,7 @@ public class OrdersContext extends AbstractBinder {
         OrderNumberFactory orderNumberFactory = new OrderNumberFactory(new AtomicLong(0));
         bind(orderNumberFactory).to(OrderNumberFactory.class);
         bindAsContract(OrderDiscountLinker.class);
+        bindAsContract(PassOrderFactory.class);
         bindAsContract(PassOrderDtoMapper.class);
         bindAsContract(PassOrderUseCase.class);
     }
