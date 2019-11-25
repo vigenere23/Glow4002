@@ -4,6 +4,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import ca.ulaval.glo4002.booking.application.artists.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.application.dates.DatesUseCase;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.oxygen.OxygenUseCase;
 import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
@@ -18,7 +19,8 @@ public class ResourceConfiguration extends ResourceConfig {
             TransportUseCase transportUseCase,
             OxygenUseCase oxygenUseCase,
             ArtistRankingUseCase artistRankingUseCase,
-            ProgramUseCase programUseCase
+            ProgramUseCase programUseCase,
+            DatesUseCase datesUseCase
     ) {
         register(new AbstractBinder() {
             @Override
@@ -29,6 +31,7 @@ public class ResourceConfiguration extends ResourceConfig {
                 bind(artistRankingUseCase).to(ArtistRankingUseCase.class);
                 bind(profitUseCase).to(ProfitUseCase.class);
                 bind(programUseCase).to(ProgramUseCase.class);
+                bind(datesUseCase).to(DatesUseCase.class);
             }
         });
     }

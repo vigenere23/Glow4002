@@ -9,6 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import ca.ulaval.glo4002.booking.application.artists.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.application.dates.DatesUseCase;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
@@ -97,12 +98,13 @@ public class BookingServer implements Runnable {
     public ResourceConfig generateResourceConfig() {
         glow4002Dates = new Glow4002Dates();
         
-        ProfitUseCase profitUseCase = createProfitUseCase();        
+        ProfitUseCase profitUseCase = createProfitUseCase();
         OxygenUseCase oxygenUseCase = createOxygenUseCase(glow4002Dates);
         TransportUseCase transportUseCase = createTransportUseCase(glow4002Dates);
         PassOrderUseCase passOrderUseCase = createPassOrderUseCase(glow4002Dates);
-        ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();  
-        ProgramUseCase programUseCase = createProgramUseCase();  
+        ArtistRankingUseCase artistRankingUseCase = createArtistRankingUseCase();
+        ProgramUseCase programUseCase = createProgramUseCase();
+        DatesUseCase datesUseCase = createDatesUseCase();
 
         return new ResourceConfiguration(
             profitUseCase,
@@ -110,7 +112,8 @@ public class BookingServer implements Runnable {
             transportUseCase,
             oxygenUseCase,
             artistRankingUseCase,
-            programUseCase
+            programUseCase,
+            datesUseCase
         ).packages("ca.ulaval.glo4002.booking");
     }
 
@@ -171,5 +174,9 @@ public class BookingServer implements Runnable {
         ProgramValidator programValidator = new ProgramValidator(glow4002Dates);
         ProgramDayDtoMapper programMapper = new ProgramDayDtoMapper();
         return new ProgramUseCase(transportReserver, oxygenRequester, artistsRepository, passRepository, outcomeSaver, programValidator, programMapper);
+    }
+
+    private DatesUseCase createDatesUseCase() {
+        return new DatesUseCase(glow4002Dates);
     }
 }

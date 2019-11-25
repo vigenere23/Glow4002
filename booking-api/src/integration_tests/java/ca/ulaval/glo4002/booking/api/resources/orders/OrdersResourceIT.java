@@ -29,7 +29,7 @@ public class OrdersResourceIT extends JerseyTestBookingServer {
     private static final String SOME_VALID_ORDER_DATE = "2050-05-21T15:23:20.142Z";
     private static final String SOME_INVALID_ORDER_DATE = "2050-07-17T15:23:20.142Z";
     private static final String INVALID_ORDER_DATE_ERROR = "INVALID_ORDER_DATE";
-    private static final String INVALID_ORDER_DATE_MESSAGE = "order date should be between January 1 2050 and July 16 2050";
+    private static final String INVALID_ORDER_DATE_MESSAGE = "order date should be between January 18 2050 and July 16 2050";
     private static final String INVALID_EVENT_DATE_ERROR = "INVALID_EVENT_DATE";
     private static final String INVALID_EVENT_DATE_MESSAGE = "event date should be between July 17 2050 and July 24 2050";
     private static final String INVALID_REQUEST_ERROR = "INVALID_FORMAT";

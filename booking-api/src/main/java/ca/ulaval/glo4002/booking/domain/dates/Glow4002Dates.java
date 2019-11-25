@@ -14,14 +14,12 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private final OffsetDateTime saleStartDate;
-    private final OffsetDateTime saleEndDate;
+    private OffsetDateTime saleStartDate;
+    private OffsetDateTime saleEndDate;
 
     public Glow4002Dates() {
-        startDate = LocalDate.of(2050, 7, 17);
-        endDate = LocalDate.of(2050, 7, 24);
-        saleStartDate = DateConverter.toOffsetDateTimeStartOfDay(LocalDate.of(2050, 1, 1));
-        saleEndDate = DateConverter.toOffsetDateTimeEndOfDay(LocalDate.of(2050, 7, 16));
+        updateStartDate(LocalDate.of(2050, 7, 17));
+        updateEndDate(LocalDate.of(2050, 7, 24));
     }
 
     @Override
@@ -37,6 +35,12 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     @Override
     public void updateStartDate(LocalDate startDate) {
         this.startDate = startDate;
+        updateSaleDates();
+    }
+
+    private void updateSaleDates() {
+        saleStartDate = DateConverter.toOffsetDateTimeStartOfDay(startDate.minusDays(180));
+        saleEndDate = DateConverter.toOffsetDateTimeEndOfDay(startDate.minusDays(1));
     }
 
     @Override
