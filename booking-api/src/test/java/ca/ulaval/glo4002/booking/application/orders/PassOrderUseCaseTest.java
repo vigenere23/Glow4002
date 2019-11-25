@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.application.orders;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,51 +12,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import ca.ulaval.glo4002.booking.api.resources.orders.requests.PassRequest;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
-import ca.ulaval.glo4002.booking.domain.orders.*;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
+import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
+import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
-import ca.ulaval.glo4002.booking.domain.transport.*;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapPassOrderRepository;
+import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+@ExtendWith(MockitoExtension.class)
 public class PassOrderUseCaseTest {
 
-    private final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
-    private final static LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
-    private final static OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(SOME_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
-    private final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
-    private final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
+    final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
+    final static LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
+    final static OffsetDateTime SOME_ORDER_DATE = OffsetDateTime.of(SOME_DATE, LocalTime.MIDNIGHT, ZoneOffset.UTC);
+    final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
+    final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
 
-    private PassOrderFactory passOrderFactory;
-    private TransportReserver transportReserver;
-    private OxygenRequester oxygenRequester;
-    private Pass pass;
-    private PassOrder passOrder;
-    private PassRequest passRequest;
-    private PassOrderRepository passOrderRepository;
-    private PassRepository passRepository;
-    private IncomeSaver incomeSaver;
-    private PassOrderUseCase passOrderUseCase;
+    PassOrderUseCase passOrderUseCase;
+
+    @Mock PassOrderFactory passOrderFactory;
+    @Mock TransportReserver transportReserver;
+    @Mock OxygenRequester oxygenRequester;
+    @Mock Pass pass;
+    @Mock PassOrder passOrder;
+    @Mock PassRequest passRequest;
+    @Mock PassOrderRepository passOrderRepository;
+    @Mock PassRepository passRepository;
+    @Mock IncomeSaver incomeSaver;
+    @Mock PassOrderDtoMapper passOrderDtoMapper;
 
     @BeforeEach
     public void setUpPassOrderUseCase() {
-        pass = mock(Pass.class);
-        passOrderFactory = mock(PassOrderFactory.class);
-        passOrderRepository = mock(HeapPassOrderRepository.class);
-        transportReserver = mock(TransportReserver.class);
-        oxygenRequester = mock(OxygenRequester.class);
-        passRepository = mock(PassRepository.class);
-        incomeSaver = mock(IncomeSaver.class);
-        PassOrderDtoMapper passOrderDtoMapper = mock(PassOrderDtoMapper.class);
-
         mockPassOrder();
         mockPassRequest();
 
@@ -95,8 +93,6 @@ public class PassOrderUseCaseTest {
     }
 
     private void mockPassOrder() {
-        passOrder = mock(PassOrder.class);
-
         List<Pass> passes = new ArrayList<>();
         passes.add(pass);
 
@@ -104,7 +100,6 @@ public class PassOrderUseCaseTest {
     }
 
     private void mockPassRequest() {
-        passRequest = mock(PassRequest.class);
         when(passRequest.getPassOption()).thenReturn(SOME_PASS_OPTION);
         when(passRequest.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
         when(passRequest.getEventDates()).thenReturn(Optional.empty());
