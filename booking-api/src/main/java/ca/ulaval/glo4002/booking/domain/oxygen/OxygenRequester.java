@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.booking.domain.oxygen;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrderer;
@@ -13,6 +15,7 @@ public class OxygenRequester {
     private OxygenOrdererFactory oxygenOrdererFactory;
     private OxygenDates oxygenDates;
 
+    @Inject
     public OxygenRequester(OxygenOrdererFactory oxygenOrdererFactory, OxygenDates oxygenDates) {
         this.oxygenOrdererFactory = oxygenOrdererFactory;
         this.oxygenDates = oxygenDates;

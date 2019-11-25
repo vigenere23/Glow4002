@@ -9,12 +9,15 @@ import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class TransportUseCase {
 
     private FestivalDates festivalDates;
     private ShuttleRepository transportRepository;
     private ShuttleDtoMapper shuttleDtoMapper;
 
+    @Inject
     public TransportUseCase(FestivalDates festival, ShuttleRepository transportRepository, ShuttleDtoMapper shuttleDtoMapper) {
         this.festivalDates = festival;
         this.transportRepository = transportRepository;

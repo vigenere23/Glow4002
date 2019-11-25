@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.application.profit;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitCalculator;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
@@ -11,6 +13,7 @@ public class ProfitUseCase {
     private ProfitCalculator profitCalculator;
     private ProfitRepository profitRepository;
 
+    @Inject
     public ProfitUseCase(ProfitCalculator profitCalculator, ProfitRepository profitRepository) {
         this.profitCalculator = profitCalculator;
         this.profitRepository = profitRepository;

@@ -9,7 +9,7 @@ public interface FestivalDates {
     public LocalDate getEndDate();
     public void updateStartDate(LocalDate startDate);
     public void updateEndDate(LocalDate endDate);
-    public int getNumberOfDays();
+    public int getNumberOfFestivalDays();
     public OffsetDateTime getSaleStartDate();
     public OffsetDateTime getSaleEndDate();
     public boolean isDuringSaleTime(OffsetDateTime dateTime);

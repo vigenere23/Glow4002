@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 
@@ -12,6 +14,7 @@ public class ProgramValidator {
     private FestivalDates festivalDates;
     private List<ProgramDay> program;
 
+    @Inject
     public ProgramValidator(FestivalDates festivalDates) {
         this.festivalDates = festivalDates;
     }
@@ -52,7 +55,7 @@ public class ProgramValidator {
 
     private boolean validEventDates(ProgramDay programForOneDay) {
         return programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(programForOneDay)
-                && retrieveDates().size() == festivalDates.getNumberOfDays();
+                && retrieveDates().size() == festivalDates.getNumberOfFestivalDays();
     }
 
     private boolean dateIsUnique(ProgramDay programForOneDay) {

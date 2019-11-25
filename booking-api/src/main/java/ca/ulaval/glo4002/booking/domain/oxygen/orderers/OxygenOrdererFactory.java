@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.booking.domain.oxygen.orderers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
@@ -18,6 +20,7 @@ public class OxygenOrdererFactory {
     private OxygenRequestSettingsFactory requestSettingsFactory;
     private OxygenInventoryRepository oxygenInventory;
 
+    @Inject
     public OxygenOrdererFactory(OxygenOrdererLinker oxygenOrdererLinker, OxygenSupplierFactory oxygenSupplierFactory,
             OxygenRequestSettingsFactory requestSettingsFactory, OxygenInventoryRepository oxygenInventory) {
         this.oxygenOrdererLinker = oxygenOrdererLinker;
