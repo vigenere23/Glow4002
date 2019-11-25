@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.booking.context.application.dates;
 
-import javax.inject.Singleton;
-
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import ca.ulaval.glo4002.booking.application.dates.DatesUseCase;
@@ -13,8 +11,9 @@ public class DatesContext extends AbstractBinder {
 
     @Override
     protected void configure() {
-        bind(Glow4002Dates.class).to(FestivalDates.class).in(Singleton.class);
-        bind(Glow4002Dates.class).to(OxygenDates.class).in(Singleton.class);
+        Glow4002Dates glow4002Dates = new Glow4002Dates();
+        bind(glow4002Dates).to(FestivalDates.class);
+        bind(glow4002Dates).to(OxygenDates.class);
         bindAsContract(DatesUseCase.class);
     }
 }
