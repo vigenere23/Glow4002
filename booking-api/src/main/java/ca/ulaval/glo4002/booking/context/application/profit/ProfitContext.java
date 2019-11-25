@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.context.application.profit;
 
+import javax.inject.Singleton;
+
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
@@ -10,7 +12,7 @@ public class ProfitContext extends AbstractBinder {
 
     @Override
     protected void configure() {
-        bind(ProfitSaver.class).to(IncomeSaver.class);
-        bind(ProfitSaver.class).to(OutcomeSaver.class);
+        bind(ProfitSaver.class).to(IncomeSaver.class).in(Singleton.class);
+        bind(ProfitSaver.class).to(OutcomeSaver.class).in(Singleton.class);
     }
 }

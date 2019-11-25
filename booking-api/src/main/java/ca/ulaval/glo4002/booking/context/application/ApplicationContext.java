@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.booking.context.application.orders.PassOrderContext;
 import ca.ulaval.glo4002.booking.context.application.oxygen.OxygenContext;
 import ca.ulaval.glo4002.booking.context.application.passes.PassContext;
 import ca.ulaval.glo4002.booking.context.application.profit.ProfitContext;
+import ca.ulaval.glo4002.booking.context.application.program.ProgramContext;
 import ca.ulaval.glo4002.booking.context.application.transport.TransportContext;
 
 public class ApplicationContext extends AbstractBinder {
@@ -19,5 +20,6 @@ public class ApplicationContext extends AbstractBinder {
         install(new OxygenContext());
         install(new PassContext());
         install(new PassOrderContext());
+        install(new ProgramContext());
     }
 }
