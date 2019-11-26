@@ -2,8 +2,6 @@ package ca.ulaval.glo4002.booking.domain.oxygen.suppliers;
 
 import java.time.LocalDate;
 
-import javax.inject.Inject;
-
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.Price;

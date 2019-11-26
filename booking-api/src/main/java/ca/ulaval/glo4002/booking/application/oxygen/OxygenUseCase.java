@@ -1,40 +1,26 @@
 package ca.ulaval.glo4002.booking.application.oxygen;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDto;
-import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryEntryDtoMapper;
-import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryEntryDto;
-import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryEntryDtoMapper;
+import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryDto;
+import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryDto;
+import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenHistoryDtoMapper;
+import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryDtoMapper;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 
 public class OxygenUseCase {
-    private OxygenHistoryRepository oxygenHistory;
-    private OxygenInventoryRepository oxygenInventory;
-    private OxygenHistoryEntryDtoMapper oxygenHistoryEntryDtoMapper;
-    private OxygenInventoryEntryDtoMapper oxygenInventoryEntryDtoMapper;
 
-    @Inject
-    public OxygenUseCase(
-        OxygenHistoryRepository oxygenHistory,
-        OxygenInventoryRepository oxygenInventory,
-        OxygenHistoryEntryDtoMapper oxygenHistoryEntryDtoMapper,
-        OxygenInventoryEntryDtoMapper oxygenInventoryEntryDtoMapper
-    ) {
-        this.oxygenHistory = oxygenHistory;
-        this.oxygenInventory = oxygenInventory;
-        this.oxygenHistoryEntryDtoMapper = oxygenHistoryEntryDtoMapper;
-        this.oxygenInventoryEntryDtoMapper = oxygenInventoryEntryDtoMapper;
+    @Inject private OxygenHistoryRepository historyRepository;
+    @Inject private OxygenInventoryRepository inventoryRepository;
+    @Inject private OxygenHistoryDtoMapper oxygenHistoryDtoMapper;
+    @Inject private OxygenInventoryDtoMapper oxygenInventoryDtoMapper;
+
+    public OxygenHistoryDto getOxygenHistory() {
+        return oxygenHistoryDtoMapper.toDto(historyRepository.findAll());
     }
 
-    public List<OxygenHistoryEntryDto> getOxygenHistory() {
-        return oxygenHistoryEntryDtoMapper.toDtos(oxygenHistory.findAll());
-    }
-
-    public List<OxygenInventoryEntryDto> getOxygenInventory() {
-        return oxygenInventoryEntryDtoMapper.toDtos(oxygenInventory.findAll());
+    public OxygenInventoryDto getOxygenInventory() {
+        return oxygenInventoryDtoMapper.toDto(inventoryRepository.findAll());
     }
 }
