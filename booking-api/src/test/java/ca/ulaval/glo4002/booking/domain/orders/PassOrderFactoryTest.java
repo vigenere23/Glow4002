@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -16,6 +15,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
@@ -25,6 +27,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
+@ExtendWith(MockitoExtension.class)
 public class PassOrderFactoryTest {
 
     private final static OffsetDateTime SOME_DATE = OffsetDateTime.now();
@@ -34,16 +37,13 @@ public class PassOrderFactoryTest {
     private final static Optional<List<LocalDate>> NO_EVENT_DATES_LIST = Optional.empty();
     private final static Optional<LocalDate> NO_EVENT_DATE = Optional.empty();
 
-    private FestivalDates festivalDates;
-    private OrderNumberFactory orderNumberFactory;
-    private PassFactory passFactory;
+    @Mock FestivalDates festivalDates;
+    @Mock OrderNumberFactory orderNumberFactory;
+    @Mock PassFactory passFactory;
     private PassOrderFactory passOrderFactory;
 
     @BeforeEach
     public void setupPassOrderFactory() {
-        festivalDates = mock(FestivalDates.class);
-        orderNumberFactory = mock(OrderNumberFactory.class);
-        passFactory = mock(PassFactory.class);
         OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
         passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, orderNumberFactory);
     }

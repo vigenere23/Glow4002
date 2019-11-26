@@ -13,16 +13,9 @@ import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
 public class PassFactory {
 
-    private FestivalDates festivalDates;
-    private PassNumberFactory passNumberFactory;
-    private PassPriceFactory passPriceFactory;
-
-    @Inject
-    public PassFactory(FestivalDates festivalDates, PassNumberFactory passNumberFactory, PassPriceFactory passPriceFactory) {
-        this.festivalDates = festivalDates;
-        this.passNumberFactory = passNumberFactory;
-        this.passPriceFactory = passPriceFactory;
-    }
+    @Inject private FestivalDates festivalDates;
+    @Inject private PassNumberFactory passNumberFactory;
+    @Inject private PassPriceFactory passPriceFactory;
 
     public Pass create(PassOption passOption, PassCategory passCategory, Optional<LocalDate> eventDate) {
         switch (passOption) {
