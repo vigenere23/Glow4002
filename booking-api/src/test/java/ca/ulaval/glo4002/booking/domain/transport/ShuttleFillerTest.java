@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -39,11 +38,11 @@ class ShuttleFillerTest {
     @BeforeEach
     public void setUpShuttleFiller() {
         shuttles = new ArrayList<>();
-        mockShuttleFactory();
     }
 
     @Test
     public void givenShuttleListWithoutCategory_whenFillOnePlaceShuttle_thenShuttleOfNewCategoryIsAddedToList() {
+        mockShuttleFactory();
         when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
@@ -55,6 +54,7 @@ class ShuttleFillerTest {
     
     @Test
     public void givenShuttleListAndDate_whenFillOnePlaceShuttle_thenAddNewShuttleToShuttlesIfAbsentForThatDate() {
+        mockShuttleFactory();
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
         shuttles.add(firstMockedShuttle);
 
@@ -65,6 +65,7 @@ class ShuttleFillerTest {
 
     @Test
     public void givenShuttleListAndFullShuttle_whenFillOnePlaceShuttle_thenAddNewShuttletoShuttlesIfShuttleForDateIsFull() {
+        mockShuttleFactory();
         when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
@@ -77,6 +78,7 @@ class ShuttleFillerTest {
 
     @Test
     public void givenShuttleListWithoutAnyShuttleToFill_whenFillOnePlaceShuttle_saveOutcomeFromOutcomeSaverIsCalled() {
+        mockShuttleFactory();
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
         shuttles.add(firstMockedShuttle);
         
@@ -110,6 +112,6 @@ class ShuttleFillerTest {
     }
 
     private void mockShuttleFactory() {
-        lenient().when(shuttleFactory.createShuttle(ShuttleCategory.SPACE_X, DATE)).thenReturn(secondMockedShuttle);
+        when(shuttleFactory.createShuttle(ShuttleCategory.SPACE_X, DATE)).thenReturn(secondMockedShuttle);
     }
 }

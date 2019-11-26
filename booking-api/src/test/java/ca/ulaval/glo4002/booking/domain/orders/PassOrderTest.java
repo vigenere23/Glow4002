@@ -50,9 +50,6 @@ public class PassOrderTest {
         ));
 
         orderNumber = new OrderNumber(VendorCode.TEAM, 0);
-
-        mockNebulaSinglePass();
-        mockSupergiantSinglePass();
     }
 
     @Test
@@ -117,24 +114,26 @@ public class PassOrderTest {
     }
     
     private void initNebulaPasses(int numberOfPasses) {
+        mockNebulaSinglePass();
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(nebulaSinglePassMock);
         }
     }
 
     private void initSupergiantPasses(int numberOfPasses) {
+        mockSupergiantSinglePass();
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(supergiantSinglePassMock);
         }
     }
 
-    private void mockSupergiantSinglePass() {
-        lenient().when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
+    private void mockNebulaSinglePass() {
+        when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
         lenient().when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
     }
 
-    private void mockNebulaSinglePass() {
-        lenient().when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
-        lenient().when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
+    private void mockSupergiantSinglePass() {
+        when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
+        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
     }
 }
