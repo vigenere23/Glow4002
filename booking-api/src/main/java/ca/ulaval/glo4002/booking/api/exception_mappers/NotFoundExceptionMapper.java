@@ -16,6 +16,6 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
         String error = String.format("%s_NOT_FOUND", exception.entityName.toUpperCase());
         String description = exception.getMessage();
         ClientErrorDto errorDto = new ClientErrorDto(error, description);
-        return new ClientErrorResponseBuilder(errorDto).build();
+        return new ClientErrorResponseBuilder(errorDto).status(404).build();
     }
 }

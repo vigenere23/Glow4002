@@ -19,6 +19,11 @@ public class ClientErrorResponseBuilder {
         status = exception.status;
     }
 
+    public ClientErrorResponseBuilder status(int status) {
+        this.status = status;
+        return this;
+    }
+
     public Response build() {
         return Response.status(status).entity(entity).build();
     }
