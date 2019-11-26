@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,11 +9,11 @@ import java.util.TreeMap;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 
-public class HeapOxygenHistoryRepository implements OxygenHistoryRepository {
+public class InMemoryOxygenHistoryRepository implements OxygenHistoryRepository {
 
     private Map<LocalDate, OxygenHistoryEntry> history;
 
-    public HeapOxygenHistoryRepository() {
+    public InMemoryOxygenHistoryRepository() {
         history = new TreeMap<>();
     }
 

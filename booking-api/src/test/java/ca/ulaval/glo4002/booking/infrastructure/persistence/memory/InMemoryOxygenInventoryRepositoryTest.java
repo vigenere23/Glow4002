@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
-public class HeapOxygenInventoryRepositoryTest {
+public class InMemoryOxygenInventoryRepositoryTest {
 
     private final static OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     
-    private HeapOxygenInventoryRepository oxygenInventory;
+    private InMemoryOxygenInventoryRepository oxygenInventory;
 
     @BeforeEach
     public void setup() {
-        oxygenInventory = new HeapOxygenInventoryRepository();
+        oxygenInventory = new InMemoryOxygenInventoryRepository();
     }
 
     @Test

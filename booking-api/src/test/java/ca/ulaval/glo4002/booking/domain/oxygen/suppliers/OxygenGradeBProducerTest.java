@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenGradeBSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenSupplySettings;
@@ -27,7 +27,7 @@ public class OxygenGradeBProducerTest {
 
     private OxygenGradeBProducer oxygenGradeBProducer;
     private OxygenInventoryEntry oxygenInventoryEntry;
-    private HeapOxygenHistoryRepository oxygenHistory;
+    private InMemoryOxygenHistoryRepository oxygenHistory;
     private OutcomeSaver outcomeSaver;
     private OxygenHistoryEntry orderDateOxygenHistoryEntry;
     private OxygenHistoryEntry receivedDateOxygenHistoryEntry;
@@ -35,7 +35,7 @@ public class OxygenGradeBProducerTest {
     @BeforeEach
     public void setup() {
         oxygenInventoryEntry = mock(OxygenInventoryEntry.class);
-        oxygenHistory = mock(HeapOxygenHistoryRepository.class);
+        oxygenHistory = mock(InMemoryOxygenHistoryRepository.class);
         outcomeSaver = mock(OutcomeSaver.class);
         oxygenGradeBProducer = new OxygenGradeBProducer(oxygenHistory, outcomeSaver);
 

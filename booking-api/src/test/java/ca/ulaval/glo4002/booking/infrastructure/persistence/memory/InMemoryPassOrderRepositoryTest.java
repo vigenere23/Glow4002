@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -19,21 +19,21 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.exceptions.NotFoundException;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.exceptions.NotFoundException;
 
-public class HeapPassOrderRepositoryTest {
+public class InMemoryPassOrderRepositoryTest {
 
     private final static OrderNumber INVALID_ORDER_NUMBER = mock(OrderNumber.class);
     private final static OrderNumber VALID_ORDER_NUMBER = new OrderNumber(VendorCode.TEAM, 0);
 
-    private HeapPassOrderRepository passOrderRepository;
+    private InMemoryPassOrderRepository passOrderRepository;
     private PassOrder passOrder;
 
     @BeforeEach
     public void setUp() {
         List<Pass> passes = Arrays.asList(mock(Pass.class));
 
-        passOrderRepository = new HeapPassOrderRepository();
+        passOrderRepository = new InMemoryPassOrderRepository();
         OrderDiscount orderDiscount = new OrderDiscountLinker().link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         );

@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import ca.ulaval.glo4002.booking.infrastructure.persistance.exceptions.NotFoundException;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exception_mappers.dtos.ClientErrorDto;
 import ca.ulaval.glo4002.booking.interfaces.rest.exception_mappers.dtos.ClientErrorResponseBuilder;
 

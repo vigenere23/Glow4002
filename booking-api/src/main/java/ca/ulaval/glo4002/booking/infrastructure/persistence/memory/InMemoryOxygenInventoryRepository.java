@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,11 +9,11 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 
-public class HeapOxygenInventoryRepository implements OxygenInventoryRepository {
+public class InMemoryOxygenInventoryRepository implements OxygenInventoryRepository {
 
     private Map<OxygenGrade, OxygenInventoryEntry> inventory;
 
-    public HeapOxygenInventoryRepository() {
+    public InMemoryOxygenInventoryRepository() {
         inventory = new HashMap<>();
         setupInventory();
     }

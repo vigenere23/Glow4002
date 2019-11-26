@@ -10,13 +10,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 @ExtendWith(MockitoExtension.class)
 public class OxygenSupplierFactoryTest {
 
-    @Mock HeapOxygenHistoryRepository oxygenHistory;
+    @Mock InMemoryOxygenHistoryRepository oxygenHistory;
     @Mock OutcomeSaver outcomeSaver;
     @InjectMocks OxygenSupplierFactory oxygenSupplierFactory;
 

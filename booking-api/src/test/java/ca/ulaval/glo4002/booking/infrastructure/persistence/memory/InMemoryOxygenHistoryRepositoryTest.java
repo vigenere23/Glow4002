@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 
-public class HeapOxygenHistoryRepositoryTest {
+public class InMemoryOxygenHistoryRepositoryTest {
     
     private final static LocalDate SOME_DATE = LocalDate.now();
 
-    private HeapOxygenHistoryRepository oxygenHistory;
+    private InMemoryOxygenHistoryRepository oxygenHistory;
 
     @BeforeEach
     public void setup() {
-        oxygenHistory = new HeapOxygenHistoryRepository();
+        oxygenHistory = new InMemoryOxygenHistoryRepository();
     }
 
     @Test

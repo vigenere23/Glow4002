@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 
-public class HeapPassRepository implements PassRepository {
+public class InMemoryPassRepository implements PassRepository {
 
     private List<Pass> passes;
 
-    public HeapPassRepository() {
+    public InMemoryPassRepository() {
         passes = new ArrayList<>();
     }
 

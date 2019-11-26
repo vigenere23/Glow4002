@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
-public class HeapShuttleRepository implements ShuttleRepository {
+public class InMemoryShuttleRepository implements ShuttleRepository {
     
     private List<Shuttle> departureShuttles;
     private List<Shuttle> arrivalShuttles;
 
-    public HeapShuttleRepository() {
+    public InMemoryShuttleRepository() {
         departureShuttles = new ArrayList<>();
         arrivalShuttles = new ArrayList<>();
     }

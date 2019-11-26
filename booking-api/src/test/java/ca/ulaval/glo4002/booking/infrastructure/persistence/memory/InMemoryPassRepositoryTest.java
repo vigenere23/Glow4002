@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.any;
@@ -17,7 +17,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
 import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumberFactory;
 
-public class HeapPassRepositoryTest {
+public class InMemoryPassRepositoryTest {
 
     private final static LocalDate SOME_DATE = LocalDate.now();
 
@@ -26,7 +26,7 @@ public class HeapPassRepositoryTest {
 
     @BeforeEach
     public void setupPassRepository() {
-        passRepository = new HeapPassRepository();
+        passRepository = new InMemoryPassRepository();
         passNumberFactory = new PassNumberFactory(new AtomicLong(0));
     }
 

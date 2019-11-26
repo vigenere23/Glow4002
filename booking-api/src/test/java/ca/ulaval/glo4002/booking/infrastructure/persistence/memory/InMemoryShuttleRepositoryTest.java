@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,14 +13,14 @@ import ca.ulaval.glo4002.booking.domain.transport.Location;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.SpaceX;
 
-class HeapShuttleRepositoryTest {
+class InMemoryShuttleRepositoryTest {
     
-    private HeapShuttleRepository shuttleRepository;
+    private InMemoryShuttleRepository shuttleRepository;
     private List<Shuttle> shuttles;
     
     @BeforeEach
     public void setUp() {
-        shuttleRepository = new HeapShuttleRepository();
+        shuttleRepository = new InMemoryShuttleRepository();
         shuttles = new ArrayList<>();
     }
     

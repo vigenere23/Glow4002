@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 
-class HeapProfitRepositoryTest {
+class InMemoryProfitRepositoryTest {
 
-    private HeapProfitRepository heapProfitRepository;
+    private InMemoryProfitRepository heapProfitRepository;
     
     @BeforeEach
     public void setUp() {
-        heapProfitRepository = new HeapProfitRepository(); 
+        heapProfitRepository = new InMemoryProfitRepository(); 
     }
     
     @Test

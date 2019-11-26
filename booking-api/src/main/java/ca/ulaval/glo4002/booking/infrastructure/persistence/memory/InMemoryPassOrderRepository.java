@@ -1,18 +1,18 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistance.heap;
+package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.exceptions.NotFoundException;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 
-public class HeapPassOrderRepository implements PassOrderRepository {
+public class InMemoryPassOrderRepository implements PassOrderRepository {
 
     private Map<String, PassOrder> passOrders;
 
-    public HeapPassOrderRepository() {
+    public InMemoryPassOrderRepository() {
         passOrders = new HashMap<>();
     }
 

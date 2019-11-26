@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.interfaces.rest.infrastructure.external_apis.artists_api;
+package ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
