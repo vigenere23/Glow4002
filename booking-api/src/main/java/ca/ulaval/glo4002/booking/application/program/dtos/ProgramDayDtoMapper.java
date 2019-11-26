@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.application.program.dtos;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramDayRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramDayRequest;
 import ca.ulaval.glo4002.booking.domain.program.ProgramDay;
 
 public class ProgramDayDtoMapper {

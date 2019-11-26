@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources;
+package ca.ulaval.glo4002.booking.interfaces.rest.resources;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;

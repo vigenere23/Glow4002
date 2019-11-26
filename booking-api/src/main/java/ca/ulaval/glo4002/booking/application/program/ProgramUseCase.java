@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;

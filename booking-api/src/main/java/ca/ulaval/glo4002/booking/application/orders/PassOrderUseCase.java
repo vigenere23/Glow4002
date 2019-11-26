@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.api.resources.orders.requests.PassRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassRequest;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;

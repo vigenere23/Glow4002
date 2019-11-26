@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.BeforeEach;
 
-import ca.ulaval.glo4002.booking.api.resources.program.requests.ProgramRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;

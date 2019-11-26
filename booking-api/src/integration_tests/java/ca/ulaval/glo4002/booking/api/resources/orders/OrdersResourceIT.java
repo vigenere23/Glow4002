@@ -1,11 +1,11 @@
-package ca.ulaval.glo4002.booking.api.resources.orders;
+package ca.ulaval.glo4002.booking.interfaces.rest.resources.orders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

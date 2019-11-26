@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.program;
+package ca.ulaval.glo4002.booking.interfaces.rest.resources.program;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
 
 public class ProgramResourceIT extends JerseyTestBookingServer {
 

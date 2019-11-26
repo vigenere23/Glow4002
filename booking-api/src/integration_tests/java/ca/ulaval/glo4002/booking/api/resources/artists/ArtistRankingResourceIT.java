@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.api.resources.artists;
+package ca.ulaval.glo4002.booking.interfaces.rest.resources.artists;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,8 +9,8 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-import ca.ulaval.glo4002.booking.api.resources.JerseyTestBookingServer;
-import ca.ulaval.glo4002.booking.api.resources.artists.responses.ArtistRankingResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistRankingResponse;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 
 public class ArtistRankingResourceIT extends JerseyTestBookingServer {
