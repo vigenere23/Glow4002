@@ -17,8 +17,7 @@ public class ExternalApiArtistRepository implements ArtistRepository {
     private ApiArtist apiArtist;
 
     @Inject
-    public ExternalApiArtistRepository(ArtistInformationMapper artistInformationMapper,
-            ApiArtist apiArtist) {
+    public ExternalApiArtistRepository(ArtistInformationMapper artistInformationMapper, ApiArtist apiArtist) {
         this.artistInformationMapper = artistInformationMapper;
         this.apiArtist = apiArtist;
     }

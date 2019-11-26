@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrderer;
-import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererFactory;
+import ca.ulaval.glo4002.booking.domain.oxygen.orderers.LinkedOxygenOrdererFactory;
 
 @ExtendWith(MockitoExtension.class)
 public class OxygenRequesterTest {
@@ -28,13 +28,13 @@ public class OxygenRequesterTest {
     private final static int SOME_OXYGEN_QUANTITY = 5;
     private final static OxygenOrderer SOME_OXYGEN_ORDERER = mock(OxygenOrderer.class);
     
-    @Mock OxygenOrdererFactory oxygenOrdererFactory;
+    @Mock LinkedOxygenOrdererFactory oxygenOrdererFactory;
     @Mock OxygenDates someOxygenDates;
     @InjectMocks OxygenRequester oxygenRequester;
 
     @BeforeEach
     public void setup() {
-        when(oxygenOrdererFactory.create(any(OxygenGrade.class), any(OxygenDates.class)))
+        when(oxygenOrdererFactory.create(any(OxygenGrade.class)))
             .thenReturn(SOME_OXYGEN_ORDERER);
     }
 

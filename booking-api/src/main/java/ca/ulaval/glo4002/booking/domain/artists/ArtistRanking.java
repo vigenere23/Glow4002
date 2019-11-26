@@ -8,10 +8,10 @@ public abstract class ArtistRanking {
     public abstract List<String> getOrderedArtists(List<ArtistRankingInformation> artistsToOrder);
 
     protected List<String> extractArtistsName(List<ArtistRankingInformation> orderedArtists) {
-            List<String> orderedArtistsName = new ArrayList<>();
-            for (ArtistRankingInformation artist : orderedArtists) {
-                orderedArtistsName.add(artist.getArtistName());
-            }
-            return orderedArtistsName;
+        List<String> orderedArtistsName = new ArrayList<>();
+        for (ArtistRankingInformation artist : orderedArtists) {
+            orderedArtistsName.add(artist.getArtistName());
+        }
+        return orderedArtistsName;
     }
 }
