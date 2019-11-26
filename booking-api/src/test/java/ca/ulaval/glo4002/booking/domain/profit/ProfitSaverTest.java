@@ -1,14 +1,17 @@
 package ca.ulaval.glo4002.booking.domain.profit;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 
+@ExtendWith(MockitoExtension.class)
 public class ProfitSaverTest {
 
     private final static Price ADDED_INCOME = new Price(12345);
@@ -16,17 +19,9 @@ public class ProfitSaverTest {
     private final static Price ADDED_OUTCOME = new Price(12345);
     private final static Price OUTCOME_TO_ADD = new Price(100);
     
-    private ProfitRepository profitRepository;
-    private ProfitSaver profitSaver;
-    private Price price;
-
-    @BeforeEach
-    public void setUpProfitSaver() {
-        profitRepository = mock(ProfitRepository.class);
-        price = mock(Price.class);
-
-        profitSaver = new ProfitSaver(profitRepository);
-    }
+    @Mock Price price;
+    @Mock ProfitRepository profitRepository;
+    @InjectMocks ProfitSaver profitSaver;
 
     @Test
     public void givenIncome_whenSaveIncome_thenIncomeAddedToIncomeInRepository() {

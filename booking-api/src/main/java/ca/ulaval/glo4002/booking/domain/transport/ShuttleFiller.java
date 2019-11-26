@@ -9,15 +9,9 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleFiller {
     
-    private ShuttleFactory shuttleFactory;
-    private OutcomeSaver outcomeSaver;
+    @Inject private ShuttleFactory shuttleFactory;
+    @Inject private OutcomeSaver outcomeSaver;
 
-    @Inject
-    public ShuttleFiller(ShuttleFactory shuttleFactory, OutcomeSaver outcomeSaver) {
-        this.shuttleFactory = shuttleFactory;
-        this.outcomeSaver = outcomeSaver;
-    }
-    
     public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, LocalDate date, int numberOfPassengers) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
         assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);

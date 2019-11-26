@@ -12,9 +12,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
+@ExtendWith(MockitoExtension.class)
 class ShuttleFillerTest {
     
     private final static LocalDate DATE = LocalDate.of(2050, 7, 22);
@@ -22,26 +27,24 @@ class ShuttleFillerTest {
     private final static int ONE_PLACE = 1;
     private final static int SOME_PLACES = 5;
 
-    private ShuttleFiller shuttleFiller;
     private List<Shuttle> shuttles;
-    private Shuttle firstMockedShuttle;
-    private Shuttle secondMockedShuttle;
-    private ShuttleFactory shuttleFactory;
-    private OutcomeSaver outcomeSaver;
+    
+    @Mock Shuttle firstMockedShuttle;
+    @Mock Shuttle secondMockedShuttle;
+    @Mock ShuttleFactory shuttleFactory;
+    @Mock OutcomeSaver outcomeSaver;
+    @InjectMocks ShuttleFiller shuttleFiller;
 
     @BeforeEach
     public void setUpShuttleFiller() {
-        mockShuttles();
-        mockShuttleFactory();
-        mockOutcomeSaver();
-        shuttleFiller = new ShuttleFiller(shuttleFactory, outcomeSaver);
+        shuttles = new ArrayList<>();
     }
 
     @Test
     public void givenShuttleListWithoutCategory_whenFillOnePlaceShuttle_thenShuttleOfNewCategoryIsAddedToList() {
+        mockShuttleFactory();
         when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
-        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
 
         shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASSENGER_NUMBER, DATE, ONE_PLACE);
@@ -51,9 +54,8 @@ class ShuttleFillerTest {
     
     @Test
     public void givenShuttleListAndDate_whenFillOnePlaceShuttle_thenAddNewShuttleToShuttlesIfAbsentForThatDate() {
-        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
+        mockShuttleFactory();
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
-        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(true);
         shuttles.add(firstMockedShuttle);
 
         shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASSENGER_NUMBER, DATE, ONE_PLACE);
@@ -63,6 +65,7 @@ class ShuttleFillerTest {
 
     @Test
     public void givenShuttleListAndFullShuttle_whenFillOnePlaceShuttle_thenAddNewShuttletoShuttlesIfShuttleForDateIsFull() {
+        mockShuttleFactory();
         when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(true);
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(true);
         when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
@@ -75,9 +78,8 @@ class ShuttleFillerTest {
 
     @Test
     public void givenShuttleListWithoutAnyShuttleToFill_whenFillOnePlaceShuttle_saveOutcomeFromOutcomeSaverIsCalled() {
-        when(firstMockedShuttle.hasCategory(ShuttleCategory.SPACE_X)).thenReturn(false);
+        mockShuttleFactory();
         when(firstMockedShuttle.hasDate(DATE)).thenReturn(false);
-        when(firstMockedShuttle.hasAvailableCapacity(ONE_PLACE)).thenReturn(false);
         shuttles.add(firstMockedShuttle);
         
         shuttleFiller.fillShuttle(shuttles, ShuttleCategory.SPACE_X, PASSENGER_NUMBER, DATE, SOME_PLACES);
@@ -109,18 +111,7 @@ class ShuttleFillerTest {
         verify(firstMockedShuttle, times(SOME_PLACES)).addPassenger(PASSENGER_NUMBER);
     }
 
-    private void mockShuttles() {
-        firstMockedShuttle = mock(Shuttle.class);
-        secondMockedShuttle = mock(Shuttle.class);
-        shuttles = new ArrayList<>();
-    }
-
     private void mockShuttleFactory() {
-        shuttleFactory = mock(ShuttleFactory.class);
         when(shuttleFactory.createShuttle(ShuttleCategory.SPACE_X, DATE)).thenReturn(secondMockedShuttle);
-    }
-
-    private void mockOutcomeSaver() {
-        outcomeSaver = mock(OutcomeSaver.class);
     }
 }

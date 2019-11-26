@@ -16,8 +16,12 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     private LocalDate endDate;
 
     public Glow4002Dates() {
-        startDate = LocalDate.of(2050, 7, 17);
-        endDate = LocalDate.of(2050, 7, 24);
+        this(LocalDate.of(2050, 7, 17), LocalDate.of(2050, 7, 24));
+    }
+
+    public Glow4002Dates(LocalDate startDate, LocalDate endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     @Override

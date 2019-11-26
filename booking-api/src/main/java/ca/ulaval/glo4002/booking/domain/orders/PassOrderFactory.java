@@ -22,19 +22,11 @@ import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public class PassOrderFactory {
 
-    private PassFactory passFactory;
-    private FestivalDates festivalDates;
-    private OrderDiscountLinker orderDiscountLinker;
-    private OrderNumberFactory orderNumberFactory;
+    @Inject private PassFactory passFactory;
+    @Inject private FestivalDates festivalDates;
+    @Inject private OrderDiscountLinker orderDiscountLinker;
+    @Inject private OrderNumberFactory orderNumberFactory;
     
-    @Inject
-    public PassOrderFactory(FestivalDates festivalDates, PassFactory passFactory, OrderDiscountLinker orderDiscountLinker,  OrderNumberFactory orderNumberFactory) {
-        this.festivalDates = festivalDates;
-        this.orderNumberFactory = orderNumberFactory;
-        this.passFactory = passFactory;
-        this.orderDiscountLinker = orderDiscountLinker;
-    }
-
     public PassOrder create(
         OffsetDateTime orderDate,
         VendorCode vendorCode,

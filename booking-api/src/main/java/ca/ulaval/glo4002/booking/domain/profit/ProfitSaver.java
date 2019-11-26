@@ -6,12 +6,7 @@ import ca.ulaval.glo4002.booking.domain.Price;
 
 public class ProfitSaver implements IncomeSaver, OutcomeSaver {
 
-    private ProfitRepository profitRepository;
-    
-    @Inject
-    public ProfitSaver(ProfitRepository profitRepository) {
-        this.profitRepository = profitRepository;
-    }
+    @Inject private ProfitRepository profitRepository;
 
     public void saveIncome(Price income) {
         profitRepository.saveIncome(getIncome().plus(income));

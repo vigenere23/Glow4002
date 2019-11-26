@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 

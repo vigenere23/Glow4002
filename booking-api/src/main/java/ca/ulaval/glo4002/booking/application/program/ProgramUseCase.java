@@ -18,32 +18,13 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramUseCase {
 
-    private TransportReserver transportReserver;
-    private OxygenRequester oxygenRequester;
-    private PassRepository passRepository;
-    private ArtistRepository artistRepository;
-    private OutcomeSaver outcomeSaver;
-    private ProgramValidator programValidator;
-    private ProgramDayDtoMapper programDayDtoMapper;
-
-    @Inject
-    public ProgramUseCase(
-        TransportReserver transportReserver,
-        OxygenRequester oxygenRequester,
-        ArtistRepository artistRepository,
-        PassRepository passRepository,
-        OutcomeSaver outcomeSaver,
-        ProgramValidator programValidator,
-        ProgramDayDtoMapper programDayDtoMapper
-    ) {
-        this.transportReserver = transportReserver;
-        this.oxygenRequester = oxygenRequester;
-        this.artistRepository = artistRepository;
-        this.passRepository = passRepository;
-        this.outcomeSaver = outcomeSaver;
-        this.programValidator = programValidator;
-        this.programDayDtoMapper = programDayDtoMapper;
-    }
+    @Inject private TransportReserver transportReserver;
+    @Inject private OxygenRequester oxygenRequester;
+    @Inject private PassRepository passRepository;
+    @Inject private ArtistRepository artistRepository;
+    @Inject private OutcomeSaver outcomeSaver;
+    @Inject private ProgramValidator programValidator;
+    @Inject private ProgramDayDtoMapper programDayDtoMapper;
 
     public void provideProgramResources(ProgramRequest programRequest) {
         List<ProgramDay> programDays = programDayDtoMapper.fromRequests(programRequest.programDays);

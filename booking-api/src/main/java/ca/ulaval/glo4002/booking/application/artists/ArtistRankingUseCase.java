@@ -11,14 +11,8 @@ import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
 public class ArtistRankingUseCase {
 
-    private ArtistRepository artistsRepository;
-    private ArtistRankingFactory artistRankingFactory;
-
-    @Inject
-    public ArtistRankingUseCase(ArtistRepository artistsRepository, ArtistRankingFactory artistRankingFactory) {
-        this.artistsRepository = artistsRepository;
-        this.artistRankingFactory = artistRankingFactory;
-    }
+    @Inject private ArtistRepository artistsRepository;
+    @Inject private ArtistRankingFactory artistRankingFactory;
 
     public List<String> orderBy(Ranking rankingType) {
         List<ArtistRankingInformation> artistsToOrder = artistsRepository.findArtistRankingInformation();

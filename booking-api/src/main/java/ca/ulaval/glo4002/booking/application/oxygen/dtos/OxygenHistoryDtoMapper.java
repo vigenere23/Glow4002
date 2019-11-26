@@ -5,16 +5,18 @@ import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OxygenHistoryEntryDtoMapper {
+public class OxygenHistoryDtoMapper {
 
-    public List<OxygenHistoryEntryDto> toDtos(List<OxygenHistoryEntry> historyEntries) {
-        return historyEntries
-            .stream()
-            .map(entry -> toDto(entry))
-            .collect(Collectors.toList());
+    public OxygenHistoryDto toDto(List<OxygenHistoryEntry> historyEntries) {
+        return new OxygenHistoryDto(
+            historyEntries
+                .stream()
+                .map(entry -> toEntryDto(entry))
+                .collect(Collectors.toList())
+        );
     }
 
-    public OxygenHistoryEntryDto toDto(OxygenHistoryEntry historyEntry) {
+    private OxygenHistoryEntryDto toEntryDto(OxygenHistoryEntry historyEntry) {
         return new OxygenHistoryEntryDto(
             historyEntry.getDate(),
             historyEntry.getTankBought(),

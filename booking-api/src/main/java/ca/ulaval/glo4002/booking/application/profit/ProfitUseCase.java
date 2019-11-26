@@ -10,14 +10,8 @@ public class ProfitUseCase {
 
     private static final int NUMBER_OF_DECIMAL = 2;
 
-    private ProfitCalculator profitCalculator;
-    private ProfitRepository profitRepository;
-
-    @Inject
-    public ProfitUseCase(ProfitCalculator profitCalculator, ProfitRepository profitRepository) {
-        this.profitCalculator = profitCalculator;
-        this.profitRepository = profitRepository;
-    }
+    @Inject private ProfitCalculator profitCalculator;
+    @Inject private ProfitRepository profitRepository;
 
     public float getIncome() {
         return calculateRoundedAmount(profitRepository.findIncome());

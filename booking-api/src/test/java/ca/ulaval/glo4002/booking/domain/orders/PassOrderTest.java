@@ -1,7 +1,8 @@
 package ca.ulaval.glo4002.booking.domain.orders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,19 +10,22 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
-import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
+import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
+@ExtendWith(MockitoExtension.class)
 public class PassOrderTest {
 
     private final static int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
@@ -30,25 +34,22 @@ public class PassOrderTest {
     private final static Price SUPERGIANT_SINGLE_PASS_PRICE = new Price(100000);
     private final static Price SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE = new Price(90000);
 
-    private Pass nebulaSinglePassMock;
-    private Pass supergiantSinglePassMock;
-    private IncomeSaver incomeSaver;
     private Optional<OrderDiscount> orderDiscount;
     private OrderNumber orderNumber;
     private List<Pass> passes;
+    
+    @Mock Pass nebulaSinglePassMock;
+    @Mock Pass supergiantSinglePassMock;
+    @Mock IncomeSaver incomeSaver;
 
     @BeforeEach
     public void setUpPassOrder() {
         passes = new ArrayList<>();
-        incomeSaver = mock(IncomeSaver.class);
         orderDiscount = Optional.of(new OrderDiscountLinker().link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         ));
 
         orderNumber = new OrderNumber(VendorCode.TEAM, 0);
-
-        mockNebulaSinglePass();
-        mockSupergiantSinglePass();
     }
 
     @Test
@@ -113,27 +114,27 @@ public class PassOrderTest {
     }
     
     private void initNebulaPasses(int numberOfPasses) {
+        mockNebulaSinglePass();
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(nebulaSinglePassMock);
         }
     }
 
     private void initSupergiantPasses(int numberOfPasses) {
+        mockSupergiantSinglePass();
         for (int i = 0; i < numberOfPasses; i++) {
             passes.add(supergiantSinglePassMock);
         }
     }
 
-    private void mockSupergiantSinglePass() {
-        nebulaSinglePassMock = mock(Pass.class);
+    private void mockNebulaSinglePass() {
         when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
         when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
+        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(false);
     }
 
-    private void mockNebulaSinglePass() {
-        supergiantSinglePassMock = mock(Pass.class);
+    private void mockSupergiantSinglePass() {
         when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
         when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
     }
-
 }

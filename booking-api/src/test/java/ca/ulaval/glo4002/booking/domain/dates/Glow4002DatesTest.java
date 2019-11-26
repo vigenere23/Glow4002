@@ -22,10 +22,12 @@ public class Glow4002DatesTest {
     private LocalDate outsideFestivalDate;
     private OffsetDateTime outsideOrderDateTime;
 
+    private static final LocalDate SOME_DATE = LocalDate.now();
     private static final LocalDate DEFAULT_FESTIVAL_START = LocalDate.of(2050, 07, 17);
     private static final LocalDate DEFAULT_FESTIVAL_END = LocalDate.of(2050, 07, 24);
     private static final int DAYS_BETWEEN_SALE_START_AND_FESTIVAL_START = 180;
     private static final int DAYS_BETWEEN_SALE_END_AND_FESTIVAL_START = 1;
+    private static final int DAYS_BETWEEN_OXYGEN_LIMIT_AND_FESTIVAL_START = 1;
 
     @BeforeEach
     public void setupGlow4002Dates() {
@@ -47,15 +49,65 @@ public class Glow4002DatesTest {
     @Test
     public void whenCreating_thenTheCorrectSaleStartDateIsSet() {
         int daysBetweenSaleStartAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
-            festivalDates.getSaleStartDate().toLocalDate(), festivalDates.getStartDate().minusDays(1));
-        assertThat(daysBetweenSaleStartAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_START_AND_FESTIVAL_START);
+            festivalDates.getSaleStartDate().toLocalDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenSaleStartAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_START_AND_FESTIVAL_START + 1);
     }
 
     @Test
     public void whenCreating_thenTheCorrectSaleEndDateIsSet() {
         int daysBetweenSaleEndAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
-            festivalDates.getSaleEndDate().toLocalDate(), festivalDates.getStartDate().minusDays(1));
-        assertThat(daysBetweenSaleEndAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_END_AND_FESTIVAL_START);
+            festivalDates.getSaleEndDate().toLocalDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenSaleEndAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_END_AND_FESTIVAL_START + 1);
+    }
+
+    @Test
+    public void whenCreating_thenTheCorrectOxygenEndDateIsSet() {
+        int daysBetweenOxygenLimitAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
+            festivalDates.getOxygenLimitDeliveryDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenOxygenLimitAndFestivalStart).isEqualTo(DAYS_BETWEEN_OXYGEN_LIMIT_AND_FESTIVAL_START + 1);
+    }
+
+    @Test
+    public void givenNewStartDate_whenUpdatingStartDate_itSetTheNewStartDate() {
+        festivalDates.updateStartDate(SOME_DATE);
+        assertThat(festivalDates.getStartDate()).isEqualTo(SOME_DATE);
+    }
+
+    @Test
+    public void whenUpdatingStartDate_thenTheCorrectSaleStartDateIsSet() {
+        festivalDates.updateStartDate(SOME_DATE);
+        int daysBetweenSaleStartAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
+            festivalDates.getSaleStartDate().toLocalDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenSaleStartAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_START_AND_FESTIVAL_START + 1);
+    }
+
+    @Test
+    public void whenUpdatingStartDate_thenTheCorrectSaleEndDateIsSet() {
+        festivalDates.updateStartDate(SOME_DATE);
+        int daysBetweenSaleEndAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
+            festivalDates.getSaleEndDate().toLocalDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenSaleEndAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_END_AND_FESTIVAL_START + 1);
+    }
+
+    @Test
+    public void whenUpdatingStartDate_thenTheCorrectOxygneLimitDateIsSet() {
+        festivalDates.updateStartDate(SOME_DATE);
+        int daysBetweenSaleEndAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
+            festivalDates.getOxygenLimitDeliveryDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenSaleEndAndFestivalStart).isEqualTo(DAYS_BETWEEN_OXYGEN_LIMIT_AND_FESTIVAL_START + 1);
+    }
+
+    @Test
+    public void givenNewEndDate_whenUpdatingEndDate_itSetTheNewEndDate() {
+        festivalDates.updateEndDate(SOME_DATE);
+        assertThat(festivalDates.getEndDate()).isEqualTo(SOME_DATE);
+    }
+
+    @Test
+    public void givenNDaysInclusivelyBetweenFestivalStartAndEnd_whenGettingNumberOfDays_itShouldReturnNDays() {
+        int numberOfDays = 10;
+        festivalDates.updateEndDate(DEFAULT_FESTIVAL_START.plusDays(numberOfDays - 1));
+        assertThat(festivalDates.getNumberOfFestivalDays()).isEqualTo(numberOfDays);
     }
 
     @Test

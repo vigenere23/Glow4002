@@ -7,14 +7,8 @@ import javax.inject.Inject;
 
 public class TransportReserver {
 
-    private ShuttleFiller shuttleFiller;
-    private ShuttleRepository shuttleRepository;
-    
-    @Inject
-    public TransportReserver(ShuttleRepository shuttleRepository, ShuttleFiller shuttleFiller) {
-        this.shuttleRepository = shuttleRepository;
-        this.shuttleFiller = shuttleFiller;
-    }
+    @Inject private ShuttleFiller shuttleFiller;
+    @Inject private ShuttleRepository shuttleRepository;
     
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
