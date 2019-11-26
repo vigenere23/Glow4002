@@ -39,16 +39,18 @@ public class OxygenOrderer {
 	public void order(LocalDate orderDate, int requestedQuantity) {
         LocalDate oxygenLimitDate = oxygenDates.getOxygenLimitDeliveryDate();
         int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, oxygenLimitDate);
+        OxygenInventoryEntry inventoryEntry = oxygenInventory.find(requestSettings.getGrade());
         
         if (numberOfDaysUntilLimitDate < requestSettings.getNumberOfDaysToReceive()) {
-            delegateToNextOrderer(orderDate, requestedQuantity);
-            return;
+            int surplusQuantity = inventoryEntry.getSurplusQuantity();
+            inventoryEntry.useQuantity(surplusQuantity);
+            delegateToNextOrderer(orderDate, requestedQuantity - surplusQuantity);
         }
-
-        OxygenInventoryEntry inventoryEntry = oxygenInventory.find(requestSettings.getGrade());
-        orderOxygenIfNeeded(orderDate, requestedQuantity, inventoryEntry);
-        inventoryEntry.useQuantity(requestedQuantity);
-        oxygenInventory.save(inventoryEntry);
+        else {
+            orderOxygenIfNeeded(orderDate, requestedQuantity, inventoryEntry);
+            inventoryEntry.useQuantity(requestedQuantity);
+            oxygenInventory.save(inventoryEntry);
+        }
     }
 
     private void delegateToNextOrderer(LocalDate orderDate, int requestedQuantity) {
