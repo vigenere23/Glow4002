@@ -1,10 +1,12 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.orderers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
@@ -12,22 +14,21 @@ import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInven
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenRequestSettingsFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplierFactory;
 
+@ExtendWith(MockitoExtension.class)
 public class OxygenOrdererFactoryTest {
 
-    private OxygenDates someOxygenDates;
-    private OxygenOrdererFactory oxygenOrdererFactory;
     private OxygenOrdererLinker oxygenOrdererLinker;
-    private OxygenSupplierFactory oxygenSupplierFactory;
-    private OxygenRequestSettingsFactory requestSettingsFactory;
-    private HeapOxygenInventoryRepository oxygenInventory;
+    
+    @Mock OxygenDates someOxygenDates;
+    @Mock OxygenSupplierFactory oxygenSupplierFactory;
+    @Mock HeapOxygenInventoryRepository oxygenInventory;
+    @Mock OxygenRequestSettingsFactory requestSettingsFactory;
+    private OxygenOrdererFactory oxygenOrdererFactory;
 
     @BeforeEach
     public void setup() {
-        someOxygenDates = mock(OxygenDates.class);
         oxygenOrdererLinker = new OxygenOrdererLinker();
-        oxygenSupplierFactory = mock(OxygenSupplierFactory.class);
         requestSettingsFactory = new OxygenRequestSettingsFactory();
-        oxygenInventory = mock(HeapOxygenInventoryRepository.class);
         oxygenOrdererFactory = new OxygenOrdererFactory(
             oxygenOrdererLinker, oxygenSupplierFactory, requestSettingsFactory, oxygenInventory
         );

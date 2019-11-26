@@ -12,14 +12,8 @@ import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererFactory;
 
 public class OxygenRequester {
 
-    private OxygenOrdererFactory oxygenOrdererFactory;
-    private OxygenDates oxygenDates;
-
-    @Inject
-    public OxygenRequester(OxygenOrdererFactory oxygenOrdererFactory, OxygenDates oxygenDates) {
-        this.oxygenOrdererFactory = oxygenOrdererFactory;
-        this.oxygenDates = oxygenDates;
-    }
+    @Inject private OxygenOrdererFactory oxygenOrdererFactory;
+    @Inject private OxygenDates oxygenDates;
 
     public void requestOxygen(OffsetDateTime orderDateTime, OxygenGrade oxygenGrade, int requestedQuantity) {
         requestOxygen(orderDateTime.toLocalDate(), oxygenGrade, requestedQuantity);

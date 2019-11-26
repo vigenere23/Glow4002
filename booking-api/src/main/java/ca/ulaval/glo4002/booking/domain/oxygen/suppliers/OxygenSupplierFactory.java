@@ -9,14 +9,8 @@ import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 
 public class OxygenSupplierFactory {
 
-	private OxygenHistoryRepository oxygenHistory;
-	private OutcomeSaver outcomeSaver;
-
-	@Inject
-	public OxygenSupplierFactory(OxygenHistoryRepository oxygenHistory, OutcomeSaver outcomeSaver) {
-		this.oxygenHistory = oxygenHistory;
-		this.outcomeSaver = outcomeSaver;
-	}
+	@Inject private OxygenHistoryRepository oxygenHistory;
+	@Inject private OutcomeSaver outcomeSaver;
 
 	public OxygenSupplier create(OxygenGrade oxygenGrade) {
 		switch (oxygenGrade) {

@@ -2,27 +2,23 @@ package ca.ulaval.glo4002.booking.domain.oxygen.suppliers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.mockito.Mockito.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
+@ExtendWith(MockitoExtension.class)
 public class OxygenSupplierFactoryTest {
 
-    private OxygenSupplierFactory oxygenSupplierFactory;
-    private HeapOxygenHistoryRepository oxygenHistory;
-    private OutcomeSaver outcomeSaver;
-
-    @BeforeEach
-    public void setup() {
-        oxygenHistory = mock(HeapOxygenHistoryRepository.class);
-        outcomeSaver = mock(OutcomeSaver.class);
-        oxygenSupplierFactory = new OxygenSupplierFactory(oxygenHistory, outcomeSaver);
-    }
+    @Mock HeapOxygenHistoryRepository oxygenHistory;
+    @Mock OutcomeSaver outcomeSaver;
+    @InjectMocks OxygenSupplierFactory oxygenSupplierFactory;
 
     @Test
     public void givenOxygenGradeA_whenCreating_itReturnsOxygenGradeAProducer() {

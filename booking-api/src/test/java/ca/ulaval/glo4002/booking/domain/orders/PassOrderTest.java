@@ -9,6 +9,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
@@ -22,6 +25,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 
+@ExtendWith(MockitoExtension.class)
 public class PassOrderTest {
 
     private final static int NEBULA_SINGLE_PASS_DISCOUNT_QUANTITY = 4;
@@ -30,17 +34,17 @@ public class PassOrderTest {
     private final static Price SUPERGIANT_SINGLE_PASS_PRICE = new Price(100000);
     private final static Price SUPERGIANT_SINGLE_PASS_DISCOUNTED_PRICE = new Price(90000);
 
-    private Pass nebulaSinglePassMock;
-    private Pass supergiantSinglePassMock;
-    private IncomeSaver incomeSaver;
     private Optional<OrderDiscount> orderDiscount;
     private OrderNumber orderNumber;
     private List<Pass> passes;
+    
+    @Mock Pass nebulaSinglePassMock;
+    @Mock Pass supergiantSinglePassMock;
+    @Mock IncomeSaver incomeSaver;
 
     @BeforeEach
     public void setUpPassOrder() {
         passes = new ArrayList<>();
-        incomeSaver = mock(IncomeSaver.class);
         orderDiscount = Optional.of(new OrderDiscountLinker().link(
             new SupergiantSinglePassDiscount(), new NebulaSinglePassDiscount()
         ));
@@ -125,15 +129,12 @@ public class PassOrderTest {
     }
 
     private void mockSupergiantSinglePass() {
-        nebulaSinglePassMock = mock(Pass.class);
-        when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
-        when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
+        lenient().when(nebulaSinglePassMock.getPrice()).thenReturn(NEBULA_SINGLE_PASS_PRICE);
+        lenient().when(nebulaSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.NEBULA)).thenReturn(true);
     }
 
     private void mockNebulaSinglePass() {
-        supergiantSinglePassMock = mock(Pass.class);
-        when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
-        when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
+        lenient().when(supergiantSinglePassMock.getPrice()).thenReturn(SUPERGIANT_SINGLE_PASS_PRICE);
+        lenient().when(supergiantSinglePassMock.isOfType(PassOption.SINGLE_PASS, PassCategory.SUPERGIANT)).thenReturn(true);
     }
-
 }

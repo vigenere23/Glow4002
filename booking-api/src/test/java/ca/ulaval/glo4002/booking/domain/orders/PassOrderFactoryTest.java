@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -13,14 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumberFactory;
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
@@ -40,13 +43,8 @@ public class PassOrderFactoryTest {
     @Mock FestivalDates festivalDates;
     @Mock OrderNumberFactory orderNumberFactory;
     @Mock PassFactory passFactory;
-    private PassOrderFactory passOrderFactory;
-
-    @BeforeEach
-    public void setupPassOrderFactory() {
-        OrderDiscountLinker orderDiscountFactory = new OrderDiscountLinker();
-        passOrderFactory = new PassOrderFactory(festivalDates,  passFactory, orderDiscountFactory, orderNumberFactory);
-    }
+    @Mock OrderDiscountLinker orderDiscountLinker;
+    @InjectMocks PassOrderFactory passOrderFactory;
 
     @Test
     public void givenOrderDateOutsideFestivalSaleDates_whenCreatingOrder_itThrowsOutOfSaleDateException() {
@@ -59,12 +57,14 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenNoEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
+        mockDiscountLinker();
         passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATES_LIST);
         verify(passFactory, times(1)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATE);
     }
 
     @Test
     public void givenEmptyListOfEventDates_whenCreatingOrder_thenThePassFactoryIsCalledOneTimeWithNoEventDate() {
+        mockDiscountLinker();
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
         passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
         verify(passFactory, times(1)).create(SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATE);
@@ -72,6 +72,7 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenListOfNEventDates_whenCreatingOrder_thenThePassFactoryIsCalledNTimes() {
+        mockDiscountLinker();
         final int NUMBER_OF_DATES = 5;
         LocalDate date = LocalDate.now();
         Optional<List<LocalDate>> eventDates = Optional.of(getListOfDates(NUMBER_OF_DATES, date));
@@ -83,6 +84,7 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenNoEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
+        mockDiscountLinker();
         PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, NO_EVENT_DATES_LIST);
 
         int numberOfPasses = passOrder.getPasses().size();
@@ -91,6 +93,7 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenEmptyListOfEventDates_whenCreatingValidOrder_thenTheReturnedPassOrderHasOnePass() {
+        mockDiscountLinker();
         Optional<List<LocalDate>> emptyList = Optional.of(new ArrayList<>());
         
         PassOrder passOrder = passOrderFactory.create(SOME_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, emptyList);
@@ -101,6 +104,7 @@ public class PassOrderFactoryTest {
 
     @Test
     public void givenListOfNEventDates_whenCreatingOrder_thenTheReturnedOrderHasNPasses() {
+        mockDiscountLinker();
         final int NUMBER_OF_DATES = 5;
         LocalDate date = LocalDate.now();
         Optional<List<LocalDate>> eventDates = Optional.of(getListOfDates(NUMBER_OF_DATES, date));
@@ -117,5 +121,9 @@ public class PassOrderFactoryTest {
             listOfDates.add(date);
         }
         return listOfDates;
+    }
+
+    private void mockDiscountLinker() {
+        when(orderDiscountLinker.link(any())).thenReturn(mock(OrderDiscount.class));
     }
 }

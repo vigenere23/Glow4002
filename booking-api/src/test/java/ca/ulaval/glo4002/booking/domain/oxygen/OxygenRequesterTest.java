@@ -10,12 +10,17 @@ import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrderer;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrdererFactory;
 
+@ExtendWith(MockitoExtension.class)
 public class OxygenRequesterTest {
 
     private final static OffsetDateTime SOME_DATETIME = OffsetDateTime.now();
@@ -23,17 +28,14 @@ public class OxygenRequesterTest {
     private final static int SOME_OXYGEN_QUANTITY = 5;
     private final static OxygenOrderer SOME_OXYGEN_ORDERER = mock(OxygenOrderer.class);
     
-    private OxygenRequester oxygenRequester;
-    private OxygenOrdererFactory oxygenOrdererFactory;
-    private OxygenDates someOxygenDates;
+    @Mock OxygenOrdererFactory oxygenOrdererFactory;
+    @Mock OxygenDates someOxygenDates;
+    @InjectMocks OxygenRequester oxygenRequester;
 
     @BeforeEach
     public void setup() {
-        oxygenOrdererFactory = mock(OxygenOrdererFactory.class);
-        someOxygenDates = mock(OxygenDates.class);
         when(oxygenOrdererFactory.create(any(OxygenGrade.class), any(OxygenDates.class)))
             .thenReturn(SOME_OXYGEN_ORDERER);
-        oxygenRequester = new OxygenRequester(oxygenOrdererFactory, someOxygenDates);
     }
 
     @Test
