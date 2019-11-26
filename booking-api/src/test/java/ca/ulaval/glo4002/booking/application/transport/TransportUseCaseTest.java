@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -34,17 +36,16 @@ class TransportUseCaseTest {
 
     private List<Shuttle> shuttlesEarth;
     private List<Shuttle> shuttlesUlavalogy;
+    private List<ShuttleDto> shuttleDtos;
     
     @Mock FestivalDates festivalDates;
     @Mock ShuttleRepository shuttleRepository;
-    private TransportUseCase transportUseCase;
+    @Mock ShuttleDtoMapper shuttleDtoMapper;
+    @InjectMocks TransportUseCase transportUseCase;
 
     @BeforeEach
     public void setUpTransportUseCase() {
         prepareShuttles();
-        
-        ShuttleDtoMapper shuttleDtoMapper = new ShuttleDtoMapper();
-        transportUseCase = new TransportUseCase(festivalDates, shuttleRepository, shuttleDtoMapper);
     }
 
     @Test
@@ -56,9 +57,10 @@ class TransportUseCaseTest {
     @Test
     public void whenGetAllDeparture_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.EARTH)).thenReturn(shuttlesEarth);
+        when(shuttleDtoMapper.toDtos(shuttlesEarth)).thenReturn(shuttleDtos);
 
         List<ShuttleDto> departureShuttles = transportUseCase.getAllDepartures();
-        assertThat(departureShuttles).hasSameSizeAs(shuttlesEarth);
+        assertThat(departureShuttles).isEqualTo(shuttleDtos);
     }
 
     @Test
@@ -70,9 +72,10 @@ class TransportUseCaseTest {
     @Test
     public void whenGetAllArrivals_thenReturnListOfShuttlesForLocation() {
         when(shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY)).thenReturn(shuttlesUlavalogy);
+        when(shuttleDtoMapper.toDtos(shuttlesUlavalogy)).thenReturn(shuttleDtos);
+        
         List<ShuttleDto> arrivalShuttles = transportUseCase.getAllArrivals();
-
-        assertThat(arrivalShuttles).hasSameSizeAs(shuttlesUlavalogy);
+        assertThat(arrivalShuttles).isEqualTo(shuttleDtos);
     }
 
     @Test
@@ -84,9 +87,10 @@ class TransportUseCaseTest {
     @Test
     public void givenDate_whenGetShuttlesDepartureByDate_thenReturnListOfShuttlesForLocationAndDate() {
         when(shuttleRepository.findShuttlesByDate(Location.EARTH, SOME_DATE)).thenReturn(shuttlesEarth);
+        when(shuttleDtoMapper.toDtos(shuttlesEarth)).thenReturn(shuttleDtos);
+        
         List<ShuttleDto> departueShuttles = transportUseCase.getShuttlesDepartureByDate(SOME_DATE);
-
-        assertThat(departueShuttles).hasSameSizeAs(shuttlesEarth);
+        assertThat(departueShuttles).isEqualTo(shuttleDtos);
     }
 
     @Test
@@ -107,9 +111,10 @@ class TransportUseCaseTest {
     @Test
     public void givenDate_whenGetShuttlesArrivalByDate_thenReturnListOfShuttlesForLocationAndDate() {
         when(shuttleRepository.findShuttlesByDate(Location.ULAVALOGY, SOME_DATE)).thenReturn(shuttlesUlavalogy);
+        when(shuttleDtoMapper.toDtos(shuttlesUlavalogy)).thenReturn(shuttleDtos);
+        
         List<ShuttleDto> arrivalShuttles = transportUseCase.getShuttlesArrivalByDate(SOME_DATE);
-
-        assertThat(arrivalShuttles).hasSameSizeAs(shuttlesUlavalogy);
+        assertThat(arrivalShuttles).isEqualTo(shuttleDtos);
     }
 
     @Test
@@ -125,10 +130,13 @@ class TransportUseCaseTest {
     private void prepareShuttles() {
         shuttlesEarth = new ArrayList<>();
         shuttlesUlavalogy = new ArrayList<>();
+        shuttleDtos = new ArrayList<>();
 
-        Shuttle mockedShuttle = new SpaceX(SOME_DATE);
+        Shuttle shuttle = new SpaceX(SOME_DATE);
+        shuttlesEarth.add(shuttle);
+        shuttlesUlavalogy.add(shuttle);
 
-        shuttlesEarth.add(mockedShuttle);
-        shuttlesUlavalogy.add(mockedShuttle);
+        ShuttleDto mockedShuttleDto = mock(ShuttleDto.class);
+        shuttleDtos.add(mockedShuttleDto);
     }
 }
