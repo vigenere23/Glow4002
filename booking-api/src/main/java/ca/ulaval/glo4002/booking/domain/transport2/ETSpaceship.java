@@ -1,0 +1,15 @@
+package ca.ulaval.glo4002.booking.domain.transport2;
+
+import java.time.LocalDate;
+
+import ca.ulaval.glo4002.booking.domain.Price;
+
+public class ETSpaceship extends Shuttle {
+    
+    public ETSpaceship(LocalDate date) {
+        this.date = date;
+        capacity = 1;
+        category = ShuttleCategory.ET_SPACESHIP;
+        price = new Price(100000);
+    }
+}
