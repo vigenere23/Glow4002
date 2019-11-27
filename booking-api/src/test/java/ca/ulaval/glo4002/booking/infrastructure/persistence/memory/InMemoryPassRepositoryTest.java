@@ -37,7 +37,7 @@ public class InMemoryPassRepositoryTest {
     }
 
     @Test
-    public void givenOnlyPassesOfDate_whenFindingByAttendedDateWithThatDate_itShouldReturnAllPasses() {
+    public void givenOnlyPassesAttendingAtADate_whenFindingByAttendedDateWithThatDate_itShouldReturnAllPasses() {
         int numberOfPasses = 10;
         addPasses(numberOfPasses, true);
 
@@ -47,7 +47,7 @@ public class InMemoryPassRepositoryTest {
     }
 
     @Test
-    public void givenOnlyPassesNotOfDate_whenFindingByAttendedDateWithThatDate_itShouldReturnNoResult() {
+    public void givenOnlyPassesNotAttendingAtADate_whenFindingByAttendedDateWithThatDate_itShouldReturnNoResult() {
         int numberOfPassesNotOfDate = 10;
         addPasses(numberOfPassesNotOfDate, false);
 
@@ -57,7 +57,7 @@ public class InMemoryPassRepositoryTest {
     }
 
     @Test
-    public void givenPassesOfDateAndNotOfDate_whenFindingByAttendedDateWithThatDate_itShouldReturnOnlyThePassesOfDate() {
+    public void givenPassesAttendingAndNotAttendingAtADate_whenFindingByAttendedDateWithThatDate_itShouldReturnOnlyThePassesOfThatDate() {
         int numberOfPassesOfDate = 10;
         int numberOfPassesNotOfDate = 5;
         addPasses(numberOfPassesOfDate, true);
@@ -74,7 +74,7 @@ public class InMemoryPassRepositoryTest {
             PassNumber passNumber = passNumberFactory.create();
             when(pass.getPassNumber()).thenReturn(passNumber);
             when(pass.isAttendingAtDate(any(LocalDate.class))).thenReturn(isAttendingAtDate);
-            passRepository.save(pass);
+            passRepository.add(pass);
         }
     }
 }

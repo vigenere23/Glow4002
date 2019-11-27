@@ -20,7 +20,7 @@ public class InMemoryOxygenInventoryRepository implements OxygenInventoryReposit
 
 	private void setupInventory() {
         for (OxygenGrade oxygenGrade : OxygenGrade.values()) {
-            save(new OxygenInventoryEntry(oxygenGrade));
+            inventory.put(oxygenGrade, new OxygenInventoryEntry(oxygenGrade));
         }
     }
     
@@ -35,7 +35,7 @@ public class InMemoryOxygenInventoryRepository implements OxygenInventoryReposit
     }
 
     @Override
-    public void save(OxygenInventoryEntry entry) {
+    public void replace(OxygenInventoryEntry entry) {
         inventory.put(entry.getOxygenGrade(), entry);
     }
 }

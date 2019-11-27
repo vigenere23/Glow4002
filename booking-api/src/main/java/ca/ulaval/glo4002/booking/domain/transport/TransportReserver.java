@@ -10,10 +10,18 @@ public class TransportReserver {
     @Inject private ShuttleFiller shuttleFiller;
     @Inject private ShuttleRepository shuttleRepository;
     
+    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber) {
+        reserveDeparture(shuttleCategory, date, passengerNumber, 1);
+    }
+
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
         List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
         List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
         shuttleRepository.saveDeparture(shuttlesToSave);
+    }
+
+    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber) {
+        reserveArrival(shuttleCategory, date, passengerNumber, 1);
     }
 
     public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {

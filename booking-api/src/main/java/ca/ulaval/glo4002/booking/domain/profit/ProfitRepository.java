@@ -6,6 +6,6 @@ public interface ProfitRepository {
     
     public Price findIncome();
     public Price findOutcome();
-    public void saveIncome(Price income);
-    public void saveOutcome(Price outcome);
+    public void updateIncome(Price income);
+    public void updateOutcome(Price outcome);
 }

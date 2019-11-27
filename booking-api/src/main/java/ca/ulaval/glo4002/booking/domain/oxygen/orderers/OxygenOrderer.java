@@ -49,7 +49,7 @@ public class OxygenOrderer {
         else {
             orderOxygenIfNeeded(orderDate, requestedQuantity, inventoryEntry);
             inventoryEntry.useQuantity(requestedQuantity);
-            oxygenInventory.save(inventoryEntry);
+            oxygenInventory.replace(inventoryEntry);
         }
     }
 

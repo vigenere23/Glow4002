@@ -21,20 +21,20 @@ public class InMemoryOxygenHistoryRepositoryTest {
     }
 
     @Test
-    public void whenCreating_noHistoryEntryIsPresent() {
+    public void whenCreating_noEntryIsPresent() {
         assertThat(oxygenHistory.findAll()).isEmpty();
     }
 
     @Test
-    public void givenEmptyHistory_whenFindingOrCreating_itReturnsAHistoryEntry() {
+    public void givenEmptyHistory_whenFindingOrCreating_itReturnsAnEntry() {
         OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
         assertThat(entry).isNotNull();
     }
 
     @Test
-    public void givenNonEmptyHistory_whenFindingOrCreating_itReturnsThePresentHistoryEntry() {
+    public void givenNonEmptyHistory_whenFindingOrCreating_itReturnsTheExistingEntry() {
         OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
-        oxygenHistory.save(entry);
+        oxygenHistory.add(entry);
 
         OxygenHistoryEntry savedEntry = oxygenHistory.findOrCreate(SOME_DATE);
         
@@ -42,13 +42,25 @@ public class InMemoryOxygenHistoryRepositoryTest {
     }
 
     @Test
-    public void whenSaving_itAddsTheSavedEntryToTheHistory() {
+    public void givenNewEntry_whenAddingEntry_itAddsTheNewEntryToTheHistory() {
         int oldSize = oxygenHistory.findAll().size();
-        OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
-        oxygenHistory.save(entry);
+        OxygenHistoryEntry entry = new OxygenHistoryEntry(SOME_DATE);
+        
+        oxygenHistory.add(entry);
 
         int newSize = oxygenHistory.findAll().size();
-        
         assertThat(newSize).isEqualTo(oldSize + 1);
+    }
+
+    @Test
+    public void givenExistantHistoryEntry_whenAddingEntry_itReplacesTheExistantEntry() {
+        OxygenHistoryEntry entry = oxygenHistory.findOrCreate(SOME_DATE);
+        oxygenHistory.add(entry);
+        int oldSize = oxygenHistory.findAll().size();
+
+        oxygenHistory.add(entry);
+
+        int newSize = oxygenHistory.findAll().size();
+        assertThat(newSize).isEqualTo(oldSize);
     }
 }

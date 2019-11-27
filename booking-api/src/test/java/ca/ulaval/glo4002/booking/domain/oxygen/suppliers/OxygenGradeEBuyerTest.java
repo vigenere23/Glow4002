@@ -53,7 +53,7 @@ public class OxygenGradeEBuyerTest {
         oxygenGradeEBuyer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int quantityProduced = OxygenSupplierTestHelper.getQuantityProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         verify(receivedDateOxygenHistoryEntry).addTankBought(quantityProduced);
-        verify(oxygenHistory).save(receivedDateOxygenHistoryEntry);
+        verify(oxygenHistory).add(receivedDateOxygenHistoryEntry);
     }
 
     @Test

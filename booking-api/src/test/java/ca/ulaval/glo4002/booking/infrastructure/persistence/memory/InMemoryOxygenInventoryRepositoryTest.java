@@ -27,20 +27,9 @@ public class InMemoryOxygenInventoryRepositoryTest {
     }
 
     @Test
-    public void whenSaving_itDoesNotChangeTheNumberOfEntries() {
-        int oldSize = oxygenInventory.findAll().size();
+    public void whenUpdating_itUpdatesWithTheNewInformation() {
         OxygenInventoryEntry entry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
-        oxygenInventory.save(entry);
-
-        int newSize = oxygenInventory.findAll().size();
-
-        assertThat(newSize).isEqualTo(oldSize);
-    }
-
-    @Test
-    public void whenSaving_itReplacesTheOldEntryByTheNewOne() {
-        OxygenInventoryEntry entry = new OxygenInventoryEntry(SOME_OXYGEN_GRADE);
-        oxygenInventory.save(entry);
+        oxygenInventory.replace(entry);
 
         OxygenInventoryEntry savedEntry = oxygenInventory.find(SOME_OXYGEN_GRADE);
         

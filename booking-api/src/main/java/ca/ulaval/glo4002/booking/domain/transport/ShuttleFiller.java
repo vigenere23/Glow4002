@@ -15,15 +15,18 @@ public class ShuttleFiller {
     public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, LocalDate date, int numberOfPassengers) {
         Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
         assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);
+        
         if (!shuttlesToFill.contains(availableShuttle)) {
             shuttlesToFill.add(availableShuttle);
             addShuttleCostToOutcome(availableShuttle);
         }
+        
         return shuttlesToFill;
     }
 
     private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
-        return shuttlesToFill.stream()
+        return shuttlesToFill
+            .stream()
             .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date, numberOfPassengers))
             .findAny()
             .orElse(shuttleFactory.createShuttle(shuttleCategory, date));          

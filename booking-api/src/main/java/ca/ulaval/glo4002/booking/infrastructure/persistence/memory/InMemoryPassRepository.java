@@ -30,7 +30,7 @@ public class InMemoryPassRepository implements PassRepository {
     }
 
     @Override
-    public void save(Pass pass) {
+    public void add(Pass pass) {
         if (!passes.contains(pass) && pass != null) {
             passes.add(pass);
         }

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.infrastructure.persistence.exceptions;
+package ca.ulaval.glo4002.booking.domain.exceptions;
 
 public class NotFoundException extends RuntimeException {
 

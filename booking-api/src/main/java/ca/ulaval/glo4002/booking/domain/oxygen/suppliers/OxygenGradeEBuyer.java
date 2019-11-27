@@ -38,6 +38,6 @@ public class OxygenGradeEBuyer implements OxygenSupplier {
     private void addTankBought(LocalDate orderDate, int numberOfTanksBought) {
         OxygenHistoryEntry orderDateHistoryEntry = oxygenHistory.findOrCreate(orderDate);
         orderDateHistoryEntry.addTankBought(numberOfTanksBought);
-        oxygenHistory.save(orderDateHistoryEntry);
+        oxygenHistory.add(orderDateHistoryEntry);
     }
 }

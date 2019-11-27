@@ -41,12 +41,12 @@ public class OxygenGradeBProducer implements OxygenSupplier {
         LocalDate receivedDate = orderDate.plusDays(supplySettings.getNumberOfDaysToReceive());
         OxygenHistoryEntry receivedDateHistoryEntry = oxygenHistory.findOrCreate(receivedDate);
         receivedDateHistoryEntry.addTankMade(numberOfTanksProduced);
-        oxygenHistory.save(receivedDateHistoryEntry);
+        oxygenHistory.add(receivedDateHistoryEntry);
     }
 
     private void addWaterUsed(LocalDate orderDate, int numberOfBatchesProduced) {
         OxygenHistoryEntry orderDateHistoryEntry = oxygenHistory.findOrCreate(orderDate);
         orderDateHistoryEntry.addWaterUsed(numberOfBatchesProduced * litersOfWaterPerBatch);
-        oxygenHistory.save(orderDateHistoryEntry);
+        oxygenHistory.add(orderDateHistoryEntry);
     }
 }

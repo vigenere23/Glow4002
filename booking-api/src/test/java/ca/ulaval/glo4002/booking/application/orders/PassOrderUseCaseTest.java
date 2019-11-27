@@ -69,13 +69,13 @@ public class PassOrderUseCaseTest {
     @Test
     public void whenOrchestPassCreation_thenPassOrderIsSavedInRepository() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
-        verify(passOrderRepository).save(passOrder);
+        verify(passOrderRepository).add(passOrder);
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassIsSavedInRepository() {
         passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
-        verify(passRepository).save(pass);
+        verify(passRepository).add(pass);
     }
 
     @Test

@@ -30,7 +30,7 @@ public class ProfitSaverTest {
 
         profitSaver.saveIncome(INCOME_TO_ADD);
 
-        verify(profitRepository).saveIncome(ADDED_INCOME);
+        verify(profitRepository).updateIncome(ADDED_INCOME);
     }
 
     @Test
@@ -40,6 +40,6 @@ public class ProfitSaverTest {
 
         profitSaver.saveIncome(OUTCOME_TO_ADD);
 
-        verify(profitRepository).saveIncome(ADDED_OUTCOME);
+        verify(profitRepository).updateIncome(ADDED_OUTCOME);
     }
 }

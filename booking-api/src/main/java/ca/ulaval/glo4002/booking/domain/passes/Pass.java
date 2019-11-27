@@ -17,7 +17,6 @@ import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
 
 public class Pass {
 
-    private static final int ONE_PLACE = 1;
     private PassNumber passNumber;
     private Price price;
     private PassOption passOption;
@@ -85,17 +84,15 @@ public class Pass {
     }
 
     public void reserveShuttles(TransportReserver transportReserver) {
-        transportReserver.reserveDeparture(shuttleCategory, startDate, passengerNumber, ONE_PLACE);
-        transportReserver.reserveArrival(shuttleCategory, endDate, passengerNumber, ONE_PLACE);
+        transportReserver.reserveDeparture(shuttleCategory, startDate, passengerNumber);
+        transportReserver.reserveArrival(shuttleCategory, endDate, passengerNumber);
     }
 
     public void reserveOxygen(OffsetDateTime orderDate, OxygenRequester oxygenRequester) {
-        int requiredQuantity = calculateRequiredQuantity();
-        oxygenRequester.requestOxygen(orderDate, oxygenGrade, requiredQuantity);
+        oxygenRequester.requestOxygen(orderDate, oxygenGrade, oxygenQuantityPerDay * getNumberOfDays());
     }
 
-    private int calculateRequiredQuantity() {
-        int numberOfDays = DateCalculator.numberOfDaysInclusivelyBetween(startDate, endDate);
-        return oxygenQuantityPerDay * numberOfDays;
+    private int getNumberOfDays() {
+        return DateCalculator.numberOfDaysInclusivelyBetween(startDate, endDate);
     }
 }

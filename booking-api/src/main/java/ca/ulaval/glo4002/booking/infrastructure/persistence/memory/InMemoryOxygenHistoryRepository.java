@@ -32,7 +32,7 @@ public class InMemoryOxygenHistoryRepository implements OxygenHistoryRepository 
     }
     
     @Override
-    public void save(OxygenHistoryEntry oxygenHistoryEntry) {
+    public void add(OxygenHistoryEntry oxygenHistoryEntry) {
         history.put(oxygenHistoryEntry.getDate(), oxygenHistoryEntry);
     }
 }

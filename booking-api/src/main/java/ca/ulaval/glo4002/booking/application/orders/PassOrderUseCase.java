@@ -38,10 +38,10 @@ public class PassOrderUseCase {
         );
 
         passOrder.saveIncome(incomeSaver);
-        passOrderRepository.save(passOrder);
+        passOrderRepository.add(passOrder);
         
         for (Pass pass : passOrder.getPasses()) {
-            passRepository.save(pass);
+            passRepository.add(pass);
             pass.reserveShuttles(transportReserver);
             pass.reserveOxygen(orderDate, oxygenRequester);
         }

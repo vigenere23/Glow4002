@@ -7,5 +7,5 @@ public interface PassRepository {
     
     public List<Pass> findAll();
     public List<Pass> findAttendingAtDate(LocalDate eventDate);
-    public void save(Pass pass);
+    public void add(Pass pass);
 }

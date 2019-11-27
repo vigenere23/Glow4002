@@ -149,7 +149,7 @@ public class OxygenOrdererTest {
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
         verify(inventoryEntry).useQuantity(SOME_QUANTITY);
-        verify(oxygenInventory).save(inventoryEntry);
+        verify(oxygenInventory).replace(inventoryEntry);
     }
 
     private void setupRequestSettingsWithInstantTimeToReceive() {

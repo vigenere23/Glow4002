@@ -57,7 +57,7 @@ public class OxygenGradeBProducerTest {
         oxygenGradeBProducer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int quantityProduced = OxygenSupplierTestHelper.getQuantityProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         verify(receivedDateOxygenHistoryEntry).addTankMade(quantityProduced);
-        verify(oxygenHistory).save(receivedDateOxygenHistoryEntry);
+        verify(oxygenHistory).add(receivedDateOxygenHistoryEntry);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class OxygenGradeBProducerTest {
         int numberOfBatchesProduced = OxygenSupplierTestHelper.getNumberOfBatchesProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         int candlesUsed = numberOfBatchesProduced * LITERS_OF_WATER_PER_BATCH;
         verify(orderDateOxygenHistoryEntry).addWaterUsed(candlesUsed);
-        verify(oxygenHistory).save(orderDateOxygenHistoryEntry);
+        verify(oxygenHistory).add(orderDateOxygenHistoryEntry);
     }
 
     @Test

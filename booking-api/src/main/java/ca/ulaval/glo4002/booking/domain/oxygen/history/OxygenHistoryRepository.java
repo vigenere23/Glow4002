@@ -6,5 +6,5 @@ import java.util.List;
 public interface OxygenHistoryRepository {
     public List<OxygenHistoryEntry> findAll();
     public OxygenHistoryEntry findOrCreate(LocalDate date);
-    public void save(OxygenHistoryEntry oxygenHistoryEntry);
+    public void add(OxygenHistoryEntry oxygenHistoryEntry);
 }

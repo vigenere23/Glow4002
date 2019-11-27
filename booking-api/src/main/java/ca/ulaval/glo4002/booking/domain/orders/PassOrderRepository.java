@@ -6,5 +6,5 @@ import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 public interface PassOrderRepository {
     
     public PassOrder findByOrderNumber(OrderNumber orderNumber);
-    public void save(PassOrder order);
+    public void add(PassOrder order);
 }

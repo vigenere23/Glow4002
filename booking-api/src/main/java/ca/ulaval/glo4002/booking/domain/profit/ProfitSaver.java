@@ -9,11 +9,11 @@ public class ProfitSaver implements IncomeSaver, OutcomeSaver {
     @Inject private ProfitRepository profitRepository;
 
     public void saveIncome(Price income) {
-        profitRepository.saveIncome(getIncome().plus(income));
+        profitRepository.updateIncome(getIncome().plus(income));
     }
 
     public void saveOutcome(Price outcome) {
-        profitRepository.saveOutcome(getOutcome().plus(outcome));
+        profitRepository.updateOutcome(getOutcome().plus(outcome));
     }
 
     private Price getIncome() {

@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ulaval.glo4002.booking.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
@@ -19,7 +20,6 @@ import ca.ulaval.glo4002.booking.domain.orders.discounts.OrderDiscountLinker;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.SupergiantSinglePassDiscount;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
-import ca.ulaval.glo4002.booking.infrastructure.persistence.exceptions.NotFoundException;
 
 public class InMemoryPassOrderRepositoryTest {
 
@@ -41,15 +41,15 @@ public class InMemoryPassOrderRepositoryTest {
     }
 
     @Test
-    public void whenFindWithNonExistantOrderNumber_itThrowsANotFoundException() {
+    public void whenFindingWithNonExistantOrderNumber_itThrowsANotFoundException() {
         assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> {
             passOrderRepository.findByOrderNumber(INVALID_ORDER_NUMBER);
         });
     }
 
     @Test
-    public void givenSavingAOrder_whenFindTheOrderByOrderNumber_itReturnsTheSameOrder() {
-        passOrderRepository.save(passOrder);
+    public void givenASavedOrder_whenFindTheOrderByOrderNumber_itReturnsTheSameOrder() {
+        passOrderRepository.add(passOrder);
 
         OrderNumber orderNumber = OrderNumber.of(passOrder.getOrderNumber().getValue());
         PassOrder savedPassOrder = passOrderRepository.findByOrderNumber(orderNumber);
