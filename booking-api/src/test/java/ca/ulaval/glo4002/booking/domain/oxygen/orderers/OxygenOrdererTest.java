@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.infrastructure.persistance.heap.HeapOxygenInventoryRepository;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenRequestSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplier;
@@ -34,7 +34,7 @@ public class OxygenOrdererTest {
     @Mock OxygenRequestSettings requestSettingsWithInstantTimeToReceive;
     @Mock OxygenDates oxygenDates;
     @Mock OxygenSupplier oxygenSupplier;
-    @Mock HeapOxygenInventoryRepository oxygenInventory;
+    @Mock InMemoryOxygenInventoryRepository oxygenInventory;
     @Mock OxygenInventoryEntry inventoryEntry;
 
     @BeforeEach

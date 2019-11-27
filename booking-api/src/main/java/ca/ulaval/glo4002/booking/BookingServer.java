@@ -38,7 +38,7 @@ public class BookingServer implements Runnable {
 
     public ResourceConfig generateResourceConfig() {
 		return new ResourceConfig()
-				.packages("ca.ulaval.glo4002.booking.api")
+				.packages("ca.ulaval.glo4002.booking.interfaces")
                 .register(getRootBinder());
     }
 
