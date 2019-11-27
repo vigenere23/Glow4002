@@ -15,7 +15,7 @@ public class TransportReserver {
     }
 
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
-        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
+        List<Shuttle> departureShuttles = shuttleRepository.findByDirection(Direction.DEPARTURE);
         List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
         shuttleRepository.saveDeparture(shuttlesToSave);
     }
@@ -25,7 +25,7 @@ public class TransportReserver {
     }
 
     public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
-        List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
+        List<Shuttle> arrivalShuttles = shuttleRepository.findByDirection(Direction.ARRIVAL);
         List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
         shuttleRepository.saveArrival(shuttlesToSave);
     }   
