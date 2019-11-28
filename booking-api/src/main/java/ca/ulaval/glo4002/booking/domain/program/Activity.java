@@ -16,6 +16,11 @@ public enum Activity {
         this.text = text;
     }
 
+    @Override
+    public String toString() {
+        return text;
+    }
+
     public static Activity fromString(String text) {
         Optional<Activity> value = Arrays.stream(values())
             .filter(entry -> entry.text.equalsIgnoreCase(text))

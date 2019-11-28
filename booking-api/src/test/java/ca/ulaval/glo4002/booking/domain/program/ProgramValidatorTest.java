@@ -20,6 +20,7 @@ import ca.ulaval.glo4002.booking.domain.dates.Glow4002Dates;
 public class ProgramValidatorTest {
 
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
+    private final static String SOME_ACTIVITY_NAME = SOME_ACTIVITY.toString();
     private final static String SOME_ARTIST_NAME = "Lady Gamma";
     private final static LocalDate FESTIVAL_START = LocalDate.of(2050, 7, 13);
     private final static LocalDate FESTIVAL_END = LocalDate.of(2050, 7, 14);
@@ -44,7 +45,7 @@ public class ProgramValidatorTest {
     }
 
     @Test
-    public void whenValidateProgram_thenProgramIsCreated() {
+    public void whenValidatingValidProgram_thenProgramIsCreatedWithoutError() {
         assertDoesNotThrow(() -> programValidator.validateProgram(singleDayPrograms));
     }
 
@@ -85,7 +86,7 @@ public class ProgramValidatorTest {
 
     @Test
     public void givenActivityStringForPm_whenValidateProgram_thenInvalidProgramExceptionIsThrown() {
-        when(artist.getName()).thenReturn("yoga");
+        when(artist.getName()).thenReturn(SOME_ACTIVITY_NAME);
         singleDay = new ProgramDay(SOME_ACTIVITY, artist, FESTIVAL_START);
         singleDayPrograms.set(0 , singleDay);
 

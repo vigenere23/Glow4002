@@ -32,14 +32,15 @@ public class PassOrderCreationUseCase {
             orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates()
         );
 
-        passOrder.saveIncome(incomeSaver);
-        passOrderRepository.add(passOrder);
-        
         for (Pass pass : passOrder.getPasses()) {
-            passRepository.add(pass);
             pass.reserveShuttles(transportReserver);
             pass.reserveOxygen(orderDate, oxygenRequester);
+            passRepository.add(pass);
         }
+        
+        passOrder.saveIncome(incomeSaver);
+        passOrderRepository.add(passOrder);
+
         return passOrderDtoMapper.toDto(passOrder);
     }
 }

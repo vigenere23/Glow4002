@@ -34,7 +34,7 @@ import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 @ExtendWith(MockitoExtension.class)
-public class PassOrderUseCaseTest {
+public class PassOrderCreationUseCaseTest {
 
     final static VendorCode SOME_VENDOR_CODE = VendorCode.TEAM;
     final static LocalDate SOME_DATE = LocalDate.of(2050, 1, 1);
@@ -52,7 +52,7 @@ public class PassOrderUseCaseTest {
     @Mock PassRepository passRepository;
     @Mock IncomeSaver incomeSaver;
     @Mock PassOrderDtoMapper passOrderDtoMapper;
-    @InjectMocks PassOrderCreationUseCase passOrderUseCase;
+    @InjectMocks PassOrderCreationUseCase passOrderCreationUseCase;
     
     @BeforeEach
     public void setUpPassOrderUseCase() {
@@ -62,32 +62,38 @@ public class PassOrderUseCaseTest {
 
     @Test
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
-        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrderFactory).create(SOME_ORDER_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, Optional.empty());
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassOrderIsSavedInRepository() {
-        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrderRepository).add(passOrder);
     }
 
     @Test
-    public void whenOrchestPassCreation_thenPassIsSavedInRepository() {
-        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+    public void whenOrchestPassCreation_thenPassesAreSavedInRepository() {
+        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passRepository).add(pass);
     }
 
     @Test
     public void whenOrchestPassCreation_thenShuttlesAreReserved() {
-        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(pass).reserveShuttles(transportReserver);
     }
 
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
-        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(pass).reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
+    }
+
+    @Test
+    public void whenOrchestPassCreation_thenIncomeIsAdded() {
+        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        verify(passOrder).saveIncome(incomeSaver);
     }
 
     private void mockPassOrder() {
