@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
+import ca.ulaval.glo4002.booking.helpers.enums.EnumExistenceChecker;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 
@@ -44,13 +45,11 @@ public class ProgramValidator {
     }
 
     private boolean onlyArtistOnPm(List<String> artistNames, ProgramDay programForOneDay) {
-        boolean isAnNotActivity = true;
-        for (String artistName : artistNames) {
-            if (Activity.artistIsActivity(artistName)) {
-                isAnNotActivity = false;
-            }
-        }
-        return isAnNotActivity;
+        return !artistNames
+            .stream()
+            .filter(artistName -> EnumExistenceChecker.isInEnum(artistName, Activity.class))
+            .findFirst()
+            .isPresent();
     }
 
     private boolean validEventDates(List<LocalDate> dates, ProgramDay programForOneDay) {

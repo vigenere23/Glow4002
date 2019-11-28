@@ -37,8 +37,4 @@ public enum Activity {
     public static int oxygenForActivity(Activity activity) {
         return activity == CARDIO ? OXY_CARDIO : OXY_YOGA;
     }
-
-    public static boolean artistIsActivity(String artistName) {
-        return artistName.equals("yoga") || artistName.equals("cardio");
-    }
 }
