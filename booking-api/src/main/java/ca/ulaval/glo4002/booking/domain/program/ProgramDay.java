@@ -46,6 +46,6 @@ public class ProgramDay {
     }
 
     public void saveOutcome(OutcomeSaver outcomeSaver) {
-        outcomeSaver.saveOutcome(artist.getPrice());
+        artist.saveOutcome(outcomeSaver);
 	}
 }
