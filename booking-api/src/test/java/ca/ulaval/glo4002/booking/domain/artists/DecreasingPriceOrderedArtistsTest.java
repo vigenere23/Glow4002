@@ -9,49 +9,50 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 
 public class DecreasingPriceOrderedArtistsTest {
 
-    private List<ArtistRankingInformation> artistsToOrder = new ArrayList<>();
+    private List<Artist> artistsToOrder = new ArrayList<>();
     private DecreasingPriceOrderedArtists decreasingPriceOrderedArtists = new DecreasingPriceOrderedArtists();
 
     @Test
     public void givenArtistsToOrderWithDifferentPrices_whenGetOrderedArtists_thenOrderArtistsNameByPrice() {
         fillArtistsToOrderWithDifferentPrice();
 
-        List<String> orderedArtists = decreasingPriceOrderedArtists.getOrderedArtists(artistsToOrder);
+        List<Artist> orderedArtists = decreasingPriceOrderedArtists.getOrderedArtists(artistsToOrder);
 
-        assertEquals("mostExpensiveArtist", orderedArtists.get(0));
-        assertEquals("lessExpensiveArtist", orderedArtists.get(2));
+        assertEquals("mostExpensiveArtist", orderedArtists.get(0).getName());
+        assertEquals("lessExpensiveArtist", orderedArtists.get(2).getName());
     }
 
     @Test
     public void givenArtistsToOrderWithSamePrices_whenGetOrderedArtists_thenOrderArtistsNameByPriceAndPopularity() {
         fillArtistsToOrderWithSamePrice();
 
-        List<String> orderedArtists = decreasingPriceOrderedArtists.getOrderedArtists(artistsToOrder);
+        List<Artist> orderedArtists = decreasingPriceOrderedArtists.getOrderedArtists(artistsToOrder);
 
-        assertEquals("mostExpensiveMostPopularArtist", orderedArtists.get(0));
-        assertEquals("lessExpensiveArtist", orderedArtists.get(2));
+        assertEquals("mostExpensiveMostPopularArtist", orderedArtists.get(0).getName());
+        assertEquals("lessExpensiveArtist", orderedArtists.get(2).getName());
     }
 
     private void fillArtistsToOrderWithDifferentPrice() {
-        addArtist(mock(ArtistRankingInformation.class), 5000f, 1, "mostExpensiveArtist");
-        addArtist(mock(ArtistRankingInformation.class), 3000f, 3, "lessExpensiveArtist");
-        addArtist(mock(ArtistRankingInformation.class), 4000f, 2, "secondExpensiveArtist");
+        addArtist(mock(Artist.class), new Price(5000), 1, "mostExpensiveArtist");
+        addArtist(mock(Artist.class), new Price(3000), 3, "lessExpensiveArtist");
+        addArtist(mock(Artist.class), new Price(4000), 2, "secondExpensiveArtist");
     }
 
     private void fillArtistsToOrderWithSamePrice() {
-        addArtist(mock(ArtistRankingInformation.class), 5000f, 2, "mostExpensiveMostPopularArtist");
-        addArtist(mock(ArtistRankingInformation.class), 3000f, 3, "lessExpensiveArtist");
-        addArtist(mock(ArtistRankingInformation.class), 5000f, 1, "mostExpensiveLessPopularArtist");
+        addArtist(mock(Artist.class), new Price(5000), 2, "mostExpensiveMostPopularArtist");
+        addArtist(mock(Artist.class), new Price(3000), 3, "lessExpensiveArtist");
+        addArtist(mock(Artist.class), new Price(5000), 1, "mostExpensiveLessPopularArtist");
     }
 
-    private void addArtist(ArtistRankingInformation artist, float price, int popularity, String name) {
+    private void addArtist(Artist artist, Price price, int popularity, String name) {
         when(artist.getPrice()).thenReturn(price);
         when(artist.getPopularity()).thenReturn(popularity);
-        when(artist.getArtistName()).thenReturn(name);
+        when(artist.getName()).thenReturn(name);
         artistsToOrder.add(artist);
     }
 }

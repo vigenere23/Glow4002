@@ -9,32 +9,32 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 
 public class AscendingPopularityOrderedArtistsTest {
 
-    private List<ArtistRankingInformation> artistsToOrder = new ArrayList<>();
+    private List<Artist> artistsToOrder = new ArrayList<>();
     private AscendingPopularityOrderedArtists ascendingPopularityOrderedArtists = new AscendingPopularityOrderedArtists();
 
     @Test
     public void givenArtistsToOrder_whenGetOrderedArtists_thenOrderArtistsNameFromMostPopularToLessPopular() {
         fillArtistsToOrder();
 
-        List<String> orderedArtists = ascendingPopularityOrderedArtists.getOrderedArtists(artistsToOrder);
+        List<Artist> orderedArtists = ascendingPopularityOrderedArtists.getOrderedArtists(artistsToOrder);
 
-        assertEquals("mostPopularArtist", orderedArtists.get(0));
-        assertEquals("lessPopularArtist", orderedArtists.get(2));
+        assertEquals("mostPopularArtist", orderedArtists.get(0).getName());
+        assertEquals("lessPopularArtist", orderedArtists.get(2).getName());
     }
 
     private void fillArtistsToOrder() {
-        addArtist(mock(ArtistRankingInformation.class), 1, "mostPopularArtist");
-        addArtist(mock(ArtistRankingInformation.class), 3, "lessPopularArtist");
-        addArtist(mock(ArtistRankingInformation.class), 2, "secondPopularArtist");
+        addArtist(mock(Artist.class), 1, "mostPopularArtist");
+        addArtist(mock(Artist.class), 3, "lessPopularArtist");
+        addArtist(mock(Artist.class), 2, "secondPopularArtist");
     }
 
-    private void addArtist(ArtistRankingInformation artist, int popularity, String name) {
+    private void addArtist(Artist artist, int popularity, String name) {
         when(artist.getPopularity()).thenReturn(popularity);
-        when(artist.getArtistName()).thenReturn(name);
+        when(artist.getName()).thenReturn(name);
         artistsToOrder.add(artist);
     }
 }

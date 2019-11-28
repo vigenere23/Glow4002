@@ -3,10 +3,11 @@ package ca.ulaval.glo4002.booking.domain.artists;
 import java.util.Comparator;
 import java.util.List;
 
-public class AscendingPopularityOrderedArtists extends ArtistRanking{
+public class AscendingPopularityOrderedArtists implements ArtistRankingStrategy {
 
-    public List<String> getOrderedArtists(List<ArtistRankingInformation> artistsToOrder) {
-        artistsToOrder.sort(Comparator.comparingDouble(ArtistRankingInformation::getPopularity));
-        return extractArtistsName(artistsToOrder);
+    @Override
+    public List<Artist> getOrderedArtists(List<Artist> artistsToOrder) {
+        artistsToOrder.sort(Comparator.comparingDouble(Artist::getPopularity));
+        return artistsToOrder;
     }
 }

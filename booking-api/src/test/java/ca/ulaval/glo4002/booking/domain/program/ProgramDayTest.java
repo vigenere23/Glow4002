@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.domain.Price;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
@@ -37,12 +37,12 @@ public class ProgramDayTest {
     private final static int SOME_ATTENDEES = 4;
     private final static int SOME_OXYGEN_QUANTITY = 66;
     
-    private List<ArtistProgramInformation> artistsForProgram;   
+    private List<Artist> artistsForProgram;   
     private OxygenRequester oxygenRequester;
     private TransportReserver transportReserver;
     private ProgramDay singleDayProgram;
     private FestivalDates festivalDates;
-    private ArtistProgramInformation artistProgramInformation;
+    private Artist artist;
     private OutcomeSaver outcomeSaver;
     private Price price;
     
@@ -50,8 +50,8 @@ public class ProgramDayTest {
     public void setUpSingleDayProgram() {
         mockDependency();
         mockArtistProgramInformation();
-
-        singleDayProgram = new ProgramDay(SOME_ACTIVITY, SOME_ARTIST_NAME, SOME_DATE);
+        Artist artist = new Artist(SOME_ARTIST_NAME, price, SOME_PASSENGER_NUMBER);
+        singleDayProgram = new ProgramDay(SOME_ACTIVITY, artist, SOME_DATE);
     }
 
     @Test
@@ -76,25 +76,25 @@ public class ProgramDayTest {
 
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderDepartureShuttle() {
-        singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
+        singleDayProgram.orderShuttle(transportReserver);
         verify(transportReserver).reserveDeparture(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
     }
 
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderArrivalShuttle() {
-        singleDayProgram.orderShuttle(transportReserver, artistsForProgram);
+        singleDayProgram.orderShuttle(transportReserver);
         verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
     }
 
     @Test
     public void whenOrderOxygen_thenOxygenReserverOrderOxygen() {
-        singleDayProgram.orderOxygen(oxygenRequester, artistsForProgram, SOME_ATTENDEES);
+        singleDayProgram.orderOxygen(oxygenRequester, SOME_ATTENDEES);
         verify(oxygenRequester).requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, SOME_OXYGEN_QUANTITY);
     }
 
     @Test
     public void whenSaveOutcome_thenOutcomeAddedToOutcomeInRepository() {
-        singleDayProgram.saveOutcome(outcomeSaver, artistsForProgram);
+        singleDayProgram.saveOutcome(outcomeSaver);
         verify(outcomeSaver).saveOutcome(price);
     }
 
@@ -102,17 +102,17 @@ public class ProgramDayTest {
         oxygenRequester = mock(OxygenRequester.class);
         transportReserver = mock(TransportReserver.class);
         festivalDates = mock(FestivalDates.class);
-        artistProgramInformation = mock(ArtistProgramInformation.class);
+        artist = mock(Artist.class);
         outcomeSaver = mock(OutcomeSaver.class);
         price = mock(Price.class);
     }
 
     private void mockArtistProgramInformation() {
         artistsForProgram = new ArrayList<>();
-        artistsForProgram.add(artistProgramInformation);
-        when(artistProgramInformation.getArtistName()).thenReturn(SOME_ARTIST_NAME);
-        when(artistProgramInformation.getGroupSize()).thenReturn(SOME_PASSENGERS);
-        when(artistProgramInformation.getPassengerNumber()).thenReturn(SOME_PASSENGER_NUMBER);
-        when(artistProgramInformation.getPrice()).thenReturn(price);
+        artistsForProgram.add(artist);
+        when(artist.getName()).thenReturn(SOME_ARTIST_NAME);
+        when(artist.getGroupSize()).thenReturn(SOME_PASSENGERS);
+        when(artist.getPassengerNumber()).thenReturn(SOME_PASSENGER_NUMBER);
+        when(artist.getPrice()).thenReturn(price);
     }
 }

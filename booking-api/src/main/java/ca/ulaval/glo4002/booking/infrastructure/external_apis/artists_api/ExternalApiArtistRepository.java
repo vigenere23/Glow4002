@@ -1,41 +1,35 @@
 package ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
-import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistInformationMapper;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDtoMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class ExternalApiArtistRepository implements ArtistRepository {
 
-    private ArtistInformationMapper artistInformationMapper;
+    private ArtistDtoMapper artistDtoMapper;
     private ApiArtist apiArtist;
 
     @Inject
-    public ExternalApiArtistRepository(ArtistInformationMapper artistInformationMapper, ApiArtist apiArtist) {
-        this.artistInformationMapper = artistInformationMapper;
+    public ExternalApiArtistRepository(ArtistDtoMapper artistDtoMapper, ApiArtist apiArtist) {
+        this.artistDtoMapper = artistDtoMapper;
         this.apiArtist = apiArtist;
     }
 
-    public List<ArtistRankingInformation> findArtistRankingInformation() {
-        List<ArtistRankingInformation> artistRankingInformations = new ArrayList<>();
-        List<ArtistDto> artistDtos = apiArtist.getArtistsDto();
-        artistDtos.forEach(artistDto -> artistRankingInformations
-                    .add(artistInformationMapper.rankingFromDto(artistDto)));
-        return artistRankingInformations;
+    @Override
+    public List<Artist> findAll() {
+        return artistDtoMapper.fromDtos(apiArtist.getAll());
     }
 
     @Override
-    public List<ArtistProgramInformation> getArtistsForProgram() {
-        List<ArtistProgramInformation> artistProgramInformations = new ArrayList<>();
-        List<ArtistDto> artistDtos = apiArtist.getArtistsDto();
-        artistDtos.forEach(artistDto -> artistProgramInformations
-                    .add(artistInformationMapper.programFromDto(artistDto)));
-        return artistProgramInformations;  
+    public Artist findByName(String name) {
+        return findAll()
+            .stream()
+            .filter(artistInformation -> artistInformation.getName().equals(name))
+            .findFirst()
+            .orElse(null);
     }
 }
