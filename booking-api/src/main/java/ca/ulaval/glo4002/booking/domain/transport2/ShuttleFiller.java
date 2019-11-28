@@ -17,16 +17,19 @@ public class ShuttleFiller {
         List<Shuttle> availableShuttles = shuttleRepository.findAllAvailable(direction, date, shuttleCategory);
 
         for (Shuttle shuttle : availableShuttles) {
-            if (shuttle.hasAvailableCapacity(numberOfPassengers)) {
+            try {
                 shuttle.addPassengers(passengerNumber, numberOfPassengers);
                 shuttleRepository.replace(shuttle);
                 return;
             }
+            catch (IllegalArgumentException exception) {
+                continue;
+            }
         }
 
         Shuttle shuttle = shuttleFactory.create(direction, date, shuttleCategory);
-        shuttle.saveOutcome(outcomeSaver);
         shuttle.addPassengers(passengerNumber, numberOfPassengers);
+        shuttle.saveOutcome(outcomeSaver);
         shuttleRepository.add(shuttle);
     }
 }
