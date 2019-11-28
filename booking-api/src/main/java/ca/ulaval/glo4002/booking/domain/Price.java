@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.BigMoney;
 
-public class Price {
+public class Price implements Comparable<Price> {
 
     private static final CurrencyUnit CURRENCY = CurrencyUnit.CAD;
     private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
@@ -42,6 +42,11 @@ public class Price {
 
         Price otherPrice = (Price) other;
         return price.equals(otherPrice.price);
+    }
+
+    @Override
+    public int compareTo(Price other) {
+        return price.compareTo(other.price);
     }
 
     public Price plus(Price other) {

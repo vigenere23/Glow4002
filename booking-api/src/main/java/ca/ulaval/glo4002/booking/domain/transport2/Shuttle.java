@@ -9,11 +9,22 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public abstract class Shuttle {
     
-    protected int capacity;
-    protected List<PassengerNumber> passengerNumbers = new ArrayList<>();
-    protected LocalDate date;
-    protected ShuttleCategory category;
-    protected Price price;
+    private Direction direction;
+    private LocalDate date;
+    private ShuttleCategory category;
+    private int capacity;
+    private Price price;
+    private List<PassengerNumber> passengerNumbers;
+
+    protected Shuttle(Direction direction, LocalDate date, ShuttleCategory category, int capacity, Price price) {
+        this.direction = direction;
+        this.date = date;
+        this.category = category;
+        this.capacity = capacity;
+        this.price = price;
+
+        passengerNumbers = new ArrayList<>();
+    }
 
     public List<PassengerNumber> getPassengerNumbers() {
         return passengerNumbers;
@@ -37,6 +48,10 @@ public abstract class Shuttle {
     
     public boolean hasAvailableCapacity(int numberOfPassengers) {
         return passengerNumbers.size() + numberOfPassengers <= capacity; 
+    }
+
+    public boolean isFull() {
+        return passengerNumbers.size() == capacity;
     }
     
     public boolean hasDate(LocalDate date) {

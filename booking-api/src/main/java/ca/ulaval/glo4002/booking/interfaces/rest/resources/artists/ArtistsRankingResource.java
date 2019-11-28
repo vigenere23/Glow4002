@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.interfaces.rest.resources.artists;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatException;
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistRankingResponse;
 import ca.ulaval.glo4002.booking.application.artists.ArtistRankingUseCase;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
 @Path("/program/artists")
@@ -36,13 +38,14 @@ public class ArtistsRankingResource {
         if(!ranking.containsKey(orderBy)){
             throw new InvalidFormatException();
         }
-        ArtistRankingResponse response = getSortedArtists(orderBy);
         
-        return Response.status(200).entity(response).build();
-    }
-
-    private ArtistRankingResponse getSortedArtists(String orderBy) {
-        List<String> artistsRanked = artistRankingUseCase.orderBy(ranking.get(orderBy));
-        return new ArtistRankingResponse(artistsRanked);
+        List<String> artistsRanked = artistRankingUseCase
+            .orderBy(ranking.get(orderBy))
+            .stream()
+            .map(Artist::getName)
+            .collect(Collectors.toList());
+        
+        ArtistRankingResponse response = new ArtistRankingResponse(artistsRanked);
+        return Response.ok().entity(response).build();
     }
 }

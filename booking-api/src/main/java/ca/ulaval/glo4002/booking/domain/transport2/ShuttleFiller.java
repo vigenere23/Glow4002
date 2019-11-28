@@ -9,27 +9,29 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleFiller {
     
+    @Inject private ShuttleRepository shuttleRepository;
     @Inject private ShuttleFactory shuttleFactory;
     @Inject private OutcomeSaver outcomeSaver;
 
-    public List<Shuttle> fillShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, LocalDate date, int numberOfPassengers) {
-        Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
-        assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);
+    public void fillShuttles(Direction direction, LocalDate date, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, int numberOfPassengers) {
+        // Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
+        // assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);
         
-        if (!shuttlesToFill.contains(availableShuttle)) {
-            shuttlesToFill.add(availableShuttle);
-            addShuttleCostToOutcome(availableShuttle);
-        }
+        // if (!shuttlesToFill.contains(availableShuttle)) {
+        //     shuttlesToFill.add(availableShuttle);
+        //     addShuttleCostToOutcome(availableShuttle);
+        // }
         
-        return shuttlesToFill;
+        // return shuttlesToFill;
     }
 
     private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
-        return shuttlesToFill
-            .stream()
-            .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date, numberOfPassengers))
-            .findAny()
-            .orElse(shuttleFactory.createShuttle(shuttleCategory, date));          
+        // return shuttlesToFill
+        //     .stream()
+        //     .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date, numberOfPassengers))
+        //     .findAny()
+        //     .orElse(shuttleFactory.createShuttle(shuttleCategory, date));
+        return null;
     }
 
     private void addShuttleCostToOutcome(Shuttle shuttle) {

@@ -18,7 +18,7 @@ class ArtistRankingFactoryTest {
     void givenLowCostRankingType_whenCreateArtistRanking_thenCreatesNewDecreasingPriceOrderedArtists() {
         Ranking rankingType = Ranking.LOW_COSTS;
 
-        ArtistRanking artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
+        ArtistRankingStrategy artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
 
         assertTrue(artistRankingTest instanceof DecreasingPriceOrderedArtists);
     }
@@ -27,7 +27,7 @@ class ArtistRankingFactoryTest {
     void givenMostPopularityRankingType_whenCreateArtistRanking_thenCreatesNewAscendingPopularityOrderedArtists() {
         Ranking rankingType = Ranking.MOST_POPULARITY;
 
-        ArtistRanking artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
+        ArtistRankingStrategy artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
 
         assertTrue(artistRankingTest instanceof AscendingPopularityOrderedArtists);
     }

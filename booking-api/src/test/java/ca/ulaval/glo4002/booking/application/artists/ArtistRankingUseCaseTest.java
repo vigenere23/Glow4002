@@ -13,9 +13,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.BeforeEach;
 
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRanking;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingStrategy;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 
@@ -23,23 +23,23 @@ import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 public class ArtistRankingUseCaseTest {
 
     final static Ranking SOME_RANKING_TYPE = Ranking.LOW_COSTS;
-    final static List<ArtistRankingInformation> artistsToOrder = new ArrayList<>();
+    final static List<Artist> artistsToOrder = new ArrayList<>();
     
     @Mock ArtistRepository artistRepository;
     @Mock ArtistRankingFactory artistRankingFactory;
-    @Mock ArtistRanking artistRanking;
+    @Mock ArtistRankingStrategy artistRanking;
     @InjectMocks ArtistRankingUseCase artistRankingUseCase;
 
     @BeforeEach
     public void setUp() {
-        when(artistRepository.findArtistRankingInformation()).thenReturn(artistsToOrder);
+        when(artistRepository.findAll()).thenReturn(artistsToOrder);
         when(artistRankingFactory.createArtistRanking(SOME_RANKING_TYPE)).thenReturn(artistRanking);
     }
 
     @Test
-    public void whenOrderBy_thenFindArtistRankingInformationFromRepositoryIsCalled() {
+    public void whenOrderBy_thenFindArtistFromRepositoryIsCalled() {
         artistRankingUseCase.orderBy(SOME_RANKING_TYPE);
-        verify(artistRepository).findArtistRankingInformation();
+        verify(artistRepository).findAll();
     }
 
     @Test

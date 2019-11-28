@@ -71,7 +71,7 @@ public class ExternalApiArtistIT {
     }
 
     private static List<ArtistDto> getArtistDtoCollectionFromApiArtistServer() {
-        return apiArtist.getArtistsDto();
+        return apiArtist.getAll();
     }
 
     private ArtistDto getFirstArtistDto() {

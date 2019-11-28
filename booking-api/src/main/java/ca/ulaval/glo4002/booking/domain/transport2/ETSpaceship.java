@@ -6,10 +6,7 @@ import ca.ulaval.glo4002.booking.domain.Price;
 
 public class ETSpaceship extends Shuttle {
     
-    public ETSpaceship(LocalDate date) {
-        this.date = date;
-        capacity = 1;
-        category = ShuttleCategory.ET_SPACESHIP;
-        price = new Price(100000);
+    public ETSpaceship(Direction direction, LocalDate date) {
+        super(direction, date, ShuttleCategory.ET_SPACESHIP, 1, new Price(100000));
     }
 }

@@ -8,26 +8,30 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 
 public class ProgramValidator {
+    
     private FestivalDates festivalDates;
-    private List<ProgramDay> program;
 
     @Inject
     public ProgramValidator(FestivalDates festivalDates) {
         this.festivalDates = festivalDates;
     }
 
-    public void validateProgram(List<ProgramDay> program) {
-        this.program = program;
+    public void validateProgram(List<ProgramDay> programDays) {
         boolean artistsAreDifferent;
         boolean artistOnPMOnly;
         boolean validDates;
-        for (ProgramDay programForOneDay : this.program) {
-            artistsAreDifferent = artistDifferentOnEachDay(programForOneDay);
-            artistOnPMOnly = onlyArtistOnPm(programForOneDay);
-            validDates = validEventDates(programForOneDay);
+
+        List<String> artistNames = retrieveArtistNames(programDays);
+        List<LocalDate> dates = retrieveDates(programDays);
+
+        for (ProgramDay programForOneDay : programDays) {
+            artistsAreDifferent = artistDifferentOnEachDay(artistNames, programForOneDay);
+            artistOnPMOnly = onlyArtistOnPm(artistNames, programForOneDay);
+            validDates = validEventDates(dates, programForOneDay);
 
             if (!artistOnPMOnly || !artistsAreDifferent || !validDates) {
                 throw new InvalidProgramException();
@@ -35,13 +39,13 @@ public class ProgramValidator {
         }
     }
 
-    private boolean artistDifferentOnEachDay(ProgramDay programForOneDay) {
-        return Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) == 1;
+    private boolean artistDifferentOnEachDay(List<String> artistNames, ProgramDay programForOneDay) {
+        return Collections.frequency(artistNames, programForOneDay.getArtist().getName()) == 1;
     }
 
-    private boolean onlyArtistOnPm(ProgramDay programForOneDay) {
+    private boolean onlyArtistOnPm(List<String> artistNames, ProgramDay programForOneDay) {
         boolean isAnNotActivity = true;
-        for (String artistName : retrieveArtists()) {
+        for (String artistName : artistNames) {
             if (Activity.artistIsActivity(artistName)) {
                 isAnNotActivity = false;
             }
@@ -49,20 +53,24 @@ public class ProgramValidator {
         return isAnNotActivity;
     }
 
-    private List<String> retrieveArtists() {
-        return program.stream().map(ProgramDay::getArtist).collect(Collectors.toList());
+    private boolean validEventDates(List<LocalDate> dates, ProgramDay programForOneDay) {
+        return programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(dates, programForOneDay)
+                && dates.size() == festivalDates.getNumberOfFestivalDays();
     }
 
-    private boolean validEventDates(ProgramDay programForOneDay) {
-        return programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(programForOneDay)
-                && retrieveDates().size() == festivalDates.getNumberOfFestivalDays();
+    private boolean dateIsUnique(List<LocalDate> dates, ProgramDay programForOneDay) {
+        return Collections.frequency(dates, programForOneDay.getDate()) == 1;
     }
 
-    private boolean dateIsUnique(ProgramDay programForOneDay) {
-        return Collections.frequency(retrieveDates(), programForOneDay.getDate()) == 1;
+    private List<String> retrieveArtistNames(List<ProgramDay> programDays) {
+        return programDays
+            .stream()
+            .map(ProgramDay::getArtist)
+            .map(Artist::getName)
+            .collect(Collectors.toList());
     }
 
-    private List<LocalDate> retrieveDates() {
-        return program.stream().map(ProgramDay::getDate).collect(Collectors.toList());
+    private List<LocalDate> retrieveDates(List<ProgramDay> programDays) {
+        return programDays.stream().map(ProgramDay::getDate).collect(Collectors.toList());
     }
 }

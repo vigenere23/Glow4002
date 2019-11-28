@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.domain.artists;
 
 public class ArtistRankingFactory {
 
-    public ArtistRanking createArtistRanking(Ranking rankingType) {
+    public ArtistRankingStrategy createArtistRanking(Ranking rankingType) {
         switch (rankingType) {
             case LOW_COSTS:
                 return new DecreasingPriceOrderedArtists();

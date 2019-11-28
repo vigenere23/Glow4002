@@ -6,8 +6,7 @@ public class Program {
 
     private List<ProgramDay> programDays;
 
-    public Program(List<ProgramDay> programDays, ProgramValidator programValidator) {
-        programValidator.validateProgram(programDays);
+    public Program(List<ProgramDay> programDays) {
         this.programDays = programDays;
     }
 

@@ -11,7 +11,9 @@ import org.junit.Test;
 
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistRankingResponse;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingInformation;
+import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
 public class ArtistRankingResourceIT extends JerseyTestBookingServer {
 
@@ -21,10 +23,12 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
     private static final String LOW_COST_PARAM = "lowCosts";
     private static final int someLowArtistPopularity = 2;
     private static final int someHightArtistPopularity = 20;
-    private static final float someLowArtistPrice = 50.00f;
-    private static final float someHightArtistPrice = 5000.00f;
+    private static final Price someLowArtistPrice = new Price(50);
+    private static final Price someHightArtistPrice = new Price(5000);
+    private static final int SOME_GROUP_SIZE = 2;
+    private static final PassengerNumber SOME_PASSENGER_NUMBER = new PassengerNumber(0);
 
-    private List<ArtistRankingInformation> artistRankingInformation;
+    private List<Artist> Artist;
     
     @Test
     public void givenOneArtist_whenSortByMostPopular_thenTheArtistIsReturnedWith200ResponseStatus() {
@@ -88,45 +92,45 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
     }
 
     private ArtistRankingResponse mockOneLowPopularityArtistFromExternalRepository() {
-        ArtistRankingInformation information = addArtistToListInformation("notPopularArtistName", someLowArtistPopularity, someLowArtistPrice);
-        List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
+        Artist information = addArtistToListInformation("notPopularArtistName", someLowArtistPopularity, someLowArtistPrice);
+        List<Artist> informationCollection = new ArrayList<Artist>();
         informationCollection.add(information);
         return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse mockOneHightAndOneLowPopularityArtistFromExternalRepository() {
-        ArtistRankingInformation popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someLowArtistPrice);
-        ArtistRankingInformation notPopularArtistInformation = addArtistToListInformation("Unknown Artist", someLowArtistPopularity, someLowArtistPrice);
-        List<ArtistRankingInformation> informationCollection = createArtistInformationCollection(notPopularArtistInformation, popularArtistInformation);
+        Artist popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someLowArtistPrice);
+        Artist notPopularArtistInformation = addArtistToListInformation("Unknown Artist", someLowArtistPopularity, someLowArtistPrice);
+        List<Artist> informationCollection = createArtistInformationCollection(notPopularArtistInformation, popularArtistInformation);
         return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse mockOneExpensiveAndOneCheapCostArtistFromExternalRepository() {
-        ArtistRankingInformation hightCostArtist = addArtistToListInformation("Expensive artist", someLowArtistPopularity, someHightArtistPrice);
-        ArtistRankingInformation lowCostArtist = addArtistToListInformation("Cheap Artist", someHightArtistPopularity, someLowArtistPrice);
-        List<ArtistRankingInformation> informationCollection = createArtistInformationCollection(hightCostArtist, lowCostArtist);
+        Artist hightCostArtist = addArtistToListInformation("Expensive artist", someLowArtistPopularity, someHightArtistPrice);
+        Artist lowCostArtist = addArtistToListInformation("Cheap Artist", someHightArtistPopularity, someLowArtistPrice);
+        List<Artist> informationCollection = createArtistInformationCollection(hightCostArtist, lowCostArtist);
         return buildExpectedResponse(informationCollection);
     }
 
     private ArtistRankingResponse mockTwortistWithSamePriceFromExternalRepository() {
-        ArtistRankingInformation notPopularArtistInformation = addArtistToListInformation("Unknown artist", someLowArtistPopularity, someHightArtistPrice);
-        ArtistRankingInformation popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someHightArtistPrice);
-        List<ArtistRankingInformation> informationCollection = createArtistInformationCollection(popularArtistInformation, notPopularArtistInformation);
+        Artist notPopularArtistInformation = addArtistToListInformation("Unknown artist", someLowArtistPopularity, someHightArtistPrice);
+        Artist popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someHightArtistPrice);
+        List<Artist> informationCollection = createArtistInformationCollection(popularArtistInformation, notPopularArtistInformation);
         return buildExpectedResponse(informationCollection);
     }
 
-    private List<ArtistRankingInformation> createArtistInformationCollection(ArtistRankingInformation firstInTheCollection, 
-    ArtistRankingInformation secondInTheCollection) {
-        List<ArtistRankingInformation> informationCollection = new ArrayList<ArtistRankingInformation>();
+    private List<Artist> createArtistInformationCollection(Artist firstInTheCollection, 
+    Artist secondInTheCollection) {
+        List<Artist> informationCollection = new ArrayList<Artist>();
         informationCollection.add(firstInTheCollection);
         informationCollection.add(secondInTheCollection);
         return informationCollection;
     }
 
-    private ArtistRankingResponse buildExpectedResponse(List<ArtistRankingInformation> information) {
+    private ArtistRankingResponse buildExpectedResponse(List<Artist> information) {
         List<String> sortedArtist = new ArrayList<String>();
-        for (ArtistRankingInformation rankingInfo : information) {
-            sortedArtist.add(rankingInfo.getArtistName());
+        for (Artist rankingInfo : information) {
+            sortedArtist.add(rankingInfo.getName());
         }
 
         return new ArtistRankingResponse(sortedArtist);
@@ -136,9 +140,9 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
        return target(ARTIST_RANKING_URL).queryParam(QUERY_PARAM, sortingOption).request().get();
     }
 
-    private  ArtistRankingInformation addArtistToListInformation(String artistName,  int popularity, float price) {
-        ArtistRankingInformation rankingInformation = new ArtistRankingInformation(artistName, popularity, price);
-        artistRankingInformation.add(rankingInformation);
+    private  Artist addArtistToListInformation(String artistName,  int popularity, Price price) {
+        Artist rankingInformation = new Artist(artistName, popularity, price, SOME_GROUP_SIZE, SOME_PASSENGER_NUMBER);
+        Artist.add(rankingInformation);
         return rankingInformation;
     }
 }

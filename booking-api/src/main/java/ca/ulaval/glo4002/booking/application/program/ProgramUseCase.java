@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
@@ -27,15 +27,16 @@ public class ProgramUseCase {
     @Inject private ProgramDayDtoMapper programDayDtoMapper;
 
     public void provideProgramResources(ProgramRequest programRequest) {
-        List<ProgramDay> programDays = programDayDtoMapper.fromRequests(programRequest.programDays);
-        Program program = new Program(programDays, programValidator);
-        List<ArtistProgramInformation> artistsForProgram = artistRepository.getArtistsForProgram();
+        List<Artist> artistsForProgram = artistRepository.findAll();
+        List<ProgramDay> programDays = programDayDtoMapper.fromDtoAndArtists(programRequest.programDays, artistsForProgram);
+        programValidator.validateProgram(programDays);
+        Program program = new Program(programDays);
         
         for (ProgramDay programDay : program.getDays()) {
             int numberOfAttendees = passRepository.findAttendingAtDate(programDay.getDate()).size();
-            programDay.orderShuttle(transportReserver, artistsForProgram);
-            programDay.orderOxygen(oxygenRequester, artistsForProgram, numberOfAttendees);
-            programDay.saveOutcome(outcomeSaver, artistsForProgram);
+            programDay.orderShuttle(transportReserver);
+            programDay.orderOxygen(oxygenRequester, numberOfAttendees);
+            programDay.saveOutcome(outcomeSaver);
         }
     }
 }

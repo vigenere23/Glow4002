@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramRequest;
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistProgramInformation;
+import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
@@ -33,14 +33,14 @@ public class ProgramUseCaseTest {
     private final static LocalDate SOME_DATE = LocalDate.of(2050, 07, 18);
     private final static int NUMBER_OF_ATTENDEES = 10;
 
-    private List<ArtistProgramInformation> artistsForProgram;
+    private List<Artist> artistsForProgram;
 
     @Mock TransportReserver transportReserver;
     @Mock ArtistRepository artistRepository;
     @Mock OxygenRequester oxygenRequester;
     @Mock ProgramDay programDay;
     @Mock PassRepository passRepository;
-    @Mock ArtistProgramInformation artistProgramInformation;
+    @Mock Artist artist;
     @Mock OutcomeSaver outcomeSaver;
     @Mock ProgramValidator programValidator;
     @Mock ProgramDayDtoMapper programDayDtoMapper;
@@ -60,32 +60,32 @@ public class ProgramUseCaseTest {
     @Test
     public void whenProvideProgramResources_thenOrderShuttles() {
         programUseCase.provideProgramResources(programRequest);
-        verify(programDay).orderShuttle(transportReserver, artistsForProgram);
+        verify(programDay).orderShuttle(transportReserver);
     }
 
     @Test
     public void whenProvideProgramResources_thenSaveOutcome() {
         programUseCase.provideProgramResources(programRequest);
-        verify(programDay).saveOutcome(outcomeSaver, artistsForProgram);
+        verify(programDay).saveOutcome(outcomeSaver);
     }
 
     @Test
     public void whenProvideProgramResources_thenOrderOxygen() {
         programUseCase.provideProgramResources(programRequest);
-        verify(programDay).orderOxygen(oxygenRequester,  artistRepository.getArtistsForProgram(), NUMBER_OF_ATTENDEES);
+        verify(programDay).orderOxygen(oxygenRequester, NUMBER_OF_ATTENDEES);
     }
 
     private void mockProgramDayDtoMapper() {
         List<ProgramDay> programDays = new ArrayList<>();
         programDays.add(programDay);
-        when(programDayDtoMapper.fromRequests(any())).thenReturn(programDays);
+        when(programDayDtoMapper.fromDtoAndArtists(any(), any())).thenReturn(programDays);
     }
 
     private void mockArtistForProgram() {
         artistsForProgram = new ArrayList<>();
-        artistsForProgram.add(artistProgramInformation);
+        artistsForProgram.add(artist);
 
-        when(artistRepository.getArtistsForProgram()).thenReturn(artistsForProgram);
+        when(artistRepository.findAll()).thenReturn(artistsForProgram);
     }
 
     private void mockPassRepository() {

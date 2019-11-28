@@ -15,7 +15,7 @@ public class ExternalApiArtist implements ApiArtist {
 
     private final String ARTIST_REPOSITORY_URL = "http://localhost:8080/artists";
 
-    public List<ArtistDto> getArtistsDto() {
+    public List<ArtistDto> getAll() {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(ARTIST_REPOSITORY_URL);
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
