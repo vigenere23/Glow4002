@@ -26,6 +26,28 @@ public abstract class Shuttle {
         passengerNumbers = new ArrayList<>();
     }
 
+    public void saveOutcome(OutcomeSaver outcomeSaver) {
+        outcomeSaver.saveOutcome(price);
+    }
+        
+    public void addPassengers(PassengerNumber passengerNumber, int numberOfPassengers) {
+        for (int i = 0; i < numberOfPassengers; i++) {
+            this.passengerNumbers.add(passengerNumber);
+        }
+    }
+    
+    public boolean hasAvailableCapacity(int numberOfPassengers) {
+        return passengerNumbers.size() + numberOfPassengers <= capacity; 
+    }
+
+    public boolean isFull() {
+        return passengerNumbers.size() == capacity;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
     public List<PassengerNumber> getPassengerNumbers() {
         return passengerNumbers;
     }
@@ -36,22 +58,6 @@ public abstract class Shuttle {
 
     public ShuttleCategory getCategory() {
         return category;
-    }
-
-    public void saveOutcome(OutcomeSaver outcomeSaver) {
-        outcomeSaver.saveOutcome(price);
-    }
-        
-    public void addPassenger(PassengerNumber passengerNumber) {
-        this.passengerNumbers.add(passengerNumber);
-    }
-    
-    public boolean hasAvailableCapacity(int numberOfPassengers) {
-        return passengerNumbers.size() + numberOfPassengers <= capacity; 
-    }
-
-    public boolean isFull() {
-        return passengerNumbers.size() == capacity;
     }
     
     public boolean hasDate(LocalDate date) {

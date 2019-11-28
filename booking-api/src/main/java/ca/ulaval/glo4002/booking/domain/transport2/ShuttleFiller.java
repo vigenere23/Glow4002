@@ -14,37 +14,19 @@ public class ShuttleFiller {
     @Inject private OutcomeSaver outcomeSaver;
 
     public void fillShuttles(Direction direction, LocalDate date, ShuttleCategory shuttleCategory, PassengerNumber passengerNumber, int numberOfPassengers) {
-        // Shuttle availableShuttle = getAvailableShuttle(shuttlesToFill, shuttleCategory, date, numberOfPassengers);
-        // assignNewPlaces(availableShuttle, passengerNumber, numberOfPassengers);
-        
-        // if (!shuttlesToFill.contains(availableShuttle)) {
-        //     shuttlesToFill.add(availableShuttle);
-        //     addShuttleCostToOutcome(availableShuttle);
-        // }
-        
-        // return shuttlesToFill;
-    }
+        List<Shuttle> availableShuttles = shuttleRepository.findAllAvailable(direction, date, shuttleCategory);
 
-    private Shuttle getAvailableShuttle(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
-        // return shuttlesToFill
-        //     .stream()
-        //     .filter(shuttle -> shuttleIsAvailable(shuttle, shuttleCategory, date, numberOfPassengers))
-        //     .findAny()
-        //     .orElse(shuttleFactory.createShuttle(shuttleCategory, date));
-        return null;
-    }
-
-    private void addShuttleCostToOutcome(Shuttle shuttle) {
-        shuttle.saveOutcome(outcomeSaver);
-    }
-
-    private boolean shuttleIsAvailable(Shuttle shuttleToVerify, ShuttleCategory shuttleCategory, LocalDate date, int numberOfPassengers) {
-        return shuttleToVerify.hasDate(date) && shuttleToVerify.hasCategory(shuttleCategory) && shuttleToVerify.hasAvailableCapacity(numberOfPassengers);
-    }
-
-    private void assignNewPlaces(Shuttle availableShuttle, PassengerNumber passengerNumber, int numberOfPassengers) {
-        for (int place = 0; place < numberOfPassengers; place++) {
-            availableShuttle.addPassenger(passengerNumber);
+        for (Shuttle shuttle : availableShuttles) {
+            if (shuttle.hasAvailableCapacity(numberOfPassengers)) {
+                shuttle.addPassengers(passengerNumber, numberOfPassengers);
+                shuttleRepository.replace(shuttle);
+                return;
+            }
         }
+
+        Shuttle shuttle = shuttleFactory.create(direction, date, shuttleCategory);
+        shuttle.saveOutcome(outcomeSaver);
+        shuttle.addPassengers(passengerNumber, numberOfPassengers);
+        shuttleRepository.add(shuttle);
     }
 }

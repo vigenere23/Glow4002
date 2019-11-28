@@ -3,9 +3,10 @@ package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.NotFoundException;
 import ca.ulaval.glo4002.booking.domain.transport2.Direction;
 import ca.ulaval.glo4002.booking.domain.transport2.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport2.ShuttleCategory;
@@ -13,46 +14,44 @@ import ca.ulaval.glo4002.booking.domain.transport2.ShuttleRepository;
 
 public class InMemoryShuttleRepository2 implements ShuttleRepository {
     
-    private List<Shuttle> departureShuttles;
-    private List<Shuttle> arrivalShuttles;
+    private Map<Direction, List<Shuttle>> shuttles;
 
     public InMemoryShuttleRepository2() {
-        departureShuttles = new ArrayList<>();
-        arrivalShuttles = new ArrayList<>();
+        shuttles.put(Direction.DEPARTURE, new ArrayList<>());
+        shuttles.put(Direction.ARRIVAL, new ArrayList<>());
     }
 
     @Override
     public List<Shuttle> findAllByDirection(Direction direction) {
-        switch (direction) {
-            case DEPARTURE: return departureShuttles;
-            case ARRIVAL: return arrivalShuttles;
-            default: throw new IllegalArgumentException(String.format("No shuttles for direction %s", direction));
-        }
+        return shuttles.get(direction);
     }
 
     @Override
-    public Shuttle findNextAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory) {
-        Optional<Shuttle> nextAvailableShuttle = findAllByDirection(direction)
+    public List<Shuttle> findAllAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory) {
+        return findAllByDirection(direction)
             .stream()
             .filter(shuttle -> date.equals(shuttle.getDate()))
             .filter(shuttle -> shuttle.getCategory() == shuttleCategory)
             .filter(shuttle -> !shuttle.isFull())
-            .findFirst();
+            .collect(Collectors.toList());
+    }
 
-        if (!nextAvailableShuttle.isPresent()) {
-            throw new NotFoundException("shuttle");
+    @Override
+    public void add(Shuttle shuttle) {
+        List<Shuttle> shuttlesOfDirection = findAllByDirection(shuttle.getDirection());
+
+        if (!shuttlesOfDirection.contains(shuttle)) {
+            shuttlesOfDirection.add(shuttle);
         }
-
-        return nextAvailableShuttle.get();
     }
 
     @Override
-    public void saveDeparture(List<Shuttle> shuttlesToSave) {
-        departureShuttles = shuttlesToSave;
-    }
+    public void replace(Shuttle shuttle) {
+        List<Shuttle> shuttlesOfDirection = findAllByDirection(shuttle.getDirection());
+        int existingShuttleIndex = shuttlesOfDirection.indexOf(shuttle);
 
-    @Override
-    public void saveArrival(List<Shuttle> shuttlesToSave) {
-        arrivalShuttles = shuttlesToSave;
+        if (existingShuttleIndex >= 0) {
+            shuttlesOfDirection.set(existingShuttleIndex, shuttle);
+        }
     }
 }
