@@ -39,7 +39,7 @@ public class ProgramValidator {
         return Collections.frequency(retrieveArtists(), programForOneDay.getArtist()) == 1;
     }
 
-    private boolean onlyArtistOnPm(ProgramDay programForOneDay) {
+    private boolean onlyArtistOnPm() {
         boolean isAnNotActivity = true;
         for (String artistName : retrieveArtists()) {
             if (Activity.artistIsActivity(artistName)) {
