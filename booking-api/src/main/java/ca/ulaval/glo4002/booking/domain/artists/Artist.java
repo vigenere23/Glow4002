@@ -3,12 +3,17 @@ package ca.ulaval.glo4002.booking.domain.artists;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.Price;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class Artist {
+
+    private static final int OXYGEN_QUANTITY_PER_ARTIST = 6;
+
     private String name;
     private int popularity;
     private Price price;
@@ -31,6 +36,10 @@ public class Artist {
         ShuttleCategory shuttleCategory = groupSize == 1 ? ShuttleCategory.ET_SPACESHIP : ShuttleCategory.MILLENNIUM_FALCON;
         transportReserver.reserveDeparture(shuttleCategory, date, passengerNumber, groupSize);
         transportReserver.reserveArrival(shuttleCategory, date, passengerNumber, groupSize);
+    }
+
+    public void orderOxygen(OxygenRequester oxygenRequester, LocalDate date, OxygenGrade oxygenGrade) {
+        oxygenRequester.requestOxygen(date, oxygenGrade, OXYGEN_QUANTITY_PER_ARTIST * groupSize);
     }
 
     public void saveOutcome(OutcomeSaver outcomeSaver) {

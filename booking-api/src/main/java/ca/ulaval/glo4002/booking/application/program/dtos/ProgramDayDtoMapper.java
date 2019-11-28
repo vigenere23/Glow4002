@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramDayRequest;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
+import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.program.ProgramDay;
 
 public class ProgramDayDtoMapper {
+
+    @Inject private PassRepository passRepository;
 
     public List<ProgramDay> fromDtoAndArtists(List<ProgramDayRequest> programDayRequests, List<Artist> artists) {
         return programDayRequests
@@ -19,7 +24,8 @@ public class ProgramDayDtoMapper {
     }
 
     public ProgramDay fromRequestAndArtist(ProgramDayRequest programDayRequest, Artist artist) {
-        return new ProgramDay(programDayRequest.activity, artist, programDayRequest.eventDate);
+        int numberOfAttendees = passRepository.findAttendingAtDate(programDayRequest.eventDate).size();
+        return new ProgramDay(programDayRequest.activity, artist, programDayRequest.eventDate, numberOfAttendees);
     }
 
     private Artist getArtistByName(List<Artist> artists, String artistName) {

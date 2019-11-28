@@ -11,17 +11,18 @@ import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramDay {
 
-    private static final int OXYGEN_QUANTITY_BY_ARTIST = 6;
     private static final OxygenGrade OXYGEN_GRADE_PROGRAM = OxygenGrade.E;
     private static final LocalDate PROGRAM_REVEAL_DATE = LocalDate.of(2050, 07, 12);
     private Activity activity;
     private Artist artist;
     private LocalDate date;
+    private int numberOfAttendees;
 
-    public ProgramDay(Activity activity, Artist artist, LocalDate date) {
+    public ProgramDay(Activity activity, Artist artist, LocalDate date, int numberOfAttendees) {
         this.activity = activity;
         this.artist = artist;
         this.date = date;
+        this.numberOfAttendees = numberOfAttendees;
     }
 
     public LocalDate getDate() {
@@ -36,9 +37,10 @@ public class ProgramDay {
         return festivalDates.isDuringEventTime(date);
     }
 
-    public void orderOxygen(OxygenRequester oxygenRequester, int numberOfFestivalAttendees) {
-        int oxygenQuantity = artist.getGroupSize() * OXYGEN_QUANTITY_BY_ARTIST + Activity.oxygenForActivity(activity) * numberOfFestivalAttendees;
-        oxygenRequester.requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, oxygenQuantity);
+    public void orderOxygen(OxygenRequester oxygenRequester) {
+        int oxygenQuantityForActivities = Activity.oxygenForActivity(activity) * numberOfAttendees;
+        oxygenRequester.requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, oxygenQuantityForActivities);
+        artist.orderOxygen(oxygenRequester, PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM);
     }
 
     public void orderShuttle(TransportReserver transportReserver) {

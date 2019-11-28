@@ -35,7 +35,8 @@ public class ProgramDayTest {
     private final static PassengerNumber SOME_PASSENGER_NUMBER = new PassengerNumber(0);
     private final static int SOME_PASSENGERS = 1;
     private final static int SOME_ATTENDEES = 4;
-    private final static int SOME_OXYGEN_QUANTITY = 66;
+    private final static int ATTENDEES_OXYGEN_QUANTITY = 60;
+    private final static int ARTIST_OXYGEN_QUANTITY = 60;
     
     private List<Artist> artistsForProgram;   
     private OxygenRequester oxygenRequester;
@@ -51,7 +52,7 @@ public class ProgramDayTest {
         mockDependency();
         mockArtistProgramInformation();
         Artist artist = new Artist(SOME_ARTIST_NAME, price, SOME_PASSENGER_NUMBER);
-        singleDayProgram = new ProgramDay(SOME_ACTIVITY, artist, SOME_DATE);
+        singleDayProgram = new ProgramDay(SOME_ACTIVITY, artist, SOME_DATE, SOME_ATTENDEES);
     }
 
     @Test
@@ -88,8 +89,9 @@ public class ProgramDayTest {
 
     @Test
     public void whenOrderOxygen_thenOxygenReserverOrderOxygen() {
-        singleDayProgram.orderOxygen(oxygenRequester, SOME_ATTENDEES);
-        verify(oxygenRequester).requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, SOME_OXYGEN_QUANTITY);
+        singleDayProgram.orderOxygen(oxygenRequester);
+        verify(oxygenRequester).requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, ATTENDEES_OXYGEN_QUANTITY);
+        verify(oxygenRequester).requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, ARTIST_OXYGEN_QUANTITY);
     }
 
     @Test

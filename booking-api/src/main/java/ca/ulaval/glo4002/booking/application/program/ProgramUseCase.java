@@ -9,7 +9,6 @@ import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
-import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.program.Program;
 import ca.ulaval.glo4002.booking.domain.program.ProgramDay;
@@ -20,7 +19,6 @@ public class ProgramUseCase {
 
     @Inject private TransportReserver transportReserver;
     @Inject private OxygenRequester oxygenRequester;
-    @Inject private PassRepository passRepository;
     @Inject private ArtistRepository artistRepository;
     @Inject private OutcomeSaver outcomeSaver;
     @Inject private ProgramValidator programValidator;
@@ -33,9 +31,8 @@ public class ProgramUseCase {
         Program program = new Program(programDays);
         
         for (ProgramDay programDay : program.getDays()) {
-            int numberOfAttendees = passRepository.findAttendingAtDate(programDay.getDate()).size();
             programDay.orderShuttle(transportReserver);
-            programDay.orderOxygen(oxygenRequester, numberOfAttendees);
+            programDay.orderOxygen(oxygenRequester);
             programDay.saveOutcome(outcomeSaver);
         }
     }
