@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
 public class ProgramDay {
@@ -43,9 +42,7 @@ public class ProgramDay {
     }
 
     public void orderShuttle(TransportReserver transportReserver) {
-        ShuttleCategory shuttleCategory = ShuttleCategory.getCategoryAccordingToPassengerCount(artist.getGroupSize());
-        transportReserver.reserveDeparture(shuttleCategory, date, artist.getPassengerNumber(), artist.getGroupSize());
-        transportReserver.reserveArrival(shuttleCategory, date, artist.getPassengerNumber(), artist.getGroupSize());
+        artist.orderShuttle(transportReserver, date);
     }
 
     public void saveOutcome(OutcomeSaver outcomeSaver) {
