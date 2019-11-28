@@ -27,10 +27,17 @@ public class InMemoryShuttleRepository2 implements ShuttleRepository {
     }
 
     @Override
-    public List<Shuttle> findAllAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory) {
-        return findAllByDirection(direction)
+    public List<Shuttle> findAllByDirectionAndDate(Direction direction, LocalDate date) {
+        return shuttles.get(direction)
             .stream()
-            .filter(shuttle -> date.equals(shuttle.getDate()))
+            .filter(shuttle -> shuttle.getDate().equals(date))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Shuttle> findAllAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory) {
+        return findAllByDirectionAndDate(direction, date)
+            .stream()
             .filter(shuttle -> shuttle.getCategory() == shuttleCategory)
             .filter(shuttle -> !shuttle.isFull())
             .collect(Collectors.toList());
