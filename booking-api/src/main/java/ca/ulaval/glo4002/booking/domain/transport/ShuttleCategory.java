@@ -15,8 +15,4 @@ public enum ShuttleCategory {
     public String toString() {
         return text;
     }
-
-    public static ShuttleCategory getCategoryAccordingToPassengerCount(int passengerCount) {
-        return passengerCount == 1 ? ET_SPACESHIP : MILLENNIUM_FALCON;
-    }
 }
