@@ -11,14 +11,13 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
-import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
-public class PassOrderUseCase {
+public class PassOrderCreationUseCase {
 
     @Inject private PassOrderFactory passOrderFactory;
     @Inject private PassOrderRepository passOrderRepository;
@@ -28,11 +27,7 @@ public class PassOrderUseCase {
     @Inject private IncomeSaver incomeSaver;
     @Inject private PassOrderDtoMapper passOrderDtoMapper;
 
-    public PassOrderDto getOrder(OrderNumber orderNumber) {
-        return passOrderDtoMapper.toDto(passOrderRepository.findByOrderNumber(orderNumber));
-    }
-
-    public PassOrderDto orchestPassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
+    public PassOrderDto orchestratePassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(
             orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates()
         );

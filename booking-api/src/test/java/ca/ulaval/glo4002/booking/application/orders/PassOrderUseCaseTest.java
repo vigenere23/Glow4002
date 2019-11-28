@@ -52,7 +52,7 @@ public class PassOrderUseCaseTest {
     @Mock PassRepository passRepository;
     @Mock IncomeSaver incomeSaver;
     @Mock PassOrderDtoMapper passOrderDtoMapper;
-    @InjectMocks PassOrderUseCase passOrderUseCase;
+    @InjectMocks PassOrderCreationUseCase passOrderUseCase;
     
     @BeforeEach
     public void setUpPassOrderUseCase() {
@@ -62,31 +62,31 @@ public class PassOrderUseCaseTest {
 
     @Test
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
-        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrderFactory).create(SOME_ORDER_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, Optional.empty());
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassOrderIsSavedInRepository() {
-        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrderRepository).add(passOrder);
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassIsSavedInRepository() {
-        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passRepository).add(pass);
     }
 
     @Test
     public void whenOrchestPassCreation_thenShuttlesAreReserved() {
-        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(pass).reserveShuttles(transportReserver);
     }
 
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
-        passOrderUseCase.orchestPassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(pass).reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
     }
 

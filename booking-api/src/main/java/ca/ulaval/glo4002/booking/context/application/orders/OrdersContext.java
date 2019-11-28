@@ -4,7 +4,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-import ca.ulaval.glo4002.booking.application.orders.PassOrderUseCase;
+import ca.ulaval.glo4002.booking.application.orders.PassOrderCreationUseCase;
+import ca.ulaval.glo4002.booking.application.orders.PassOrderFetchingUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassDtoMapper;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
@@ -29,6 +30,7 @@ public class OrdersContext extends AbstractBinder {
         bindAsContract(OrderDiscountLinker.class);
         bindAsContract(PassOrderFactory.class);
         bindAsContract(PassOrderDtoMapper.class);
-        bindAsContract(PassOrderUseCase.class);
+        bindAsContract(PassOrderCreationUseCase.class);
+        bindAsContract(PassOrderFetchingUseCase.class);
     }
 }
