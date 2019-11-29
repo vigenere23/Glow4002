@@ -33,11 +33,10 @@ public class ShuttleTest {
     @Mock OutcomeSaver outcomeSaver;
 
     private class ShuttleImplementationTest extends Shuttle {
-
         public ShuttleImplementationTest() {
             super(DIRECTION, DATE, SHUTTLE_CATEGORY, CAPACITY, PRICE);
         }
-    }    
+    }
 
     @BeforeEach
     public void setUp() {
