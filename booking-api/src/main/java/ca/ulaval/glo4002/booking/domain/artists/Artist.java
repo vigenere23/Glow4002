@@ -34,8 +34,8 @@ public class Artist {
 
     public void orderShuttle(TransportReserver transportReserver, LocalDate date) {
         ShuttleCategory shuttleCategory = groupSize == 1 ? ShuttleCategory.ET_SPACESHIP : ShuttleCategory.MILLENNIUM_FALCON;
-        transportReserver.reserveDeparture(shuttleCategory, date, passengerNumber, groupSize);
-        transportReserver.reserveArrival(shuttleCategory, date, passengerNumber, groupSize);
+        transportReserver.reserveDepartures(shuttleCategory, date, passengerNumber, groupSize);
+        transportReserver.reserveArrivals(shuttleCategory, date, passengerNumber, groupSize);
     }
 
     public void orderOxygen(OxygenRequester oxygenRequester, LocalDate date, OxygenGrade oxygenGrade) {

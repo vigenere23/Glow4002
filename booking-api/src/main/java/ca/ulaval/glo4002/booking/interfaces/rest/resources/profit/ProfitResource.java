@@ -14,13 +14,8 @@ import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProfitResource {
     
-    private ProfitUseCase profitUseCase;
+    @Inject private ProfitUseCase profitUseCase;
     
-    @Inject
-    public ProfitResource(ProfitUseCase profitUseCase) {
-        this.profitUseCase = profitUseCase;
-    }
-
     @GET
     public Response profit() {
         ProfitResponse response = new ProfitResponse(profitUseCase.getIncome(), profitUseCase.getOutcome(), profitUseCase.getProfit());

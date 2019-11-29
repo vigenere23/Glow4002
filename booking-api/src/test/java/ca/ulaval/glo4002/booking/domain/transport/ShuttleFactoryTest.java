@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 
 class ShuttleFactoryTest {
 
-    private final static LocalDate DATE = LocalDate.of(2050, 7, 19);
+    private final static LocalDate DATE = LocalDate.now();
+    private final static Direction DIRECTION = Direction.ARRIVAL;
     
     private ShuttleFactory shuttleFactory;
     
@@ -20,19 +21,21 @@ class ShuttleFactoryTest {
     
     @Test
     void givenETSpaceshipCategory_whenCreateShuttle_thenCreatesNewETSpaceship() {
-        Shuttle shuttleTest = shuttleFactory.createShuttle(ShuttleCategory.ET_SPACESHIP, DATE);
-        assertTrue(shuttleTest instanceof ETSpaceship);
+        Shuttle shuttleTest = shuttleFactory.create(DIRECTION, DATE, ShuttleCategory.ET_SPACESHIP);
+        assertThat(shuttleTest).isInstanceOf(ETSpaceship.class);
     }
 
     @Test
     void givenMillenniumFalconCategory_whenCreateShuttle_thenCreatesNewMillenniumFalcon() {
-        Shuttle shuttleTest = shuttleFactory.createShuttle(ShuttleCategory.MILLENNIUM_FALCON, DATE);
-        assertTrue(shuttleTest instanceof MillenniumFalcon);
+        Shuttle shuttleTest = shuttleFactory.create(DIRECTION, DATE, ShuttleCategory.MILLENNIUM_FALCON);
+        assertThat(shuttleTest).isInstanceOf(MillenniumFalcon.class);
+
     }
     
     @Test
     void givenSpaceXCategory_whenCreateShuttle_thenCreatesNewSpaceX() {
-        Shuttle shuttleTest = shuttleFactory.createShuttle(ShuttleCategory.SPACE_X, DATE);
-        assertTrue(shuttleTest instanceof SpaceX);
+        Shuttle shuttleTest = shuttleFactory.create(DIRECTION, DATE, ShuttleCategory.SPACE_X);
+        assertThat(shuttleTest).isInstanceOf(SpaceX.class);
+
     }
 }

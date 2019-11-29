@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.application.transport;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.transport.Location;
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
 import java.time.LocalDate;
@@ -18,20 +18,20 @@ public class TransportUseCase {
     @Inject private ShuttleDtoMapper shuttleDtoMapper;
 
     public List<ShuttleDto> getAllDepartures() {
-        return shuttleDtoMapper.toDtos(transportRepository.findShuttlesByLocation(Location.EARTH));
+        return shuttleDtoMapper.toDtos(transportRepository.findAllByDirection(Direction.DEPARTURE));
     }
 
     public List<ShuttleDto> getAllArrivals() {
-        return shuttleDtoMapper.toDtos(transportRepository.findShuttlesByLocation(Location.ULAVALOGY));
+        return shuttleDtoMapper.toDtos(transportRepository.findAllByDirection(Direction.ARRIVAL));
     }
 
-    public List<ShuttleDto> getShuttlesDepartureByDate(LocalDate date) {
+    public List<ShuttleDto> getAllDeparturesByDate(LocalDate date) {
         festivalDates.validateEventDate(date);
-        return shuttleDtoMapper.toDtos(transportRepository.findShuttlesByDate(Location.EARTH, date));
+        return shuttleDtoMapper.toDtos(transportRepository.findAllByDirectionAndDate(Direction.DEPARTURE, date));
     }
 
-    public List<ShuttleDto> getShuttlesArrivalByDate(LocalDate date) {
+    public List<ShuttleDto> getAllArrivalsByDate(LocalDate date) {
         festivalDates.validateEventDate(date);
-        return shuttleDtoMapper.toDtos(transportRepository.findShuttlesByDate(Location.ULAVALOGY, date));
+        return shuttleDtoMapper.toDtos(transportRepository.findAllByDirectionAndDate(Direction.ARRIVAL, date));
     }
 }

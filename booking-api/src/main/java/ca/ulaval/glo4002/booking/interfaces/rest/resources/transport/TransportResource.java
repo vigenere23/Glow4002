@@ -19,13 +19,8 @@ import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class TransportResource {
     
-    private TransportUseCase transportUseCase;
+    @Inject private TransportUseCase transportUseCase;
     
-    @Inject
-    public TransportResource(TransportUseCase transportUseCase) {
-        this.transportUseCase = transportUseCase;
-    }
-
     @GET
     public Response transport(@QueryParam("date") String stringDate) {
         TransportResponse response = stringDate == null
@@ -43,8 +38,8 @@ public class TransportResource {
 
     private TransportResponse getTransportResponseFilteredByDate(String stringDate) {
         LocalDate date = LocalDate.parse(stringDate);
-        List<ShuttleDto> departures = transportUseCase.getShuttlesDepartureByDate(date);
-        List<ShuttleDto> arrivals = transportUseCase.getShuttlesArrivalByDate(date);
+        List<ShuttleDto> departures = transportUseCase.getAllDeparturesByDate(date);
+        List<ShuttleDto> arrivals = transportUseCase.getAllArrivalsByDate(date);
         return new TransportResponse(departures, arrivals);
     }
 }

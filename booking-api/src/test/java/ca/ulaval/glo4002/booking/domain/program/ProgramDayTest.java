@@ -78,13 +78,13 @@ public class ProgramDayTest {
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderDepartureShuttle() {
         singleDayProgram.orderShuttle(transportReserver);
-        verify(transportReserver).reserveDeparture(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
+        verify(transportReserver).reserveDepartures(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
     }
 
     @Test
     public void whenOrderShuttles_thenTransportReserverOrderArrivalShuttle() {
         singleDayProgram.orderShuttle(transportReserver);
-        verify(transportReserver).reserveArrival(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
+        verify(transportReserver).reserveArrivals(SHUTTLE_CATEGORY, SOME_DATE, SOME_PASSENGER_NUMBER, SOME_PASSENGERS);
     }
 
     @Test

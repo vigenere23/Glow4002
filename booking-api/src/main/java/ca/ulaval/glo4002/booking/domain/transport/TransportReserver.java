@@ -1,36 +1,26 @@
 package ca.ulaval.glo4002.booking.domain.transport;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class TransportReserver {
 
     @Inject private ShuttleFiller shuttleFiller;
-    @Inject private ShuttleRepository shuttleRepository;
     
     public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber) {
-        reserveDeparture(shuttleCategory, date, passengerNumber, 1);
+        reserveDepartures(shuttleCategory, date, passengerNumber, 1);
     }
 
-    public void reserveDeparture(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
-        List<Shuttle> departureShuttles = shuttleRepository.findShuttlesByLocation(Location.EARTH);
-        List<Shuttle> shuttlesToSave = assignNewPlace(departureShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
-        shuttleRepository.saveDeparture(shuttlesToSave);
+    public void reserveDepartures(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
+        shuttleFiller.fillShuttles(Direction.DEPARTURE, date, shuttleCategory, passengerNumber, numberOfPassengers);
     }
 
     public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber) {
-        reserveArrival(shuttleCategory, date, passengerNumber, 1);
+        reserveArrivals(shuttleCategory, date, passengerNumber, 1);
     }
 
-    public void reserveArrival(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
-        List<Shuttle> arrivalShuttles = shuttleRepository.findShuttlesByLocation(Location.ULAVALOGY);
-        List<Shuttle> shuttlesToSave = assignNewPlace(arrivalShuttles, shuttleCategory, date, passengerNumber, numberOfPassengers);
-        shuttleRepository.saveArrival(shuttlesToSave);
+    public void reserveArrivals(ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
+        shuttleFiller.fillShuttles(Direction.ARRIVAL, date, shuttleCategory, passengerNumber, numberOfPassengers);
     }   
-
-    private List<Shuttle> assignNewPlace(List<Shuttle> shuttlesToFill, ShuttleCategory shuttleCategory, LocalDate date, PassengerNumber passengerNumber, int numberOfPassengers) {
-        return shuttleFiller.fillShuttle(shuttlesToFill, shuttleCategory, passengerNumber, date, numberOfPassengers);
-    }
 }
