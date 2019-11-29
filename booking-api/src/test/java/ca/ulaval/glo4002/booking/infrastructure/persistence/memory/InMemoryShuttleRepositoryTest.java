@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -53,78 +54,66 @@ class InMemoryShuttleRepositoryTest {
 
     @Test
     public void givenNonEmptyArrivalsAndDepartures_whenFindingAllArrivals_itReturnsOnlyArrivals() {
-        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL);
         addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE);
+        List<Shuttle> expectedShuttles = addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL);
 
         List<Shuttle> returnedShuttles = shuttleRepository.findAllByDirection(Direction.ARRIVAL);
 
-        assertThat(returnedShuttles).hasSize(NUMBER_OF_ARRIVALS);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDirection() == Direction.ARRIVAL);
+        assertThat(returnedShuttles).isEqualTo(expectedShuttles);
     }
 
     @Test
     public void givenNonEmptyArrivalsAndDepartures_whenFindingAllDepartures_itReturnsOnlyDepartures() {
         addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL);
-        addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE);
+        List<Shuttle> expectedShuttles = addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE);
 
         List<Shuttle> returnedShuttles = shuttleRepository.findAllByDirection(Direction.DEPARTURE);
 
-        assertThat(returnedShuttles).hasSize(NUMBER_OF_DEPARTURES);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDirection() == Direction.DEPARTURE);
+        assertThat(returnedShuttles).isEqualTo(expectedShuttles);
     }
 
     @Test
     public void givenNonEmptyArrivalsAndDepartures_whenFindingAllArrivalsByDate_itReturnsOnlyArrivalsByDate() {
-        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
-        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, SOME_OTHER_DATE);
         addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE);
+        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, SOME_OTHER_DATE);
+        List<Shuttle> expectedShuttles = addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
 
         List<Shuttle> returnedShuttles = shuttleRepository.findAllByDirectionAndDate(Direction.ARRIVAL, A_DATE);
 
-        assertThat(returnedShuttles).hasSize(NUMBER_OF_ARRIVALS);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDirection() == Direction.ARRIVAL);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDate().equals(A_DATE));
+        assertThat(returnedShuttles).isEqualTo(expectedShuttles);
     }
 
     @Test
     public void givenNonEmptyArrivalsAndDepartures_whenFindingAllDeparturesByDate_itReturnsOnlyDeparturesByDate() {
         addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
-        addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE);
         addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, SOME_OTHER_DATE);
+        List<Shuttle> expectedShuttles = addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE);
 
         List<Shuttle> returnedShuttles = shuttleRepository.findAllByDirectionAndDate(Direction.DEPARTURE, A_DATE);
 
-        assertThat(returnedShuttles).hasSize(NUMBER_OF_DEPARTURES);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDirection() == Direction.DEPARTURE);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDate().equals(A_DATE));
+        assertThat(returnedShuttles).isEqualTo(expectedShuttles);
     }
 
     @Test
     public void givenNonEmptyArrivalsAndDepartures_whenFindingAvailableArrivalShuttles_itReturnsOnlyNonFullShuttlesWithMatchingCriterias() {
-        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
         addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE, 1);
         addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE);
+        List<Shuttle> expectedShuttles = addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
 
         List<Shuttle> returnedShuttles = shuttleRepository.findAllAvailable(Direction.ARRIVAL, A_DATE, A_SHUTTLE_CATEGORY);
 
-        assertThat(returnedShuttles).hasSize(NUMBER_OF_ARRIVALS);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDirection() == Direction.ARRIVAL);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDate().equals(A_DATE));
-        assertThat(returnedShuttles).allMatch(shuttle -> !shuttle.isFull());
+        assertThat(returnedShuttles).isEqualTo(expectedShuttles);
     }
 
     @Test
     public void givenNonEmptyArrivalsAndDepartures_whenFindingAvailableDepartureShuttles_itReturnsOnlyNonFullShuttlesWithMatchingCriterias() {
-        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
         addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE, 1);
-        addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE);
+        addShuttles(NUMBER_OF_ARRIVALS, Direction.ARRIVAL, A_DATE);
+        List<Shuttle> expectedShuttles = addShuttles(NUMBER_OF_DEPARTURES, Direction.DEPARTURE, A_DATE);
 
         List<Shuttle> returnedShuttles = shuttleRepository.findAllAvailable(Direction.DEPARTURE, A_DATE, A_SHUTTLE_CATEGORY);
 
-        assertThat(returnedShuttles).hasSize(NUMBER_OF_DEPARTURES);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDirection() == Direction.DEPARTURE);
-        assertThat(returnedShuttles).allMatch(shuttle -> shuttle.getDate().equals(A_DATE));
-        assertThat(returnedShuttles).allMatch(shuttle -> !shuttle.isFull());
+        assertThat(returnedShuttles).isEqualTo(expectedShuttles);
     }
 
     @Test
@@ -143,7 +132,7 @@ class InMemoryShuttleRepositoryTest {
 
         Shuttle returnedShuttle = shuttleRepository.findAllByDirection(A_DIRECTION).get(0);
         assertThat(returnedShuttle).isEqualTo(shuttle);
-        assertThat(returnedShuttle.getPassengerNumbers()).contains(A_PASSENGER_NUMBER);
+        assertThat(returnedShuttle.getPassengerNumbers()).containsOnly(A_PASSENGER_NUMBER);
     }
 
     @Test
@@ -171,21 +160,29 @@ class InMemoryShuttleRepositoryTest {
         return new ETSpaceship(direction, date);
     }
 
-    private void addShuttles(int quantity, Direction direction) {
-        addShuttles(quantity, direction, A_DATE);
+    private List<Shuttle> addShuttles(int quantity, Direction direction) {
+        return addShuttles(quantity, direction, A_DATE);
     }
 
-    private void addShuttles(int quantity, Direction direction, LocalDate date) {
+    private List<Shuttle> addShuttles(int quantity, Direction direction, LocalDate date) {
+        List<Shuttle> shuttlesAdded = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            shuttleRepository.add(createShuttle(direction, date));
+            Shuttle shuttle = createShuttle(direction, date);
+            shuttleRepository.add(shuttle);
+            shuttlesAdded.add(shuttle);
         }
+
+        return shuttlesAdded;
     }
 
-    private void addShuttles(int quantity, Direction direction, LocalDate date, int numberOfPassengers) {
+    private List<Shuttle> addShuttles(int quantity, Direction direction, LocalDate date, int numberOfPassengers) {
+        List<Shuttle> shuttlesAdded = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
             Shuttle shuttle = createShuttle(direction, date);
             shuttle.addPassengers(A_PASSENGER_NUMBER, numberOfPassengers);
             shuttleRepository.add(shuttle);
+            shuttlesAdded.add(shuttle);
         }
+        return shuttlesAdded;
     }
 }
