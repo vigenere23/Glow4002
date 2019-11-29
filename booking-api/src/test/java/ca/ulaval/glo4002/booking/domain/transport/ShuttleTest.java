@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +23,8 @@ public class ShuttleTest {
     private final static int ONE_PLACE = 1;
     private final static int CAPACITY = 2;
     private final static Direction DIRECTION = Direction.ARRIVAL;
+    private final static LocalDate DATE = LocalDate.now();
+    private final static ShuttleCategory SHUTTLE_CATEGORY = ShuttleCategory.SPACE_X;
     private final static PassengerNumber PASSENGER_NUMBER = new PassengerNumber(0);
     private final static Price PRICE = new Price(100);
 	
@@ -32,14 +34,14 @@ public class ShuttleTest {
 
     private class ShuttleImplementationTest extends Shuttle {
 
-        public ShuttleImplementationTest(Direction direction, LocalDate date, Price price) {
-            super(direction, date, ShuttleCategory.SPACE_X, CAPACITY, price);
+        public ShuttleImplementationTest() {
+            super(DIRECTION, DATE, SHUTTLE_CATEGORY, CAPACITY, PRICE);
         }
     }    
 
     @BeforeEach
     public void setUp() {
-        shuttle = new ShuttleImplementationTest(DIRECTION, LocalDate.of(2050, 7, 17), PRICE);
+        shuttle = new ShuttleImplementationTest();
     }
 
     @Test
@@ -49,11 +51,9 @@ public class ShuttleTest {
 
     @Test
     public void givenEnoughSpace_whenAddingPassengers_itAddsThePassengersToTheList() {
-        List<PassengerNumber> expectedPassengerNumbers = new ArrayList<>();
-        for (int i = 0; i < CAPACITY; i++) { expectedPassengerNumbers.add(PASSENGER_NUMBER); }
-
         shuttle.addPassengers(PASSENGER_NUMBER, CAPACITY);
-
+        
+        List<PassengerNumber> expectedPassengerNumbers = Collections.nCopies(CAPACITY, PASSENGER_NUMBER);
         assertThat(shuttle.getPassengerNumbers()).isEqualTo(expectedPassengerNumbers);
     }
     
@@ -68,6 +68,13 @@ public class ShuttleTest {
         shuttle.addPassengers(PASSENGER_NUMBER, CAPACITY);
 
         assertThat(shuttle.isFull()).isTrue();
+    }
+
+    @Test
+    public void whenAddingNonStricltlyPositiveNumberOfPassengers_itThrowsAnAssertionError() {
+        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+            shuttle.addPassengers(PASSENGER_NUMBER, -1);
+        });
     }
 
     @Test
