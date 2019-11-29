@@ -25,12 +25,12 @@ public class TransportUseCase {
         return shuttleDtoMapper.toDtos(transportRepository.findAllByDirection(Direction.ARRIVAL));
     }
 
-    public List<ShuttleDto> getShuttlesDepartureByDate(LocalDate date) {
+    public List<ShuttleDto> getAllDeparturesByDate(LocalDate date) {
         festivalDates.validateEventDate(date);
         return shuttleDtoMapper.toDtos(transportRepository.findAllByDirectionAndDate(Direction.DEPARTURE, date));
     }
 
-    public List<ShuttleDto> getShuttlesArrivalByDate(LocalDate date) {
+    public List<ShuttleDto> getAllArrivalsByDate(LocalDate date) {
         festivalDates.validateEventDate(date);
         return shuttleDtoMapper.toDtos(transportRepository.findAllByDirectionAndDate(Direction.ARRIVAL, date));
     }

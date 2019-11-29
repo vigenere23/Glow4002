@@ -38,8 +38,8 @@ public class TransportResource {
 
     private TransportResponse getTransportResponseFilteredByDate(String stringDate) {
         LocalDate date = LocalDate.parse(stringDate);
-        List<ShuttleDto> departures = transportUseCase.getShuttlesDepartureByDate(date);
-        List<ShuttleDto> arrivals = transportUseCase.getShuttlesArrivalByDate(date);
+        List<ShuttleDto> departures = transportUseCase.getAllDeparturesByDate(date);
+        List<ShuttleDto> arrivals = transportUseCase.getAllArrivalsByDate(date);
         return new TransportResponse(departures, arrivals);
     }
 }
