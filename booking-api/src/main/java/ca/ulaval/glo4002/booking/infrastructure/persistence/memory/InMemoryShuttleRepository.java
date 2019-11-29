@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import ca.ulaval.glo4002.booking.domain.exceptions.ItemAlreadyExists;
+import ca.ulaval.glo4002.booking.domain.exceptions.ItemNotFound;
 import ca.ulaval.glo4002.booking.domain.transport.Direction;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
@@ -48,9 +50,11 @@ public class InMemoryShuttleRepository implements ShuttleRepository {
     public void add(Shuttle shuttle) {
         List<Shuttle> shuttlesOfDirection = findAllByDirection(shuttle.getDirection());
 
-        if (!shuttlesOfDirection.contains(shuttle)) {
-            shuttlesOfDirection.add(shuttle);
+        if (shuttlesOfDirection.contains(shuttle)) {
+            throw new ItemAlreadyExists("shuttle", shuttle.toString());
         }
+
+        shuttlesOfDirection.add(shuttle);
     }
 
     @Override
@@ -58,8 +62,10 @@ public class InMemoryShuttleRepository implements ShuttleRepository {
         List<Shuttle> shuttlesOfDirection = findAllByDirection(shuttle.getDirection());
         int existingShuttleIndex = shuttlesOfDirection.indexOf(shuttle);
 
-        if (existingShuttleIndex >= 0) {
-            shuttlesOfDirection.set(existingShuttleIndex, shuttle);
+        if (existingShuttleIndex < 0) {
+            throw new ItemNotFound("shuttle");
         }
+
+        shuttlesOfDirection.set(existingShuttleIndex, shuttle);
     }
 }

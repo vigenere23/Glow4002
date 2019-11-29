@@ -11,7 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.NotFoundException;
+import ca.ulaval.glo4002.booking.domain.exceptions.ItemNotFound;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.orders.discounts.NebulaSinglePassDiscount;
@@ -42,7 +42,7 @@ public class InMemoryPassOrderRepositoryTest {
 
     @Test
     public void whenFindingWithNonExistantOrderNumber_itThrowsANotFoundException() {
-        assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(ItemNotFound.class).isThrownBy(() -> {
             passOrderRepository.findByOrderNumber(INVALID_ORDER_NUMBER);
         });
     }
