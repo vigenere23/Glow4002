@@ -2,43 +2,64 @@ package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.transport.Location;
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 
 public class InMemoryShuttleRepository implements ShuttleRepository {
     
-    private List<Shuttle> departureShuttles;
-    private List<Shuttle> arrivalShuttles;
+    private Map<Direction, List<Shuttle>> shuttles;
 
     public InMemoryShuttleRepository() {
-        departureShuttles = new ArrayList<>();
-        arrivalShuttles = new ArrayList<>();
+        shuttles = new HashMap<>();
+        shuttles.put(Direction.DEPARTURE, new ArrayList<>());
+        shuttles.put(Direction.ARRIVAL, new ArrayList<>());
     }
 
     @Override
-    public List<Shuttle> findShuttlesByLocation(Location location) {
-        return location == Location.ULAVALOGY ? arrivalShuttles : departureShuttles;
+    public List<Shuttle> findAllByDirection(Direction direction) {
+        return shuttles.get(direction);
     }
 
     @Override
-    public List<Shuttle> findShuttlesByDate(Location location, LocalDate date) {
-        return findShuttlesByLocation(location)
+    public List<Shuttle> findAllByDirectionAndDate(Direction direction, LocalDate date) {
+        return shuttles.get(direction)
             .stream()
-            .filter(shuttle -> date.equals(shuttle.getDate()))
+            .filter(shuttle -> shuttle.getDate().equals(date))
             .collect(Collectors.toList());
     }
 
     @Override
-    public void saveDeparture(List<Shuttle> shuttlesToSave) {
-        departureShuttles = shuttlesToSave;
+    public List<Shuttle> findAllAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory) {
+        return findAllByDirectionAndDate(direction, date)
+            .stream()
+            .filter(shuttle -> shuttle.getCategory() == shuttleCategory)
+            .filter(shuttle -> !shuttle.isFull())
+            .collect(Collectors.toList());
     }
 
     @Override
-    public void saveArrival(List<Shuttle> shuttlesToSave) {
-        arrivalShuttles = shuttlesToSave;
+    public void add(Shuttle shuttle) {
+        List<Shuttle> shuttlesOfDirection = findAllByDirection(shuttle.getDirection());
+
+        if (!shuttlesOfDirection.contains(shuttle)) {
+            shuttlesOfDirection.add(shuttle);
+        }
+    }
+
+    @Override
+    public void replace(Shuttle shuttle) {
+        List<Shuttle> shuttlesOfDirection = findAllByDirection(shuttle.getDirection());
+        int existingShuttleIndex = shuttlesOfDirection.indexOf(shuttle);
+
+        if (existingShuttleIndex >= 0) {
+            shuttlesOfDirection.set(existingShuttleIndex, shuttle);
+        }
     }
 }

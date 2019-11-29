@@ -16,12 +16,7 @@ import ca.ulaval.glo4002.booking.application.oxygen.dtos.OxygenInventoryDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class ReportOxygenResource {
 
-    private OxygenUseCase oxygenUseCase;
-    
-    @Inject
-    public ReportOxygenResource(OxygenUseCase oxygenUseCase) {
-        this.oxygenUseCase = oxygenUseCase;
-    }
+    @Inject private OxygenUseCase oxygenUseCase;
     
     @GET
     public Response getOxygenReport() {

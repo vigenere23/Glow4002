@@ -14,12 +14,7 @@ import ca.ulaval.glo4002.booking.application.program.ProgramUseCase;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProgramResource {
 
-    private ProgramUseCase programUseCase;
-
-    @Inject
-    public ProgramResource(ProgramUseCase programUseCase) {
-        this.programUseCase = programUseCase;
-    }
+    @Inject private ProgramUseCase programUseCase;
 
     @POST
     public Response create(ProgramRequest programRequest) {

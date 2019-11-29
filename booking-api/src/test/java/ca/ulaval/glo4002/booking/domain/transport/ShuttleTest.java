@@ -17,68 +17,68 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class ShuttleTest {
 
-    private final static int ONE_PLACE = 1;
-    private final static PassengerNumber PASSENGER_NUMBER = mock(PassengerNumber.class);
+    // private final static int ONE_PLACE = 1;
+    // private final static PassengerNumber PASSENGER_NUMBER = mock(PassengerNumber.class);
 	
-    private ShuttleImplementationTest shuttle;
-    private Price price;
-    private OutcomeSaver outcomeSaver;
+    // private ShuttleImplementationTest shuttle;
+    // private Price price;
+    // private OutcomeSaver outcomeSaver;
 
-    private class ShuttleImplementationTest extends Shuttle {
+    // private class ShuttleImplementationTest extends Shuttle {
 
-        public ShuttleImplementationTest(LocalDate date, Price price) {
-            this.date = date;
-            this.price = price;
-            capacity = 2;
-            category = ShuttleCategory.SPACE_X;
-        }
+    //     public ShuttleImplementationTest(LocalDate date, Price price) {
+    //         this.date = date;
+    //         this.price = price;
+    //         capacity = 2;
+    //         category = ShuttleCategory.SPACE_X;
+    //     }
 
-        public List<PassengerNumber> getPassengerNumbers() {
-                return passengerNumbers;
-        }  
+    //     public List<PassengerNumber> getPassengerNumbers() {
+    //             return passengerNumbers;
+    //     }  
         
-        public void saveOutcome(OutcomeSaver outcomeSaver) {
-            outcomeSaver.saveOutcome(price);
-        }
-    }    
+    //     public void saveOutcome(OutcomeSaver outcomeSaver) {
+    //         outcomeSaver.saveOutcome(price);
+    //     }
+    // }    
 
-    @BeforeEach
-    public void setUp() {
-        price = new Price(100);
-        outcomeSaver = mock(OutcomeSaver.class);
-        shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17), price);
-    }
+    // @BeforeEach
+    // public void setUp() {
+    //     price = new Price(100);
+    //     outcomeSaver = mock(OutcomeSaver.class);
+    //     shuttle = new ShuttleImplementationTest(LocalDate.of(2050, 7, 17), price);
+    // }
 
-    @Test
-    public void givenPassNumber_whenAddNewPassNumber_thenAPassNumberIsInShuttle() {
-        shuttle.addPassenger(PASSENGER_NUMBER);
-        assertEquals(PASSENGER_NUMBER, shuttle.getPassengerNumbers().get(0));
-    }
+    // @Test
+    // public void givenPassNumber_whenAddNewPassNumber_thenAPassNumberIsInShuttle() {
+    //     shuttle.addPassenger(PASSENGER_NUMBER);
+    //     assertEquals(PASSENGER_NUMBER, shuttle.getPassengerNumbers().get(0));
+    // }
     
-    @Test
-    public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleHasAvailablePlaceLeft() {
-        boolean nonFullShuttle;
-        shuttle.addPassenger(PASSENGER_NUMBER); 
+    // @Test
+    // public void givenPartiallyFullShuttle_whenIsFullMethod_thenShuttleHasAvailablePlaceLeft() {
+    //     boolean nonFullShuttle;
+    //     shuttle.addPassenger(PASSENGER_NUMBER); 
         
-        nonFullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+    //     nonFullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
 
-        assertTrue(nonFullShuttle);
-    }
+    //     assertTrue(nonFullShuttle);
+    // }
 
-    @Test
-    public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleHasNoAvailablePlaceLeft() {
-        boolean fullShuttle;
-        shuttle.addPassenger(PASSENGER_NUMBER);
-        shuttle.addPassenger(PASSENGER_NUMBER);
+    // @Test
+    // public void givenPassNumberToFillShuttle_whenIsFullMethod_thenShuttleHasNoAvailablePlaceLeft() {
+    //     boolean fullShuttle;
+    //     shuttle.addPassenger(PASSENGER_NUMBER);
+    //     shuttle.addPassenger(PASSENGER_NUMBER);
 
-        fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
+    //     fullShuttle = shuttle.hasAvailableCapacity(ONE_PLACE);
 
-        assertFalse(fullShuttle);
-    }
+    //     assertFalse(fullShuttle);
+    // }
 
-    public void givenOutcomeSaver_whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverWithShuttlePriceIsCalled() {
-        shuttle.saveOutcome(outcomeSaver);
+    // public void givenOutcomeSaver_whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverWithShuttlePriceIsCalled() {
+    //     shuttle.saveOutcome(outcomeSaver);
 
-        verify(outcomeSaver).saveOutcome(price);
-    }
+    //     verify(outcomeSaver).saveOutcome(price);
+    // }
 }

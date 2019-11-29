@@ -21,18 +21,13 @@ import ca.ulaval.glo4002.booking.domain.artists.Ranking;
 @Path("/program/artists")
 @Produces(MediaType.APPLICATION_JSON)
 public class ArtistsRankingResource {
-
+    
+    @Inject private ArtistRankingUseCase artistRankingUseCase;
     private static final HashMap<String, Ranking> ranking = new HashMap<String, Ranking>() {{
         put("lowCosts", Ranking.LOW_COSTS);
         put("mostPopular", Ranking.MOST_POPULARITY);
     }};
-    private ArtistRankingUseCase artistRankingUseCase;
     
-    @Inject
-    public ArtistsRankingResource(ArtistRankingUseCase artistRankingUseCase) {
-        this.artistRankingUseCase = artistRankingUseCase;
-    }
-
     @GET
     public Response artistRanking(@QueryParam("orderBy") String orderBy) {
         if(!ranking.containsKey(orderBy)){

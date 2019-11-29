@@ -14,12 +14,7 @@ import ca.ulaval.glo4002.booking.application.dates.DatesUseCase;
 @Produces(MediaType.APPLICATION_JSON)
 public class DatesResource {
 
-    private DatesUseCase datesUseCase;
-
-    @Inject
-    public DatesResource(DatesUseCase datesUseCase) {
-        this.datesUseCase = datesUseCase;
-    }
+    @Inject private DatesUseCase datesUseCase;
 
     @POST
     public Response updateDates(UpdateDatesRequest request) {

@@ -19,13 +19,8 @@ import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class TransportResource {
     
-    private TransportUseCase transportUseCase;
+    @Inject private TransportUseCase transportUseCase;
     
-    @Inject
-    public TransportResource(TransportUseCase transportUseCase) {
-        this.transportUseCase = transportUseCase;
-    }
-
     @GET
     public Response transport(@QueryParam("date") String stringDate) {
         TransportResponse response = stringDate == null
