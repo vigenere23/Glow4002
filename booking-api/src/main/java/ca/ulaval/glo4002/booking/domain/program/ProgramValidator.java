@@ -21,7 +21,7 @@ public class ProgramValidator {
         this.festivalDates = festivalDates;
     }
 
-    public void validateProgram(List<ProgramDay> programDays) {
+    public void validateProgramDays(List<ProgramDay> programDays) {
         boolean artistsAreDifferent;
         boolean artistOnPMOnly;
         boolean validDates;
@@ -70,6 +70,9 @@ public class ProgramValidator {
     }
 
     private List<LocalDate> retrieveDates(List<ProgramDay> programDays) {
-        return programDays.stream().map(ProgramDay::getDate).collect(Collectors.toList());
+        return programDays
+            .stream()
+            .map(ProgramDay::getDate)
+            .collect(Collectors.toList());
     }
 }

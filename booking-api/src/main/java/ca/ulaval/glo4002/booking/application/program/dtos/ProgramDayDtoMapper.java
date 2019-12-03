@@ -1,43 +1,26 @@
 package ca.ulaval.glo4002.booking.application.program.dtos;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramDayRequest;
-import ca.ulaval.glo4002.booking.domain.artists.Artist;
-import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
-import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.program.ProgramDay;
+import ca.ulaval.glo4002.booking.domain.program.ProgramDayFactory;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramDayRequest;
 
 public class ProgramDayDtoMapper {
 
-    @Inject private PassRepository passRepository;
+    @Inject private ProgramDayFactory programDayFactory;
 
-    public List<ProgramDay> fromDtoAndArtists(List<ProgramDayRequest> programDayRequests, List<Artist> artists) {
-        return programDayRequests
+    public List<ProgramDay> fromDtos(List<ProgramDayRequest> dtos) {
+        return dtos
             .stream()
-            .map(programDayRequest -> fromRequestAndArtist(programDayRequest, getArtistByName(artists, programDayRequest.artist)))
+            .map(dto -> fromDto(dto))
             .collect(Collectors.toList());
     }
 
-    public ProgramDay fromRequestAndArtist(ProgramDayRequest programDayRequest, Artist artist) {
-        int numberOfAttendees = passRepository.findAttendingAtDate(programDayRequest.eventDate).size();
-        return new ProgramDay(programDayRequest.activity, artist, programDayRequest.eventDate, numberOfAttendees);
-    }
-
-    private Artist getArtistByName(List<Artist> artists, String artistName) {
-        try {
-            return artists
-                .stream()
-                .filter(artist -> artist.getName().equals(artistName))
-                .findFirst()
-                .get();
-        }
-        catch (NoSuchElementException exception) {
-            throw new InvalidProgramException();
-        }
+    public ProgramDay fromDto(ProgramDayRequest dto) {
+        return programDayFactory.create(dto.eventDate, dto.artist, dto.activity);
     }
 }
