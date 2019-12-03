@@ -23,7 +23,7 @@ public class OrderNumberTest {
     @Test
     public void whenCreatingOrderNumberFromString_thenReturnsTheSameValueAsTheGivenString() {
         String stringOrderNumber = "TEAM-4566";
-        OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
+        OrderNumber orderNumber = OrderNumber.fromString(stringOrderNumber);
 
         assertEquals(stringOrderNumber, orderNumber.getValue());
     }

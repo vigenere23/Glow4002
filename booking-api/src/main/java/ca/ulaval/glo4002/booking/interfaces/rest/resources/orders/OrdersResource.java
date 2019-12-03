@@ -31,8 +31,7 @@ public class OrdersResource {
 
     @GET
     @Path("/{id}")
-    public Response getById(@PathParam("id") String stringOrderNumber) {
-        OrderNumber orderNumber = OrderNumber.of(stringOrderNumber);
+    public Response getById(@PathParam("id") OrderNumber orderNumber) {
         PassOrderDto passOrderDto = passOrderFetchingUseCase.getOrder(orderNumber);
         PassOrderResponse response = new PassOrderResponse(passOrderDto);
         return Response.ok().entity(response).build();

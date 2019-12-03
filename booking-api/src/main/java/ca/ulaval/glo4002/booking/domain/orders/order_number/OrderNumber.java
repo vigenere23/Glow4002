@@ -14,7 +14,7 @@ public class OrderNumber {
         this.value = value;
     }
 
-    public static OrderNumber of(String value) {
+    public static OrderNumber fromString(String value) {
         return new OrderNumber(value);
     }
 

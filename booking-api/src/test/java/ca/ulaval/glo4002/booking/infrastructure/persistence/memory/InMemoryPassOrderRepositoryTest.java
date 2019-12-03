@@ -50,10 +50,7 @@ public class InMemoryPassOrderRepositoryTest {
     @Test
     public void givenASavedOrder_whenFindTheOrderByOrderNumber_itReturnsTheSameOrder() {
         passOrderRepository.add(passOrder);
-
-        OrderNumber orderNumber = OrderNumber.of(passOrder.getOrderNumber().getValue());
-        PassOrder savedPassOrder = passOrderRepository.findByOrderNumber(orderNumber);
-
+        PassOrder savedPassOrder = passOrderRepository.findByOrderNumber(passOrder.getOrderNumber());
         assertThat(savedPassOrder).isEqualTo(passOrder);
     }
 }
