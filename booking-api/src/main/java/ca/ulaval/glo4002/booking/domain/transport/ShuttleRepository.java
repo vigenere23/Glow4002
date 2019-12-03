@@ -6,10 +6,9 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
 
 public interface ShuttleRepository {
-    
-    public List<Shuttle> findAllByDirection(Direction direction);
-    public List<Shuttle> findAllByDirectionAndDate(Direction direction, LocalDate date);
-    public List<Shuttle> findAllAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory);
-    public void add(Shuttle shuttle);
-    public void replace(Shuttle shuttle);
+    List<Shuttle> findAllByDirection(Direction direction);
+    List<Shuttle> findAllByDirectionAndDate(Direction direction, LocalDate date);
+    List<Shuttle> findAllAvailable(Direction direction, LocalDate date, ShuttleCategory shuttleCategory);
+    void add(Shuttle shuttle);
+    void replace(Shuttle shuttle);
 }

@@ -22,39 +22,38 @@ public class ProgramValidator {
     }
 
     public void validateProgramDays(List<ProgramDay> programDays) {
-        boolean artistsAreDifferent;
-        boolean artistOnPMOnly;
-        boolean validDates;
-
         List<String> artistNames = retrieveArtistNames(programDays);
         List<LocalDate> dates = retrieveDates(programDays);
 
         for (ProgramDay programForOneDay : programDays) {
-            artistsAreDifferent = artistDifferentOnEachDay(artistNames, programForOneDay);
-            artistOnPMOnly = onlyArtistOnPm(artistNames, programForOneDay);
-            validDates = validEventDates(dates, programForOneDay);
-
-            if (!artistOnPMOnly || !artistsAreDifferent || !validDates) {
-                throw new InvalidProgramException();
-            }
+            validateArtistDifferentOnEachDay(artistNames, programForOneDay);
+            validateOnlyArtistsOnPm(artistNames, programForOneDay);
+            validateEventDates(dates, programForOneDay);
         }
     }
 
-    private boolean artistDifferentOnEachDay(List<String> artistNames, ProgramDay programForOneDay) {
-        return Collections.frequency(artistNames, programForOneDay.getArtist().getName()) == 1;
+    private void validateArtistDifferentOnEachDay(List<String> artistNames, ProgramDay programForOneDay) {
+        boolean isValid = Collections.frequency(artistNames, programForOneDay.getArtist().getName()) == 1;
+
+        if (!isValid) throw new InvalidProgramException();
+        
     }
 
-    private boolean onlyArtistOnPm(List<String> artistNames, ProgramDay programForOneDay) {
-        return !artistNames
+    private void validateOnlyArtistsOnPm(List<String> artistNames, ProgramDay programForOneDay) {
+        boolean isValid = !artistNames
             .stream()
             .filter(artistName -> EnumExistenceChecker.isInEnum(artistName, Activity.class))
             .findFirst()
             .isPresent();
+        
+        if (!isValid) throw new InvalidProgramException();
     }
 
-    private boolean validEventDates(List<LocalDate> dates, ProgramDay programForOneDay) {
-        return programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(dates, programForOneDay)
+    private void validateEventDates(List<LocalDate> dates, ProgramDay programForOneDay) {
+        boolean isValid = programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(dates, programForOneDay)
                 && dates.size() == festivalDates.getNumberOfFestivalDays();
+        
+        if (!isValid) throw new InvalidProgramException();
     }
 
     private boolean dateIsUnique(List<LocalDate> dates, ProgramDay programForOneDay) {

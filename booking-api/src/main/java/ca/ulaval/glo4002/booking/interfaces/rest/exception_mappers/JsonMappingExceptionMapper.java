@@ -23,9 +23,8 @@ public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingEx
     
     @Override
     public Response toResponse(JsonMappingException exception) {
-
-        Class<?> Object = resourceInfo.getResourceClass();
-        if(Object.equals(ProgramResource.class)) {
+        Class<?> resourceClass = resourceInfo.getResourceClass();
+        if (resourceClass.equals(ProgramResource.class)) {
             ClientErrorDto clientErrorDto = new ClientErrorDto("INVALID_PROGRAM", "the program is invalid");
             return new ClientErrorResponseBuilder(clientErrorDto).build();
         }

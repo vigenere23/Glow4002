@@ -9,6 +9,7 @@ public class CatchallExceptionMapper implements ExceptionMapper<Exception> {
     
     @Override
     public Response toResponse(Exception exception) {
+        exception.printStackTrace();
         return Response.status(500).build();
     }
 }

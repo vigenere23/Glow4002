@@ -17,23 +17,23 @@ import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingStrategy;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRankingFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
-import ca.ulaval.glo4002.booking.domain.artists.Ranking;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistRanking;
 
 @ExtendWith(MockitoExtension.class)
 public class ArtistRankingUseCaseTest {
 
-    final static Ranking SOME_RANKING_TYPE = Ranking.LOW_COSTS;
+    final static ArtistRanking SOME_RANKING_TYPE = ArtistRanking.LOW_COSTS;
     final static List<Artist> artistsToOrder = new ArrayList<>();
     
     @Mock ArtistRepository artistRepository;
     @Mock ArtistRankingFactory artistRankingFactory;
-    @Mock ArtistRankingStrategy artistRanking;
+    @Mock ArtistRankingStrategy artistRankingStrategy;
     @InjectMocks ArtistRankingUseCase artistRankingUseCase;
 
     @BeforeEach
     public void setUp() {
         when(artistRepository.findAll()).thenReturn(artistsToOrder);
-        when(artistRankingFactory.createArtistRanking(SOME_RANKING_TYPE)).thenReturn(artistRanking);
+        when(artistRankingFactory.createArtistRanking(SOME_RANKING_TYPE)).thenReturn(artistRankingStrategy);
     }
 
     @Test
@@ -51,6 +51,6 @@ public class ArtistRankingUseCaseTest {
     @Test
     public void whenOrderBy_thenGetOrderedArtists() {
         artistRankingUseCase.orderBy(SOME_RANKING_TYPE);
-        verify(artistRanking).getOrderedArtists(artistsToOrder);
+        verify(artistRankingStrategy).getOrderedArtists(artistsToOrder);
     }
 }

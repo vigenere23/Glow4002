@@ -5,7 +5,7 @@ import java.util.List;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
 public interface OxygenInventoryRepository {
-    public OxygenInventoryEntry find(OxygenGrade oxygenGrade);
-    public List<OxygenInventoryEntry> findAll();
-    public void replace(OxygenInventoryEntry entry);
+    OxygenInventoryEntry find(OxygenGrade oxygenGrade);
+    List<OxygenInventoryEntry> findAll();
+    void replace(OxygenInventoryEntry entry);
 }

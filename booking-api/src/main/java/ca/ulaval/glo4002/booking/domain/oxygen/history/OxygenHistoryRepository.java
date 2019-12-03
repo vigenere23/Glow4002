@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OxygenHistoryRepository {
-    public List<OxygenHistoryEntry> findAll();
-    public OxygenHistoryEntry findOrCreate(LocalDate date);
-    public void add(OxygenHistoryEntry oxygenHistoryEntry);
+    List<OxygenHistoryEntry> findAll();
+    OxygenHistoryEntry findOrCreate(LocalDate date);
+    void add(OxygenHistoryEntry oxygenHistoryEntry);
 }

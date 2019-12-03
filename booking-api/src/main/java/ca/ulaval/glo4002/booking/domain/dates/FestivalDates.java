@@ -4,16 +4,15 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public interface FestivalDates {
-
-    public LocalDate getStartDate();
-    public LocalDate getEndDate();
-    public void updateStartDate(LocalDate startDate);
-    public void updateEndDate(LocalDate endDate);
-    public int getNumberOfFestivalDays();
-    public OffsetDateTime getSaleStartDate();
-    public OffsetDateTime getSaleEndDate();
-    public boolean isDuringSaleTime(OffsetDateTime dateTime);
-    public boolean isDuringEventTime(LocalDate date);
-    public void validateOrderDate(OffsetDateTime orderDate);
-    public void validateEventDate(LocalDate localDate);
+    LocalDate getStartDate();
+    LocalDate getEndDate();
+    void updateStartDate(LocalDate startDate);
+    void updateEndDate(LocalDate endDate);
+    int getNumberOfFestivalDays();
+    OffsetDateTime getSaleStartDate();
+    OffsetDateTime getSaleEndDate();
+    boolean isDuringSaleTime(OffsetDateTime dateTime);
+    boolean isDuringEventTime(LocalDate date);
+    void validateOrderDate(OffsetDateTime orderDate);
+    void validateEventDate(LocalDate localDate);
 }

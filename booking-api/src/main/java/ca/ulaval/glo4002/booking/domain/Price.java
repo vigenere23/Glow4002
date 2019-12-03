@@ -35,20 +35,6 @@ public class Price implements Comparable<Price> {
         return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount().floatValue();
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) return true;
-        if (!(other instanceof Price)) return false;
-
-        Price otherPrice = (Price) other;
-        return price.equals(otherPrice.price);
-    }
-
-    @Override
-    public int compareTo(Price other) {
-        return price.compareTo(other.price);
-    }
-
     public Price plus(Price other) {
         return new Price(price.plus(other.price).getAmount());
     }
@@ -65,15 +51,30 @@ public class Price implements Comparable<Price> {
         return new Price(price.multipliedBy(multiplier).getAmount());
     }
 
-    public Price dividedBy(double multiplier) {
-        return new Price(price.dividedBy(multiplier, ROUNDING_MODE).getAmount());
-    }
-
     public static Price sum(Price ...prices) {
         return sum(Arrays.asList(prices).stream());
     }
 
     public static Price sum(Stream<Price> prices) {
         return prices.reduce(Price.zero(), (subtotal, price) -> subtotal.plus(price));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (!(other instanceof Price)) return false;
+
+        Price otherPrice = (Price) other;
+        return price.equals(otherPrice.price);
+    }
+
+    @Override
+    public int compareTo(Price other) {
+        return price.compareTo(other.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return price.hashCode();
     }
 }

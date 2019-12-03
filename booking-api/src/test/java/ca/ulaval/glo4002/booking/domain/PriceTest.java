@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import org.junit.jupiter.api.Test;
 
@@ -159,15 +158,7 @@ public class PriceTest {
         assertEquals(expectedMultipliedPrice, multipliedPrice.getAmount());    
     }
 
-    @Test
-    public void givenAPositivePrice_whenDividingByScalar_itReturnsTheDividedAmount() {
-        double divisor = 5.25;
-        Price price = new Price(POSITIVE_AMOUNT_WITH_DECIMALS_1);
-
-        Price dividedPrice = price.dividedBy(divisor);
-        BigDecimal expectedDividedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1
-            .divide(BigDecimal.valueOf(divisor), RoundingMode.HALF_UP);
-
-        assertEquals(expectedDividedPrice, dividedPrice.getAmount());    
-    }
+    // TODO
+    // test equality
+    // test compareTo
 }

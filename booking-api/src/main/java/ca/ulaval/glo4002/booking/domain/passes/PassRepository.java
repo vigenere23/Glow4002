@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PassRepository {
-    
-    public List<Pass> findAll();
-    public List<Pass> findAttendingAtDate(LocalDate eventDate);
-    public void add(Pass pass);
+    List<Pass> findAll();
+    List<Pass> findAttendingAtDate(LocalDate eventDate);
+    void add(Pass pass);
 }

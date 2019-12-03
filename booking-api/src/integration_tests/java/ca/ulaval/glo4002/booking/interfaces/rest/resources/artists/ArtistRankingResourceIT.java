@@ -127,13 +127,8 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
         return informationCollection;
     }
 
-    private ArtistRankingResponse buildExpectedResponse(List<Artist> information) {
-        List<String> sortedArtist = new ArrayList<String>();
-        for (Artist rankingInfo : information) {
-            sortedArtist.add(rankingInfo.getName());
-        }
-
-        return new ArtistRankingResponse(sortedArtist);
+    private ArtistRankingResponse buildExpectedResponse(List<Artist> artists) {
+        return new ArtistRankingResponse(artists);
     }
 
     private Response getSortedArtistFromServer(String sortingOption) {

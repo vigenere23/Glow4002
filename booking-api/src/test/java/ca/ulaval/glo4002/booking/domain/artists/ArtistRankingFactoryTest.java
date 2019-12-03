@@ -16,7 +16,7 @@ class ArtistRankingFactoryTest {
      
     @Test
     void givenLowCostRankingType_whenCreateArtistRanking_thenCreatesNewDecreasingPriceOrderedArtists() {
-        Ranking rankingType = Ranking.LOW_COSTS;
+        ArtistRanking rankingType = ArtistRanking.LOW_COSTS;
 
         ArtistRankingStrategy artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
 
@@ -25,7 +25,7 @@ class ArtistRankingFactoryTest {
  
     @Test
     void givenMostPopularityRankingType_whenCreateArtistRanking_thenCreatesNewAscendingPopularityOrderedArtists() {
-        Ranking rankingType = Ranking.MOST_POPULARITY;
+        ArtistRanking rankingType = ArtistRanking.MOST_POPULARITY;
 
         ArtistRankingStrategy artistRankingTest = artistRankingFactory.createArtistRanking(rankingType);
 
