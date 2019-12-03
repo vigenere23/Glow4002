@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
 
-public class ExternalApiArtist implements ApiArtist {
+public class ArtistApiJerseyClient {
 
     private final String ARTIST_REPOSITORY_URL = "http://localhost:8080/artists";
 

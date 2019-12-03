@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.ExternalApiArtist;
+import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.ArtistApiJerseyClient;
 import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
 import ca.ulaval.glo4002.organisation.OrganisationServer;
 
@@ -20,7 +20,7 @@ import ca.ulaval.glo4002.organisation.OrganisationServer;
 @Disabled
 public class ExternalApiArtistIT {
 
-    private static ExternalApiArtist apiArtist;
+    private static ArtistApiJerseyClient apiArtist;
     private static Thread organizationServer;
  
     @BeforeAll
@@ -38,7 +38,7 @@ public class ExternalApiArtistIT {
 
     @BeforeEach
     public void setUp() {
-        apiArtist = new ExternalApiArtist();
+        apiArtist = new ArtistApiJerseyClient();
     }
 
     @Test

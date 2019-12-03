@@ -47,7 +47,7 @@ public class ProgramValidatorTest {
 
     @Test
     public void whenValidatingValidProgram_thenProgramIsCreatedWithoutError() {
-        assertDoesNotThrow(() -> programValidator.validateProgram(singleDayPrograms));
+        assertDoesNotThrow(() -> programValidator.validateProgramDays(singleDayPrograms));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ProgramValidatorTest {
         singleDay = new ProgramDay(SOME_ACTIVITY, artist, OUT_OF_FESTIVAL_DATE, SOME_ATTENDEES);
         singleDayPrograms.set(0 , singleDay);
 
-        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDayPrograms));
+        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgramDays(singleDayPrograms));
     }
     
     @Test
@@ -65,7 +65,7 @@ public class ProgramValidatorTest {
         singleDay = new ProgramDay(SOME_ACTIVITY, artist, FESTIVAL_END, SOME_ATTENDEES);
         singleDayPrograms.set(0 , singleDay);
 
-        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDayPrograms));
+        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgramDays(singleDayPrograms));
     }
   
     @Test
@@ -74,7 +74,7 @@ public class ProgramValidatorTest {
         singleDay = new ProgramDay(SOME_ACTIVITY, artist, FESTIVAL_START, SOME_ATTENDEES);
         singleDayPrograms.add(singleDay);
 
-        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDayPrograms));
+        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgramDays(singleDayPrograms));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ProgramValidatorTest {
         singleDay = new ProgramDay(SOME_ACTIVITY, artist2, FESTIVAL_START, SOME_ATTENDEES);
         singleDayPrograms.set(0 , singleDay);
 
-        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDayPrograms));
+        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgramDays(singleDayPrograms));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ProgramValidatorTest {
         singleDay = new ProgramDay(SOME_ACTIVITY, artist, FESTIVAL_START, SOME_ATTENDEES);
         singleDayPrograms.set(0 , singleDay);
 
-        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgram(singleDayPrograms));
+        assertThrows(InvalidProgramException.class, () -> programValidator.validateProgramDays(singleDayPrograms));
     }
 
     private void createProgram() {
