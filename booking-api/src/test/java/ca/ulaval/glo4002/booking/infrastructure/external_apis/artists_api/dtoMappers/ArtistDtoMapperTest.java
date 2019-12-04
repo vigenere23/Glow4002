@@ -28,7 +28,7 @@ public class ArtistDtoMapperTest {
     public void setupArtistDtoMapper() {
 
         artistDto = new ArtistDto(SOME_ARTIST_ID, SOME_ARTIST_NAME, SOME_NUMBER_OF_PEOPLE, SOME_MUSIC_STYLE,
-            SOME_PRICE.getRoundedAmount(2), SOME_POPULARITY_RANK, SOME_AVAILABILITY);
+            SOME_PRICE.getRoundedAmountFromCurrencyScale(), SOME_POPULARITY_RANK, SOME_AVAILABILITY);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,24 +9,44 @@ import ca.ulaval.glo4002.booking.domain.Price;
 
 class InMemoryProfitRepositoryTest {
 
-    private InMemoryProfitRepository heapProfitRepository;
+    private InMemoryProfitRepository profitRepository;
     
     @BeforeEach
     public void setUp() {
-        heapProfitRepository = new InMemoryProfitRepository(); 
+        profitRepository = new InMemoryProfitRepository(); 
     }
     
     @Test
-    public void givenIncome_whenSaveIncome_thenReplacesIncome() {
+    public void givenZeroTotalIncome_whenAddingIncome_thenTheTotalIncomeIsTheAddedIncome() {
         Price income = new Price(100);
-        heapProfitRepository.updateIncome(income);
-        assertEquals(income, heapProfitRepository.findIncome());
+        profitRepository.addIncome(income);
+        assertThat(profitRepository.findIncome()).isEqualTo(income);
     }
 
     @Test
-    public void givenOutcome_whenSaveOutcome_thenReplacesOutcome() {
+    public void givenZeroTotalOutcome_whenAddingOutcome_thenTheTotalIncomeIsTheAddedOutcome() {
         Price outcome = new Price(100);
-        heapProfitRepository.updateOutcome(outcome);
-        assertEquals(outcome, heapProfitRepository.findOutcome());
+        profitRepository.addOutcome(outcome);
+        assertThat(profitRepository.findOutcome()).isEqualTo(outcome);
+    }
+
+    @Test
+    public void givenNonEmptyIncome_whenAddingIncome_thenItAddsToTheTotalIncome() {
+        Price income = new Price(100);
+        profitRepository.addIncome(income);
+
+        profitRepository.addIncome(income);
+
+        assertThat(profitRepository.findIncome()).isEqualTo(income.plus(income));
+    }
+
+    @Test
+    public void givenNonEmptyOutcome_whenAddingOutcome_thenItAddsToTheTotalOutcome() {
+        Price outcome = new Price(100);
+        profitRepository.addOutcome(outcome);
+
+        profitRepository.addOutcome(outcome);
+
+        assertThat(profitRepository.findOutcome()).isEqualTo(outcome.plus(outcome));
     }
 }

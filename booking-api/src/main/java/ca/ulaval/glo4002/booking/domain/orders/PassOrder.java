@@ -37,7 +37,7 @@ public class PassOrder {
     }
 
     public void saveIncome(IncomeSaver incomeSaver) {
-        incomeSaver.saveIncome(getPrice());
+        incomeSaver.addIncome(getPrice());
     }
 
     private Stream<Price> getPrices() {

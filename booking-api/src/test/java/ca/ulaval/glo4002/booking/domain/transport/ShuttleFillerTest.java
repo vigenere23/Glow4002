@@ -102,7 +102,7 @@ class ShuttleFillerTest {
         shuttleFiller.fillShuttles(DIRECTION, DATE, SHUTTLE_CATEGORY, PASSENGER_NUMBER, SOME_PLACES);
 
         verify(shuttle1, times(0)).saveOutcome(outcomeSaver);
-        verify(outcomeSaver, times(0)).saveOutcome(any(Price.class));
+        verify(outcomeSaver, times(0)).addOutcome(any(Price.class));
     }
 
     @Test
@@ -170,7 +170,7 @@ class ShuttleFillerTest {
         catch (Exception exception) {
             verify(shuttle1, times(0)).saveOutcome(outcomeSaver);
             verify(shuttle2, times(0)).saveOutcome(outcomeSaver);   
-            verify(outcomeSaver, times(0)).saveOutcome(any(Price.class));
+            verify(outcomeSaver, times(0)).addOutcome(any(Price.class));
         }
     }
 

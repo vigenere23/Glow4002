@@ -16,7 +16,7 @@ public class PassOrderDto {
 
     public PassOrderDto(OrderNumber orderNumber, Price orderPrice, List<PassDto> passes) {
         this.orderNumber = orderNumber.getValue();
-        this.orderPrice = orderPrice.getRoundedAmount(2);
+        this.orderPrice = orderPrice.getRoundedAmountFromCurrencyScale();
         this.passes = passes;
     }
 }

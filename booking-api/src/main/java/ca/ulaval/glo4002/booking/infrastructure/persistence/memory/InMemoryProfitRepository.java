@@ -19,13 +19,13 @@ public class InMemoryProfitRepository implements ProfitRepository {
     }
 
     @Override
-    public void updateIncome(Price income) {
-        this.income = income;
+    public void addIncome(Price income) {
+        this.income = this.income.plus(income);
 
     }
 
     @Override
-    public void updateOutcome(Price outcome) {
-        this.outcome = outcome;
+    public void addOutcome(Price outcome) {
+        this.outcome = this.outcome.plus(outcome);
     }
 }
