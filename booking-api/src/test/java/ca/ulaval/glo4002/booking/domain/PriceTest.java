@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
@@ -15,7 +15,7 @@ public class PriceTest {
     public void givenNormalAmount_whenGettingAmount_itShouldReturnSameAmount() {
         BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
         Price price = new Price(decimalAmount);
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -23,7 +23,7 @@ public class PriceTest {
         BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
         Price price = new Price(decimalAmount);
 
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class PriceTest {
         BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
         Price price = new Price(decimalAmount);
 
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class PriceTest {
         BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
         Price price = new Price(decimalAmount);
 
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalAmount);
 
         BigDecimal decimalAmount = BigDecimal.valueOf(165.85);
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalAmount);
         
         BigDecimal decimalAmount = BigDecimal.valueOf(0.230654065406540);
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalAmount);
         
         BigDecimal decimalAmount = BigDecimal.valueOf(-97.253156);
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class PriceTest {
         Price price = new Price(doubleDecimalValue);
 
         BigDecimal decimalAmount = BigDecimal.valueOf(564654065);
-        assertEquals(decimalAmount, price.getAmount());
+        assertThat(price.getAmount()).isEqualTo(decimalAmount);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class PriceTest {
         Price zeroAmountPrice = Price.zero();
         BigDecimal zeroAmount = BigDecimal.valueOf(0.0);
 
-        assertEquals(zeroAmount,zeroAmountPrice.getAmount());
+        assertThat(zeroAmountPrice.getAmount()).isEqualTo(zeroAmount);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class PriceTest {
         float roundedAmount = price.getRoundedAmount(2);
         float expectedRoundedAmount = 0.0f;
 
-        assertEquals(expectedRoundedAmount, roundedAmount);
+        assertThat(roundedAmount).isEqualTo(expectedRoundedAmount);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class PriceTest {
         float roundedAmount = price.getRoundedAmount(2);
         float expectedRoundedAmount = 0.01f;
 
-        assertEquals(expectedRoundedAmount, roundedAmount);
+        assertThat(roundedAmount).isEqualTo(expectedRoundedAmount);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class PriceTest {
         BigDecimal expectedAddedPrices = POSITIVE_AMOUNT_WITH_DECIMALS_1
             .add(POSITIVE_AMOUNT_WITH_DECIMALS_2);
 
-        assertEquals(expectedAddedPrices, addedPrices.getAmount());
+        assertThat(addedPrices.getAmount()).isEqualTo(expectedAddedPrices);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class PriceTest {
         BigDecimal expectedSubtractedPrices = POSITIVE_AMOUNT_WITH_DECIMALS_1
             .subtract(POSITIVE_AMOUNT_WITH_DECIMALS_2);
 
-        assertEquals(expectedSubtractedPrices, subtractedPrices.getAmount());
+        assertThat(subtractedPrices.getAmount()).isEqualTo(expectedSubtractedPrices);
     }
 
     @Test
@@ -143,7 +143,7 @@ public class PriceTest {
         BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1    
             .multiply(BigDecimal.valueOf(multiplicator));    
 
-        assertEquals(expectedMultipliedPrice, multipliedPrice.getAmount());    
+        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);
     }
 
     @Test
@@ -155,10 +155,55 @@ public class PriceTest {
         BigDecimal expectedMultipliedPrice = POSITIVE_AMOUNT_WITH_DECIMALS_1    
             .multiply(BigDecimal.valueOf(multiplicator));    
 
-        assertEquals(expectedMultipliedPrice, multipliedPrice.getAmount());    
+        assertThat(multipliedPrice.getAmount()).isEqualTo(expectedMultipliedPrice);
     }
 
-    // TODO
-    // test equality
-    // test compareTo
+    @Test
+    public void givenTwoPricesWithSameAmount_whenCheckingEquality_itReturnsTrue() {
+        Price price1 = new Price(1234.5678);
+        Price price2 = new Price(1234.5678);
+        assertThat(price1).isEqualTo(price2);
+    }
+
+    @Test
+    public void givenTwoPricesWithSameAmountButDifferentPrecision_whenCheckingEquality_itReturnsTrue() {
+        Price price1 = new Price(1234.5678);
+        Price price2 = new Price(1234.56780);
+        assertThat(price1).isEqualTo(price2);
+    }
+
+    @Test
+    public void givenTwoPricesWithDifferentAmounts_whenCheckingEquality_itReturnsFalse() {
+        Price price1 = new Price(1234.5678);
+        Price price2 = new Price(1234.5677);
+        assertThat(price1).isNotEqualTo(price2);
+    }
+
+    @Test
+    public void givenTwoPricesWithSameAmount_whenComparing_theyAreEqual() {
+        Price price1 = new Price(1234.5678);
+        Price price2 = new Price(1234.5678);
+        assertThat(price1).isEqualByComparingTo(price2);
+    }
+
+    @Test
+    public void givenTwoPricesWithSameAmountButDifferentPrecision_whenComparing_theyAreEqual() {
+        Price price1 = new Price(1234.5678);
+        Price price2 = new Price(1234.56780);
+        assertThat(price1).isEqualByComparingTo(price2);
+    }
+
+    @Test
+    public void givenOnePriceWithBiggerAmountThatOther_whenComparing_thePriceWithBiggestAmountIsBigger() {
+        Price biggerPrice = new Price(1234.5678);
+        Price smallerPrice = new Price(1234.5677);
+        assertThat(biggerPrice).isGreaterThan(smallerPrice);
+    }
+
+    @Test
+    public void givenOnePriceWithBiggerAmountThatOther_whenComparing_thePriceWithSmallestAmountIsSmaller() {
+        Price biggerPrice = new Price(1234.5678);
+        Price smallerPrice = new Price(1234.5677);
+        assertThat(smallerPrice).isLessThan(biggerPrice);
+    }
 }
