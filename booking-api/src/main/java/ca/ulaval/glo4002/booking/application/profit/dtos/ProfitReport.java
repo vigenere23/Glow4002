@@ -12,7 +12,7 @@ public class ProfitReport {
         this.outcome = outcome;
     }
 
-    public Price getProfit() {
+    public Price calculateProfit() {
         return income.minus(outcome);
     }
 

@@ -17,23 +17,23 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ProfitUseCaseTest {
     
+    private final static Price INCOME = new Price(1234.5678);
+    private final static Price OUTCOME = new Price(5678.1234);
+
     @Mock ProfitRepository profitRepository;
-    @Mock Price profit;
-    @Mock Price income;
-    @Mock Price outcome;
     @InjectMocks ProfitUseCase profitUseCase;
 
     @BeforeEach
     public void setup() {
-        when(profitRepository.findIncome()).thenReturn(income);
-        when(profitRepository.findOutcome()).thenReturn(outcome);
+        when(profitRepository.findIncome()).thenReturn(INCOME);
+        when(profitRepository.findOutcome()).thenReturn(OUTCOME);
     }
 
     @Test
     public void whenGeneratingProfitReport_thenReturnsProfitReportWithPopulatedFields() {
-        ProfitReport profitReport = profitUseCase.generateProfitReport();
+        ProfitReport returnedProfitReport = profitUseCase.generateProfitReport();
 
-        assertThat(profitReport.getIncome()).isEqualTo(income);
-        assertThat(profitReport.getOutcome()).isEqualTo(outcome);
+        assertThat(returnedProfitReport.getIncome()).isEqualTo(INCOME);
+        assertThat(returnedProfitReport.getOutcome()).isEqualTo(OUTCOME);
     }
 }

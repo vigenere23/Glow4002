@@ -20,7 +20,7 @@ public class ProfitResource {
     @GET
     public Response profit() {
         ProfitReport profitReport = profitUseCase.generateProfitReport();
-        ProfitResponse response = new ProfitResponse(profitReport.getIncome(), profitReport.getOutcome(), profitReport.getProfit());
+        ProfitResponse response = new ProfitResponse(profitReport.getIncome(), profitReport.getOutcome(), profitReport.calculateProfit());
         return Response.ok(response).build();
     }
 }
