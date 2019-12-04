@@ -8,6 +8,8 @@ import ca.ulaval.glo4002.booking.domain.orders.PassOrderRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
+import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenHistoryRepository;
@@ -26,6 +28,10 @@ public class InMemoryPersistenceContext extends AbstractBinder {
         bind(InMemoryShuttleRepository.class).to(ShuttleRepository.class).in(Singleton.class);
         bind(InMemoryOxygenHistoryRepository.class).to(OxygenHistoryRepository.class).in(Singleton.class);
         bind(InMemoryOxygenInventoryRepository.class).to(OxygenInventoryRepository.class).in(Singleton.class);
-        bind(InMemoryProfitRepository.class).to(ProfitRepository.class).in(Singleton.class);
+        bind(InMemoryProfitRepository.class)
+            .to(ProfitRepository.class)
+            .to(IncomeSaver.class)
+            .to(OutcomeSaver.class)
+            .in(Singleton.class);
     }
 }
