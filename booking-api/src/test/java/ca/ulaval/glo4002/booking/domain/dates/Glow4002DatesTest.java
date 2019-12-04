@@ -1,20 +1,20 @@
 package ca.ulaval.glo4002.booking.domain.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
+import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class Glow4002DatesTest {
 

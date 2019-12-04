@@ -3,12 +3,12 @@ package ca.ulaval.glo4002.booking.domain.dates;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfFestivalDatesException;
-import ca.ulaval.glo4002.booking.domain.exceptions.OutOfSaleDatesException;
+import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfFestivalDatesException;
+import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
-import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;;
+import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;
 
 public class Glow4002Dates implements FestivalDates, OxygenDates {
 

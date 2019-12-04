@@ -5,11 +5,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
-import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.program.ProgramDay;
 import ca.ulaval.glo4002.booking.domain.program.ProgramValidator;
+import ca.ulaval.glo4002.booking.domain.program.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.ProgramRequest;
 

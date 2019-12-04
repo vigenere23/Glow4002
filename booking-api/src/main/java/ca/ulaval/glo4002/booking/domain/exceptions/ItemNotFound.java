@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.booking.domain.exceptions;
 
 public class ItemNotFound extends RuntimeException {
 
+    private static final long serialVersionUID = -628063557768970188L;
+    
     public String entityName;
     public String identifier;
 

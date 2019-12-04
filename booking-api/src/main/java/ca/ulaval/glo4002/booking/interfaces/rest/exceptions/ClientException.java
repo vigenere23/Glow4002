@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.booking.interfaces.rest.exceptions;
 
 public abstract class ClientException extends RuntimeException {
 
+    private static final long serialVersionUID = -1048782462647629742L;
+
     public final String errorType;
     public final String description;
     public final int status;

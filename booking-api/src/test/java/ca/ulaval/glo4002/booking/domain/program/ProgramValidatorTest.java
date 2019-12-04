@@ -12,10 +12,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.dates.Glow4002Dates;
+import ca.ulaval.glo4002.booking.domain.program.exceptions.InvalidProgramException;
 
 public class ProgramValidatorTest {
 

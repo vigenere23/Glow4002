@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.booking.domain.exceptions.InvalidProgramException;
 import ca.ulaval.glo4002.booking.domain.program.Activity;
+import ca.ulaval.glo4002.booking.domain.program.exceptions.InvalidProgramException;
 
 public class ProgramDayRequest {
 
