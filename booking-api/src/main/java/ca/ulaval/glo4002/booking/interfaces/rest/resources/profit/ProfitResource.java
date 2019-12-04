@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.profit.dto.ProfitResponse;
 import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
+import ca.ulaval.glo4002.booking.application.profit.dtos.ProfitReport;
 
 @Path("/report/profits")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,7 +19,8 @@ public class ProfitResource {
     
     @GET
     public Response profit() {
-        ProfitResponse response = new ProfitResponse(profitUseCase.getIncome(), profitUseCase.getOutcome(), profitUseCase.getProfit());
+        ProfitReport profitReport = profitUseCase.generateProfitReport();
+        ProfitResponse response = new ProfitResponse(profitReport.getIncome(), profitReport.getOutcome(), profitReport.getProfit());
         return Response.ok(response).build();
     }
 }

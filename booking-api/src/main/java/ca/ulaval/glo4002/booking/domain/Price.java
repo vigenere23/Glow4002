@@ -31,6 +31,10 @@ public class Price implements Comparable<Price> {
         return price.getAmount();
     }
 
+    public float getRoundedAmountFromCurrencyScale() {
+        return getRoundedAmount(price.getScale());
+    }
+
     public float getRoundedAmount(int numberOfDecimals) {
         return price.rounded(numberOfDecimals, ROUNDING_MODE).getAmount().floatValue();
     }
