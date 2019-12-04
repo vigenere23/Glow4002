@@ -87,6 +87,6 @@ public class ShuttleTest {
     public void givenOutcomeSaver_whenSaveOutcome_thenSaveOutcomeFromOutcomeSaverWithShuttlePriceIsCalled() {
         shuttle.saveOutcome(outcomeSaver);
 
-        verify(outcomeSaver).saveOutcome(PRICE);
+        verify(outcomeSaver).addOutcome(PRICE);
     }
 }

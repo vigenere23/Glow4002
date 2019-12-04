@@ -61,6 +61,6 @@ public class OxygenGradeEBuyerTest {
         oxygenGradeEBuyer.supply(ORDER_DATE, SOME_QUANTITY, oxygenInventoryEntry);
         int numberOfBatchesProduced = OxygenSupplierTestHelper.getNumberOfBatchesProduced(SOME_QUANTITY, SUPPLY_SETTINGS);
         Price cost = SUPPLY_SETTINGS.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
-        verify(outcomeSaver).saveOutcome(cost);
+        verify(outcomeSaver).addOutcome(cost);
     }
 }

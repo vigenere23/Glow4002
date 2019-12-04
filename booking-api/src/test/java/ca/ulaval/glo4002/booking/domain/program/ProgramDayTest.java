@@ -97,7 +97,7 @@ public class ProgramDayTest {
     @Test
     public void whenSaveOutcome_thenOutcomeAddedToOutcomeInRepository() {
         singleDayProgram.saveOutcome(outcomeSaver);
-        verify(outcomeSaver).saveOutcome(price);
+        verify(outcomeSaver).addOutcome(price);
     }
 
     private void mockDependency() {

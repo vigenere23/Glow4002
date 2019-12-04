@@ -43,7 +43,7 @@ public class Artist {
     }
 
     public void saveOutcome(OutcomeSaver outcomeSaver) {
-        outcomeSaver.saveOutcome(price);
+        outcomeSaver.addOutcome(price);
     }
 
     public String getName() {

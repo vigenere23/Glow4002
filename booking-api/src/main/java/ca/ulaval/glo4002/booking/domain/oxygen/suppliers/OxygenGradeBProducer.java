@@ -30,7 +30,7 @@ public class OxygenGradeBProducer implements OxygenSupplier {
         int numberOfTanksProduced = numberOfBatchesProduced * supplySettings.getBatchSize();
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
         
-        outcomeSaver.saveOutcome(cost);
+        outcomeSaver.addOutcome(cost);
         oxygenInventoryEntry.addQuantity(numberOfTanksProduced);
         
         addTankMade(orderDate, numberOfTanksProduced);

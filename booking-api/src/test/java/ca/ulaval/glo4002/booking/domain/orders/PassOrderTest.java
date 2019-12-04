@@ -110,7 +110,7 @@ public class PassOrderTest {
 
         passOrder.saveIncome(incomeSaver);
         
-        verify(incomeSaver).saveIncome(NEBULA_SINGLE_PASS_PRICE);
+        verify(incomeSaver).addIncome(NEBULA_SINGLE_PASS_PRICE);
     }
     
     private void initNebulaPasses(int numberOfPasses) {

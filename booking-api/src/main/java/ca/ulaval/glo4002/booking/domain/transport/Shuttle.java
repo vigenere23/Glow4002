@@ -27,7 +27,7 @@ public abstract class Shuttle {
     }
 
     public void saveOutcome(OutcomeSaver outcomeSaver) {
-        outcomeSaver.saveOutcome(price);
+        outcomeSaver.addOutcome(price);
     }
     
     public void addPassengers(PassengerNumber passengerNumber, int numberOfPassengers) {
