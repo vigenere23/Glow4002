@@ -10,22 +10,37 @@ import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 
 public abstract class OrderDiscount {
 
-    protected Optional<OrderDiscount> nextDiscount;
+    private Optional<OrderDiscount> nextDiscount;
+    private PassOption passOption;
+    private PassCategory passCategory;
 
-    protected OrderDiscount() {
-        this.nextDiscount = Optional.empty();
+    protected OrderDiscount(PassOption passOption, PassCategory passCategory) {
+        this.passOption = passOption;
+        this.passCategory = passCategory;
+
+        nextDiscount = Optional.empty();
     }
 
     public void setNextDiscount(OrderDiscount nextDiscount) {
         this.nextDiscount = Optional.of(nextDiscount);
     }
 
-    protected long getQuantityOfMatchingPasses(List<Pass> passes, PassOption passOption, PassCategory passCategory) {
+    public Price getPriceAfterDiscounts(List<Pass> passes, Price totalPrice) {
+        long numberOfMatchingPasses = getQuantityOfMatchingPasses(passes);
+        Price discount = getDiscountAmount(numberOfMatchingPasses, totalPrice);
+        Price priceAfterDiscount = totalPrice.minus(discount);
+
+        return nextDiscount.isPresent()
+            ? nextDiscount.get().getPriceAfterDiscounts(passes, priceAfterDiscount)
+            : priceAfterDiscount;
+    }
+
+    private long getQuantityOfMatchingPasses(List<Pass> passes) {
         return passes
             .stream()
             .filter(pass -> pass.isOfType(passOption, passCategory))
             .count();
     }
 
-    public abstract Price getPriceAfterDiscounts(List<Pass> passes, Price totalPrice);
+    protected abstract Price getDiscountAmount(long numberOfMatchingPasses, Price totalPrice);
 }
