@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.settings;
 
+import java.time.Duration;
+
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
@@ -11,8 +13,8 @@ public class OxygenGradeASettings implements OxygenRequestSettings, OxygenSupply
     }
 
     @Override
-    public int getNumberOfDaysToReceive() {
-        return 20;
+    public Duration getTimeToReceive() {
+        return Duration.ofDays(20);
     }
 
     @Override

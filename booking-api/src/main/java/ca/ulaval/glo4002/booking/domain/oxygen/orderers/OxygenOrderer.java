@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.orderers;
 
-import java.time.LocalDate;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
-import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
@@ -36,12 +36,11 @@ public class OxygenOrderer {
         return requestSettings.getGrade();
     }
 
-	public void order(LocalDate orderDate, int requestedQuantity) {
-        LocalDate oxygenLimitDate = oxygenDates.getOxygenLimitDeliveryDate();
-        int numberOfDaysUntilLimitDate = DateCalculator.numberOfDaysInclusivelyBetween(orderDate, oxygenLimitDate);
+	public void order(OffsetDateTime orderDate, int requestedQuantity) {
+        Duration timeUntilLimit = Duration.between(orderDate, oxygenDates.getOxygenLimitDeliveryDate());
         OxygenInventoryEntry inventoryEntry = oxygenInventory.find(requestSettings.getGrade());
         
-        if (numberOfDaysUntilLimitDate < requestSettings.getNumberOfDaysToReceive()) {
+        if (requestSettings.getTimeToReceive().compareTo(timeUntilLimit) > 0) {
             int surplusQuantity = inventoryEntry.getSurplusQuantity();
             inventoryEntry.useQuantity(surplusQuantity);
             delegateToNextOrderer(orderDate, requestedQuantity - surplusQuantity);
@@ -53,7 +52,7 @@ public class OxygenOrderer {
         }
     }
 
-    private void delegateToNextOrderer(LocalDate orderDate, int requestedQuantity) {
+    private void delegateToNextOrderer(OffsetDateTime orderDate, int requestedQuantity) {
         if (nextOrderer.isPresent()) {
             nextOrderer.get().order(orderDate, requestedQuantity);
         } else {
@@ -61,7 +60,7 @@ public class OxygenOrderer {
         }
     }
 
-    private void orderOxygenIfNeeded(LocalDate orderDate, int requestedQuantity, OxygenInventoryEntry inventoryEntry) {
+    private void orderOxygenIfNeeded(OffsetDateTime orderDate, int requestedQuantity, OxygenInventoryEntry inventoryEntry) {
         int quantityRemaining = inventoryEntry.getSurplusQuantity();
         if (quantityRemaining < requestedQuantity) {
             oxygenSupplier.supply(orderDate, requestedQuantity - quantityRemaining, inventoryEntry);

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.infrastructure.persistence.memory;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,11 @@ public class InMemoryOxygenHistoryRepository implements OxygenHistoryRepository 
     @Override
     public List<OxygenHistoryEntry> findAll() {
         return new ArrayList<>(history.values());
+    }
+
+    @Override
+    public OxygenHistoryEntry findOrCreate(OffsetDateTime dateTime) {
+        return findOrCreate(dateTime.toLocalDate());
     }
 
     @Override

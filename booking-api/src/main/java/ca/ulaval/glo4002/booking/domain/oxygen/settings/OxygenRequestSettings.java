@@ -1,8 +1,10 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.settings;
 
+import java.time.Duration;
+
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
 public interface OxygenRequestSettings {
-    int getNumberOfDaysToReceive();
+    Duration getTimeToReceive();
     OxygenGrade getGrade();
 }

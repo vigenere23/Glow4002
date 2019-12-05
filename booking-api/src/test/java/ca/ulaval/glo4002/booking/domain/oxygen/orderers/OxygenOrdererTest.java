@@ -7,7 +7,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +26,8 @@ import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplier;
 @ExtendWith(MockitoExtension.class)
 public class OxygenOrdererTest {
 
-    private static final LocalDate NOW = LocalDate.now();
-    private static final LocalDate SOME_DATE = LocalDate.now();
+    private static final OffsetDateTime NOW = OffsetDateTime.now();
+    private static final OffsetDateTime SOME_DATE = OffsetDateTime.now();
     private static final int SOME_QUANTITY = 21;
     private static final OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     
@@ -127,7 +128,7 @@ public class OxygenOrdererTest {
         
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
-        verify(oxygenSupplier, times(0)).supply(any(LocalDate.class), any(Integer.class), any(OxygenInventoryEntry.class));
+        verify(oxygenSupplier, times(0)).supply(any(OffsetDateTime.class), any(Integer.class), any(OxygenInventoryEntry.class));
     }
 
     @Test
@@ -138,7 +139,7 @@ public class OxygenOrdererTest {
         
         oxygenOrderer.order(SOME_DATE, SOME_QUANTITY);
         
-        verify(oxygenSupplier, times(0)).supply(any(LocalDate.class), any(Integer.class), any(OxygenInventoryEntry.class));
+        verify(oxygenSupplier, times(0)).supply(any(OffsetDateTime.class), any(Integer.class), any(OxygenInventoryEntry.class));
     }
 
     @Test
@@ -153,12 +154,12 @@ public class OxygenOrdererTest {
     }
 
     private void setupRequestSettingsWithInstantTimeToReceive() {
-        when(requestSettingsWithInstantTimeToReceive.getNumberOfDaysToReceive()).thenReturn(0);
+        when(requestSettingsWithInstantTimeToReceive.getTimeToReceive()).thenReturn(Duration.ZERO);
         when(requestSettingsWithInstantTimeToReceive.getGrade()).thenReturn(SOME_OXYGEN_GRADE);
     }
 
     private void setupRequestSettingsWithLongTimeToReceive() {
-        when(requestSettingsWithLongTimeToReceive.getNumberOfDaysToReceive()).thenReturn(100);
+        when(requestSettingsWithLongTimeToReceive.getTimeToReceive()).thenReturn(Duration.ofDays(100));
         when(requestSettingsWithLongTimeToReceive.getGrade()).thenReturn(SOME_OXYGEN_GRADE);
     }
 }

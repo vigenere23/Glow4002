@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.dates;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public interface OxygenDates {
-    LocalDate getOxygenLimitDeliveryDate();
+    OffsetDateTime getOxygenLimitDeliveryDate();
 }

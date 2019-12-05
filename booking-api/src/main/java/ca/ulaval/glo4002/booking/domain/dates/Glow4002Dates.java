@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.booking.domain.dates;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfSaleDatesException;
@@ -45,8 +46,8 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     }
 
     @Override
-    public int getNumberOfFestivalDays() {
-        return DateCalculator.numberOfDaysInclusivelyBetween(startDate, endDate);
+    public List<LocalDate> getFestivalDates() {
+        return DateCalculator.datesBetween(startDate, endDate);
     }
 
     @Override
@@ -60,8 +61,8 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     }
 
     @Override
-    public LocalDate getOxygenLimitDeliveryDate() {
-        return startDate.minusDays(1);
+    public OffsetDateTime getOxygenLimitDeliveryDate() {
+        return DateConverter.toOffsetDateTimeEndOfDay(startDate.minusDays(1));
     }
 
     @Override

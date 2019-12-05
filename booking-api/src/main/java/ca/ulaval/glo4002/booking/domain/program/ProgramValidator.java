@@ -26,38 +26,32 @@ public class ProgramValidator {
         List<LocalDate> dates = retrieveDates(programDays);
 
         for (ProgramDay programForOneDay : programDays) {
-            validateArtistDifferentOnEachDay(artistNames, programForOneDay);
-            validateOnlyArtistsOnPm(artistNames, programForOneDay);
-            validateEventDates(dates, programForOneDay);
+            try {
+                validateArtistDifferentOnEachDay(artistNames, programForOneDay);
+                validateOnlyArtistsOnPm(artistNames, programForOneDay);
+                validateEventDates(dates);
+            }
+            catch (AssertionError exception) {
+                throw new InvalidProgramException();
+            }
         }
     }
 
     private void validateArtistDifferentOnEachDay(List<String> artistNames, ProgramDay programForOneDay) {
-        boolean isValid = Collections.frequency(artistNames, programForOneDay.getArtist().getName()) == 1;
-
-        if (!isValid) throw new InvalidProgramException();
-        
+        assert Collections.frequency(artistNames, programForOneDay.getArtist().getName()) == 1;
     }
 
     private void validateOnlyArtistsOnPm(List<String> artistNames, ProgramDay programForOneDay) {
-        boolean isValid = !artistNames
+        assert !artistNames
             .stream()
             .filter(artistName -> EnumExistenceChecker.isInEnum(artistName, Activity.class))
             .findFirst()
             .isPresent();
-        
-        if (!isValid) throw new InvalidProgramException();
     }
 
-    private void validateEventDates(List<LocalDate> dates, ProgramDay programForOneDay) {
-        boolean isValid = programForOneDay.isDuringFestivalDate(festivalDates) && dateIsUnique(dates, programForOneDay)
-                && dates.size() == festivalDates.getNumberOfFestivalDays();
-        
-        if (!isValid) throw new InvalidProgramException();
-    }
-
-    private boolean dateIsUnique(List<LocalDate> dates, ProgramDay programForOneDay) {
-        return Collections.frequency(dates, programForOneDay.getDate()) == 1;
+    private void validateEventDates(List<LocalDate> dates) {
+        Collections.sort(dates);
+        assert dates.equals(festivalDates.getFestivalDates());
     }
 
     private List<String> retrieveArtistNames(List<ProgramDay> programDays) {
