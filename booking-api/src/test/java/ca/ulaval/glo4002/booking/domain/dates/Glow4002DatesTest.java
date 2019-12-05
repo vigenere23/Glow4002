@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,12 +62,12 @@ public class Glow4002DatesTest {
         assertThat(daysBetweenSaleEndAndFestivalStart).isEqualTo(DAYS_BETWEEN_SALE_END_AND_FESTIVAL_START + 1);
     }
 
-    // @Test
-    // public void whenCreating_thenTheCorrectOxygenEndDateIsSet() {
-    //     int daysBetweenOxygenLimitAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
-    //         festivalDates.getOxygenLimitDeliveryDate(), festivalDates.getStartDate());
-    //     assertThat(daysBetweenOxygenLimitAndFestivalStart).isEqualTo(DAYS_BETWEEN_OXYGEN_LIMIT_AND_FESTIVAL_START + 1);
-    // }
+    @Test
+    public void whenCreating_thenTheCorrectOxygenEndDateIsSet() {
+        int daysBetweenOxygenLimitAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
+            festivalDates.getOxygenLimitDeliveryDate().toLocalDate(), festivalDates.getStartDate());
+        assertThat(daysBetweenOxygenLimitAndFestivalStart).isEqualTo(DAYS_BETWEEN_OXYGEN_LIMIT_AND_FESTIVAL_START + 1);
+    }
 
     @Test
     public void givenNewStartDate_whenUpdatingStartDate_itSetTheNewStartDate() {
@@ -106,9 +107,16 @@ public class Glow4002DatesTest {
 
     @Test
     public void givenNDaysInclusivelyBetweenFestivalStartAndEnd_whenGettingNumberOfDays_itShouldReturnNDays() {
-        int numberOfDays = 10;
+        int numberOfDays = 4;
         festivalDates.updateEndDate(DEFAULT_FESTIVAL_START.plusDays(numberOfDays - 1));
-        assertThat(festivalDates.getNumberOfFestivalDays()).isEqualTo(numberOfDays);
+        LocalDate[] expectedFestivalDates = {
+            DEFAULT_FESTIVAL_START,
+            DEFAULT_FESTIVAL_START.plusDays(1),
+            DEFAULT_FESTIVAL_START.plusDays(2),
+            DEFAULT_FESTIVAL_START.plusDays(3)
+        };
+
+        assertThat(festivalDates.getFestivalDates()).isEqualTo(Arrays.asList(expectedFestivalDates));
     }
 
     @Test
