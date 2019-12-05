@@ -1,22 +1,19 @@
 package ca.ulaval.glo4002.booking.domain.program;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Matchers.any;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
-import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
@@ -24,6 +21,7 @@ import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
 
+@ExtendWith(MockitoExtension.class)
 public class ProgramDayTest {
 
     private final static Activity SOME_ACTIVITY = Activity.CARDIO;
@@ -37,42 +35,21 @@ public class ProgramDayTest {
     private final static int SOME_ATTENDEES = 4;
     private final static int ATTENDEES_OXYGEN_QUANTITY = 60;
     private final static int ARTIST_OXYGEN_QUANTITY = 60;
+    private final static Price A_PRICE = new Price(1234.5678);
     
     private List<Artist> artistsForProgram;   
-    private OxygenRequester oxygenRequester;
-    private TransportReserver transportReserver;
     private ProgramDay singleDayProgram;
-    private FestivalDates festivalDates;
-    private Artist artist;
-    private OutcomeSaver outcomeSaver;
-    private Price price;
+
+    @Mock OxygenRequester oxygenRequester;
+    @Mock TransportReserver transportReserver;
+    @Mock OutcomeSaver outcomeSaver;
+    @Mock Artist artist;
     
     @BeforeEach
     public void setUpSingleDayProgram() {
-        mockDependency();
         mockArtistProgramInformation();
-        Artist artist = new Artist(SOME_ARTIST_NAME, price, SOME_PASSENGER_NUMBER);
+        Artist artist = new Artist(SOME_ARTIST_NAME, A_PRICE, SOME_PASSENGER_NUMBER);
         singleDayProgram = new ProgramDay(SOME_ACTIVITY, artist, SOME_DATE, SOME_ATTENDEES);
-    }
-
-    @Test
-    public void whenIsDuringFestivalDate_thenFestivalValidatesDate() {
-        singleDayProgram.isDuringFestivalDate(festivalDates);
-        verify(festivalDates).isDuringEventTime(any(LocalDate.class));
-    }
-
-    @Test
-    public void givenValidDate_whenIsDuringFestivalDate_thenIndicatesThatDateIsDuringFestival() {
-        when(festivalDates.isDuringEventTime(SOME_DATE)).thenReturn(true);
-        boolean validDate = singleDayProgram.isDuringFestivalDate(festivalDates);
-        assertTrue(validDate);
-    }
-
-    @Test
-    public void givenInvalidDate_whenIsDuringFestivalDate_thenIndicatesThatDateIsNotInFestival() {
-        when(festivalDates.isDuringEventTime(SOME_DATE)).thenReturn(false);
-        boolean validDate = singleDayProgram.isDuringFestivalDate(festivalDates);
-        assertFalse(validDate);
     }
 
     @Test
@@ -97,24 +74,11 @@ public class ProgramDayTest {
     @Test
     public void whenSaveOutcome_thenOutcomeAddedToOutcomeInRepository() {
         singleDayProgram.saveOutcome(outcomeSaver);
-        verify(outcomeSaver).addOutcome(price);
-    }
-
-    private void mockDependency() {
-        oxygenRequester = mock(OxygenRequester.class);
-        transportReserver = mock(TransportReserver.class);
-        festivalDates = mock(FestivalDates.class);
-        artist = mock(Artist.class);
-        outcomeSaver = mock(OutcomeSaver.class);
-        price = mock(Price.class);
+        verify(outcomeSaver).addOutcome(A_PRICE);
     }
 
     private void mockArtistProgramInformation() {
         artistsForProgram = new ArrayList<>();
         artistsForProgram.add(artist);
-        when(artist.getName()).thenReturn(SOME_ARTIST_NAME);
-        when(artist.getGroupSize()).thenReturn(SOME_PASSENGERS);
-        when(artist.getPassengerNumber()).thenReturn(SOME_PASSENGER_NUMBER);
-        when(artist.getPrice()).thenReturn(price);
     }
 }

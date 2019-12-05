@@ -66,25 +66,17 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     }
 
     @Override
-    public boolean isDuringSaleTime(OffsetDateTime orderDate) {
-        return DateComparator.dateIsInclusivelyBetween(orderDate, getSaleStartDate(), getSaleEndDate());
-    }
-
-    @Override
-    public boolean isDuringEventTime(LocalDate date) {
-        return DateComparator.dateIsInclusivelyBetween(date, startDate, endDate);
-    }
-
-    @Override
     public void validateEventDate(LocalDate localDate) {
-        if (!isDuringEventTime(localDate)) {
+        boolean isDuringFestival = DateComparator.dateIsInclusivelyBetween(localDate, startDate, endDate);
+        if (!isDuringFestival) {
             throw new OutOfFestivalDatesException(startDate, endDate);
         }
     }
 
     @Override
     public void validateOrderDate(OffsetDateTime orderDate) {
-        if (!isDuringSaleTime(orderDate)) {
+        boolean isDuringSale = DateComparator.dateIsInclusivelyBetween(orderDate, getSaleStartDate(), getSaleEndDate());
+        if (!isDuringSale) {
             throw new OutOfSaleDatesException(getSaleStartDate(), getSaleEndDate());
         }
     }

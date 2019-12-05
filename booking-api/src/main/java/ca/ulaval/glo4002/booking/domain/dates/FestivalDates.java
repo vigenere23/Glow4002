@@ -12,8 +12,6 @@ public interface FestivalDates {
     List<LocalDate> getFestivalDates();
     OffsetDateTime getSaleStartDate();
     OffsetDateTime getSaleEndDate();
-    boolean isDuringSaleTime(OffsetDateTime dateTime);
-    boolean isDuringEventTime(LocalDate date);
     void validateOrderDate(OffsetDateTime orderDate);
     void validateEventDate(LocalDate localDate);
 }

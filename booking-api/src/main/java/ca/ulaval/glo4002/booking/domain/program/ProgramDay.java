@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.booking.domain.program;
 import java.time.LocalDate;
 
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
-import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
@@ -31,10 +30,6 @@ public class ProgramDay {
 
     public Artist getArtist() {
         return artist;
-    }
-
-    public boolean isDuringFestivalDate(FestivalDates festivalDates) {
-        return festivalDates.isDuringEventTime(date);
     }
 
     public void orderOxygen(OxygenRequester oxygenRequester) {
