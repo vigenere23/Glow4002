@@ -22,7 +22,7 @@ public class OxygenGradeBProducerTest {
     private static final OffsetDateTime ORDER_DATE = OffsetDateTime.now();
     private static final int SOME_QUANTITY = 26;
     private static final OxygenSupplySettings SUPPLY_SETTINGS = new OxygenGradeBSettings();
-    private static final OffsetDateTime RECEIVED_DATE = ORDER_DATE.plusDays(SUPPLY_SETTINGS.getNumberOfDaysToReceive());
+    private static final OffsetDateTime RECEIVED_DATE = ORDER_DATE.plus(SUPPLY_SETTINGS.getTimeToReceive());
     private static final int LITERS_OF_WATER_PER_BATCH = 8;
 
     private OxygenGradeBProducer oxygenGradeBProducer;

@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
-import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;
 
 public class Glow4002DatesTest {
 
@@ -95,7 +94,7 @@ public class Glow4002DatesTest {
     public void whenUpdatingStartDate_thenTheCorrectOxygneLimitDateIsSet() {
         festivalDates.updateStartDate(SOME_DATE);
         long daysBetweenSaleEndAndFestivalStart = DateCalculator.numberOfDaysInclusivelyBetween(
-            festivalDates.getOxygenLimitDeliveryDate(), DateConverter.toOffsetDateTimeStartOfDay(festivalDates.getStartDate()));
+            festivalDates.getOxygenLimitDeliveryDate().toLocalDate(), festivalDates.getStartDate());
         assertThat(daysBetweenSaleEndAndFestivalStart).isEqualTo(DAYS_BETWEEN_OXYGEN_LIMIT_AND_FESTIVAL_START + 1);
     }
 

@@ -13,11 +13,6 @@ public class OxygenGradeASettings implements OxygenRequestSettings, OxygenSupply
     }
 
     @Override
-    public int getNumberOfDaysToReceive() {
-        return 20;
-    }
-
-    @Override
     public Duration getTimeToReceive() {
         return Duration.ofDays(20);
     }
