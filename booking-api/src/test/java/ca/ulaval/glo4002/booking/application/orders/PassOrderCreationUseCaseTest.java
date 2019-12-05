@@ -62,37 +62,37 @@ public class PassOrderCreationUseCaseTest {
 
     @Test
     public void whenOrchestPassCreation_thenPassesAreOrdered() {
-        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrderFactory).create(SOME_ORDER_DATE, SOME_VENDOR_CODE, SOME_PASS_OPTION, SOME_PASS_CATEGORY, Optional.empty());
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassOrderIsSavedInRepository() {
-        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrderRepository).add(passOrder);
     }
 
     @Test
     public void whenOrchestPassCreation_thenPassesAreSavedInRepository() {
-        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passRepository).add(pass);
     }
 
     @Test
     public void whenOrchestPassCreation_thenShuttlesAreReserved() {
-        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(pass).reserveShuttles(transportReserver);
     }
 
     @Test
     public void whenOrchestPassCreation_thenOxygenIsOrdered() {
-        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(pass).reserveOxygen(SOME_ORDER_DATE, oxygenRequester);
     }
 
     @Test
     public void whenOrchestPassCreation_thenIncomeIsAdded() {
-        passOrderCreationUseCase.orchestratePassCreation(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
+        passOrderCreationUseCase.orderPasses(SOME_ORDER_DATE, SOME_VENDOR_CODE, passRequest);
         verify(passOrder).saveIncome(incomeSaver);
     }
 

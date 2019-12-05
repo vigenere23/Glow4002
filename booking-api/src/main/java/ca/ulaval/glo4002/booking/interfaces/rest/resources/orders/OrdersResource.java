@@ -39,7 +39,7 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws URISyntaxException {
-        PassOrderDto passOrderDto = passOrderCreationUseCase.orchestratePassCreation(request.orderDate, request.vendorCode,
+        PassOrderDto passOrderDto = passOrderCreationUseCase.orderPasses(request.orderDate, request.vendorCode,
                 request.passes);
         URI location = LocationHeaderCreator.createURI(uriInfo, passOrderDto.orderNumber);
         return Response.created(location).build();

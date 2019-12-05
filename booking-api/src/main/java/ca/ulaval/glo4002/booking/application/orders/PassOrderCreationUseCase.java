@@ -27,7 +27,7 @@ public class PassOrderCreationUseCase {
     @Inject private IncomeSaver incomeSaver;
     @Inject private PassOrderDtoMapper passOrderDtoMapper;
 
-    public PassOrderDto orchestratePassCreation(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
+    public PassOrderDto orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(
             orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates()
         );
