@@ -4,7 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,10 @@ import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenGradeEBuyerTest {
 
-    private static final LocalDate ORDER_DATE = LocalDate.now();
+    private static final OffsetDateTime ORDER_DATE = OffsetDateTime.now();
     private static final int SOME_QUANTITY = 26;
     private static final OxygenSupplySettings SUPPLY_SETTINGS = new OxygenGradeESettings();
-    private static final LocalDate RECEIVED_DATE = ORDER_DATE.plusDays(SUPPLY_SETTINGS.getNumberOfDaysToReceive());
+    private static final OffsetDateTime RECEIVED_DATE = ORDER_DATE.plusDays(SUPPLY_SETTINGS.getNumberOfDaysToReceive());
 
     private OxygenGradeEBuyer oxygenGradeEBuyer;
     private OxygenInventoryEntry oxygenInventoryEntry;

@@ -60,8 +60,8 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     }
 
     @Override
-    public LocalDate getOxygenLimitDeliveryDate() {
-        return startDate.minusDays(1);
+    public OffsetDateTime getOxygenLimitDeliveryDate() {
+        return DateConverter.toOffsetDateTimeEndOfDay(startDate.minusDays(1));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.suppliers;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
@@ -24,7 +24,7 @@ public class OxygenGradeEBuyer implements OxygenSupplier {
     }
 
     @Override
-    public void supply(LocalDate orderDate, int minQuantityToProduce, OxygenInventoryEntry oxygenInventoryEntry) {
+    public void supply(OffsetDateTime orderDate, int minQuantityToProduce, OxygenInventoryEntry oxygenInventoryEntry) {
         int numberOfBatchesBought = OxygenCalculator.calculateNumberOfBatchesRequired(minQuantityToProduce, supplySettings.getBatchSize());
         int numberOfTanksBought = numberOfBatchesBought * supplySettings.getBatchSize();
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesBought);
@@ -35,7 +35,7 @@ public class OxygenGradeEBuyer implements OxygenSupplier {
         addTankBought(orderDate, numberOfTanksBought);
     }
 
-    private void addTankBought(LocalDate orderDate, int numberOfTanksBought) {
+    private void addTankBought(OffsetDateTime orderDate, int numberOfTanksBought) {
         OxygenHistoryEntry orderDateHistoryEntry = oxygenHistory.findOrCreate(orderDate);
         orderDateHistoryEntry.addTankBought(numberOfTanksBought);
         oxygenHistory.add(orderDateHistoryEntry);

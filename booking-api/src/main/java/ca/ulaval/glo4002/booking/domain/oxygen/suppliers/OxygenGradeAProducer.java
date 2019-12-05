@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.suppliers;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
@@ -25,7 +25,7 @@ public class OxygenGradeAProducer implements OxygenSupplier {
     }
 
     @Override
-    public void supply(LocalDate orderDate, int minQuantityToProduce, OxygenInventoryEntry oxygenInventoryEntry) {
+    public void supply(OffsetDateTime orderDate, int minQuantityToProduce, OxygenInventoryEntry oxygenInventoryEntry) {
         int numberOfBatchesProduced = OxygenCalculator.calculateNumberOfBatchesRequired(minQuantityToProduce, supplySettings.getBatchSize());
         int numberOfTanksProduced = numberOfBatchesProduced * supplySettings.getBatchSize();
         Price cost = supplySettings.getCostPerBatch().multipliedBy(numberOfBatchesProduced);
@@ -37,14 +37,14 @@ public class OxygenGradeAProducer implements OxygenSupplier {
         addCandlesUsed(orderDate, numberOfBatchesProduced);
     }
 
-    private void addTankMade(LocalDate orderDate, int numberOfTanksProduced) {
-        LocalDate receivedDate = orderDate.plusDays(supplySettings.getNumberOfDaysToReceive());
+    private void addTankMade(OffsetDateTime orderDate, int numberOfTanksProduced) {
+        OffsetDateTime receivedDate = orderDate.plus(supplySettings.getTimeToReceive());
         OxygenHistoryEntry receivedDateHistoryEntry = oxygenHistory.findOrCreate(receivedDate);
         receivedDateHistoryEntry.addTankMade(numberOfTanksProduced);
         oxygenHistory.add(receivedDateHistoryEntry);
     }
 
-    private void addCandlesUsed(LocalDate orderDate, int numberOfBatchesProduced) {
+    private void addCandlesUsed(OffsetDateTime orderDate, int numberOfBatchesProduced) {
         OxygenHistoryEntry orderDateHistoryEntry = oxygenHistory.findOrCreate(orderDate);
         orderDateHistoryEntry.addCandlesUsed(numberOfBatchesProduced * numberOfCandlesPerBatch);
         oxygenHistory.add(orderDateHistoryEntry);

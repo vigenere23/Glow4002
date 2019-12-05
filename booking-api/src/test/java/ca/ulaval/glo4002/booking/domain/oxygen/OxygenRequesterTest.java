@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +40,6 @@ public class OxygenRequesterTest {
     @Test
     public void whenRequestingOxygen_itDelegatesToAnOrderer() {
         oxygenRequester.requestOxygen(SOME_DATETIME, SOME_OXYGEN_GRADE, SOME_OXYGEN_QUANTITY);
-        LocalDate orderDate = SOME_DATETIME.toLocalDate();
-        verify(SOME_OXYGEN_ORDERER).order(orderDate, SOME_OXYGEN_QUANTITY);
+        verify(SOME_OXYGEN_ORDERER).order(SOME_DATETIME, SOME_OXYGEN_QUANTITY);
     }
 }
