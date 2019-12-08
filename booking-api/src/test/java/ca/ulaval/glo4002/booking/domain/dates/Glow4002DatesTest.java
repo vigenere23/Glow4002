@@ -109,7 +109,7 @@ public class Glow4002DatesTest {
             DEFAULT_FESTIVAL_START.plusDays(3)
         };
 
-        assertThat(glow4002Dates.getFestivalDates()).isEqualTo(Arrays.asList(expectedFestivalDates));
+        assertThat(glow4002Dates.getFestivalDays()).isEqualTo(Arrays.asList(expectedFestivalDates));
     }
 
     @Test

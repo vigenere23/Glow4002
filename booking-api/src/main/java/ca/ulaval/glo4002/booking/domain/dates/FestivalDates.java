@@ -9,7 +9,7 @@ public interface FestivalDates {
     LocalDate getEndDate();
     void updateStartDate(LocalDate startDate);
     void updateEndDate(LocalDate endDate);
-    List<LocalDate> getFestivalDates();
+    List<LocalDate> getFestivalDays();
     OffsetDateTime getSaleStartDate();
     OffsetDateTime getSaleEndDate();
     void validateOrderDate(OffsetDateTime orderDate);

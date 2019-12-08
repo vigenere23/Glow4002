@@ -10,9 +10,9 @@ import ca.ulaval.glo4002.booking.domain.program.exceptions.InvalidProgramExcepti
 
 public class ProgramDayRequest {
 
-    public final LocalDate eventDate;
     public final Activity activity;
     public final String artist;
+    public final LocalDate eventDate;
 
     @JsonCreator
     public ProgramDayRequest (

@@ -46,7 +46,7 @@ public class Glow4002Dates implements FestivalDates, OxygenDates {
     }
 
     @Override
-    public List<LocalDate> getFestivalDates() {
+    public List<LocalDate> getFestivalDays() {
         return DateCalculator.datesBetween(startDate, endDate);
     }
 
