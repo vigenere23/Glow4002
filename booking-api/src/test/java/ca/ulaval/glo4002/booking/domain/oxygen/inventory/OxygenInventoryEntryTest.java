@@ -40,7 +40,7 @@ public class OxygenInventoryEntryTest {
 
     @Test
     public void givenSurplusQuantityNotPresent_whenUsingQuantity_itThrowsAnIllegalArgumentException() {
-        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             inventoryEntry.useQuantity(1);
         });
     }
@@ -51,7 +51,7 @@ public class OxygenInventoryEntryTest {
         final int quantityRemoved = 20;
         inventoryEntry.addQuantity(quantityAlreadyPresent);
 
-        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             inventoryEntry.useQuantity(quantityRemoved);
         });
     }

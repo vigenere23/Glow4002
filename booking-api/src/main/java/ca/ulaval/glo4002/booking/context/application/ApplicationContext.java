@@ -14,12 +14,14 @@ public class ApplicationContext extends AbstractBinder {
 
     @Override
     protected void configure() {
-        install(new DatesContext());
+        DatesContext datesContext = new DatesContext();
+        
+        install(datesContext);
         install(new ProfitContext());
         install(new TransportContext());
         install(new OxygenContext());
         install(new OrdersContext());
         install(new ArtistsContext());
-        install(new ProgramContext());
+        install(new ProgramContext(datesContext.getGlow4002Dates()));
     }
 }

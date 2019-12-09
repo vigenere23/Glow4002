@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.application.program.dtos.ProgramDayDtoMapper;
-import ca.ulaval.glo4002.booking.application.program.validators.ProgramDayRequestValidator;
+import ca.ulaval.glo4002.booking.application.program.validators.ProgramDayRequestValidatorContainer;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
@@ -35,7 +35,7 @@ public class ProgramUseCaseTest {
     @Mock Artist artist;
     @Mock ProgramRequest programRequest;
     @Mock ProgramDayDtoMapper programDayDtoMapper;
-    @Mock ProgramDayRequestValidator programValidator;
+    @Mock ProgramDayRequestValidatorContainer programValidator;
     @Mock TransportReserver transportReserver;
     @Mock OxygenRequester oxygenRequester;
     @Mock OutcomeSaver outcomeSaver;

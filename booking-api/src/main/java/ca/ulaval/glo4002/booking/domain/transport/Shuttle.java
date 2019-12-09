@@ -31,7 +31,10 @@ public abstract class Shuttle {
     }
     
     public void addPassengers(PassengerNumber passengerNumber, int numberOfPassengers) {
-        assert numberOfPassengers > 0;
+        if (numberOfPassengers <= 0) {
+            throw new IllegalArgumentException("number of passengers must be strictly positive");
+        }
+        
         validateAvailableCapacity(numberOfPassengers);
 
         for (int i = 0; i < numberOfPassengers; i++) {

@@ -70,8 +70,8 @@ public class ShuttleTest {
     }
 
     @Test
-    public void whenAddingNonStricltlyPositiveNumberOfPassengers_itThrowsAnAssertionError() {
-        assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+    public void whenAddingNonStricltlyPositiveNumberOfPassengers_itThrowsAnIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             shuttle.addPassengers(PASSENGER_NUMBER, -1);
         });
     }

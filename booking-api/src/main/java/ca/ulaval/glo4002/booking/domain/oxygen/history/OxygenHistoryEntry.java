@@ -20,22 +20,34 @@ public class OxygenHistoryEntry {
     }
 
     public void addTankBought(int tankBought) {
-        assert tankBought >= 0 : "tanks bought cannot be negative";
+        if (tankBought < 0) {
+            throw new IllegalArgumentException("tanks bought must be positive");
+        }
+
         this.tankBought += tankBought;
     }
 
     public void addTankMade(int tankMade) {
-        assert tankMade >= 0 : "tanks made cannot be negative";
+        if (tankMade < 0) {
+            throw new IllegalArgumentException("tanks made must be positive");
+        }
+
         this.tankMade += tankMade;
     }
 
     public void addCandlesUsed(int candlesUsed) {
-        assert candlesUsed >= 0 : "candles used cannot be negative";
+        if (candlesUsed < 0) {
+            throw new IllegalArgumentException("candles used must be positive");
+        }
+
         this.candlesUsed += candlesUsed;
     }
 
     public void addWaterUsed(int waterUsed) {
-        assert waterUsed >= 0 : "water used cannot be negative";
+        if (waterUsed < 0) {
+            throw new IllegalArgumentException("water used must be positive");
+        }
+
         this.waterUsed += waterUsed;
     }
 

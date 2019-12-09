@@ -33,9 +33,12 @@ public class ProgramDay {
     }
 
     public void orderOxygen(OxygenRequester oxygenRequester) {
-        int oxygenQuantityForActivities = Activity.oxygenForActivity(activity) * numberOfAttendees;
-        oxygenRequester.requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, oxygenQuantityForActivities);
         artist.orderOxygen(oxygenRequester, PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM);
+
+        int oxygenQuantityForActivities = Activity.oxygenForActivity(activity) * numberOfAttendees;
+        if (oxygenQuantityForActivities > 0) {
+            oxygenRequester.requestOxygen(PROGRAM_REVEAL_DATE, OXYGEN_GRADE_PROGRAM, oxygenQuantityForActivities);
+        }
     }
 
     public void orderShuttle(TransportReserver transportReserver) {

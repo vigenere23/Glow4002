@@ -15,13 +15,20 @@ public class OxygenInventoryEntry {
     }
 
     public void addQuantity(int quantityToAdd) {
-        assert quantityToAdd >= 1 : "the added quantity must be at least 1";
+        if (quantityToAdd < 1) {
+            throw new IllegalArgumentException("the added quantity must be at least 1");
+        }
+
         surplusQuantity += quantityToAdd;
     }
 
     public void useQuantity(int quantityToUse) {
-        assert quantityToUse >= 1 : "the used quantity must be at least 1";
-        assert surplusQuantity - quantityToUse >= 0 : "not enought surplus to use";
+        if (quantityToUse < 1) {
+            throw new IllegalArgumentException("the used quantity must be at least 1");
+        }
+        if (surplusQuantity - quantityToUse < 0) {
+            throw new IllegalArgumentException("not enought surplus to use");
+        }
 
         usedQuantity += quantityToUse;
         surplusQuantity -= quantityToUse;

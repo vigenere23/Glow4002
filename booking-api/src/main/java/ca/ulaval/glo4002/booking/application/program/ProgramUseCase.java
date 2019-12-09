@@ -16,14 +16,14 @@ import ca.ulaval.glo4002.booking.interfaces.rest.resources.program.requests.Prog
 public class ProgramUseCase {
 
     @Inject private ProgramDayDtoMapper programDtoMapper;
-    @Inject private ProgramDayRequestValidator programDaysRequestValidator;
+    @Inject private ProgramDayRequestValidator validator;
     @Inject private TransportReserver transportReserver;
     @Inject private OxygenRequester oxygenRequester;
     @Inject private OutcomeSaver outcomeSaver;
 
     public void provideProgramResources(ProgramRequest programRequest) {
         try {
-            programDaysRequestValidator.validate(programRequest.programDays);
+            validator.validate(programRequest.programDays);
             List<ProgramDay> programDays = programDtoMapper.fromDtos(programRequest.programDays);
             
             for (ProgramDay programDay : programDays) {
