@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.booking.application.transport.dtos;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.Shuttle;
 
 public class ShuttleDtoMapper {
 

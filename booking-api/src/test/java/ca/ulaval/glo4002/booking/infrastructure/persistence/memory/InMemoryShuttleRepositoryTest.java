@@ -15,10 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ca.ulaval.glo4002.booking.domain.exceptions.ItemAlreadyExists;
 import ca.ulaval.glo4002.booking.domain.exceptions.ItemNotFound;
 import ca.ulaval.glo4002.booking.domain.transport.Direction;
-import ca.ulaval.glo4002.booking.domain.transport.ETSpaceship;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ETSpaceship;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
 
 @ExtendWith(MockitoExtension.class)
 class InMemoryShuttleRepositoryTest {

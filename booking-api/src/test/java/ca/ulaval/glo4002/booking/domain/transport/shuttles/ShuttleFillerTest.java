@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.transport;
+package ca.ulaval.glo4002.booking.domain.transport.shuttles;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,6 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
 @ExtendWith(MockitoExtension.class)
 class ShuttleFillerTest {

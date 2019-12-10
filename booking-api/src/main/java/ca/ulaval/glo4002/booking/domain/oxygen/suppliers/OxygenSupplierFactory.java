@@ -1,11 +1,10 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.suppliers;
 
-import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
-
 import javax.inject.Inject;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
+import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 
 public class OxygenSupplierFactory {
 

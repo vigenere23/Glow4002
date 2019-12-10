@@ -3,15 +3,16 @@ package ca.ulaval.glo4002.booking.interfaces.rest.resources.orders;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.ws.rs.core.Response;
-
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.core.Response;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
 
 
 public class OrdersResourceIT extends JerseyTestBookingServer {

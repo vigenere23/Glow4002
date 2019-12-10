@@ -4,7 +4,6 @@ import java.time.OffsetDateTime;
 
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassRequest;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
@@ -16,6 +15,7 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassRequest;
 
 public class PassOrderCreationUseCase {
 

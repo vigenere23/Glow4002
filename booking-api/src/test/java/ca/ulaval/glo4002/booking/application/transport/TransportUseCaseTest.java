@@ -21,9 +21,9 @@ import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
 import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.transport.Direction;
-import ca.ulaval.glo4002.booking.domain.transport.ETSpaceship;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ETSpaceship;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleRepository;
 
 @ExtendWith(MockitoExtension.class)
 class TransportUseCaseTest {

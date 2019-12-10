@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import javax.inject.Inject;
 
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleFiller;
+
 public class TransportReserver {
 
     @Inject private ShuttleFiller shuttleFiller;

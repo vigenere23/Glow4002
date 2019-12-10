@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.booking.application.transport;
 
-import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
-import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
-import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
-import ca.ulaval.glo4002.booking.domain.transport.Direction;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
-
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
+import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
+import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleRepository;
 
 public class TransportUseCase {
 

@@ -1,10 +1,9 @@
-package ca.ulaval.glo4002.booking.domain.enumMaps;
+package ca.ulaval.glo4002.booking.domain.passes;
 
 import java.util.EnumMap;
 
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
 
 public class PassCategoryMapper {
 

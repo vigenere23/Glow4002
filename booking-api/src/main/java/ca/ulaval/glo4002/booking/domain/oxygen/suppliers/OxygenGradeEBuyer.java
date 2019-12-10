@@ -2,10 +2,10 @@ package ca.ulaval.glo4002.booking.domain.oxygen.suppliers;
 
 import java.time.OffsetDateTime;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
-import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenCalculator;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryEntry;
+import ca.ulaval.glo4002.booking.domain.oxygen.history.OxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenGradeESettings;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenSupplySettings;

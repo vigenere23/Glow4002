@@ -1,15 +1,13 @@
 package ca.ulaval.glo4002.booking.domain.artists;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import ca.ulaval.glo4002.booking.domain.artists.Artist;
 
 public class AscendingPopularityOrderedArtistsTest {
 

@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.booking.application.orders.dtos;
 
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.application.orders.dtos.PassDto;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 

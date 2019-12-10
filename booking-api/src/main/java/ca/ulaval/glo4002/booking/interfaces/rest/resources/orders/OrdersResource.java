@@ -14,13 +14,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.helpers.response.LocationHeaderCreator;
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassOrderRequest;
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.responses.PassOrderResponse;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderCreationUseCase;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderFetchingUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
+import ca.ulaval.glo4002.booking.interfaces.rest.helpers.response.LocationHeaderCreator;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassOrderRequest;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.responses.PassOrderResponse;
 
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)

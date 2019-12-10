@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.booking.domain.passes;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -19,8 +19,8 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.passes.pass_number.PassNumber;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
 
 public class PassTest {
     private final static PassNumber SOME_PASS_NUMBER = new PassNumber(0);

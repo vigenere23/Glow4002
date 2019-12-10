@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.transport;
+package ca.ulaval.glo4002.booking.domain.transport.shuttles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
 
 class ShuttleFactoryTest {
 

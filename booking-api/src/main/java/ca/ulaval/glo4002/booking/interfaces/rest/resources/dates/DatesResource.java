@@ -7,8 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.dates.requests.UpdateDatesRequest;
 import ca.ulaval.glo4002.booking.application.dates.DatesUseCase;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.dates.requests.UpdateDatesRequest;
 
 @Path("/configuration")
 @Produces(MediaType.APPLICATION_JSON)

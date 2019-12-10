@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.transport;
+package ca.ulaval.glo4002.booking.domain.transport.shuttles;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
+import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
 public class ShuttleFiller {
     

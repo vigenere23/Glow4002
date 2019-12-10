@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.booking.application.oxygen.dtos;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 
 public class OxygenInventoryDtoMapper {
 

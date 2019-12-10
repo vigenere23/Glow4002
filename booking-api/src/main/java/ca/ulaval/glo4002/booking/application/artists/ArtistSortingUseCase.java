@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import ca.ulaval.glo4002.booking.application.artists.dtos.ArtistDto;
 import ca.ulaval.glo4002.booking.application.artists.dtos.ArtistDtoMapper;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
-import ca.ulaval.glo4002.booking.domain.artists.ArtistSorterFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistRepository;
+import ca.ulaval.glo4002.booking.domain.artists.ArtistSorterFactory;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistSortingType;
 
 public class ArtistSortingUseCase {

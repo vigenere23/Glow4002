@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.booking.domain.transport;
+package ca.ulaval.glo4002.booking.domain.transport.shuttles;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.Direction;
 
 public interface ShuttleRepository {
     List<Shuttle> findAllByDirection(Direction direction);

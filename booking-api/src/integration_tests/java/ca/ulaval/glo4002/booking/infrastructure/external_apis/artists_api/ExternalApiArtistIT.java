@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.ArtistApiJerseyClient;
 import ca.ulaval.glo4002.booking.infrastructure.external_apis.artists_api.dtos.ArtistDto;
 import ca.ulaval.glo4002.organisation.OrganisationServer;
 

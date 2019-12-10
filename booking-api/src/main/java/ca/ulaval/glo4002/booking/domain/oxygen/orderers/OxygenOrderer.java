@@ -8,8 +8,8 @@ import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
-import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplier;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenRequestSettings;
+import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplier;
 
 public class OxygenOrderer {
 

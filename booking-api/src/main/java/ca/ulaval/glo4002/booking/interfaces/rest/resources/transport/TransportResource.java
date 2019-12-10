@@ -11,9 +11,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.transport.responses.TransportResponse;
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.transport.responses.TransportResponse;
 
 @Path("/shuttle-manifests")
 @Produces(MediaType.APPLICATION_JSON)

@@ -10,10 +10,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistSortingResponse;
 import ca.ulaval.glo4002.booking.application.artists.ArtistSortingUseCase;
 import ca.ulaval.glo4002.booking.application.artists.dtos.ArtistDto;
 import ca.ulaval.glo4002.booking.domain.artists.ArtistSortingType;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistSortingResponse;
 
 @Path("/program/artists")
 @Produces(MediaType.APPLICATION_JSON)

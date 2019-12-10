@@ -7,9 +7,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.profit.dto.ProfitResponse;
 import ca.ulaval.glo4002.booking.application.profit.ProfitUseCase;
 import ca.ulaval.glo4002.booking.application.profit.dtos.ProfitReport;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.profit.dto.ProfitResponse;
 
 @Path("/report/profits")
 @Produces(MediaType.APPLICATION_JSON)

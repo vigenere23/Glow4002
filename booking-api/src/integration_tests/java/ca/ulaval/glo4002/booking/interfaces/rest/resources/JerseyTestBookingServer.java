@@ -1,17 +1,18 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.resources;
 
+import java.util.List;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import ca.ulaval.glo4002.booking.BookingServer;
 import com.google.gson.Gson;
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.List;
+import ca.ulaval.glo4002.booking.BookingServer;
 
 public class JerseyTestBookingServer extends JerseyTest {
     protected static final String ORDERS_URL = "/orders";

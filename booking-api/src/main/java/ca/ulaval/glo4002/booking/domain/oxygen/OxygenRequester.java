@@ -5,10 +5,9 @@ import java.time.OffsetDateTime;
 
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
+import ca.ulaval.glo4002.booking.domain.oxygen.orderers.LinkedOxygenOrdererFactory;
 import ca.ulaval.glo4002.booking.domain.oxygen.orderers.OxygenOrderer;
 import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;
-import ca.ulaval.glo4002.booking.domain.oxygen.orderers.LinkedOxygenOrdererFactory;
 
 public class OxygenRequester {
 

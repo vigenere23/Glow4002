@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.domain.transport;
+package ca.ulaval.glo4002.booking.domain.transport.shuttles;
 
 public enum ShuttleCategory {
     ET_SPACESHIP("ET Spaceship"),

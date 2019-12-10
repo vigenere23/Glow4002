@@ -6,7 +6,6 @@ import java.util.List;
 
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfFestivalDatesException;
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfSaleDatesException;
-import ca.ulaval.glo4002.booking.domain.dates.FestivalDates;
 import ca.ulaval.glo4002.booking.helpers.dates.DateCalculator;
 import ca.ulaval.glo4002.booking.helpers.dates.DateComparator;
 import ca.ulaval.glo4002.booking.helpers.dates.DateConverter;

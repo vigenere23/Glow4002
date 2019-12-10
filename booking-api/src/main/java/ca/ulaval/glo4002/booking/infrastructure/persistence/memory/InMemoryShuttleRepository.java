@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 import ca.ulaval.glo4002.booking.domain.exceptions.ItemAlreadyExists;
 import ca.ulaval.glo4002.booking.domain.exceptions.ItemNotFound;
 import ca.ulaval.glo4002.booking.domain.transport.Direction;
-import ca.ulaval.glo4002.booking.domain.transport.Shuttle;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.Shuttle;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleRepository;
 
 public class InMemoryShuttleRepository implements ShuttleRepository {
     

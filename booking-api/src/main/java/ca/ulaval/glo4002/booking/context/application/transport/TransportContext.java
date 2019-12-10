@@ -4,9 +4,9 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDtoMapper;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleFactory;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleFiller;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleFactory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleFiller;
 
 public class TransportContext extends AbstractBinder {
 

@@ -10,12 +10,12 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistSortingResponse;
 import ca.ulaval.glo4002.booking.application.artists.dtos.ArtistDtoMapper;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistSortingResponse;
 
 public class ArtistSortingResourceIT extends JerseyTestBookingServer {
 

@@ -10,7 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleFiller;
 
 @ExtendWith(MockitoExtension.class)
 class TransportReserverTest {

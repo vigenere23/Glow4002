@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleRepository;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenHistoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryPassOrderRepository;

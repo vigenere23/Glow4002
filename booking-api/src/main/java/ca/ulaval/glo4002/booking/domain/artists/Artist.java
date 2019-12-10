@@ -7,8 +7,8 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenRequester;
 import ca.ulaval.glo4002.booking.domain.profit.OutcomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
 
 public class Artist {
 

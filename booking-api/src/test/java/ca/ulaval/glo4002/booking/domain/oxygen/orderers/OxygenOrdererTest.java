@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.booking.domain.oxygen.orderers;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,10 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
 import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
-import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenRequestSettings;
 import ca.ulaval.glo4002.booking.domain.oxygen.suppliers.OxygenSupplier;
+import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxygenInventoryRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class OxygenOrdererTest {

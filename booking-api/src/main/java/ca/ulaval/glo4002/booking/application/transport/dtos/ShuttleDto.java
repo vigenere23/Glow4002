@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
-import ca.ulaval.glo4002.booking.domain.transport.ShuttleCategory;
+import ca.ulaval.glo4002.booking.domain.transport.shuttles.ShuttleCategory;
 
 public class ShuttleDto {
     

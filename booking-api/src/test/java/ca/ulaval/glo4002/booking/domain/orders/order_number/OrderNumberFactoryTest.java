@@ -1,13 +1,13 @@
 package ca.ulaval.glo4002.booking.domain.orders.order_number;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OrderNumberFactoryTest {
 
