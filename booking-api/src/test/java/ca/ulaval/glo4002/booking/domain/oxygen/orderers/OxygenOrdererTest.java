@@ -27,7 +27,7 @@ import ca.ulaval.glo4002.booking.infrastructure.persistence.memory.InMemoryOxyge
 public class OxygenOrdererTest {
 
     private static final OffsetDateTime NOW = OffsetDateTime.now();
-    private static final OffsetDateTime SOME_DATE = OffsetDateTime.now();
+    private static final OffsetDateTime SOME_DATE = NOW;
     private static final int SOME_QUANTITY = 21;
     private static final OxygenGrade SOME_OXYGEN_GRADE = OxygenGrade.A;
     
