@@ -8,16 +8,18 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.JerseyTestBookingServer;
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistRankingResponse;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.artists.responses.ArtistSortingResponse;
+import ca.ulaval.glo4002.booking.application.artists.dtos.ArtistDtoMapper;
 import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.artists.Artist;
 import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 
-public class ArtistRankingResourceIT extends JerseyTestBookingServer {
+public class ArtistSortingResourceIT extends JerseyTestBookingServer {
 
-    private static final String ARTIST_RANKING_URL = "/program/artists";
+    private static final String ARTIST_sorting_URL = "/program/artists";
     private static final String QUERY_PARAM = "orderBy";
     private static final String MOST_POPULAR_PARAM = "mostPopular";
     private static final String LOW_COST_PARAM = "lowCosts";
@@ -28,59 +30,65 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
     private static final int SOME_GROUP_SIZE = 2;
     private static final PassengerNumber SOME_PASSENGER_NUMBER = new PassengerNumber(0);
 
-    private List<Artist> Artist;
+    private List<Artist> artists;
+    private ArtistDtoMapper artistDtoMapper;
+
+    @BeforeEach
+    public void setup() {
+        artistDtoMapper = new ArtistDtoMapper();
+    }
     
     @Test
     public void givenOneArtist_whenSortByMostPopular_thenTheArtistIsReturnedWith200ResponseStatus() {
-        ArtistRankingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
+        ArtistSortingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
 
         Response response = getSortedArtistFromServer(MOST_POPULAR_PARAM);
 
-        ArtistRankingResponse actualBody = response.readEntity(ArtistRankingResponse.class);
+        ArtistSortingResponse actualBody = response.readEntity(ArtistSortingResponse.class);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(expectedBody.artists, actualBody.artists);
     }
 
     @Test
     public void givenOneArtist_whenSortByLowCost_thenTheArtistIsReturnedWith200ResponseStatus() {
-        ArtistRankingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
+        ArtistSortingResponse expectedBody = mockOneLowPopularityArtistFromExternalRepository(); 
 
         Response response = getSortedArtistFromServer(LOW_COST_PARAM);
 
-        ArtistRankingResponse actualBody = response.readEntity(ArtistRankingResponse.class);
+        ArtistSortingResponse actualBody = response.readEntity(ArtistSortingResponse.class);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(expectedBody.artists, actualBody.artists);
     }
 
     @Test
     public void givenTwoArtist_whenSortByMostPopular_thenFirstArtistReturnIsTheMostPopularWith200ResponseStatus() {
-        ArtistRankingResponse expectedBody = mockOneHightAndOneLowPopularityArtistFromExternalRepository();
+        ArtistSortingResponse expectedBody = mockOneHightAndOneLowPopularityArtistFromExternalRepository();
 
         Response response = getSortedArtistFromServer(MOST_POPULAR_PARAM);
 
-        ArtistRankingResponse actualBody = response.readEntity(ArtistRankingResponse.class);
+        ArtistSortingResponse actualBody = response.readEntity(ArtistSortingResponse.class);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(expectedBody.artists, actualBody.artists);
     }
 
     @Test
     public void givenTwoArtist_whenSortByLowCost_thenTheFirstArtistReturnedIsTheMostExpensiveArtistWith200ResponseStatus() {
-        ArtistRankingResponse expectedBody = mockOneExpensiveAndOneCheapCostArtistFromExternalRepository();
+        ArtistSortingResponse expectedBody = mockOneExpensiveAndOneCheapCostArtistFromExternalRepository();
 
         Response response = getSortedArtistFromServer(LOW_COST_PARAM);
 
-        ArtistRankingResponse actualBody = response.readEntity(ArtistRankingResponse.class);
+        ArtistSortingResponse actualBody = response.readEntity(ArtistSortingResponse.class);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(expectedBody.artists, actualBody.artists);
     }
 
     @Test
     public void givenTwoArtistWithSamePrice_whenSortByLowCost_thenTheFirstArtistReturnedIsTheMostPopularArtistWith200ResponseStatus() {
-        ArtistRankingResponse expectedBody = mockTwortistWithSamePriceFromExternalRepository();
+        ArtistSortingResponse expectedBody = mockTwortistWithSamePriceFromExternalRepository();
 
         Response response = getSortedArtistFromServer(LOW_COST_PARAM);
 
-        ArtistRankingResponse actualBody = response.readEntity(ArtistRankingResponse.class);
+        ArtistSortingResponse actualBody = response.readEntity(ArtistSortingResponse.class);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(expectedBody.artists, actualBody.artists);
     }
@@ -91,28 +99,28 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
 
-    private ArtistRankingResponse mockOneLowPopularityArtistFromExternalRepository() {
+    private ArtistSortingResponse mockOneLowPopularityArtistFromExternalRepository() {
         Artist information = addArtistToListInformation("notPopularArtistName", someLowArtistPopularity, someLowArtistPrice);
         List<Artist> informationCollection = new ArrayList<Artist>();
         informationCollection.add(information);
         return buildExpectedResponse(informationCollection);
     }
 
-    private ArtistRankingResponse mockOneHightAndOneLowPopularityArtistFromExternalRepository() {
+    private ArtistSortingResponse mockOneHightAndOneLowPopularityArtistFromExternalRepository() {
         Artist popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someLowArtistPrice);
         Artist notPopularArtistInformation = addArtistToListInformation("Unknown Artist", someLowArtistPopularity, someLowArtistPrice);
         List<Artist> informationCollection = createArtistInformationCollection(notPopularArtistInformation, popularArtistInformation);
         return buildExpectedResponse(informationCollection);
     }
 
-    private ArtistRankingResponse mockOneExpensiveAndOneCheapCostArtistFromExternalRepository() {
+    private ArtistSortingResponse mockOneExpensiveAndOneCheapCostArtistFromExternalRepository() {
         Artist hightCostArtist = addArtistToListInformation("Expensive artist", someLowArtistPopularity, someHightArtistPrice);
         Artist lowCostArtist = addArtistToListInformation("Cheap Artist", someHightArtistPopularity, someLowArtistPrice);
         List<Artist> informationCollection = createArtistInformationCollection(hightCostArtist, lowCostArtist);
         return buildExpectedResponse(informationCollection);
     }
 
-    private ArtistRankingResponse mockTwortistWithSamePriceFromExternalRepository() {
+    private ArtistSortingResponse mockTwortistWithSamePriceFromExternalRepository() {
         Artist notPopularArtistInformation = addArtistToListInformation("Unknown artist", someLowArtistPopularity, someHightArtistPrice);
         Artist popularArtistInformation = addArtistToListInformation("Popular Artist", someHightArtistPopularity, someHightArtistPrice);
         List<Artist> informationCollection = createArtistInformationCollection(popularArtistInformation, notPopularArtistInformation);
@@ -127,17 +135,17 @@ public class ArtistRankingResourceIT extends JerseyTestBookingServer {
         return informationCollection;
     }
 
-    private ArtistRankingResponse buildExpectedResponse(List<Artist> artists) {
-        return new ArtistRankingResponse(artists);
+    private ArtistSortingResponse buildExpectedResponse(List<Artist> artists) {
+        return new ArtistSortingResponse(artistDtoMapper.toDtos(artists));
     }
 
     private Response getSortedArtistFromServer(String sortingOption) {
-       return target(ARTIST_RANKING_URL).queryParam(QUERY_PARAM, sortingOption).request().get();
+       return target(ARTIST_sorting_URL).queryParam(QUERY_PARAM, sortingOption).request().get();
     }
 
     private  Artist addArtistToListInformation(String artistName,  int popularity, Price price) {
-        Artist rankingInformation = new Artist(artistName, popularity, price, SOME_GROUP_SIZE, SOME_PASSENGER_NUMBER);
-        Artist.add(rankingInformation);
-        return rankingInformation;
+        Artist sortingInformation = new Artist(artistName, popularity, price, SOME_GROUP_SIZE, SOME_PASSENGER_NUMBER);
+        artists.add(sortingInformation);
+        return sortingInformation;
     }
 }

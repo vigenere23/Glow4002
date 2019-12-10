@@ -14,13 +14,13 @@ import ca.ulaval.glo4002.booking.domain.artists.Artist;
 public class AscendingPopularityOrderedArtistsTest {
 
     private List<Artist> artistsToOrder = new ArrayList<>();
-    private AscendingPopularityOrderedArtists ascendingPopularityOrderedArtists = new AscendingPopularityOrderedArtists();
+    private AscendingPopularitySorter ascendingPopularitySorter = new AscendingPopularitySorter();
 
     @Test
     public void givenArtistsToOrder_whenGetOrderedArtists_thenOrderArtistsNameFromMostPopularToLessPopular() {
         fillArtistsToOrder();
 
-        List<Artist> orderedArtists = ascendingPopularityOrderedArtists.getOrderedArtists(artistsToOrder);
+        List<Artist> orderedArtists = ascendingPopularitySorter.getSortedArtists(artistsToOrder);
 
         assertEquals("mostPopularArtist", orderedArtists.get(0).getName());
         assertEquals("lessPopularArtist", orderedArtists.get(2).getName());

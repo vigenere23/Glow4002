@@ -3,13 +3,13 @@ package ca.ulaval.glo4002.booking.domain.artists;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum ArtistRanking {
+public enum ArtistSortingType {
     LOW_COSTS("lowCosts"),
     MOST_POPULARITY("mostPopular");
 
     private final String text;
 
-    private ArtistRanking(String text) {
+    private ArtistSortingType(String text) {
         this.text = text;
     }
 
@@ -18,8 +18,8 @@ public enum ArtistRanking {
         return text;
     }
 
-    public static ArtistRanking fromString(String text) {
-        Optional<ArtistRanking> value = Arrays.stream(values())
+    public static ArtistSortingType fromString(String text) {
+        Optional<ArtistSortingType> value = Arrays.stream(values())
             .filter(entry -> entry.text.equalsIgnoreCase(text))
             .findFirst();
 

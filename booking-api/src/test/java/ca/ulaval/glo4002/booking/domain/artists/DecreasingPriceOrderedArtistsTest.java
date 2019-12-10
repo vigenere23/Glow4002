@@ -15,13 +15,13 @@ import ca.ulaval.glo4002.booking.domain.artists.Artist;
 public class DecreasingPriceOrderedArtistsTest {
 
     private List<Artist> artistsToOrder = new ArrayList<>();
-    private DecreasingPriceOrderedArtists decreasingPriceOrderedArtists = new DecreasingPriceOrderedArtists();
+    private DecreasingPriceSorter decreasingPriceSorter = new DecreasingPriceSorter();
 
     @Test
     public void givenArtistsToOrderWithDifferentPrices_whenGetOrderedArtists_thenOrderArtistsNameByPrice() {
         fillArtistsToOrderWithDifferentPrice();
 
-        List<Artist> orderedArtists = decreasingPriceOrderedArtists.getOrderedArtists(artistsToOrder);
+        List<Artist> orderedArtists = decreasingPriceSorter.getSortedArtists(artistsToOrder);
 
         assertEquals("mostExpensiveArtist", orderedArtists.get(0).getName());
         assertEquals("lessExpensiveArtist", orderedArtists.get(2).getName());
@@ -31,7 +31,7 @@ public class DecreasingPriceOrderedArtistsTest {
     public void givenArtistsToOrderWithSamePrices_whenGetOrderedArtists_thenOrderArtistsNameByPriceAndPopularity() {
         fillArtistsToOrderWithSamePrice();
 
-        List<Artist> orderedArtists = decreasingPriceOrderedArtists.getOrderedArtists(artistsToOrder);
+        List<Artist> orderedArtists = decreasingPriceSorter.getSortedArtists(artistsToOrder);
 
         assertEquals("mostExpensiveMostPopularArtist", orderedArtists.get(0).getName());
         assertEquals("lessExpensiveArtist", orderedArtists.get(2).getName());
