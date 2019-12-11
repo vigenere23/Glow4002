@@ -27,7 +27,8 @@ public class OrderNumber {
         return value.equals(otherOrderNumber.value);
     }
 
-    public String getValue() {
+    @Override
+    public String toString() {
         return value;
     }
 }

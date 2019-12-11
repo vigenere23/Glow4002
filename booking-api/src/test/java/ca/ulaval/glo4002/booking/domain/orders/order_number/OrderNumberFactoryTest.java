@@ -25,7 +25,7 @@ public class OrderNumberFactoryTest {
         OrderNumber orderNumber = orderNumberFactory.create(SOME_VENDOR_CODE);
         String expectedValue = SOME_VENDOR_CODE.toString() + "-0";
 
-        assertEquals(expectedValue, orderNumber.getValue());
+        assertEquals(expectedValue, orderNumber.toString());
     }
 
     @Test
@@ -37,6 +37,6 @@ public class OrderNumberFactoryTest {
         }
 
         String expectedValue = SOME_VENDOR_CODE.toString() + "-" + String.valueOf(numberOfCreations);
-        assertEquals(expectedValue, lastOrderNumber.getValue());
+        assertEquals(expectedValue, lastOrderNumber.toString());
     }
 }

@@ -17,7 +17,7 @@ public class OrderNumberTest {
 
         OrderNumber orderNumber = new OrderNumber(vendorCode, number);
 
-        assertEquals(expectedOrderNumberValue, orderNumber.getValue());
+        assertEquals(expectedOrderNumberValue, orderNumber.toString());
     }
 
     @Test
@@ -25,7 +25,7 @@ public class OrderNumberTest {
         String stringOrderNumber = "TEAM-4566";
         OrderNumber orderNumber = OrderNumber.fromString(stringOrderNumber);
 
-        assertEquals(stringOrderNumber, orderNumber.getValue());
+        assertEquals(stringOrderNumber, orderNumber.toString());
     }
 
     @Test

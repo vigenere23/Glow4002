@@ -18,9 +18,9 @@ public class InMemoryPassOrderRepository implements PassOrderRepository {
 
     @Override
     public PassOrder findByOrderNumber(OrderNumber orderNumber) {
-        PassOrder passOrder = passOrders.get(orderNumber.getValue());
+        PassOrder passOrder = passOrders.get(orderNumber.toString());
         if (passOrder == null) {
-            throw new ItemNotFound("order", orderNumber.getValue());
+            throw new ItemNotFound("order", orderNumber.toString());
         }
         return passOrder;
     }
@@ -28,7 +28,7 @@ public class InMemoryPassOrderRepository implements PassOrderRepository {
     @Override
     public void add(PassOrder passOrder) {
         if (!passOrders.containsValue(passOrder) && passOrder != null) {
-            passOrders.put(passOrder.getOrderNumber().getValue(), passOrder);
+            passOrders.put(passOrder.getOrderNumber().toString(), passOrder);
         }
     }
 }

@@ -11,7 +11,7 @@ public class PassOrderResponse {
     public final List<PassDto> passes;
 
     public PassOrderResponse(PassOrderDto passOrderDto) {
-        this.orderPrice = passOrderDto.orderPrice;
+        this.orderPrice = passOrderDto.price;
         this.passes = passOrderDto.passes;
     }
 }
