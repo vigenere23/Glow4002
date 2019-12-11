@@ -23,8 +23,8 @@ public class OxygenInventoryEntry {
     }
 
     public void useQuantity(int quantityToUse) {
-        if (quantityToUse < 1) {
-            throw new IllegalArgumentException("the used quantity must be at least 1");
+        if (quantityToUse < 0) {
+            throw new IllegalArgumentException("the used quantity must be positive");
         }
         if (surplusQuantity - quantityToUse < 0) {
             throw new IllegalArgumentException("not enought surplus to use");

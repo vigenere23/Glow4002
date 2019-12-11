@@ -29,7 +29,7 @@ public class PassOrderCreationUseCase {
 
     public PassOrderDto orderPasses(OffsetDateTime orderDate, VendorCode vendorCode, PassRequest passRequest) {
         PassOrder passOrder = passOrderFactory.create(
-            orderDate, vendorCode, passRequest.getPassOption(), passRequest.getPassCategory(), passRequest.getEventDates()
+            orderDate, vendorCode, passRequest.passOption, passRequest.passCategory, passRequest.eventDates
         );
 
         for (Pass pass : passOrder.getPasses()) {

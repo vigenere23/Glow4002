@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.booking.domain.program.Activity;
-import ca.ulaval.glo4002.booking.domain.program.exceptions.InvalidProgramException;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidProgramClientException;
 
 public class ProgramDayRequest {
 
@@ -26,19 +26,7 @@ public class ProgramDayRequest {
             this.activity = Activity.fromString(activity);
         }
         catch (Exception exception) {
-            throw new InvalidProgramException();
+            throw new InvalidProgramClientException();
         }
-    }
-
-    public LocalDate getEventDate() {
-        return eventDate;
-    }
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public String getArtist() {
-        return artist;
     }
 }

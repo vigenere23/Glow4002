@@ -10,11 +10,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.booking.domain.passes.PassCategory;
 import ca.ulaval.glo4002.booking.domain.passes.PassOption;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatClientException;
 
 public class PassRequest {
-    private final PassOption passOption;
-    private final PassCategory passCategory;
-    private final Optional<List<LocalDate>> eventDates;
+    public final PassOption passOption;
+    public final PassCategory passCategory;
+    public final Optional<List<LocalDate>> eventDates;
 
     @JsonCreator
     public PassRequest(
@@ -22,26 +23,19 @@ public class PassRequest {
         @JsonProperty(value = "passCategory", required = true) String passCategory,
         @JsonProperty(value = "eventDates") List<String> eventDates
     ) {
-        this.passOption = PassOption.fromString(passOption);
-        this.passCategory = PassCategory.fromString(passCategory);
-        this.eventDates = eventDates == null || eventDates.isEmpty()
-            ? Optional.empty()
-            : Optional.of(eventDates
-                .stream()
-                .map(LocalDate::parse)
-                .collect(Collectors.toList())
-            );
-    }
-
-    public PassOption getPassOption() {
-        return passOption;
-    }
-
-    public PassCategory getPassCategory() {
-        return passCategory;
-    }
-
-    public Optional<List<LocalDate>> getEventDates() {
-        return eventDates;
+        try {
+            this.passOption = PassOption.fromString(passOption);
+            this.passCategory = PassCategory.fromString(passCategory);
+            this.eventDates = eventDates == null || eventDates.isEmpty()
+                ? Optional.empty()
+                : Optional.of(eventDates
+                    .stream()
+                    .map(LocalDate::parse)
+                    .collect(Collectors.toList())
+                );
+        }
+        catch (Exception exception) {
+            throw new InvalidFormatClientException();
+        }
     }
 }

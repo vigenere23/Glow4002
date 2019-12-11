@@ -18,6 +18,7 @@ import ca.ulaval.glo4002.booking.application.orders.PassOrderCreationUseCase;
 import ca.ulaval.glo4002.booking.application.orders.PassOrderFetchingUseCase;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDto;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatClientException;
 import ca.ulaval.glo4002.booking.interfaces.rest.helpers.response.LocationHeaderCreator;
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassOrderRequest;
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.responses.PassOrderResponse;
@@ -39,9 +40,14 @@ public class OrdersResource {
 
     @POST
     public Response create(PassOrderRequest request, @Context UriInfo uriInfo) throws URISyntaxException {
-        PassOrderDto passOrderDto = passOrderCreationUseCase.orderPasses(request.orderDate, request.vendorCode,
-                request.passes);
-        URI location = LocationHeaderCreator.createURI(uriInfo, passOrderDto.orderNumber);
-        return Response.created(location).build();
+        try {
+            PassOrderDto passOrderDto = passOrderCreationUseCase
+                .orderPasses(request.orderDate, request.vendorCode, request.passes);
+            URI location = LocationHeaderCreator.createURI(uriInfo, passOrderDto.orderNumber);
+            return Response.created(location).build();
+        }
+        catch (IllegalArgumentException exception) {
+            throw new InvalidFormatClientException();
+        }
     }
 }

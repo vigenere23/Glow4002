@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.booking.application.orders;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +19,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassRequest;
 import ca.ulaval.glo4002.booking.application.orders.dtos.PassOrderDtoMapper;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrderFactory;
@@ -32,6 +31,7 @@ import ca.ulaval.glo4002.booking.domain.passes.PassOption;
 import ca.ulaval.glo4002.booking.domain.passes.PassRepository;
 import ca.ulaval.glo4002.booking.domain.profit.IncomeSaver;
 import ca.ulaval.glo4002.booking.domain.transport.TransportReserver;
+import ca.ulaval.glo4002.booking.interfaces.rest.resources.orders.requests.PassRequest;
 
 @ExtendWith(MockitoExtension.class)
 public class PassOrderCreationUseCaseTest {
@@ -42,12 +42,13 @@ public class PassOrderCreationUseCaseTest {
     final static PassOption SOME_PASS_OPTION = PassOption.SINGLE_PASS;
     final static PassCategory SOME_PASS_CATEGORY = PassCategory.NEBULA;
 
+    private PassRequest passRequest;
+
     @Mock PassOrderFactory passOrderFactory;
     @Mock TransportReserver transportReserver;
     @Mock OxygenRequester oxygenRequester;
     @Mock Pass pass;
     @Mock PassOrder passOrder;
-    @Mock PassRequest passRequest;
     @Mock PassOrderRepository passOrderRepository;
     @Mock PassRepository passRepository;
     @Mock IncomeSaver incomeSaver;
@@ -104,9 +105,7 @@ public class PassOrderCreationUseCaseTest {
     }
 
     private void mockPassRequest() {
-        when(passRequest.getPassOption()).thenReturn(SOME_PASS_OPTION);
-        when(passRequest.getPassCategory()).thenReturn(SOME_PASS_CATEGORY);
-        when(passRequest.getEventDates()).thenReturn(Optional.empty());
+        passRequest = new PassRequest(SOME_PASS_OPTION.toString(), SOME_PASS_CATEGORY.toString(), new ArrayList<>());
         when(passOrderFactory.create(
             any(OffsetDateTime.class), any(VendorCode.class), any(PassOption.class), any(PassCategory.class), any())
             ).thenReturn(passOrder);

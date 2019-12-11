@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatClientException;
 
 public class PassOrderRequest {
 
@@ -19,8 +20,13 @@ public class PassOrderRequest {
         @JsonProperty(value = "vendorCode", required = true) String vendorCode,
         @JsonProperty(value = "passes", required = true) PassRequest passes
     ) {
-        this.orderDate = OffsetDateTime.parse(orderDate);
-        this.vendorCode = VendorCode.valueOf(vendorCode);
-        this.passes = passes;
+        try {
+            this.orderDate = OffsetDateTime.parse(orderDate);
+            this.vendorCode = VendorCode.valueOf(vendorCode);
+            this.passes = passes;
+        }
+        catch (Exception exception) {
+            throw new InvalidFormatClientException();
+        }
     }
 }

@@ -15,8 +15,4 @@ public class ProgramRequest {
     ) {
         this.programDays = programDays;
     }
-
-    public List<ProgramDayRequest> getProgramDays() {
-        return programDays;
-    }
 }

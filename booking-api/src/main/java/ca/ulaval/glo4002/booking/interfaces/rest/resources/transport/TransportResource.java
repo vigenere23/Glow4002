@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.booking.interfaces.rest.resources.transport;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.booking.application.transport.TransportUseCase;
 import ca.ulaval.glo4002.booking.application.transport.dtos.ShuttleDto;
+import ca.ulaval.glo4002.booking.interfaces.rest.exceptions.InvalidFormatClientException;
 import ca.ulaval.glo4002.booking.interfaces.rest.resources.transport.responses.TransportResponse;
 
 @Path("/shuttle-manifests")
@@ -37,9 +39,14 @@ public class TransportResource {
     }
 
     private TransportResponse getTransportResponseFilteredByDate(String stringDate) {
-        LocalDate date = LocalDate.parse(stringDate);
-        List<ShuttleDto> departures = transportUseCase.getAllDeparturesByDate(date);
-        List<ShuttleDto> arrivals = transportUseCase.getAllArrivalsByDate(date);
-        return new TransportResponse(departures, arrivals);
+        try {
+            LocalDate date = LocalDate.parse(stringDate);
+            List<ShuttleDto> departures = transportUseCase.getAllDeparturesByDate(date);
+            List<ShuttleDto> arrivals = transportUseCase.getAllArrivalsByDate(date);
+            return new TransportResponse(departures, arrivals);
+        }
+        catch (DateTimeParseException exception) {
+            throw new InvalidFormatClientException();
+        }
     }
 }

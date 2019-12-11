@@ -6,7 +6,6 @@ import javax.ws.rs.ext.Provider;
 
 import ca.ulaval.glo4002.booking.domain.dates.exceptions.OutOfSaleDatesException;
 import ca.ulaval.glo4002.booking.interfaces.rest.exception_mappers.dtos.ClientErrorDto;
-import ca.ulaval.glo4002.booking.interfaces.rest.exception_mappers.dtos.ClientErrorResponseBuilder;
 
 @Provider
 public class OutOfSaleDatesExceptionMapper implements ExceptionMapper<OutOfSaleDatesException> {
@@ -14,6 +13,6 @@ public class OutOfSaleDatesExceptionMapper implements ExceptionMapper<OutOfSaleD
     @Override
     public Response toResponse(OutOfSaleDatesException exception) {
         ClientErrorDto clientErrorDto = new ClientErrorDto("INVALID_ORDER_DATE", exception.getMessage());
-        return new ClientErrorResponseBuilder(clientErrorDto).build();
+        return Response.status(400).entity(clientErrorDto).build();
     }
 }
