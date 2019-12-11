@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ulaval.glo4002.booking.application.profit.dtos.ProfitReport;
 import ca.ulaval.glo4002.booking.domain.Price;
 
 public class ProfitReportTest {

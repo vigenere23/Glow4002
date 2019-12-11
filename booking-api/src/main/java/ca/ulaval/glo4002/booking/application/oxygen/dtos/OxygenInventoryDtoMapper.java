@@ -11,13 +11,12 @@ public class OxygenInventoryDtoMapper {
         return new OxygenInventoryDto(
             inventoryEntries
                 .stream()
-                .filter(entry -> entry.getTotalQuantity() > 0)
                 .map(entry -> toEntryDto(entry))
                 .collect(Collectors.toList())
         );
     }
 
-    private OxygenInventoryEntryDto toEntryDto(OxygenInventoryEntry inventoryEntry) {
+    public OxygenInventoryEntryDto toEntryDto(OxygenInventoryEntry inventoryEntry) {
         return new OxygenInventoryEntryDto(inventoryEntry.getOxygenGrade(), inventoryEntry.getTotalQuantity());
     }
 }

@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ca.ulaval.glo4002.booking.domain.Price;
 import ca.ulaval.glo4002.booking.domain.orders.PassOrder;
 import ca.ulaval.glo4002.booking.domain.orders.VendorCode;
 import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
@@ -22,8 +21,6 @@ import ca.ulaval.glo4002.booking.domain.passes.Pass;
 
 @ExtendWith(MockitoExtension.class)
 public class PassOrderDtoMapperTest {
-
-    private final static OrderNumber ORDER_NUMBER = new OrderNumber(VendorCode.TEAM, 10);
 
     private PassOrder passOrder;
     private List<Pass> passes;
@@ -36,25 +33,28 @@ public class PassOrderDtoMapperTest {
     public void setup() {
         passes = new ArrayList<>();
         when(passDtoMapper.toDtos(passes)).thenReturn(passDtos);
-        passOrder = new PassOrder(ORDER_NUMBER, passes, Optional.empty());
+        passOrder = createPassOrder();
     }
 
     @Test
     public void whenMappingToDto_itSetsTheSameOrderNumberAsValue() {
         PassOrderDto passOrderDto = passOrderDtoMapper.toDto(passOrder);
-        assertThat(passOrderDto.orderNumber).isEqualTo(ORDER_NUMBER.toString());
+        assertThat(passOrderDto.orderNumber).isEqualTo(passOrder.getOrderNumber());
     }
 
     @Test
     public void whenMappingToDto_itSetsTheSamePriceRounded() {
         PassOrderDto passOrderDto = passOrderDtoMapper.toDto(passOrder);
-        Price price = passOrder.getPrice();
-        assertThat(passOrderDto.price).isEqualTo(price.getRoundedAmountFromCurrencyScale());
+        assertThat(passOrderDto.price).isEqualTo(passOrder.getPrice());
     }
 
     @Test
     public void whenMappingToDto_itSetsTheSamePassesAsDtos() {
         PassOrderDto passOrderDto = passOrderDtoMapper.toDto(passOrder);
         assertThat(passOrderDto.passes).isEqualTo(passDtos);
+    }
+
+    private PassOrder createPassOrder() {
+        return new PassOrder(new OrderNumber(VendorCode.TEAM, 10), passes, Optional.empty());
     }
 }

@@ -4,13 +4,11 @@ import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 
 public class OxygenInventoryEntryDto {
     
-    public String gradeTankOxygen;
+    public OxygenGrade oxygenGrade;
     public int quantity;
 
-    public OxygenInventoryEntryDto() {}
-
-    public OxygenInventoryEntryDto(OxygenGrade gradeTankOxygen, int quantity) {
-        this.gradeTankOxygen = gradeTankOxygen.toString();
+    public OxygenInventoryEntryDto(OxygenGrade oxygenGrade, int quantity) {
+        this.oxygenGrade = oxygenGrade;
         this.quantity = quantity;
     }
 }

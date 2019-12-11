@@ -16,7 +16,7 @@ public class OxygenHistoryDtoMapper {
         );
     }
 
-    private OxygenHistoryEntryDto toEntryDto(OxygenHistoryEntry historyEntry) {
+    public OxygenHistoryEntryDto toEntryDto(OxygenHistoryEntry historyEntry) {
         return new OxygenHistoryEntryDto(
             historyEntry.getDate(),
             historyEntry.getTankBought(),

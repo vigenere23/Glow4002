@@ -5,18 +5,16 @@ import java.time.LocalDate;
 public class OxygenHistoryEntryDto {
 
     public LocalDate date;
-    public int qtyOxygenTankBought;
-    public int qtyWaterUsed;
-    public int qtyCandlesUsed;
-    public int qtyOxygenTankMade;
+    public int tankBought;
+    public int waterQuantity;
+    public int candlesQuantity;
+    public int tankMade;
 
-    public OxygenHistoryEntryDto() {}
-
-    public OxygenHistoryEntryDto(LocalDate date, int qtyOxygenTankBought, int qtyWaterUsed, int qtyCandlesUsed, int qtyOxygenTankMade) {
+    public OxygenHistoryEntryDto(LocalDate date, int tankBought, int waterQuantity, int candlesQuantity, int tankMade) {
         this.date = date;
-        this.qtyOxygenTankBought = qtyOxygenTankBought;
-        this.qtyWaterUsed = qtyWaterUsed;
-        this.qtyCandlesUsed = qtyCandlesUsed;
-        this.qtyOxygenTankMade = qtyOxygenTankMade;
+        this.tankBought = tankBought;
+        this.waterQuantity = waterQuantity;
+        this.candlesQuantity = candlesQuantity;
+        this.tankMade = tankMade;
     }
 }

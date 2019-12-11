@@ -21,13 +21,6 @@ import ca.ulaval.glo4002.booking.domain.transport.PassengerNumber;
 @ExtendWith(MockitoExtension.class)
 public class PassDtoMapperTest {
 
-    private final static PassNumber PASS_NUMBER = new PassNumber(10);
-    private final static PassengerNumber PASSENGER_NUMBER = new PassengerNumber(1234);
-    private final static PassOption PASS_OPTION = PassOption.SINGLE_PASS;
-    private final static PassCategory PASS_CATEGORY = PassCategory.NEBULA;
-    private final static Price PRICE = new Price(123.456);
-    private final static LocalDate EVENT_DATE = LocalDate.now();
-
     private PassDtoMapper passDtoMapper;
     private Pass pass;
 
@@ -36,24 +29,29 @@ public class PassDtoMapperTest {
     @BeforeEach
     public void setup() {
         passDtoMapper = new PassDtoMapper();
-        pass = new Pass(festivalDates, PASS_NUMBER, PASSENGER_NUMBER, PASS_OPTION, PASS_CATEGORY, PRICE, EVENT_DATE);
+        pass = createPass();
     }
 
     @Test
     public void whenMappingToDto_itSetsTheSamePassNumberValue() {
         PassDto passDto = passDtoMapper.toDto(pass);
-        assertThat(passDto.passNumber).isEqualTo(PASS_NUMBER.getValue());
+        assertThat(passDto.passNumber).isEqualTo(pass.getPassNumber());
     }
 
     @Test
     public void whenMappingToDto_itSetsTheSamePassOptionString() {
         PassDto passDto = passDtoMapper.toDto(pass);
-        assertThat(passDto.passOption).isEqualTo(PASS_OPTION.toString());
+        assertThat(passDto.passOption).isEqualTo(pass.getPassOption());
     }
 
     @Test
     public void whenMappingToDto_itSetsTheSamePassCategoryString() {
         PassDto passDto = passDtoMapper.toDto(pass);
-        assertThat(passDto.passCategory).isEqualTo(PASS_CATEGORY.toString());
+        assertThat(passDto.passCategory).isEqualTo(pass.getPassCategory());
+    }
+
+    private Pass createPass() {
+        return new Pass(festivalDates, new PassNumber(10), new PassengerNumber(1234),
+            PassOption.SINGLE_PASS, PassCategory.NEBULA, new Price(123.456), LocalDate.now());
     }
 }

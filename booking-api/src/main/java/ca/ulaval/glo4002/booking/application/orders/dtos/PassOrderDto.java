@@ -7,15 +7,13 @@ import ca.ulaval.glo4002.booking.domain.orders.order_number.OrderNumber;
 
 public class PassOrderDto {
 
-    public String orderNumber;
-    public float price;
+    public OrderNumber orderNumber;
+    public Price price;
     public List<PassDto> passes;
 
-    public PassOrderDto() {}
-
     public PassOrderDto(OrderNumber orderNumber, Price orderPrice, List<PassDto> passes) {
-        this.orderNumber = orderNumber.toString();
-        this.price = orderPrice.getRoundedAmountFromCurrencyScale();
+        this.orderNumber = orderNumber;
+        this.price = orderPrice;
         this.passes = passes;
     }
 }

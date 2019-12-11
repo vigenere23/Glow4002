@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.booking.application.profit;
 
 import javax.inject.Inject;
 
-import ca.ulaval.glo4002.booking.application.profit.dtos.ProfitReport;
+import ca.ulaval.glo4002.booking.domain.profit.ProfitReport;
 import ca.ulaval.glo4002.booking.domain.profit.ProfitRepository;
 
 public class ProfitUseCase {

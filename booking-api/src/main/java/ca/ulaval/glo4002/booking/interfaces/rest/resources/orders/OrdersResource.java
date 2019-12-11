@@ -43,7 +43,7 @@ public class OrdersResource {
         try {
             PassOrderDto passOrderDto = passOrderCreationUseCase
                 .orderPasses(request.orderDate, request.vendorCode, request.passes);
-            URI location = LocationHeaderCreator.createURI(uriInfo, passOrderDto.orderNumber);
+            URI location = LocationHeaderCreator.createURI(uriInfo, passOrderDto.orderNumber.toString());
             return Response.created(location).build();
         }
         catch (IllegalArgumentException exception) {

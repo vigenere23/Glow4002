@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.booking.application.profit.dtos;
+package ca.ulaval.glo4002.booking.domain.profit;
 
 import ca.ulaval.glo4002.booking.domain.Price;
 

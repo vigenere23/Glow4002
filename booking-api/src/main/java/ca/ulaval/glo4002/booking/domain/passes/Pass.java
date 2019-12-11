@@ -82,6 +82,10 @@ public class Pass {
         return startDate;
     }
 
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
     public void reserveShuttles(TransportReserver transportReserver) {
         transportReserver.reserveDeparture(shuttleCategory, startDate, passengerNumber);
         transportReserver.reserveArrival(shuttleCategory, endDate, passengerNumber);
