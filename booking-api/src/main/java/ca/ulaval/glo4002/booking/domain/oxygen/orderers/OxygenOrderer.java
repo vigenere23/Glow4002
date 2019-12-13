@@ -5,7 +5,6 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import ca.ulaval.glo4002.booking.domain.dates.OxygenDates;
-import ca.ulaval.glo4002.booking.domain.oxygen.OxygenGrade;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryEntry;
 import ca.ulaval.glo4002.booking.domain.oxygen.inventory.OxygenInventoryRepository;
 import ca.ulaval.glo4002.booking.domain.oxygen.settings.OxygenRequestSettings;
@@ -30,10 +29,6 @@ public class OxygenOrderer {
 
     public void setNextOrderer(OxygenOrderer nextOrderer) {
         this.nextOrderer = Optional.of(nextOrderer);
-    }
-
-    public OxygenGrade getMinimumProducedGrade() {
-        return requestSettings.getGrade();
     }
 
 	public void order(OffsetDateTime orderDate, int requestedQuantity) {
