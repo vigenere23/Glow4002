@@ -15,8 +15,8 @@ public class OxygenInventoryEntry {
     }
 
     public void addQuantity(int quantityToAdd) {
-        if (quantityToAdd < 1) {
-            throw new IllegalArgumentException("the added quantity must be at least 1");
+        if (quantityToAdd < 0) {
+            throw new IllegalArgumentException("the added quantity must be positive");
         }
 
         surplusQuantity += quantityToAdd;

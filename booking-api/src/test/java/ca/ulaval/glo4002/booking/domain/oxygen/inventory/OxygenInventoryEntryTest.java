@@ -32,6 +32,14 @@ public class OxygenInventoryEntryTest {
     }
 
     @Test
+    public void givenNegativeValue_whenAddingQuantity_itThrowsAnIllegalArgumentException() {
+        final int quantity = -1;
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            inventoryEntry.addQuantity(quantity);
+        });
+    }
+
+    @Test
     public void whenAddingQuantity_itAddsQuantityToSurplus() {
         final int quantityAdded = 15;
         inventoryEntry.addQuantity(quantityAdded);
@@ -46,7 +54,7 @@ public class OxygenInventoryEntryTest {
     }
 
     @Test
-    public void givenQuantityPresent_whenRemovingGreaterQuantity_itThrowsAnIllegalArgumentException() {
+    public void givenSurplusQuantityPresent_whenUsingGreaterQuantity_itThrowsAnIllegalArgumentException() {
         final int quantityAlreadyPresent = 15;
         final int quantityRemoved = 20;
         inventoryEntry.addQuantity(quantityAlreadyPresent);
@@ -57,7 +65,7 @@ public class OxygenInventoryEntryTest {
     }
 
     @Test
-    public void givenQuantityPresent_whenRemovingSmallerQuantity_itRemovesQuantity() {
+    public void givenSurplusQuantityPresent_whenUsingSmallerQuantity_itRemovesQuantity() {
         final int quantityAlreadyPresent = 15;
         final int quantityRemoved = 10;
         inventoryEntry.addQuantity(quantityAlreadyPresent);
@@ -65,5 +73,13 @@ public class OxygenInventoryEntryTest {
         inventoryEntry.useQuantity(quantityRemoved);
         
         assertThat(inventoryEntry.getSurplusQuantity()).isEqualTo(quantityAlreadyPresent - quantityRemoved);
+    }
+
+    @Test
+    public void givenNegativeValue_whenUsingQuantity_itThrowsAnIllegalArgumentException() {
+        final int quantity = -1;
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            inventoryEntry.useQuantity(quantity);
+        });
     }
 }

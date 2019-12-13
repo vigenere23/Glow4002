@@ -26,6 +26,6 @@ public class ArtistsSortingResource {
         List<ArtistDto> sortedArtists = artistSortingUseCase.getOrderedArtists(artistSortingType);
         
         ArtistSortingResponse response = new ArtistSortingResponse(sortedArtists);
-        return Response.ok().entity(response).build();
+        return Response.ok(response).build();
     }
 }
