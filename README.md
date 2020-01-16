@@ -1,6 +1,8 @@
 # Glow4002
 
-DDD API for managing a cosmic festival. 
+DDD API for managing a cosmic festival.
+
+The actual work was done in the `booking-api` module.
 
 ![glow4002](https://user-images.githubusercontent.com/32545895/72564049-efe3b800-387c-11ea-888b-5c1cd3745b61.png)
 
